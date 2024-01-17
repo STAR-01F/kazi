@@ -1,30 +1,29 @@
-# React + TypeScript + Vite
+# Trackify
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This web application helps users build customised CVs by analysing job postings and extracting relevant keywords and skills using the OpenAI API. It also allows users to track their job applications.
 
-Currently, two official plugins are available:
+## Features
+Analyse job postings - Users can enter a job description or URL and the app will use the OpenAI API to extract important keywords, skills, and requirements from the text.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Track job applications - Users can add job postings they have applied to and track the status of applications over time.
 
-## Expanding the ESLint configuration
+## Usage
+To use the CV builder:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Enter a job description
+- The app displays the extracted keywords and skills
+- Select which ones to include in your CV
 
-- Configure the top-level `parserOptions` property like this:
+To track jobs:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- Add a job posting to your tracker with application date and status
+- Update status as you progress through the hiring process
+- View your job tracking dashboard to see current status of all applications
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Implementation
+This app is built using:
+
+- React for the frontend
+- Go for the backend
+- TypeScript as the programming language
+- OpenAI API for natural language processing
