@@ -2,8 +2,6 @@ import { Card, CardContent, Typography, Stack, Button } from '@mui/material';
 
 // props to be passed in should be job title and company, possibly logo. Using ts for the props.
 
-// for now use a simple object that has the info above and can be passed into the component
-
 // TODO
 // add company logo
 // add props in for the saved job, using ts
