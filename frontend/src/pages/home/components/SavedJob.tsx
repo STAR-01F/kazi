@@ -1,19 +1,15 @@
-import {
-  Card,
-  CardContent,
-  Typography,
-  Stack,
-  Button,
-  Box,
-} from '@mui/material';
+import { Card, CardContent, Typography, Stack, Button } from '@mui/material';
 
 // props to be passed in should be job title and company, possibly logo. Using ts for the props.
 
 // for now use a simple object that has the info above and can be passed into the component
+
+// TODO
+// add company logo
+// add props in for the saved job, using ts
 const SavedJob = () => {
-  // a singular job component that will be stacked in a grid or flex when a user starts to save jobs
   return (
-    <Card variant="outlined" sx={{ minWidth: 300 }}>
+    <Card variant="outlined" sx={{ maxWidth: 300, width: '100%' }}>
       <CardContent>
         <Stack>
           <Typography fontSize={20} fontWeight={'bold'}>
@@ -21,11 +17,14 @@ const SavedJob = () => {
           </Typography>
           <Typography>Software engineer</Typography>
         </Stack>
-        <Box mt={2}>
+        <Stack mt={2} gap={1} direction={'row'}>
           <Button variant={'contained'} size="small">
             view
           </Button>
-        </Box>
+          <Button variant={'contained'} size="small">
+            Move
+          </Button>
+        </Stack>
       </CardContent>
     </Card>
   );
