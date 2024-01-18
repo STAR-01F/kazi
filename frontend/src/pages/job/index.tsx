@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // import jobs.json from repository/jobs.json and use it to populate the job title and job description
 import jobs from '../../repository/jobs.json';
+import Description from './components/Description';
 
 const Job = () => {
     const { id } = useParams();
@@ -24,25 +25,7 @@ const Job = () => {
                 <Typography variant='body1'>Job Title:</Typography>
                 <Typography variant='h5'>{jobTitle}</Typography>
                 <Typography variant='body1'>Job Description</Typography>
-                {/* <Typography variant='body1'>{jobDescription}</Typography> */}
-                {jobDescription.split('\n').map((line, index) => {
-                    if (line.length < 50) {
-                        return (
-                            <Typography
-                                variant='h6'
-                                fontWeight='bold'
-                                key={index}
-                                align='justify'>
-                                {line}
-                            </Typography>
-                        );
-                    }
-                    return (
-                        <Typography variant='h6' key={index} align='justify'>
-                            {line}
-                        </Typography>
-                    );
-                })}
+                <Description description={jobDescription} />
             </Grid>
             <Grid item xs={12} md={6} direction={'column'}>
                 <Grid container item>
