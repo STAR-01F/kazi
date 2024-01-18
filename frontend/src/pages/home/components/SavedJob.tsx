@@ -1,20 +1,40 @@
-import { Card, CardContent, Typography, Stack, Button } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Stack,
+  Button,
+  Avatar,
+  Grid,
+} from '@mui/material';
 
 // props to be passed in should be job title and company, possibly logo. Using ts for the props.
 
 // TODO
 // add company logo
-// add props in for the saved job, using ts
-const SavedJob = () => {
+
+type SavedJobProps = {
+  companyName: string;
+  jobTitle: string;
+  logoPath: string;
+};
+const SavedJob = ({ companyName, jobTitle, logoPath }: SavedJobProps) => {
   return (
-    <Card variant="outlined" sx={{ maxWidth: 300, width: '100%' }}>
+    <Card variant="outlined" sx={{ maxWidth: 350, width: '100%' }}>
       <CardContent>
-        <Stack>
-          <Typography fontSize={20} fontWeight={'bold'}>
-            Company Name
-          </Typography>
-          <Typography>Software engineer</Typography>
-        </Stack>
+        <Grid container justifyContent={'space-between'}>
+          <Stack>
+            <Typography fontSize={20} fontWeight={'bold'}>
+              {companyName}
+            </Typography>
+            <Typography>{jobTitle}</Typography>
+          </Stack>
+          <Avatar
+            alt={companyName}
+            src={logoPath}
+            sx={{ height: 'auto', width: '55px' }}
+          />
+        </Grid>
         <Stack mt={2} gap={1} direction={'row'}>
           <Button variant={'contained'} size="small">
             view
