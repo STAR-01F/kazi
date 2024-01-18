@@ -1,11 +1,11 @@
 import {Grid } from '@mui/material';
-import AddJob from './components/AddJob';
+import JobModal from './components/JobModal';
 
 const Homepage = () => {
  
     return (
         <Grid container height={'100vh'} width={'100vw'} alignItems={"center"} justifyContent={"center"}>
-            <AddJob/>
+            <JobModal/>
         </Grid>
     );
 };

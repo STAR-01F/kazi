@@ -1,11 +1,13 @@
 import { Button } from "@mui/material"
 import PlusIcon from "../../../components/PlusIcon"
 
-
-const AddJob = () => {
+type AddJobProps = {
+    handleClickOpen?: ()=> void
+}
+const AddJob = ({handleClickOpen}:AddJobProps) => {
 
     return (
-        <Button variant="outlined" startIcon={<PlusIcon />}>
+        <Button onClick={handleClickOpen} variant="outlined" startIcon={<PlusIcon />}>
             Add Job
         </Button>
     )
