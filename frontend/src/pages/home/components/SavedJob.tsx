@@ -17,10 +17,19 @@ type SavedJobProps = {
   companyName: string;
   jobTitle: string;
   logoPath: string;
+  jobID: string;
 };
-const SavedJob = ({ companyName, jobTitle, logoPath }: SavedJobProps) => {
+const SavedJob = ({
+  companyName,
+  jobTitle,
+  logoPath,
+  jobID,
+}: SavedJobProps) => {
   return (
-    <Card variant="outlined" sx={{ maxWidth: 350, width: '100%' }}>
+    <Card
+      variant="outlined"
+      sx={{ maxWidth: 350, width: '100%', maxHeight: 150 }}
+    >
       <CardContent>
         <Grid container justifyContent={'space-between'}>
           <Stack>
@@ -36,7 +45,12 @@ const SavedJob = ({ companyName, jobTitle, logoPath }: SavedJobProps) => {
           />
         </Grid>
         <Stack mt={2} gap={1} direction={'row'}>
-          <Button variant={'contained'} size="small">
+          <Button
+            LinkComponent={`a`}
+            href={`/${jobID}`}
+            variant={'contained'}
+            size="small"
+          >
             view
           </Button>
           <Button variant={'contained'} size="small">
