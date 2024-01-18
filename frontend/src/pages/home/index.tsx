@@ -1,11 +1,22 @@
-import {Grid } from '@mui/material';
+import { Grid } from '@mui/material';
+import SavedJob from './components/SavedJob';
 import JobModal from './components/JobModal';
+import jobs from '../../repository/jobs.json';
 
 const Homepage = () => {
- 
     return (
-        <Grid container height={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"}>
-            <JobModal/>
+        <Grid container gap={2} padding={4}>
+            <JobModal />
+            {jobs.map((job) => {
+                return (
+                    <SavedJob
+                        companyName={job.company}
+                        jobTitle={job.title}
+                        jobID={job.id}
+                        logoPath='../src/assets/google-logo.png'
+                    />
+                );
+            })}
         </Grid>
     );
 };

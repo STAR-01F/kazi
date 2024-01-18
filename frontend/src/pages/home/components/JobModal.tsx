@@ -56,6 +56,7 @@ export default function JobModal() {
             label="Job Description"
             placeholder=""
             multiline
+            fullWidth
             />
         </DialogContent>
         <DialogActions>
