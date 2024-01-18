@@ -7,7 +7,7 @@ async function main() {
         messages: [
             {
                 role: "system",
-                content: `using the job description below, return 10 keywords that i need to include on my cv. please return as a string separated by commas
+                content: `Analyse the job description and identify 10 keywords essential for enhancing a resume/CV tailored to this position. Choose specific, relevant terms that accurately represent the core skills, qualifications, and attributes required for the job. Provide the 10 keywords as a comma-separated list in the format: 'keyword1, keyword2, keyword3...'.
 
 Role
 Who you are
@@ -28,9 +28,13 @@ Design, build, test and deploy Go event-driven microservices on Kubernetes in th
 Contribute to the continuous improvement of our ways of working. Identify pain-points and propose improvements
 Own the whole software delivery process, from ideation through to in-life support and monitoring`,
             },
+            {
+                role: "assistant",
+                content:
+                    "keyword1, keyword2, keyword3, keyword4, keyword5, keyword6, keyword7, keyword8, keyword9, keyword10",
+            },
         ],
-        model: "gpt-3.5-turbo-1106",
-        format: "json",
+        model: "gpt-3.5-turbo",
     });
 
     console.log(completion.choices[0]);
