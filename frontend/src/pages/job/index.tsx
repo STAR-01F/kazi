@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // import jobs.json from repository/jobs.json and use it to populate the job title and job description
 import jobs from '../../repository/jobs.json';
+import main from '../../utils/openai';
 
 const Job = () => {
     const { id } = useParams();
@@ -46,7 +47,7 @@ const Job = () => {
             </Grid>
             <Grid item xs={12} md={6} direction={'column'}>
                 <Grid container item>
-                    <Button variant='contained' size='small'>
+                    <Button onClick={main} variant='contained' size='small'>
                         Generate
                     </Button>
                 </Grid>

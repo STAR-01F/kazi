@@ -1,6 +1,10 @@
-import OpenAI from "openai";
+import { config } from 'dotenv'
+config()
+import {OpenAI} from "openai";
 
-const openai = new OpenAI();
+const openai = new OpenAI({
+    apiKey: process.env.API_KEY
+});
 
 async function main() {
     const completion = await openai.chat.completions.create({
@@ -40,4 +44,4 @@ Own the whole software delivery process, from ideation through to in-life suppor
     console.log(completion.choices[0]);
 }
 
-main();
+export default main;
