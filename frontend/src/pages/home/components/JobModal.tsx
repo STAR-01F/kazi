@@ -31,33 +31,36 @@ export default function JobModal() {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries((formData).entries());
-            const email = formJson.email;
-            console.log(email)
+            console.log(formJson)
             handleClose();
           },
         }}
       >
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Add Job</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
+            Please enter the details for the new job.
           </DialogContentText>
           <TextField
             autoFocus
             required
-            margin="dense"
+            sx={{marginBottom: 2}}
             id="name"
-            name="email"
-            label="Email Address"
-            type="email"
+            name="job"
+            label="Job Title"
             fullWidth
-            variant="standard"
-          />
+             variant="standard"
+                  />
+          <TextField
+            id="outlined-textarea"
+            label="Job Description"
+            placeholder=""
+            multiline
+            />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Subscribe</Button>
+          <Button type="submit">Save</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
