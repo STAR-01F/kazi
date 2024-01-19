@@ -18,7 +18,6 @@ const getKeywords = async (description: string) => {
             }
         );
         const data = await response.json();
-        // catch error
         if (!response.ok) {
             throw new Error(data.message || 'Could not fetch keywords.');
         }
