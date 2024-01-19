@@ -10,6 +10,7 @@ const Homepage = () => {
             {jobs.map((job) => {
                 return (
                     <SavedJob
+                        key={job.id}
                         companyName={job.company}
                         jobTitle={job.title}
                         jobID={job.id}
