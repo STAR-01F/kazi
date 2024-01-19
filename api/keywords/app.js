@@ -23,17 +23,28 @@ const localhost = process.env.Host || 'localhost';
 app.post('/keywords', async (req, res) => {
   console.log('POST request received');
   try {
-    const description = req.body;
-    if (!description) {
+    const request = req.body;
+    if (!request.description) {
       // empty request body
       res.status(400).send('Bad request');
       return;
     }
-    const completion = await main(description);
-    const keywords = completion.choices[0].message.content;
+    console.log(JSON.stringify(request.description));
+    // try to generate keywords from job description
+    // if the keywords are not generated, try again 3 times
+    // if the keywords are still not generated, return an error
+    let keywords;
+    for (let i = 0; i < 3; i++) {
+      const completion = await main(request.description);
+      keywords = completion.data.choices[0].text;
+      if (keywords.split(',').length <= 10) {
+        const resp = JSON.stringify({keywords: keywords});
+        res.status(200).send(resp);
+        return;
+      }
+    }
+    res.status(500).send('Internal server error');
     // Send a response back
-    const resp = JSON.stringify({keywords: keywords});
-    res.status(200).send(resp);
   } catch (err) {
     res.status(500).send('Internal server error');
   }
