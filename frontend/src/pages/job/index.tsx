@@ -38,7 +38,7 @@ const Job = () => {
                 <Typography variant='body1'>Job Description</Typography>
                 <Description description={jobDescription} />
             </Grid>
-            <Grid item xs={12} md={6} direction={'column'}>
+            <Grid container item xs={12} md={6} direction={'column'}>
                 <Grid container item>
                     <Button
                         onClick={handleGenerate}
