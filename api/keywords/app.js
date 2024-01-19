@@ -9,7 +9,7 @@ dotenv.config();
 app.use(express.json());
 
 const corsOptions = cors({
-  origin: process.env.PORT,
+  origin: process.env.ALLOWED_ORIGINS,
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
   methods: ['GET', 'POST', 'OPTIONS'],
