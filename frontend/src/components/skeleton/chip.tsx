@@ -6,6 +6,7 @@ const SkeletonChip = ({ size }: { size: number }) => {
             component={'div'}
             variant='rectangular'
             width={`${size}%`}
+            height={32}
             sx={{ borderRadius: '16px' }} // Add this line
         />
     );
