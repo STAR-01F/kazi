@@ -29,15 +29,15 @@ app.post('/keywords', async (req, res) => {
       res.status(400).send('Bad request');
       return;
     }
-    console.log(JSON.stringify(request.description));
     // try to generate keywords from job description
     // if the keywords are not generated, try again 3 times
     // if the keywords are still not generated, return an error
     let keywords;
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i <= 3; i++) {
       const completion = await main(request.description);
-      keywords = completion.data.choices[0].text;
-      if (keywords.split(',').length <= 10) {
+      keywords = completion.choices[0].message.content;
+      console.log(keywords);
+      if (keywords.split(',').length >= 10) {
         const resp = JSON.stringify({keywords: keywords});
         res.status(200).send(resp);
         return;
@@ -46,6 +46,7 @@ app.post('/keywords', async (req, res) => {
     res.status(500).send('Internal server error');
     // Send a response back
   } catch (err) {
+    console.log(err);
     res.status(500).send('Internal server error');
   }
 });

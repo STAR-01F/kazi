@@ -24,7 +24,6 @@ const openai = new OpenAI({
  *  when the keywords are generated.
  */
 async function main(description) {
-  console.log(JSON.stringify(description));
   const completion = await openai.chat.completions.create({
     messages: [
       {
