@@ -7,7 +7,7 @@ type KeywordsProps = {
 };
 
 const Keywords = ({ keywords, isLoading }: KeywordsProps) => {
-    if (!isLoading) {
+    if (isLoading) {
         return (
             <>
                 {[30, 30, 30, 40, 40, 30, 30, 30, 50].map((size, index) => (
