@@ -30,8 +30,8 @@ async function main(description) {
       {
         role: 'system',
         content: `Analyse the job description and identify 10 keywords
-         essential for enhancing a resume/CV tailored to this position. 
-         Choose specific,relevant terms that accurately represent the core
+          essential for enhancing a resume/CV tailored to this position. 
+          Choose specific,relevant terms that accurately represent the core
           skills, qualifications, and attributes required for the job. 
           Provide the 10 keywords as a comma-separated list in the format: 
           'keyword1, keyword2, keyword3...'.`,
@@ -48,8 +48,6 @@ async function main(description) {
     ],
     model: 'gpt-3.5-turbo',
   });
-
-  console.log(completion.choices[0]);
   return completion;
 }
 

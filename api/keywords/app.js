@@ -22,12 +22,21 @@ const localhost = process.env.Host || 'localhost';
 
 app.post('/keywords', async (req, res) => {
   console.log('POST request received');
-  const description = req.body;
-  const completion = await main(description);
-  const keywords = completion.choices[0].message.content;
-  // Send a response back
-  const resp = JSON.stringify({keywords: keywords});
-  res.status(200).send(resp);
+  try {
+    const description = req.body;
+    if (!description) {
+      // empty request body
+      res.status(400).send('Bad request');
+      return;
+    }
+    const completion = await main(description);
+    const keywords = completion.choices[0].message.content;
+    // Send a response back
+    const resp = JSON.stringify({keywords: keywords});
+    res.status(200).send(resp);
+  } catch (err) {
+    res.status(500).send('Internal server error');
+  }
 });
 
 app.listen(port, () => {
