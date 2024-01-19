@@ -20,7 +20,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    /* Alliances */
+    /* Aliases */
     "baseUrl": "./",
     "paths": {
       "@components/*": ["src/components/*"],
@@ -28,6 +28,7 @@
       "@hooks/*": ["src/hooks/*"],
       "@assets/*": ["src/assets/*"],
       "@pages/*": ["src/pages/*"],
+      "@repository/*": ["src/repository/*"],
     }
   },
   "include": ["src"],
