@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import jobs from '../../repository/jobs.json';
 import Keywords from './components/Keywords';
 import Description from './components/Description';
+import getKeywords from '@utils/openai';
 
 const Job = () => {
     const { id } = useParams();
@@ -23,16 +24,11 @@ const Job = () => {
         }
     }, [id]);
     const handleGenerate = async () => {
-        // simulate loading keywords
-        const k = {
-            keywords:
-                'software development, TypeScript, ReactJS, customer value, front-end experiences, engagement, purchases, A/B tests, SEO improvements, front-end engineering',
-        };
-        // wait for 5 seconds
         setIsKeywordsLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const k = await getKeywords(jobDescription);
         setKeywords(k.keywords.split(','));
         setIsKeywordsLoading(false);
+        console.log(k);
     };
     return (
         <Grid container item direction={'row'}>
@@ -43,11 +39,11 @@ const Job = () => {
                 <Description description={jobDescription} />
             </Grid>
             <Grid container item xs={12} md={6} direction={'column'}>
-                <Grid container item mb={1}>
+                <Grid container item>
                     <Button
+                        onClick={handleGenerate}
                         variant='contained'
-                        size='small'
-                        onClick={handleGenerate}>
+                        size='small'>
                         Generate
                     </Button>
                 </Grid>

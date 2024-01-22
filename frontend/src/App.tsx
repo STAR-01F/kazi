@@ -26,7 +26,6 @@ const router = createBrowserRouter([
                 path: ':id',
                 Component: Jobpage,
             },
-            // no match
             {
                 path: '*',
                 Component: () => <h1>404</h1>,
