@@ -13,6 +13,7 @@ const Job = () => {
     const [jobDescription, setJobDescription] = useState(
         'Empty Job Description'
     );
+    const [companyName, setCompanyName] = useState('Empty Company Name');
     const [keywords, setKeywords] = useState<string[]>([]);
     const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
     useEffect(() => {
@@ -21,6 +22,7 @@ const Job = () => {
         if (job) {
             setJobTitle(job.title);
             setJobDescription(job.description);
+            setCompanyName(job.company)
         }
     }, [id]);
     const handleGenerate = async () => {
@@ -35,6 +37,8 @@ const Job = () => {
             <Grid item xs={12} md={6}>
                 <Typography variant='body1'>Job Title:</Typography>
                 <Typography variant='h5'>{jobTitle}</Typography>
+                <Typography variant='body1'>Company:</Typography>
+                <Typography variant='h5'>{companyName}</Typography>
                 <Typography variant='body1'>Job Description</Typography>
                 <Description description={jobDescription} />
             </Grid>
