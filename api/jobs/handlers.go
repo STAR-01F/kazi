@@ -92,25 +92,45 @@ func (f *F) GetJobs(w http.ResponseWriter, r *http.Request) {
 }
 
 func (f *F) UpdateJob(w http.ResponseWriter, r *http.Request) {
-	body := r.Body
-	defer body.Close()
+	slog.Info("UpdateJob")
 
-	var jobData Job
+	// Get the job ID from the request URL parameters
+	jobID := r.URL.Query().Get("jobid")
+	if jobID == "" {
+		http.Error(w, "Job ID is required", http.StatusBadRequest)
+		return
+	}
 
-	err := json.NewDecoder(body).Decode(&jobData)
+	// Decode the JSON payload from the request body
+	var updateData map[string]interface{}
+	err := json.NewDecoder(r.Body).Decode(&updateData)
 	if err != nil {
-		slog.Error("Failed to decode request body: %v", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	job, err := f.Client.Collection("jobPostings").Doc(jobData.ID).Set(context.Background(), jobData)
+	// Validate and get the status from the update data
+	status, ok := updateData["status"].(string)
+	if !ok || (status != "applied" && status != "rejected" && status != "saved") {
+		http.Error(w, "Invalid or missing 'status' field in the request body", http.StatusBadRequest)
+		return
+	}
+
+	// Update the job status in Firestore
+	_, err = f.Client.Collection("jobPostings").Doc(jobID).Update(context.Background(), []firestore.Update{
+		{Path: "Status", Value: status},
+		{Path: "UpdatedAt", Value: time.Now().Format(time.RFC3339)},
+	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	json.NewEncoder(w).Encode(job)
+
+	// Respond with success message
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Job status updated successfully"))
 }
+
 
 func (f *F) DeleteJob(w http.ResponseWriter, r *http.Request) {
 	body := r.Body
