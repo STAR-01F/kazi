@@ -57,7 +57,7 @@ func (f *F) GetJobs(w http.ResponseWriter, r *http.Request) {
 	if id := r.URL.Query().Get("jobid"); id != "" {
 		job, err := f.Client.Collection("jobPostings").Doc(id).Get(context.Background())
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
