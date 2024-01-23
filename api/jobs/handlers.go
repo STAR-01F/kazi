@@ -52,8 +52,27 @@ func (f *F) CreateJob(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(job)
 }
 
-func (f *F) GetAllJob(w http.ResponseWriter, r *http.Request) {
-	slog.Info("GetJob")
+func (f *F) GetJobs(w http.ResponseWriter, r *http.Request) {
+	slog.Info("GetJobs")
+	if id := r.URL.Query().Get("jobid"); id != "" {
+		job, err := f.Client.Collection("jobPostings").Doc(id).Get(context.Background())
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Decode the job data
+		var jobData Job
+		err = job.DataTo(&jobData)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Encode the job data to JSON and send it as the response
+		json.NewEncoder(w).Encode(jobData)
+		return
+	}
 	jobs, err := f.Client.Collection("jobPostings").Documents(context.Background()).GetAll()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

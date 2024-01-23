@@ -89,7 +89,7 @@ func setupRoutes(mux *http.ServeMux, cors func(h http.Handler) http.Handler, f *
 	jobsHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
-			f.GetAllJob(w, r)
+			f.GetJobs(w, r)
 		case http.MethodPost:
 			f.CreateJob(w, r)
 		case http.MethodPut:
