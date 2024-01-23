@@ -50,8 +50,20 @@ export default function JobModal() {
             label="Job Title"
             fullWidth
              variant="standard"
+          />
+          <TextField
+            autoFocus
+            required
+            sx={{marginBottom: 2}}
+            id="name"
+            name="job"
+            label="Company"
+            fullWidth
+             variant="standard"
                   />
           <TextField
+            autoFocus
+            required
             id="outlined-textarea"
             label="Job Description"
             placeholder=""
