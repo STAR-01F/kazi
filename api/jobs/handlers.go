@@ -131,21 +131,15 @@ func (f *F) UpdateJob(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Job status updated successfully"))
 }
 
-
 func (f *F) DeleteJob(w http.ResponseWriter, r *http.Request) {
-	body := r.Body
-	defer body.Close()
+	slog.Info("DeleteJob")
 
-	var jobData Job
-
-	err := json.NewDecoder(body).Decode(&jobData)
-	if err != nil {
-		slog.Error("Failed to decode request body: %v", err)
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	jobID := r.URL.Query().Get("jobid")
+	if jobID == "" {
+		http.Error(w, "Job ID is required", http.StatusBadRequest)
 		return
 	}
-
-	job, err := f.Client.Collection("jobPostings").Doc(jobData.ID).Delete(context.Background())
+	job, err := f.Client.Collection("jobPostings").Doc(jobID).Delete(context.Background())
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
