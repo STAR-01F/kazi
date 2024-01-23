@@ -21,6 +21,7 @@ const JobStatus = [
 ];
 export default function JobModal() {
     const [open, setOpen] = React.useState(false);
+    const [company, setCompany] = React.useState('');
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [status, setStatus] = React.useState('');
@@ -34,9 +35,10 @@ export default function JobModal() {
     };
     const handleAddJob = async () => {
         const job: Job = {
-            Company: 'Google',
+            Company: company,
             Title: title,
             Description: description,
+            Status: status,
         };
         const resp = await CreateJob(job);
         console.log(resp);
@@ -90,15 +92,16 @@ export default function JobModal() {
                         id='company-name'
                         name='company'
                         label='Company'
+                        onChange={(e) => setCompany(e.target.value)}
                         fullWidth
                     />
                     <FormControl fullWidth sx={{ mb: 2 }}>
-                        <InputLabel id='demo-simple-select-label'>
+                        <InputLabel id='job-status-input'>
                             Job Status
                         </InputLabel>
                         <Select
-                            labelId='demo-simple-select-label'
-                            id='demo-simple-select'
+                            labelId='job-status-input'
+                            id='job-status-select'
                             label='Job Status'
                             value={status}
                             onChange={(e) => setStatus(e.target.value)}>
