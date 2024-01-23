@@ -12,7 +12,8 @@ import type { Job } from 'src/@types';
 
 export default function JobModal() {
     const [open, setOpen] = React.useState(false);
-    const [job, setJob] = React.useState<Partial<Job>>();
+    const [title, setTitle] = React.useState('');
+    const [description, setDescription] = React.useState('');
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -22,9 +23,22 @@ export default function JobModal() {
         setOpen(false);
     };
 
-    const handleAddJob = () => {
-        if (!job) return;
-        CreateJob(job);
+    const handleAddJob = async () => {
+        const job: Job = {
+            Company: 'Google',
+            Title: title,
+            Description: description,
+        };
+        const resp = await CreateJob(job);
+        console.log(resp);
+        // check if resp is an error
+        if (resp.status === 'error') {
+            alert(resp.message);
+            return;
+        }
+        setTitle('');
+        setDescription('');
+        handleClose();
     };
 
     return (
@@ -52,28 +66,12 @@ export default function JobModal() {
                         autoFocus
                         required
                         sx={{ marginBottom: 2 }}
-                        id='company-name'
-                        name='company'
-                        label='Company Name'
-                        placeholder=''
-                        value={job?.Company}
-                        onChange={(e) =>
-                            setJob(() => ({ Company: e.target.value }))
-                        }
-                        fullWidth
-                    />
-                    <TextField
-                        autoFocus
-                        required
-                        sx={{ marginBottom: 2 }}
                         id='job-title'
                         name='job'
                         label='Job Title'
                         placeholder=''
-                        value={job?.Title}
-                        onChange={(e) =>
-                            setJob((j) => ({ ...j, Title: e.target.value }))
-                        }
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                         fullWidth
                     />
                     <TextField
@@ -81,10 +79,8 @@ export default function JobModal() {
                         label='Job Description'
                         name='description'
                         placeholder=''
-                        value={job?.Description}
-                        onChange={(e) =>
-                            setJob({ ...job, Description: e.target.value })
-                        }
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
                         multiline
                         fullWidth
                         required
