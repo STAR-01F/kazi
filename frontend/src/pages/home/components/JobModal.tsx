@@ -22,7 +22,6 @@ export default function JobModal() {
     const handleClose = () => {
         setOpen(false);
     };
-
     const handleAddJob = async () => {
         const job: Job = {
             Company: 'Google',
@@ -73,6 +72,16 @@ export default function JobModal() {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         fullWidth
+                    />
+                    <TextField
+                        autoFocus
+                        required
+                        sx={{ marginBottom: 2 }}
+                        id='company-name'
+                        name='company'
+                        label='Company'
+                        fullWidth
+                        variant='standard'
                     />
                     <TextField
                         id='job-description'
