@@ -9,11 +9,21 @@ import DialogTitle from '@mui/material/DialogTitle';
 import AddJob from './AddJob';
 import CreateJob from '@utils/savejob';
 import type { Job } from 'src/@types';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
+const JobStatus = [
+    'Saved',
+    'Applied',
+    'Interview',
+    'Offer',
+    'Rejected',
+    'Accepted',
+];
 export default function JobModal() {
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
+    const [status, setStatus] = React.useState('');
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -81,8 +91,24 @@ export default function JobModal() {
                         name='company'
                         label='Company'
                         fullWidth
-                        variant='standard'
                     />
+                    <FormControl fullWidth sx={{ mb: 2 }}>
+                        <InputLabel id='demo-simple-select-label'>
+                            Job Status
+                        </InputLabel>
+                        <Select
+                            labelId='demo-simple-select-label'
+                            id='demo-simple-select'
+                            label='Job Status'
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}>
+                            {JobStatus.map((status, i) => (
+                                <MenuItem key={`${status}-${i}`} value={status}>
+                                    {status}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                     <TextField
                         id='job-description'
                         label='Job Description'
