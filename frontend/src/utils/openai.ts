@@ -6,7 +6,7 @@ const getKeywords = async (description: string) => {
     console.log(import.meta.env.VITE_OPENAI_HOST);
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_OPENAI_HOST}/keywords`,
+            `${import.meta.env.VITE_OPENAI_HOST}`,
             {
                 method: 'POST',
                 headers: {
