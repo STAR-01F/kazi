@@ -22,6 +22,7 @@ type Job struct {
 	Company     string `json:"company"`
 	CreatedAt   string `json:"createdAt"`
 	UpdatedAt   string `json:"updatedAt"`
+	Keywords    string `json:"keywords"`
 	Status      string `json:"status"`
 }
 
@@ -145,4 +146,50 @@ func (f *F) DeleteJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	json.NewEncoder(w).Encode(job)
+}
+
+func (f *F) AddJobKeywords(w http.ResponseWriter, r *http.Request) {
+	slog.Info("Addjobskeywords")
+
+	// Get the job ID and generate flag from the request URL parameters
+	jobID := r.URL.Query().Get("jobid")
+	generate := r.URL.Query().Get("generate")
+
+	if jobID == "" {
+		http.Error(w, "Job ID is required", http.StatusBadRequest)
+		return
+	}
+
+	if generate != "true" {
+		http.Error(w, "Invalid generate flag", http.StatusBadRequest)
+		return
+	}
+
+	// Decode the JSON payload from the request body
+	var updateData map[string]interface{}
+	err := json.NewDecoder(r.Body).Decode(&updateData)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Validate and get the keywords from the update data
+	keywords, ok := updateData["keywords"].(string)
+	if !ok {
+		http.Error(w, "Invalid or missing 'keywords' field in the request body", http.StatusBadRequest)
+		return
+	}
+
+	// Update the job document in the database
+	_, err = f.Client.Collection("jobPostings").Doc(jobID).Update(context.Background(), []firestore.Update{
+		{Path: "Keywords", Value: keywords},
+	})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Send a success response
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Keywords added to job"))
 }
