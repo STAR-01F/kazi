@@ -3,8 +3,6 @@ import Alert from '@mui/material/Alert';
 
 type Severity = "error" | "success" ;
 
-
-
 const Toaster = ({ open, handleClose, message, severity }: { open: boolean, handleClose: any, message: string, severity:Severity }) => {
     return (
         <Snackbar open={open} autoHideDuration={2000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
