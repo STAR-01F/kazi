@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import SavedJob from './components/SavedJob';
 import JobModal from './components/JobModal';
 import jobs from '../../repository/jobs.json';
+import Toaster from '@components/toaster/toaster';
 
 const Homepage = () => {
     return (
@@ -18,6 +19,8 @@ const Homepage = () => {
                     />
                 );
             })}
+        <Toaster open ={true} severity={"success"} message={"testing successful message"} handleClose={true}/>
+
         </Grid>
     );
 };
