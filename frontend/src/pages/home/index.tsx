@@ -1,13 +1,18 @@
 import { Grid } from '@mui/material';
 import SavedJob from './components/SavedJob';
 import JobModal from './components/JobModal';
-import jobs from '../../repository/jobs.json';
+import useFetchJobs from '@hooks/useFetchJobs';
+// import jobs from '../../repository/jobs.json';
+
 
 const Homepage = () => {
+
+    const jobs =  useFetchJobs()
+    console.log("jobs-------------\n", jobs);
     return (
         <Grid container gap={2} padding={4}>
             <JobModal />
-            {jobs.map((job) => {
+            {jobs.data &&  jobs.data.map((job) => {
                 return (
                     <SavedJob
                         key={job.id}
