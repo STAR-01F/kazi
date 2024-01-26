@@ -73,8 +73,10 @@ func (f *F) GetJobs(w http.ResponseWriter, r *http.Request) {
 		// Encode the job data to JSON and send it as the response
 		json.NewEncoder(w).Encode(jobData)
 		return
+
 	}
 	jobs, err := f.Client.Collection("jobPostings").Documents(context.Background()).GetAll()
+	// fmt.Println("jobs--------------------->\n",jobs)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

@@ -21,7 +21,7 @@ func main() {
 
 	projectId := os.Getenv("PROJECT_ID")
 	credentials := os.Getenv("CREDENTIALS")
-	allowOrigins := os.Getenv("ALLOW_ORIGINS")
+	allowOrigins := os.Getenv("ALLOWED_ORIGINS")
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"

@@ -1,14 +1,16 @@
 import { Grid } from '@mui/material';
 import SavedJob from './components/SavedJob';
 import JobModal from './components/JobModal';
-import jobs from '../../repository/jobs.json';
-import Toaster from '@components/toaster/toaster';
+import useFetchJobs from '@hooks/useFetchJobs';
 
 const Homepage = () => {
+
+    const jobs =  useFetchJobs()
+    console.log("jobs-------------\n", jobs);
     return (
         <Grid container gap={2} padding={4}>
             <JobModal />
-            {jobs.map((job) => {
+            {jobs.data &&  jobs.data.map((job) => {
                 return (
                     <SavedJob
                         key={job.id}
@@ -19,7 +21,6 @@ const Homepage = () => {
                     />
                 );
             })}
-        <Toaster open ={true} severity={"success"} message={"testing successful message"} handleClose={true}/>
 
         </Grid>
     );

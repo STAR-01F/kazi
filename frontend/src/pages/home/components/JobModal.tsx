@@ -34,11 +34,11 @@ export default function JobModal() {
         setOpen(false);
     };
     const handleAddJob = async () => {
-        const job: Job = {
-            Company: company,
-            Title: title,
-            Description: description,
-            Status: status,
+        const job: Partial<Job> = {
+            company: company,
+            title: title,
+            description: description,
+            status: status,
         };
         const resp = await CreateJob(job);
         console.log(resp);
