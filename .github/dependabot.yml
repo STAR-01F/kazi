@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # Go dependencies (for /api/jobs)
+  - package-ecosystem: "gomod"
+    directory: "/api/jobs"
+    schedule:
+      interval: "weekly"
+  
+  # JavaScript dependencies (for /api/keywords)
+  - package-ecosystem: "npm"
+    directory: "/api/keywords"
+    schedule:
+      interval: "weekly"
+
+  # JavaScript/TypeScript dependencies (for /frontend)
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
