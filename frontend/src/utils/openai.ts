@@ -25,7 +25,7 @@ const getKeywords = async (description: string) => {
         return data;
     } catch (error) {
         console.error(error);
-        return [];
+        return '';
     }
 };
 

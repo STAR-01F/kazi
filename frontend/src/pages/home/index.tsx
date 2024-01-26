@@ -2,8 +2,6 @@ import { Grid } from '@mui/material';
 import SavedJob from './components/SavedJob';
 import JobModal from './components/JobModal';
 import useFetchJobs from '@hooks/useFetchJobs';
-// import jobs from '../../repository/jobs.json';
-
 
 const Homepage = () => {
 
@@ -23,6 +21,7 @@ const Homepage = () => {
                     />
                 );
             })}
+
         </Grid>
     );
 };

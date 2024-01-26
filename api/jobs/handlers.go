@@ -22,6 +22,7 @@ type Job struct {
 	Company     string `json:"company"`
 	CreatedAt   string `json:"createdAt"`
 	UpdatedAt   string `json:"updatedAt"`
+	Keywords    string `json:"keywords"`
 	Status      string `json:"status"`
 }
 
