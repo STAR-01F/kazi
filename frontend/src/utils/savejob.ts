@@ -7,8 +7,8 @@ const CreateJob = async (
 ): Promise<Response<Job, unknown>> => {
   if (!job.Description)
     return {status: 'Error', message: 'Job Description is empty'};
-  const k = await getKeywords(job.Description);
-  job['Keywords'] = k;
+  const keywords = await getKeywords(job.Description);
+  job['Keywords'] = keywords;
 
   console.info('CreateJob', job);
   try {
