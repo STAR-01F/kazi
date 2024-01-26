@@ -2,7 +2,7 @@
  * Retrieves keywords for a given description.
  * @param description - The description for which to retrieve keywords.
  */
-const getKeywords = async (description: string) => {
+const getKeywords = async (description: string): Promise<string> => {
     console.log(import.meta.env.VITE_OPENAI_HOST);
     try {
         const response = await fetch(

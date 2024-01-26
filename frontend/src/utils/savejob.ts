@@ -5,10 +5,10 @@ import getKeywords from './openai';
 const CreateJob = async (
   job: Partial<Job>
 ): Promise<Response<Job, unknown>> => {
-  if (!job.Description)
+  if (!job.description)
     return {status: 'Error', message: 'Job Description is empty'};
-  const keywords = await getKeywords(job.Description);
-  job['Keywords'] = keywords;
+  const keywords = await getKeywords(job.description);
+  job['keywords'] = keywords;
 
   console.info('CreateJob', job);
   try {
