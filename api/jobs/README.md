@@ -34,9 +34,18 @@ To run the project, follow these steps:
    go run .
    ```
 
+
 ## Base URL
 
 The base URL for the Jobs API is `https://yourdomain.com/api/v1/jobs`.
+
+
+## Handlers
+
+This package contains the HTTP request handlers for the job posting API.
+
+CRUD operations are managed by the handlers (**CreateJob**, **GetJobs**, **UpdateJob**, **DeleteJob**) within handle.go
+
 
 ## Endpoints
 
@@ -47,25 +56,6 @@ Retrieves a list of all stored job postings.
 #### Parameters
 
 None.
-
-### POST /jobs
-
-Stores the provided details with the Firebase service.
-
-#### Parameters
-
-A JSON object with any using any of the following as values, compulsory keys bolded.
-
-{  
- "id",
-**"title"**,
-**"description"**,
-**"company"**,
-"createdAt",
-"updatedAt",
-"keywords",
-**"status"**,
-}
 
 #### Response
 
@@ -81,8 +71,85 @@ A JSON object with any using any of the following as values, compulsory keys bol
 ]
 ```
 
-## Handlers
+### GET /jobs?jobid= [jobidvalue]
 
-This package contains the HTTP request handlers for the job posting API.
+Retrieves the job listing for the provided job id value.
 
-CRUD operations are managed by the handlers (**CreateJob**, **GetJobs**, **UpdateJob**, **DeleteJob**) within handle.go
+#### Parameters
+
+A jobid string.
+
+#### Response
+
+```json
+
+  {
+    "title": "Hello World",
+    "description": "hola mundial",
+    "company": "STARS Global",
+    "status": "successful",
+    ...optionalfields,
+  },
+
+```
+
+### POST /jobs
+
+Stores the provided details with the Firebase service.
+
+#### Parameters
+
+A JSON object with any using any of the following as values, compulsory keys bolded.
+
+{  
+**"title"**,
+**"description"**,
+**"company"**,
+"keywords",
+**"status"**,
+}
+
+#### Response
+
+A JSON object with the time & date 
+
+```json
+
+  {
+   "UpdateTime":"2024-01-01T18:01:02"
+  },
+
+```
+
+### PUT /jobs?jobid = jobidvalue
+
+Updates the job listing for the provided job id value.
+
+#### Parameters
+
+A jobid string.
+
+#### Response
+
+A success/error string
+
+
+### DELETE /jobs?jobid = [jobidvalue]
+
+Deletes the job listing for the provided job id value.
+
+#### Parameters
+
+A jobid string.
+
+#### Response
+
+A JSON object with the time & date 
+
+```json
+
+  {
+   "UpdateTime":"2024-01-01T18:01:02"
+  },
+
+```
