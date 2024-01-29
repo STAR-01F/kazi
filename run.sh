@@ -12,5 +12,3 @@ npm run dev &
 echo "Starting GoLang app..."
 cd ../api/jobs/
 go run .
-
-wait
