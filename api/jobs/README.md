@@ -119,7 +119,7 @@ A JSON object with the time & date
 
 ```
 
-### PUT /jobs?jobid = jobidvalue
+### PUT /jobs?jobid = [jobidvalue]
 
 Updates the job listing for the provided job id value.
 
