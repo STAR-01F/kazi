@@ -4,19 +4,17 @@
 
 ### Get Dependencies
 
-1. Run the following commands:
+1. Run the following command:
 
 ```
-go mod init
-go mod download
 go mod tidy
 ```
 
 2. Open the `.env` file and add the following lines:
 
    ```dotenv
-   PROJECT_ID=trackify-10a37
-   CREDENTIALS=config.json
+   PROJECT_ID={your Firebase project id}
+   CREDENTIALS={your FIrestore config.json, see --> https://firebase.google.com/docs/firestore/quickstart}
    ALLOWED_ORIGINS={permissable URL string(s)}
    ALLOW_ORIGINS={permissable URL string(s)}
    PORT={your port number}
@@ -66,7 +64,7 @@ None.
     "description": "Remote role, backend focused",
     "company": "STARS",
     "status": "in progress",
-    ...optionalfields,
+    ...furthervalues,
   },
 ]
 ```
@@ -88,7 +86,7 @@ A jobid string.
     "description": "hola mundial",
     "company": "STARS Global",
     "status": "successful",
-    ...optionalfields,
+    ...furthervalues,
   },
 
 ```
