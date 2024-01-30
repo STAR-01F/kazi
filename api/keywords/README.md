@@ -2,15 +2,6 @@
 
 This project is a part of a larger application and provides an API for managing keywords.
 
-## Project Structure
-
-- `app.js`: This is the entry point of the application.
-- `src/openai.js`: This file contains the logic for interacting with the OpenAI API.
-- `package.json`: This file contains the list of project dependencies and scripts.
-- `.eslintrc.json`: This file contains the configuration for ESLint.
-- `.prettierrc.json`: This file contains the configuration for Prettier.
-- `.gitignore`: This file specifies the files and folders ignored by Git.
-
 ## Setup
 
 Before you can run this project, you need to set up your environment variables. Follow these steps:
@@ -28,6 +19,8 @@ Before you can run this project, you need to set up your environment variables. 
 
 3. Replace `your_api_key_here` with your OpenAI API key.
 
+    - How to get your API key: <https://beta.openai.com/account/api-keys>
+
 4. Replace `allowed_origin` with the URL of the application that will be using this API.
 
 5. Save the `.env` file.
@@ -41,7 +34,7 @@ To run the project, follow these steps:
 2. Run the following command:
 
     ```bash
-    npm start
+    npm run dev
     ```
 
 3. Open a web browser and navigate to `http://localhost:3000`.
