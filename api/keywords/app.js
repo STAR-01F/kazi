@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import main from './src/openai.js';
 dotenv.config();
-const sanitizeHtml = require('require-html');
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -39,12 +38,7 @@ app.post('/keywords', async (req, res) => {
       keywords = completion.choices[0].message.content;
       console.log(keywords);
       if (keywords.split(',').length >= 10) {
-        const santizedKeywords = sanitizeHtml(keywords, {
-          allowedTags: [],
-          allowedAttributes: {},
-        });
-        const resp = JSON.stringify({keywords: santizedKeywords});
-        res.status(200).send(resp);
+        res.status(200).send({keywords: keywords});
         return;
       }
     }
