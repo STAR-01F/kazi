@@ -6,10 +6,12 @@ import Header from '@components/header/Header';
 
 const Layout = () => {
   return (
-    <Grid container width={'100vw'} height={'100vh'} padding={2}>
+    <>
       <Header />
-      <Outlet />
-    </Grid>
+      <Grid container width={'100vw'} height={'100vh'} padding={2}>
+        <Outlet />
+      </Grid>
+    </>
   );
 };
 const router = createBrowserRouter([
