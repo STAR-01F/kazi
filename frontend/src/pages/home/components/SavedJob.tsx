@@ -7,6 +7,7 @@ import {
   Avatar,
   Grid,
 } from '@mui/material';
+import {Link} from 'react-router-dom';
 
 // props to be passed in should be job title and company, possibly logo. Using ts for the props.
 
@@ -19,16 +20,11 @@ type SavedJobProps = {
   logoPath: string;
   jobID: string;
 };
-const SavedJob = ({
-  companyName,
-  jobTitle,
-  logoPath,
-  jobID,
-}: SavedJobProps) => {
+const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
   return (
     <Card
       variant="outlined"
-      sx={{ maxWidth: 350, width: '100%', maxHeight: 150 }}
+      sx={{maxWidth: 350, width: '100%', maxHeight: 150}}
     >
       <CardContent>
         <Grid container justifyContent={'space-between'}>
@@ -41,17 +37,17 @@ const SavedJob = ({
           <Avatar
             alt={companyName}
             src={logoPath}
-            sx={{ height: 'auto', width: '55px' }}
+            sx={{height: 'auto', width: '55px'}}
           />
         </Grid>
         <Stack mt={2} gap={1} direction={'row'}>
           <Button
-            LinkComponent={`a`}
-            href={`/${jobID}`}
             variant={'contained'}
+            component={Link}
+            to={`/${jobID}`}
             size="small"
           >
-            view
+            View
           </Button>
           <Button variant={'contained'} size="small">
             Move
