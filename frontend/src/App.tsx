@@ -2,6 +2,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Jobpage from './pages/job';
 import Homepage from './pages/home';
 import { Grid } from '@mui/material';
+import Login from '@components/login/login';
 
 const Layout = () => {
     return (
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'login',
-                Component: () => <h1>Login Page</h1>,
+                Component: Login,
             },
         ],
     },
