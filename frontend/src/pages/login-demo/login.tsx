@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth} from "firebase/auth";
 import { useState } from "react";
-// import {firebase} from "firebase";
 
-interface UserCredential {
-  user: firebase.User;
-}
+// interface UserCredential {
+//   user: firebase.User;
+// }
 
 const PasswordSignUp = () => {
   const [email, setEmail] = useState<string>("");
@@ -28,15 +27,17 @@ const PasswordSignUp = () => {
 
     try {
       // Create a new user with email and password
-      const userCredential: UserCredential = await createUserWithEmailAndPassword(
+      await createUserWithEmailAndPassword(
         auth,
         email,
         password
-      );
+      ).then((userCredential: UserCredential) => {
 
       // Pull out user's data from the userCredential property
       const user = userCredential.user;
-    } catch (err:any) {
+      console.log(user);
+
+    })} catch (err: any) {
       // Handle errors here
       const errorMessage = err.message;
       const errorCode = err.code;
