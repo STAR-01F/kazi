@@ -1,82 +1,89 @@
 import {initializeApp} from 'firebase/app';
 import {
-  GoogleAuthProvider,
-  getAuth,
-  ​​ signInWithPopup,
-​​  createUserWithEmailAndPassword,
-​​  sendPasswordResetEmail,
+GoogleAuthProvider,
+getAuth,
+signInWithPopup,
+createUserWithEmailAndPassword,
+sendPasswordResetEmail,
 signOut,
-onAuthStateChanged,
-  signInWithEmailAndPassword,
-  NextOrObserver,
-  User,
+//onAuthStateChanged,
+signInWithEmailAndPassword,
+ // NextOrObserver,
+  //User,
 } from 'firebase/auth';
-​​import {
-  ​​  getFirestore,
-  ​​  query,
-  ​​  getDocs,
-  ​​  collection,
-  ​​  where,
-  ​​  addDoc,
-  ​​} from "firebase/firestore";
+import {
+  getFirestore,
+  query,
+  getDocs,
+  collection,
+  where,
+  addDoc,
+} from 'firebase/firestore';
 
 import {firebaseConfig} from './firebase-config';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-​​const firestoreDB = getFirestore(app);
+const firestoreDB = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
 const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
-    const q = query(collection(firestoreDB, "users"), where("uid", "==", user.uid));
+    const q = query(
+      collection(firestoreDB, 'users'),
+      where('uid', '==', user.uid)
+    );
     const docs = await getDocs(q);
     if (docs.docs.length === 0) {
-      await addDoc(collection(firestoreDB, "users"), {
+      await addDoc(collection(firestoreDB, 'users'), {
         uid: user.uid,
         name: user.displayName,
-        authProvider: "google",
+        authProvider: 'google',
         email: user.email,
       });
     }
-  } catch (err:any) {
+  } catch (err: any) {
     console.error(err);
-    alert(err.message);}
+    alert(err.message);
+  }
 };
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-  } catch (err:any) {
+  } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
 };
 
-
-const registerWithEmailAndPassword = async (name:string, email:string, password:string) => {
+const registerWithEmailAndPassword = async (
+  name: string,
+  email: string,
+  password: string
+) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
-    await addDoc(collection(firestoreDB, "users"), {
+    await addDoc(collection(firestoreDB, 'users'), {
       uid: user.uid,
       name,
-      authProvider: "local",
+      authProvider: 'local',
       email,
     });
-  } catch (err:any) {
+  } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
 };
 
-const sendPasswordReset = async (email:string) => {
+const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);
-    alert("Password reset link sent!");
-  } catch (err:any) {
+    alert('Password reset link sent!');
+  } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
@@ -86,9 +93,15 @@ const logout = () => {
   signOut(auth);
 };
 
-export {auth, firestoreDB, signInWithGoogle, logInWithEmailAndPassword, registerWithEmailAndPassword, sendPasswordReset, logout};
-
-
+export {
+  auth,
+  firestoreDB,
+  signInWithGoogle,
+  logInWithEmailAndPassword,
+  registerWithEmailAndPassword,
+  sendPasswordReset,
+  logout,
+};
 
 // export const signInUser = async (email: string, password: string) => {
 //   if (!email && !password) return;
