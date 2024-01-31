@@ -32,22 +32,21 @@ const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
-    const q = query(
-      collection(firestoreDB, 'users'),
-      where('uid', '==', user.uid)
-    );
-    console.log('Getting docs from firestoreDB...');
-    console.log('q object --> : ', q);
-    const docs = await getDocs(q);
-    console.log('Docs object --> : ', docs);
-    if (docs.docs.length === 0) {
-      await addDoc(collection(firestoreDB, 'users'), {
-        uid: user.uid,
-        name: user.displayName,
-        authProvider: 'google',
-        email: user.email,
-      });
-    }
+    // const q = query(
+    //   collection(firestoreDB, 'users'),
+    //   where('uid', '==', user.uid)
+    // );
+  
+    //const docs = await getDocs(q);
+    // console.log('Docs object --> : ', docs);
+    // if (docs.docs.length === 0) {
+    //   await addDoc(collection(firestoreDB, 'users'), {
+    //     uid: user.uid,
+    //     name: user.displayName,
+    //     authProvider: 'google',
+    //     email: user.email,
+    //   });
+    // }
   } catch (err: any) {
     console.error(err);
     alert(err.message);
@@ -71,19 +70,20 @@ const registerWithEmailAndPassword = async (
 ) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-    await addDoc(collection(firestoreDB, 'users'), {
-      uid: user.uid,
-      name,
-      authProvider: 'local',
-      email,
-    });
+    //const user = res.user;
+    // await addDoc(collection(firestoreDB, 'users'), {
+    //   uid: user.uid,
+    //   name,
+    //   authProvider: 'local',
+    //   email,
+    // });
   } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
 };
 
+//remove alerts(s)
 const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);
