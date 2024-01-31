@@ -9,14 +9,29 @@ import {
   Avatar,
   Menu,
   MenuItem,
+  Button,
 } from '@mui/material';
-import React from 'react';
+import React, {useState} from 'react';
 
-const settings = ['User settings', 'Logout'];
+const settings = ['User settings', 'Log out'];
 
 const Header = () => {
-  const loggedIn = false;
-  // const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
+  // This useState will eventually be the context passed in of the user ID existing or not.
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  // currently these handle click functions are just changing state to display what happens
+  // when user clicks log in or log out.
+  const handleLogin = () => {
+    setLoggedIn(true);
+  };
+
+  const handleMenuItemClick = (setting: string) => {
+    if (setting === 'Log out') {
+      setLoggedIn(false);
+      setAnchorElUser(null);
+    }
+  };
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -63,14 +78,23 @@ const Header = () => {
                 transformOrigin={{vertical: 'top', horizontal: 'right'}}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting}>
+                  <MenuItem
+                    onClick={() => handleMenuItemClick(setting)}
+                    key={setting}
+                  >
                     <Typography textAlign={'center'}>{setting}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
           ) : (
-            'Login'
+            <Button
+              onClick={handleLogin}
+              sx={{color: 'white'}}
+              href="#login page"
+            >
+              Log in
+            </Button>
           )}
         </Toolbar>
       </Container>
