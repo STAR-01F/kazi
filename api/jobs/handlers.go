@@ -76,7 +76,6 @@ func (f *F) GetJobs(w http.ResponseWriter, r *http.Request) {
 
 	}
 	jobs, err := f.Client.Collection("jobPostings").Documents(context.Background()).GetAll()
-	// fmt.Println("jobs--------------------->\n",jobs)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

@@ -5,6 +5,8 @@ import "./Dashboard.css";
 import { auth, firestoreDB, logout } from "../../services/firebase/firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 function Dashboard() {
+  console.log('auth object --> : ', auth);
+
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
   const navigate = useNavigate();
@@ -14,11 +16,15 @@ function Dashboard() {
         console.log('user object --> : ', user);
       const q =  query(collection(firestoreDB, "users"), where("uid", "==", user?.uid));
       const doc = await getDocs(q);
+      console.log('docs object --> : ', doc);
       const data = doc.docs[0].data();
+      console.log('data object --> : ', data);
       setName(data.name);
       }
     } catch (err) {
       console.error(err);
+      if (error)console.log('Error from useAuth --> : ', error);
+
       alert("An error occured while fetching userdashboard data");
     }
   };
@@ -27,7 +33,7 @@ function Dashboard() {
     if (!user) return navigate("/login");
     fetchUserName();
   }, [user, loading]);
-  
+
   return (
     <div className="dashboard">
        <div className="dashboard__container">

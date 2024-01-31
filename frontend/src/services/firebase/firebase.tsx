@@ -24,6 +24,7 @@ import {firebaseConfig} from './firebase-config';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
 const firestoreDB = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
@@ -35,7 +36,10 @@ const signInWithGoogle = async () => {
       collection(firestoreDB, 'users'),
       where('uid', '==', user.uid)
     );
+    console.log('Getting docs from firestoreDB...');
+    console.log('q object --> : ', q);
     const docs = await getDocs(q);
+    console.log('Docs object --> : ', docs);
     if (docs.docs.length === 0) {
       await addDoc(collection(firestoreDB, 'users'), {
         uid: user.uid,
