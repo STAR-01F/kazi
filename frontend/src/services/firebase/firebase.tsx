@@ -6,7 +6,7 @@ signInWithPopup,
 createUserWithEmailAndPassword,
 sendPasswordResetEmail,
 signOut,
-//onAuthStateChanged,
+onAuthStateChanged,
 signInWithEmailAndPassword,
  // NextOrObserver,
   //User,
@@ -101,6 +101,7 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
+  sendPasswordResetEmail
 };
 
 // export const signInUser = async (email: string, password: string) => {

@@ -3,6 +3,7 @@ import Jobpage from './pages/job';
 import Homepage from './pages/home';
 import { Grid } from '@mui/material';
 import Login from '@components/login/login';
+import Register from '@components/register/register';
 
 const Layout = () => {
     return (
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             {
                 path: 'login',
                 Component: Login,
+            },
+            {
+                path: 'register',
+                Component: Register,
             },
         ],
     },
