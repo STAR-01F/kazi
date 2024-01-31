@@ -2,6 +2,8 @@ import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Jobpage from './pages/job';
 import Homepage from './pages/home';
 import { Grid } from '@mui/material';
+import SignInSide from '@pages/login/signin';
+import SignUp from '@pages/login/signup';
 
 const Layout = () => {
     return (
@@ -17,6 +19,16 @@ const router = createBrowserRouter([
         path: '/',
         Component: Layout,
         children: [
+               {
+                id: 'signin',
+                path: 'signin',
+                Component: SignInSide,
+            },
+            {
+                id: 'signup',
+                path: 'signup',
+                Component: SignUp,
+            },
             {
                 id: 'home',
                 index: true,
