@@ -4,11 +4,8 @@ import JobModal from './components/JobModal';
 import useFetchJobs from '@hooks/useFetchJobs';
 
 const Homepage = () => {
-
   const jobs = useFetchJobs();
-  console.log('jobs-------------\n', jobs);
   return (
-    <>
     <Grid container gap={2} padding={4}>
       <JobModal />
       {jobs.data &&
@@ -24,7 +21,6 @@ const Homepage = () => {
           );
         })}
     </Grid>
-    </>
   );
 };
 

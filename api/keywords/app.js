@@ -38,8 +38,7 @@ app.post('/keywords', async (req, res) => {
       keywords = completion.choices[0].message.content;
       console.log(keywords);
       if (keywords.split(',').length >= 10) {
-        const resp = JSON.stringify({keywords: keywords});
-        res.status(200).send(resp);
+        res.status(200).send({keywords: keywords});
         return;
       }
     }
