@@ -1,26 +1,25 @@
 import {initializeApp} from 'firebase/app';
 import {
-GoogleAuthProvider,
-getAuth,
-signInWithPopup,
-createUserWithEmailAndPassword,
-sendPasswordResetEmail,
-signOut,
-onAuthStateChanged,
-signInWithEmailAndPassword,
- // NextOrObserver,
-  //User,
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 import {
   getFirestore,
-  query,
-  getDocs,
-  collection,
-  where,
-  addDoc,
+  // query,
+  // getDocs,
+  // collection,
+  // where,
+  // addDoc,
 } from 'firebase/firestore';
 
 import {firebaseConfig} from './firebase-config';
+import {Response} from 'src/@types';
+import {UserCredential} from 'firebase/auth';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -28,15 +27,30 @@ const auth = getAuth(app);
 const firestoreDB = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
-const signInWithGoogle = async () => {
+const signInWithGoogle = async (): Promise<
+  Response<UserCredential, unknown>
+> => {
   try {
-    const res = await signInWithPopup(auth, googleProvider);
-    const user = res.user;
+    const resultFromPopup = await signInWithPopup(auth, googleProvider);
+    const user = resultFromPopup.user;
+
+    if (user.providerId) {
+      return {
+        status: 'Success',
+        message: 'Successfully authenticated with Google',
+        data: resultFromPopup,
+      };
+    }
+    return {
+      status: 'Error',
+      message: 'Provider id is null or undefined',
+    };
+
     // const q = query(
     //   collection(firestoreDB, 'users'),
     //   where('uid', '==', user.uid)
     // );
-  
+
     //const docs = await getDocs(q);
     // console.log('Docs object --> : ', docs);
     // if (docs.docs.length === 0) {
@@ -48,29 +62,84 @@ const signInWithGoogle = async () => {
     //   });
     // }
   } catch (err: any) {
-    console.error(err);
-    alert(err.message);
+    console.error('Errror from google auth', err);
+    return {
+      status: 'Error',
+      message: 'Failed to authenticate user with Google',
+    };
   }
 };
 
-const logInWithEmailAndPassword = async (email: string, password: string) => {
+const logInWithEmailAndPassword = async (
+  firstname: 'string',
+  lastname: 'string',
+  email: string,
+  password: string
+): Promise<Response<UserCredential, unknown>> => {
   try {
-    if (!email && !password) return;
-    await signInWithEmailAndPassword(auth, email, password);
+    if (!email && !password)
+      return {
+        status: 'Error',
+        message: 'Both email and password fields are required',
+      };
+    const resultFromLoginWithEmail = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = resultFromLoginWithEmail.user;
+    console.log(firstname, lastname);
+    //need first name and last name to be added to firestore
+    //for subsequent ticket
+
+    if (user.providerId) {
+      return {
+        status: 'Success',
+        message: 'Successfully logged in with email',
+        data: resultFromLoginWithEmail,
+      };
+    }
+
+    return {
+      status: 'Error',
+      message: 'Provider id is null or undefined',
+    };
   } catch (err: any) {
-    console.error(err);
-    alert(err.message);
+    console.error('error from logInWithEmailAndPassword', err);
+    return {
+      status: 'Error',
+      message: 'Failed to login with email',
+    };
   }
 };
 
 const registerWithEmailAndPassword = async (
-  name: string,
+  firstname: string,
+  lastname: string,
   email: string,
   password: string
-) => {
+): Promise<Response<UserCredential, unknown>> => {
+  console.log(firstname, lastname);
+
   try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    //const user = res.user;
+    const resultFromEmailPassReg = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = resultFromEmailPassReg.user;
+
+    if (user.providerId) {
+      return {
+        status: 'Success',
+        message: 'Successfully registered with email',
+        data: resultFromEmailPassReg,
+      };
+    }
+    return {
+      status: 'Error',
+      message: 'From register, provider id is null or undefined',
+    };
     // await addDoc(collection(firestoreDB, 'users'), {
     //   uid: user.uid,
     //   name,
@@ -78,8 +147,11 @@ const registerWithEmailAndPassword = async (
     //   email,
     // });
   } catch (err: any) {
-    console.error(err);
-    alert(err.message);
+    console.error('Error from register with email', err);
+    return {
+      status: 'Error',
+      message: 'Failed to register user with Email',
+    };
   }
 };
 
@@ -106,7 +178,7 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
 };
 
 // export const signInUser = async (email: string, password: string) => {

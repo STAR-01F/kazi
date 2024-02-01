@@ -2,7 +2,6 @@ import {Grid} from '@mui/material';
 import SavedJob from './components/SavedJob';
 import JobModal from './components/JobModal';
 import useFetchJobs from '@hooks/useFetchJobs';
-import Dashboard from '@components/dashboard/dashboard';
 
 const Homepage = () => {
 //   const [user, loading, error] = useAuthState(auth);
@@ -33,7 +32,6 @@ const Homepage = () => {
   console.log('jobs-------------\n', jobs);
   return (
     <>
-    <Dashboard />
     <Grid container gap={2} padding={4}>
       <JobModal />
       {jobs.data &&

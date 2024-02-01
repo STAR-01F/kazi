@@ -2,8 +2,6 @@ import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Jobpage from './pages/job';
 import Homepage from './pages/home';
 import { Grid } from '@mui/material';
-import Login from '@components/login/login';
-import Register from '@components/register/register';
 
 const Layout = () => {
     return (
@@ -32,14 +30,6 @@ const router = createBrowserRouter([
             {
                 path: '*',
                 Component: () => <h1>404</h1>,
-            },
-            {
-                path: 'login',
-                Component: Login,
-            },
-            {
-                path: 'register',
-                Component: Register,
             },
         ],
     },
