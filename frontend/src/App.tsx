@@ -3,6 +3,7 @@ import Jobpage from './pages/job';
 import Homepage from './pages/home';
 import {Grid} from '@mui/material';
 import Header from '@components/header/Header';
+import Profilepage from './pages/profile';
 
 const Layout = () => {
   return (
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
         id: 'job',
         path: ':id',
         Component: Jobpage,
+      },
+      {
+        id: 'profile',
+        path: 'profile',
+        Component: Profilepage,
       },
       {
         path: '*',

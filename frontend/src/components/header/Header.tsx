@@ -12,9 +12,12 @@ import {
   Button,
 } from '@mui/material';
 import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
-const settings = ['User settings', 'Log out'];
-
+type Settings = {
+  name: string;
+  func: () => void;
+};
 const Header = () => {
   // This useState will eventually be the context passed in of the user ID existing or not.
   const [loggedIn, setLoggedIn] = useState(false);
@@ -24,14 +27,6 @@ const Header = () => {
   const handleLogin = () => {
     setLoggedIn(true);
   };
-
-  const handleMenuItemClick = (setting: string) => {
-    if (setting === 'Log out') {
-      setLoggedIn(false);
-      setAnchorElUser(null);
-    }
-  };
-
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -43,6 +38,28 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const navigate = useNavigate();
+  const settings: Settings[] = [
+    {
+      name: 'Dashboard',
+      func: () => {
+        navigate('/');
+      },
+    },
+    {
+      name: 'Profile',
+      func: () => {
+        navigate('/profile');
+      },
+    },
+    {
+      name: 'Log out',
+      func: () => {
+        setLoggedIn(false);
+        setAnchorElUser(null);
+      },
+    },
+  ];
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -77,12 +94,9 @@ const Header = () => {
                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                 transformOrigin={{vertical: 'top', horizontal: 'right'}}
               >
-                {settings.map((setting) => (
-                  <MenuItem
-                    onClick={() => handleMenuItemClick(setting)}
-                    key={setting}
-                  >
-                    <Typography textAlign={'center'}>{setting}</Typography>
+                {settings.map(({name, func}, i) => (
+                  <MenuItem onClick={func} key={i}>
+                    <Typography textAlign={'center'}>{name}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
