@@ -9,12 +9,5 @@ appId: import.meta.env.VITE_APP_ID,
 measurementId: import.meta.env.VITE_MEASUREMENT_ID
 };
 
-// export function getFirebaseConfig() {
-//     // if (!firebaseConfig || !firebaseConfig.apiKey) {
-//     //   throw new Error('No Firebase configuration object provided.' + '\n' +
-//     //   'Add your web app\'s configuration object to firebase-config.ts');
-//     // } else {
-//       return firebaseConfig;
-//    // }
-//   }  
+
 

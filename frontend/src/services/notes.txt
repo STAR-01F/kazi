@@ -1,8 +1,0 @@
-1. Added Firebase dependency via npm install Firebase
-2. For federated auth services my email (tlawal86@gmail.com) is being used as a failsafe, this
-   would need to be changed to a group STARS email if/when we have one
-3. Added new dirs --> services, firebase & login (for testing, to be replaced with AM's), register, reset
-4. New dependency --> React Firebase Hooks (npm install --save react-firebase-hooks
-)
-
-.
