@@ -2,6 +2,8 @@ import {Outlet, RouterProvider, createBrowserRouter} from 'react-router-dom';
 import Jobpage from './pages/job';
 import Homepage from './pages/home';
 import {Grid} from '@mui/material';
+import SignInSide from '@pages/login/signin';
+import SignUp from '@pages/login/signup';
 import Header from '@components/header/Header';
 import Profilepage from './pages/profile';
 
@@ -22,6 +24,21 @@ const router = createBrowserRouter([
     Component: Layout,
     children: [
       {
+        id: 'signin',
+        path: 'signin',
+        Component: SignInSide,
+      },
+      {
+        id: 'signup',
+        path: 'signup',
+        Component: SignUp,
+      },
+      {
+        id: 'profile',
+        path: 'profile',
+        Component: Profilepage,
+      },
+      {
         id: 'home',
         index: true,
         Component: Homepage,
@@ -30,11 +47,6 @@ const router = createBrowserRouter([
         id: 'job',
         path: ':id',
         Component: Jobpage,
-      },
-      {
-        id: 'profile',
-        path: 'profile',
-        Component: Profilepage,
       },
       {
         path: '*',
