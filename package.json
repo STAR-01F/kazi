@@ -20,9 +20,5 @@
         "hooks": {
             "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
         }
-    },
-    "dependencies": {
-        "firebase": "^10.7.2",
-        "react-firebase-hooks": "^5.1.1"
     }
 }
