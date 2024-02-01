@@ -1,5 +1,5 @@
 import { Button } from "@mui/material"
-import PlusIcon from "../../../components/PlusIcon"
+import PlusIcon from "../../../components/icons/plusIcon"
 
 type AddJobProps = {
     handleClickOpen?: ()=> void

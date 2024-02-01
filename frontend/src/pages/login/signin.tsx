@@ -11,9 +11,9 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import SvgIconGoogle from '@assets/googleIcon';
-import SvgIconApple from '@assets/appleIcon';
-import SvgIconGithub from '@assets/githubIcon';
+import SvgIconGoogle from '@components/icons/googleIcon';
+import SvgIconApple from '@components/icons/appleIcon';
+import SvgIconGithub from '@components/icons/githubIcon';
 import { useNavigate } from 'react-router-dom';
 
 
