@@ -71,8 +71,6 @@ const signInWithGoogle = async (): Promise<
 };
 
 const logInWithEmailAndPassword = async (
-  firstname: string,
-  lastname: string,
   email: string,
   password: string
 ): Promise<Response<UserCredential, unknown>> => {
@@ -88,7 +86,6 @@ const logInWithEmailAndPassword = async (
       password
     );
     const user = resultFromLoginWithEmail.user;
-    console.log(firstname, lastname);
     //need first name and last name to be added to firestore
     //for subsequent ticket
 

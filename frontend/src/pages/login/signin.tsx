@@ -72,8 +72,6 @@ export default function SignInSide() {
     if (Object.keys(errors).length === 0) {
       try {
         const resp = await logInWithEmailAndPassword(
-          'hello',
-          'test',
           values.email!,
           values.password!
         );
