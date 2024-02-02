@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-import { ThemeCustomization } from './themes';
+import {ThemeCustomization} from './themes';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
+  <React.StrictMode>
         <ThemeCustomization>
-            <App />
+          <App />
         </ThemeCustomization>
-    </React.StrictMode>
+  </React.StrictMode>
 );

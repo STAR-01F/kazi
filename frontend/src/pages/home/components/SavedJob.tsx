@@ -44,7 +44,7 @@ const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
           <Button
             variant={'contained'}
             component={Link}
-            to={`/${jobID}`}
+            to={`job/${jobID}`}
             size="small"
           >
             View

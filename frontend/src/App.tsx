@@ -6,6 +6,9 @@ import SignInSide from '@pages/login/signin';
 import SignUp from '@pages/login/signup';
 import Header from '@components/header/Header';
 import Profilepage from './pages/profile';
+import WithAuth from './services/firebase/WithAuth';
+import WithUnauth from './services/firebase/WithUnauth';
+import {AuthProvider} from './services/firebase/context/Auth';
 
 const Layout = () => {
   return (
@@ -21,32 +24,54 @@ const router = createBrowserRouter([
   {
     id: 'root',
     path: '/',
-    Component: Layout,
+    Component: () => (
+      <AuthProvider>
+        <Layout />;
+      </AuthProvider>
+    ),
     children: [
       {
-        id: 'signin',
-        path: 'signin',
-        Component: SignInSide,
+        element: (
+          <WithUnauth>
+            <Outlet />
+          </WithUnauth>
+        ),
+        children: [
+          {
+            id: 'signin',
+            path: 'signin',
+            Component: SignInSide,
+          },
+          {
+            id: 'signup',
+            path: 'signup',
+            Component: SignUp,
+          },
+        ],
       },
       {
-        id: 'signup',
-        path: 'signup',
-        Component: SignUp,
-      },
-      {
-        id: 'profile',
-        path: 'profile',
-        Component: Profilepage,
-      },
-      {
-        id: 'home',
-        index: true,
-        Component: Homepage,
-      },
-      {
-        id: 'job',
-        path: ':id',
-        Component: Jobpage,
+        element: (
+          <WithAuth>
+            <Outlet />
+          </WithAuth>
+        ),
+        children: [
+          {
+            id: 'profile',
+            path: 'profile',
+            Component: Profilepage,
+          },
+          {
+            id: 'home',
+            index: true,
+            Component: Homepage,
+          },
+          {
+            id: 'job',
+            path: 'job/:id',
+            Component: Jobpage,
+          },
+        ],
       },
       {
         path: '*',
