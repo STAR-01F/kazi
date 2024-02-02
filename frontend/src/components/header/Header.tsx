@@ -80,7 +80,10 @@ const Header = () => {
             <Box sx={{flexGrow: 0}}>
               <Tooltip title="Settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                  <Avatar alt="UserName" src="" />
+                  <Avatar
+                    alt={user.displayName}
+                    src={user.photoURL ? user.photoURL : '.'}
+                  />
                 </IconButton>
               </Tooltip>
               <Menu
