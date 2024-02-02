@@ -47,7 +47,6 @@ export default function JobModal() {
     console.log(resp);
     // check if resp is an error
     if (resp.status === 'error') {
-      alert(resp.message);
       return;
     }
 
