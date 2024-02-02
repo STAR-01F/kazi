@@ -19,7 +19,7 @@ import {
 
 import {firebaseConfig} from './firebase-config';
 import {Response} from 'src/@types';
-import {UserCredential} from 'firebase/auth';
+import type {UserCredential} from 'firebase/auth';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
