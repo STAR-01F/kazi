@@ -8,14 +8,6 @@ import {
   signOut,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import {
-  getFirestore,
-  // query,
-  // getDocs,
-  // collection,
-  // where,
-  // addDoc,
-} from 'firebase/firestore';
 
 import {firebaseConfig} from './firebase-config';
 import {Response} from 'src/@types';
@@ -24,7 +16,6 @@ import type {UserCredential} from 'firebase/auth';
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const firestoreDB = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
 const signInWithGoogle = async (): Promise<
@@ -45,22 +36,6 @@ const signInWithGoogle = async (): Promise<
       status: 'Error',
       message: 'Provider id is null or undefined',
     };
-
-    // const q = query(
-    //   collection(firestoreDB, 'users'),
-    //   where('uid', '==', user.uid)
-    // );
-
-    //const docs = await getDocs(q);
-    // console.log('Docs object --> : ', docs);
-    // if (docs.docs.length === 0) {
-    //   await addDoc(collection(firestoreDB, 'users'), {
-    //     uid: user.uid,
-    //     name: user.displayName,
-    //     authProvider: 'google',
-    //     email: user.email,
-    //   });
-    // }
   } catch (err: any) {
     console.error('Errror from google auth', err);
     return {
@@ -137,12 +112,6 @@ const registerWithEmailAndPassword = async (
       status: 'Error',
       message: 'From register, provider id is null or undefined',
     };
-    // await addDoc(collection(firestoreDB, 'users'), {
-    //   uid: user.uid,
-    //   name,
-    //   authProvider: 'local',
-    //   email,
-    // });
   } catch (err: any) {
     console.error('Error from register with email', err);
     return {
@@ -163,13 +132,12 @@ const sendPasswordReset = async (email: string) => {
   }
 };
 
-const logout = () => {
-  signOut(auth);
+const logout = async () => {
+  await signOut(auth);
 };
 
 export {
   auth,
-  firestoreDB,
   signInWithGoogle,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,

@@ -52,9 +52,9 @@ const Header = () => {
     },
     {
       name: 'Log out',
-      func: () => {
-        logout();
+      func: async () => {
         setAnchorElUser(null);
+        await logout();
       },
     },
   ];
