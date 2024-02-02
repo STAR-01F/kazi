@@ -55,7 +55,7 @@ export default function JobModal() {
     handleClose();
     // data returned is the jobId is navigated to.
     if ('data' in resp) {
-      navigate(`/${resp.data}`);
+      navigate(`/job/${resp.data}`);
     }
   };
 
