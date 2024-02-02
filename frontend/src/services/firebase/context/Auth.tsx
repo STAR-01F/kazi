@@ -2,10 +2,10 @@ import React, {createContext, useState, useEffect} from 'react';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 
 interface User {
+  firstname: string;
+  lastname: string;
   email: string;
-  username: string;
   password: string;
-  isVerified?: boolean;
 }
 
 export interface AuthContextType {
@@ -26,7 +26,6 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
       setUser(currentUser as User | null);
       setLoading(false);
     });

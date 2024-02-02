@@ -8,9 +8,9 @@ const WithUnauth = ({children}: RequireAuthProps) => {
   const {user} = useAuth();
   const location = useLocation();
 
-  if (user) {
-    return <Navigate to="/" state={{from: location}} replace />;
-  }
+  // if (user) {
+  //   return <Navigate to="/" state={{from: location}} replace />;
+  // }
   return children;
 };
 

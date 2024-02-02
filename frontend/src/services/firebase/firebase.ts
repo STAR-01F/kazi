@@ -71,8 +71,8 @@ const signInWithGoogle = async (): Promise<
 };
 
 const logInWithEmailAndPassword = async (
-  firstname: 'string',
-  lastname: 'string',
+  firstname: string,
+  lastname: string,
   email: string,
   password: string
 ): Promise<Response<UserCredential, unknown>> => {

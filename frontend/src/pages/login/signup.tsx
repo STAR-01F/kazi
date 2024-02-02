@@ -90,7 +90,14 @@ export default function SignUp() {
           values.email!,
           values.password!
         );
-        console.info(resp);
+        if (resp.status === 'Error') {
+          console.error(resp.message);
+          setErrors({
+            email: resp.message as string,
+            password: resp.message as string,
+          });
+          return;
+        }
       } catch (error) {
         console.error(error);
         setErrors({
@@ -133,6 +140,16 @@ export default function SignUp() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                onChange={() => {
+                  if (errors.firstname) {
+                    setErrors({
+                      ...errors,
+                      firstname: undefined,
+                    });
+                  }
+                }}
+                error={!!errors.firstname}
+                helperText={errors.firstname}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -143,6 +160,16 @@ export default function SignUp() {
                 label="Last Name"
                 name="lastName"
                 autoComplete="family-name"
+                onChange={() => {
+                  if (errors.lastname) {
+                    setErrors({
+                      ...errors,
+                      lastname: undefined,
+                    });
+                  }
+                }}
+                error={!!errors.lastname}
+                helperText={errors.lastname}
               />
             </Grid>
             <Grid item xs={12}>
@@ -153,6 +180,16 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={() => {
+                  if (errors.email) {
+                    setErrors({
+                      ...errors,
+                      email: undefined,
+                    });
+                  }
+                }}
+                error={!!errors.email}
+                helperText={errors.email}
               />
             </Grid>
             <Grid item xs={12}>
@@ -164,6 +201,16 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="new-password"
+                onChange={() => {
+                  if (errors.password) {
+                    setErrors({
+                      ...errors,
+                      password: undefined,
+                    });
+                  }
+                }}
+                error={!!errors.password}
+                helperText={errors.password}
               />
             </Grid>
           </Grid>

@@ -68,7 +68,7 @@ const router = createBrowserRouter([
           },
           {
             id: 'job',
-            path: ':id',
+            path: 'job/:id',
             Component: Jobpage,
           },
         ],

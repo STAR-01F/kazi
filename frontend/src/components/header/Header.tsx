@@ -11,7 +11,9 @@ import {
   MenuItem,
   Button,
 } from '@mui/material';
-import React, {useState} from 'react';
+import {logout} from '@services/firebase/firebase';
+import {useAuth} from '@services/firebase/hooks/useAuth';
+import React from 'react';
 import {useNavigate} from 'react-router-dom';
 
 type Settings = {
@@ -19,13 +21,10 @@ type Settings = {
   func: () => void;
 };
 const Header = () => {
-  // This useState will eventually be the context passed in of the user ID existing or not.
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  // currently these handle click functions are just changing state to display what happens
-  // when user clicks log in or log out.
+  const {user} = useAuth();
+  const navigate = useNavigate();
   const handleLogin = () => {
-    setLoggedIn(true);
+    navigate('/signin');
   };
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -38,7 +37,6 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const navigate = useNavigate();
   const settings: Settings[] = [
     {
       name: 'Dashboard',
@@ -55,7 +53,7 @@ const Header = () => {
     {
       name: 'Log out',
       func: () => {
-        setLoggedIn(false);
+        logout();
         setAnchorElUser(null);
       },
     },
@@ -78,7 +76,7 @@ const Header = () => {
           >
             TrackAI
           </Typography>
-          {loggedIn ? (
+          {user ? (
             <Box sx={{flexGrow: 0}}>
               <Tooltip title="Settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>

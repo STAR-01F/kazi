@@ -1,15 +1,15 @@
 import {Avatar, Box, Button, Container, Typography} from '@mui/material';
-import {capitalizeFirstLetter} from '@utils/helper';
+// import {capitalizeFirstLetter} from '@utils/helper';
 import {useState} from 'react';
 import DeleteModal from './components/DeleteModal';
+import {useAuth} from '@services/firebase/hooks/useAuth';
 
 const Profile = () => {
-  const user = {
-    firstname: 'firstname',
-    lastname: 'lastname',
-    email: 'email@email.com',
-  };
+  const {user} = useAuth();
   const [open, setOpen] = useState(false);
+  if (!user) {
+    return <div>loading...</div>;
+  }
   return (
     <Container component="main" maxWidth="xs">
       <DeleteModal
@@ -27,14 +27,10 @@ const Profile = () => {
         }}
       >
         <Avatar sx={{m: 1}}>
-          {capitalizeFirstLetter(user.firstname[0]) +
-            capitalizeFirstLetter(user.lastname[0])}
+          {/* {capitalizeFirstLetter(user.firstname[0]) +
+            capitalizeFirstLetter(user.lastname[0])} */}
         </Avatar>
-        <Typography component="h1" variant="h5">
-          {capitalizeFirstLetter(user.firstname) +
-            ' ' +
-            capitalizeFirstLetter(user.lastname)}
-        </Typography>
+        <Typography component="h1" variant="h5"></Typography>
         <Typography component="h1" variant="h5">
           {user.email}
         </Typography>
