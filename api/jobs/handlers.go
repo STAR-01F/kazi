@@ -50,7 +50,8 @@ func (f *F) CreateJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	slog.Info("Created", "job", job)
-	json.NewEncoder(w).Encode(job)
+	// send back the jobID as the response
+	json.NewEncoder(w).Encode(jobData.ID)
 }
 
 func (f *F) GetJobs(w http.ResponseWriter, r *http.Request) {
