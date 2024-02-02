@@ -7,6 +7,7 @@ import {
   sendPasswordResetEmail,
   signOut,
   signInWithEmailAndPassword,
+  updateProfile,
 } from 'firebase/auth';
 
 import {firebaseConfig} from './firebase-config';
@@ -61,8 +62,6 @@ const logInWithEmailAndPassword = async (
       password
     );
     const user = resultFromLoginWithEmail.user;
-    //need first name and last name to be added to firestore
-    //for subsequent ticket
 
     if (user.providerId) {
       return {
@@ -91,8 +90,6 @@ const registerWithEmailAndPassword = async (
   email: string,
   password: string
 ): Promise<Response<UserCredential, unknown>> => {
-  console.log(firstname, lastname);
-
   try {
     const resultFromEmailPassReg = await createUserWithEmailAndPassword(
       auth,
@@ -102,6 +99,13 @@ const registerWithEmailAndPassword = async (
     const user = resultFromEmailPassReg.user;
 
     if (user.providerId) {
+      updateProfile(user, {displayName: `${firstname} ${lastname}`})
+        .then(() => {
+          console.log('displayName successfully added');
+        })
+        .catch((error) => {
+          console.error('Failed to add displayName', error);
+        });
       return {
         status: 'Success',
         message: 'Successfully registered with email',
@@ -121,14 +125,12 @@ const registerWithEmailAndPassword = async (
   }
 };
 
-//remove alerts(s)
 const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);
     alert('Password reset link sent!');
   } catch (err: any) {
     console.error(err);
-    alert(err.message);
   }
 };
 
@@ -145,15 +147,3 @@ export {
   logout,
   sendPasswordResetEmail,
 };
-
-// export const signInUser = async (email: string, password: string) => {
-//   if (!email && !password) return;
-
-//   return await signInWithEmailAndPassword(auth, email, password);
-// };
-
-// export const userStateListener = (callback: NextOrObserver<User>) => {
-//   return onAuthStateChanged(auth, callback);
-// };
-
-// export const SignOutUser = async () => await signOut(auth);
