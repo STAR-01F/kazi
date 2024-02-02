@@ -5,12 +5,14 @@ interface RequireAuthProps {
   children: React.ReactNode;
 }
 const WithUnauth = ({children}: RequireAuthProps) => {
-  const {user} = useAuth();
+  const {user, loading} = useAuth();
   const location = useLocation();
-
-  // if (user) {
-  //   return <Navigate to="/" state={{from: location}} replace />;
-  // }
+  if (loading) {
+    return <div>Loading ...</div>;
+  }
+  if (user) {
+    return <Navigate to="/" state={{from: location}} replace />;
+  }
   return children;
 };
 

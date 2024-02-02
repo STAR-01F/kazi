@@ -98,6 +98,7 @@ export default function SignUp() {
           });
           return;
         }
+        navigate('/');
       } catch (error) {
         console.error(error);
         setErrors({
