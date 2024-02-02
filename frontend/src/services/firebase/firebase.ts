@@ -90,8 +90,6 @@ const registerWithEmailAndPassword = async (
   email: string,
   password: string
 ): Promise<Response<UserCredential, unknown>> => {
-  console.log(firstname, lastname);
-
   try {
     const resultFromEmailPassReg = await createUserWithEmailAndPassword(
       auth,
@@ -101,15 +99,13 @@ const registerWithEmailAndPassword = async (
     const user = resultFromEmailPassReg.user;
 
     if (user.providerId) {
-      await updateProfile(user, {displayName: `${firstname} ${lastname}`})
+      updateProfile(user, {displayName: `${firstname} ${lastname}`})
         .then(() => {
           console.log('displayName successfully added');
         })
         .catch((error) => {
-          console.log('Failed to add displayName');
-          console.error('Error from updateProfile', error);
+          console.error('Failed to add displayName', error);
         });
-
       return {
         status: 'Success',
         message: 'Successfully registered with email',
@@ -151,5 +147,3 @@ export {
   logout,
   sendPasswordResetEmail,
 };
-
-
