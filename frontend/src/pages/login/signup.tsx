@@ -13,7 +13,11 @@ import SvgIconGoogle from '@components/icons/googleIcon';
 import SvgIconApple from '@components/icons/appleIcon';
 import SvgIconGithub from '@components/icons/githubIcon';
 import {useNavigate} from 'react-router-dom';
-import {registerWithEmailAndPassword} from '../../services/firebase/firebase';
+import {
+  registerWithEmailAndPassword,
+  signInWithGoogle,
+} from '@services/firebase/firebase';
+import {IconButton} from '@mui/material';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Copyright(props: any) {
@@ -109,6 +113,12 @@ export default function SignUp() {
     }
   };
 
+  const handleSignInWithGoogle = async () => {
+    const resp = await signInWithGoogle();
+    if (resp.status === 'Success') {
+      console.log(resp.data);
+    }
+  };
   const handleClick = () => {
     navigate('/signin');
   };
@@ -224,15 +234,15 @@ export default function SignUp() {
             Sign Up
           </Button>
           <Grid container direction="row" gap={2} justifyContent={'center'}>
-            <Button>
+            <IconButton onClick={handleSignInWithGoogle}>
               <SvgIconGoogle />
-            </Button>
-            <Button>
+            </IconButton>
+            <IconButton>
               <SvgIconApple />
-            </Button>
-            <Button>
+            </IconButton>
+            <IconButton>
               <SvgIconGithub />
-            </Button>
+            </IconButton>
           </Grid>
           <Grid container justifyContent="flex-end">
             <Grid item>

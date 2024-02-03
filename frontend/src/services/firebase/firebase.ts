@@ -37,7 +37,7 @@ const signInWithGoogle = async (): Promise<
       status: 'Error',
       message: 'Provider id is null or undefined',
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Errror from google auth', err);
     return {
       status: 'Error',
@@ -75,7 +75,7 @@ const logInWithEmailAndPassword = async (
       status: 'Error',
       message: 'Provider id is null or undefined',
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('error from logInWithEmailAndPassword', err);
     return {
       status: 'Error',
@@ -116,7 +116,7 @@ const registerWithEmailAndPassword = async (
       status: 'Error',
       message: 'From register, provider id is null or undefined',
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Error from register with email', err);
     return {
       status: 'Error',
@@ -129,7 +129,7 @@ const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);
     alert('Password reset link sent!');
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error(err);
   }
 };
