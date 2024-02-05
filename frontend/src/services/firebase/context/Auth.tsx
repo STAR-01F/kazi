@@ -2,8 +2,8 @@ import React, {createContext, useState, useEffect} from 'react';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 
 interface User {
-  firstname: string;
-  lastname: string;
+  displayName: string;
+  photoURL: string;
   email: string;
   password: string;
 }
@@ -23,7 +23,6 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const auth = getAuth();
-
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser as User | null);
