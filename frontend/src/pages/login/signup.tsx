@@ -10,12 +10,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import SvgIconGoogle from '@components/icons/googleIcon';
-import SvgIconApple from '@components/icons/appleIcon';
 import SvgIconGithub from '@components/icons/githubIcon';
 import {useNavigate} from 'react-router-dom';
 import {
   registerWithEmailAndPassword,
   signInWithGoogle,
+  signInwithGithub,
 } from '@services/firebase/firebase';
 import {IconButton} from '@mui/material';
 
@@ -115,6 +115,13 @@ export default function SignUp() {
 
   const handleSignInWithGoogle = async () => {
     const resp = await signInWithGoogle();
+    if (resp.status === 'Success') {
+      console.log(resp.data);
+    }
+  };
+  const handeleSignInWithGithub = async () => {
+    console.log('github');
+    const resp = await signInwithGithub();
     if (resp.status === 'Success') {
       console.log(resp.data);
     }
@@ -237,10 +244,7 @@ export default function SignUp() {
             <IconButton onClick={handleSignInWithGoogle}>
               <SvgIconGoogle />
             </IconButton>
-            <IconButton>
-              <SvgIconApple />
-            </IconButton>
-            <IconButton>
+            <IconButton onClick={handeleSignInWithGithub}>
               <SvgIconGithub />
             </IconButton>
           </Grid>
