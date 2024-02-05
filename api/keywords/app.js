@@ -1,12 +1,17 @@
 import express from 'express';
-const app = express();
 import dotenv from 'dotenv';
 import cors from 'cors';
 import main from './src/openai.js';
+import csurf from 'csurf';
+import helmet from 'helmet';
+const app = express();
+
 dotenv.config();
 
-// Middleware to parse JSON bodies
+// Middleware
 app.use(express.json());
+app.use(csurf());
+app.use(helmet());
 
 const corsOptions = cors({
   origin: process.env.ALLOWED_ORIGINS,
