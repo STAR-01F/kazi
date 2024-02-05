@@ -8,6 +8,7 @@ import {
   signOut,
   signInWithEmailAndPassword,
   updateProfile,
+  GithubAuthProvider,
 } from 'firebase/auth';
 
 import {firebaseConfig} from './firebase-config';
@@ -17,12 +18,42 @@ import type {UserCredential} from 'firebase/auth';
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const googleProvider = new GoogleAuthProvider();
-
+const signInwithGithub = async (): Promise<
+  Response<UserCredential, unknown>
+> => {
+  try {
+    const githubAuthProvider = new GithubAuthProvider();
+    const resultFromPopup = await signInWithPopup(auth, githubAuthProvider);
+    const credential = GithubAuthProvider.credentialFromResult(resultFromPopup);
+    if (credential) {
+      // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+      const token = credential.accessToken;
+      console.log(token);
+    }
+    const {user} = resultFromPopup;
+    if (user.providerId) {
+      return {
+        status: 'Success',
+        message: 'Successfully authenticated with Google',
+        data: resultFromPopup,
+      };
+    }
+    return {
+      status: 'Error',
+      message: 'Provider id is null or undefined',
+    };
+  } catch (e) {
+    return {
+      status: 'Error',
+      message: 'Failed to authenticate user with Google',
+    };
+  }
+};
 const signInWithGoogle = async (): Promise<
   Response<UserCredential, unknown>
 > => {
   try {
+    const googleProvider = new GoogleAuthProvider();
     const resultFromPopup = await signInWithPopup(auth, googleProvider);
     const user = resultFromPopup.user;
 
@@ -146,4 +177,5 @@ export {
   sendPasswordReset,
   logout,
   sendPasswordResetEmail,
+  signInwithGithub,
 };

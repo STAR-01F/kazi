@@ -12,7 +12,6 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import SvgIconGoogle from '@components/icons/googleIcon';
-import SvgIconApple from '@components/icons/appleIcon';
 import SvgIconGithub from '@components/icons/githubIcon';
 import {useNavigate} from 'react-router-dom';
 import {
@@ -198,9 +197,6 @@ export default function SignInSide() {
             <Grid container direction="row" gap={2} justifyContent={'center'}>
               <IconButton onClick={handleSignInWithGoogle}>
                 <SvgIconGoogle />
-              </IconButton>
-              <IconButton>
-                <SvgIconApple />
               </IconButton>
               <IconButton>
                 <SvgIconGithub />
