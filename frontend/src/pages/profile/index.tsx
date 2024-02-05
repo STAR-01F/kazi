@@ -1,5 +1,4 @@
 import {Avatar, Box, Button, Container, Typography} from '@mui/material';
-// import {capitalizeFirstLetter} from '@utils/helper';
 import {useState} from 'react';
 import DeleteModal from './components/DeleteModal';
 import {useAuth} from '@services/firebase/hooks/useAuth';

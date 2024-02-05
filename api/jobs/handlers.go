@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"time"
@@ -24,6 +25,7 @@ type Job struct {
 	UpdatedAt   string `json:"updatedAt"`
 	Keywords    string `json:"keywords"`
 	Status      string `json:"status"`
+	UserID	    string `json:"userID"`
 }
 
 func (f *F) CreateJob(w http.ResponseWriter, r *http.Request) {
@@ -70,12 +72,41 @@ func (f *F) GetJobs(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
-		// Encode the job data to JSON and send it as the response
+			// Encode the job data to JSON and send it as the response
 		json.NewEncoder(w).Encode(jobData)
 		return
 
+	}else if uid := r.URL.Query().Get("uid"); uid != "" {
+		fmt.Println("recieved uid!!")
+		fmt.Println(uid)
+
+		job, err := f.Client.Collection("jobPostings").Where("UserID", "==", uid).Documents(context.Background()).GetAll()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		var jobList []Job
+		 
+		for _, job := range job {
+			var jobData Job
+			err := job.DataTo(&jobData)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			jobList = append(jobList, jobData)
+
+		}
+
+		fmt.Println("job from uid", jobList)
+
+		 json.NewEncoder(w).Encode(jobList)
+		return
+
 	}
+
+
 	jobs, err := f.Client.Collection("jobPostings").Documents(context.Background()).GetAll()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

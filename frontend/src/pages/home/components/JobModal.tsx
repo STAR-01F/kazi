@@ -11,6 +11,7 @@ import CreateJob from '@utils/savejob';
 import type {Job} from 'src/@types';
 import {FormControl, InputLabel, MenuItem, Select} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
+import { useAuth } from '@services/firebase/hooks/useAuth';
 
 const JobStatus = [
   'Saved',
@@ -26,7 +27,9 @@ export default function JobModal() {
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [status, setStatus] = React.useState('');
+  const { user } = useAuth();
   const navigate = useNavigate();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -34,12 +37,14 @@ export default function JobModal() {
   const handleClose = () => {
     setOpen(false);
   };
+  
   const handleAddJob = async () => {
     const job: Partial<Job> = {
       company: company,
       title: title,
       description: description,
       status: status,
+      userID: user?.uid,
     };
 
     // awaiting the jobID to navigate to the correct job page

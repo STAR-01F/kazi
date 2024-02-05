@@ -20,6 +20,7 @@ type SavedJobProps = {
   logoPath: string;
   jobID: string;
 };
+
 const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
   return (
     <Card

@@ -83,6 +83,7 @@ export default function SignInSide() {
           });
           return;
         }
+        console.log('response from login', resp)
         navigate('/');
       } catch (error) {
         setErrors({

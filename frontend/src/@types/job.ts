@@ -7,6 +7,7 @@ type Job = {
     updatedAt?: string;
     status?: string;
     keywords?: string
-};
+    userID?: string;
+} ;
 
 export default Job;
