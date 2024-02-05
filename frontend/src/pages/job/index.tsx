@@ -21,10 +21,13 @@ const Job = () => {
   const {title, description, company} = data![0];
   const handleGenerate = async () => {
     setIsKeywordsLoading(true);
-    const k = await getKeywords(description);
-    setKeywords(k.keywords.split(','));
+    const resp = await getKeywords(description);
+    if (resp.status === 'Success') {
+      console.log(resp.data.keywords);
+      setKeywords(resp.data.keywords.split(','));
+    }
     setIsKeywordsLoading(false);
-    console.log(k);
+    console.log(resp);
   };
   return (
     <Grid container item direction={'row'}>
