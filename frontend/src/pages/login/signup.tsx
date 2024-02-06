@@ -120,7 +120,6 @@ export default function SignUp() {
     }
   };
   const handeleSignInWithGithub = async () => {
-    console.log('github');
     const resp = await signInwithGithub();
     if (resp.status === 'Success') {
       console.log(resp.data);
