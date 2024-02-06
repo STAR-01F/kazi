@@ -91,7 +91,14 @@ func setupRoutes(mux *http.ServeMux, cors func(h http.Handler) http.Handler, f *
 		case http.MethodGet:
 			f.GetJobs(w, r)
 		case http.MethodPost:
-			f.CreateJob(w, r)
+			switch r.URL.Query().Get("jobs") {	
+				case "uid":
+					f.GetJobsByUID(w, r)
+				case "create":
+					f.CreateJob(w, r)
+				default:
+					http.Error(w, "Invalid query parameter", http.StatusBadRequest)
+			}
 		case http.MethodPut:
 			f.UpdateJob(w, r)
 		case http.MethodDelete:

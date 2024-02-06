@@ -98,9 +98,6 @@ func (f *F) GetJobs(w http.ResponseWriter, r *http.Request) {
 			jobList = append(jobList, jobData)
 
 		}
-
-		fmt.Println("job from uid", jobList)
-
 		 json.NewEncoder(w).Encode(jobList)
 		return
 
@@ -179,4 +176,40 @@ func (f *F) DeleteJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	json.NewEncoder(w).Encode(job)
+}
+
+func (f *F) GetJobsByUID(w http.ResponseWriter, r *http.Request) {
+	body := r.Body
+	defer body.Close()
+
+	var getUID Job
+
+	err := json.NewDecoder(body).Decode(&getUID)
+	if err != nil {
+		slog.Error("Failed to decode request UID body: %v", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	jobs, err := f.Client.Collection("jobPostings").Where("UserID", "==", getUID.UserID).Documents(context.Background()).GetAll()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	var jobList []Job
+	 
+	for _, job := range jobs {
+		var jobData Job
+		err := job.DataTo(&jobData)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		jobList = append(jobList, jobData)
+
+	}
+
+	 json.NewEncoder(w).Encode(jobList)
+
 }

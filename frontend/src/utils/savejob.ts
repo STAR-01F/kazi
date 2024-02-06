@@ -5,14 +5,17 @@ import getKeywords from './openai';
 const CreateJob = async (
   job: Partial<Job>
 ): Promise<Response<Job, unknown>> => {
+  const link = `${import.meta.env.VITE_JOB_API}?jobs=create`
+
+
   if (!job.description)
     return {status: 'Error', message: 'Job Description is empty'};
   const keywords = await getKeywords(job.description);
   job['keywords'] = keywords.keywords;
 
-  console.info('CreateJob', job);
+
   try {
-    const response = await fetch(`${import.meta.env.VITE_JOB_API}`, {
+    const response = await fetch(link, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
