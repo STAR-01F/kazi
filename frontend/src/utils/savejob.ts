@@ -1,6 +1,5 @@
 import {Job} from 'src/@types';
 import type {Response} from 'src/@types';
-import getKeywords from './openai';
 
 const CreateJob = async (
   job: Partial<Job>
@@ -10,10 +9,6 @@ const CreateJob = async (
 
   if (!job.description)
     return {status: 'Error', message: 'Job Description is empty'};
-  const keywords = await getKeywords(job.description);
-  job['keywords'] = keywords.keywords;
-
-
   try {
     const response = await fetch(link, {
       method: 'POST',
@@ -36,6 +31,5 @@ const CreateJob = async (
     return {status: 'Error', message: JSON.stringify(error)};
   }
 };
-
 
 export default CreateJob;
