@@ -8,7 +8,7 @@ const AddJob = ({handleClickOpen}:AddJobProps) => {
 
     return (
         <Button onClick={handleClickOpen} variant="outlined" startIcon={<PlusIcon />}>
-            Add Job
+            Add New Job
         </Button>
     )
 
