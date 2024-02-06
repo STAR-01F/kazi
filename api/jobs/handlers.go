@@ -132,7 +132,7 @@ func (f *F) UpdateJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Decode the JSON payload from the request body
+	/// Decode the JSON payload from the request body
 	var updateData map[string]interface{}
 	err := json.NewDecoder(r.Body).Decode(&updateData)
 	if err != nil {
