@@ -2,7 +2,7 @@ import {deleteDoc, doc, getDoc} from 'firebase/firestore';
 import {jobPostings} from '..';
 import {Response} from 'src/@types';
 
-const DeleteJobs = async (
+const DeleteJob = async (
   userId: string,
   jobId: string
 ): Promise<Response<string, unknown>> => {
@@ -30,4 +30,4 @@ const DeleteJobs = async (
   }
 };
 
-export {DeleteJobs};
+export {DeleteJob};
