@@ -46,7 +46,7 @@ export default function JobModal() {
     const resp = await CreateJob(job);
     console.log(resp);
     // check if resp is an error
-    if (resp.status === 'error') {
+    if (resp.status === 'Error') {
       return;
     }
 
