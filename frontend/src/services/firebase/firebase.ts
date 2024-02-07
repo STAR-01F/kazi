@@ -7,6 +7,8 @@ import {
   sendPasswordResetEmail,
   signOut,
   signInWithEmailAndPassword,
+  updateProfile,
+  GithubAuthProvider,
 } from 'firebase/auth';
 
 import {firebaseConfig} from './firebase-config';
@@ -16,12 +18,42 @@ import type {UserCredential} from 'firebase/auth';
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const googleProvider = new GoogleAuthProvider();
-
+const signInwithGithub = async (): Promise<
+  Response<UserCredential, unknown>
+> => {
+  try {
+    const githubAuthProvider = new GithubAuthProvider();
+    const resultFromPopup = await signInWithPopup(auth, githubAuthProvider);
+    const credential = GithubAuthProvider.credentialFromResult(resultFromPopup);
+    if (credential) {
+      // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+      const token = credential.accessToken;
+      console.log(token);
+    }
+    const {user} = resultFromPopup;
+    if (user.providerId) {
+      return {
+        status: 'Success',
+        message: 'Successfully authenticated with Google',
+        data: resultFromPopup,
+      };
+    }
+    return {
+      status: 'Error',
+      message: 'Provider id is null or undefined',
+    };
+  } catch (e) {
+    return {
+      status: 'Error',
+      message: 'Failed to authenticate user with Google',
+    };
+  }
+};
 const signInWithGoogle = async (): Promise<
   Response<UserCredential, unknown>
 > => {
   try {
+    const googleProvider = new GoogleAuthProvider();
     const resultFromPopup = await signInWithPopup(auth, googleProvider);
     const user = resultFromPopup.user;
 
@@ -36,7 +68,7 @@ const signInWithGoogle = async (): Promise<
       status: 'Error',
       message: 'Provider id is null or undefined',
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Errror from google auth', err);
     return {
       status: 'Error',
@@ -61,8 +93,6 @@ const logInWithEmailAndPassword = async (
       password
     );
     const user = resultFromLoginWithEmail.user;
-    //need first name and last name to be added to firestore
-    //for subsequent ticket
 
     if (user.providerId) {
       return {
@@ -76,7 +106,7 @@ const logInWithEmailAndPassword = async (
       status: 'Error',
       message: 'Provider id is null or undefined',
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('error from logInWithEmailAndPassword', err);
     return {
       status: 'Error',
@@ -91,8 +121,6 @@ const registerWithEmailAndPassword = async (
   email: string,
   password: string
 ): Promise<Response<UserCredential, unknown>> => {
-  console.log(firstname, lastname);
-
   try {
     const resultFromEmailPassReg = await createUserWithEmailAndPassword(
       auth,
@@ -102,6 +130,13 @@ const registerWithEmailAndPassword = async (
     const user = resultFromEmailPassReg.user;
 
     if (user.providerId) {
+      updateProfile(user, {displayName: `${firstname} ${lastname}`})
+        .then(() => {
+          console.log('displayName successfully added');
+        })
+        .catch((error) => {
+          console.error('Failed to add displayName', error);
+        });
       return {
         status: 'Success',
         message: 'Successfully registered with email',
@@ -112,7 +147,7 @@ const registerWithEmailAndPassword = async (
       status: 'Error',
       message: 'From register, provider id is null or undefined',
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Error from register with email', err);
     return {
       status: 'Error',
@@ -121,14 +156,12 @@ const registerWithEmailAndPassword = async (
   }
 };
 
-//remove alerts(s)
 const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);
     alert('Password reset link sent!');
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error(err);
-    alert(err.message);
   }
 };
 
@@ -144,16 +177,5 @@ export {
   sendPasswordReset,
   logout,
   sendPasswordResetEmail,
+  signInwithGithub,
 };
-
-// export const signInUser = async (email: string, password: string) => {
-//   if (!email && !password) return;
-
-//   return await signInWithEmailAndPassword(auth, email, password);
-// };
-
-// export const userStateListener = (callback: NextOrObserver<User>) => {
-//   return onAuthStateChanged(auth, callback);
-// };
-
-// export const SignOutUser = async () => await signOut(auth);

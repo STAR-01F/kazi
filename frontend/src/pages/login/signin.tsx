@@ -12,10 +12,13 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import SvgIconGoogle from '@components/icons/googleIcon';
-import SvgIconApple from '@components/icons/appleIcon';
 import SvgIconGithub from '@components/icons/githubIcon';
 import {useNavigate} from 'react-router-dom';
-import {logInWithEmailAndPassword} from '@services/firebase/firebase';
+import {
+  logInWithEmailAndPassword,
+  signInWithGoogle,
+} from '@services/firebase/firebase';
+import {IconButton} from '@mui/material';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Copyright(props: any) {
@@ -90,6 +93,12 @@ export default function SignInSide() {
           password: 'Failed to sign in. Please check your credentials.',
         });
       }
+    }
+  };
+  const handleSignInWithGoogle = async () => {
+    const resp = await signInWithGoogle();
+    if (resp.status === 'Success') {
+      console.log(resp.data);
     }
   };
 
@@ -186,15 +195,12 @@ export default function SignInSide() {
               Sign In
             </Button>
             <Grid container direction="row" gap={2} justifyContent={'center'}>
-              <Button>
+              <IconButton onClick={handleSignInWithGoogle}>
                 <SvgIconGoogle />
-              </Button>
-              <Button>
-                <SvgIconApple />
-              </Button>
-              <Button>
+              </IconButton>
+              <IconButton>
                 <SvgIconGithub />
-              </Button>
+              </IconButton>
             </Grid>
             <Grid container>
               <Grid item xs>

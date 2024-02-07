@@ -26,11 +26,14 @@ const Profile = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{m: 1}}>
-          {/* {capitalizeFirstLetter(user.firstname[0]) +
-            capitalizeFirstLetter(user.lastname[0])} */}
-        </Avatar>
-        <Typography component="h1" variant="h5"></Typography>
+        <Avatar
+          alt={user.displayName}
+          src={user.photoURL ? user.photoURL : '.'}
+          sx={{m: 1}}
+        />
+        <Typography component="h1" variant="h5">
+          {user.displayName}
+        </Typography>
         <Typography component="h1" variant="h5">
           {user.email}
         </Typography>

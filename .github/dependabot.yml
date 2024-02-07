@@ -4,16 +4,16 @@ updates:
   - package-ecosystem: "gomod"
     directory: "/api/jobs"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
   
   # JavaScript dependencies (for /api/keywords)
   - package-ecosystem: "npm"
     directory: "/api/keywords"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   # JavaScript/TypeScript dependencies (for /frontend)
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
