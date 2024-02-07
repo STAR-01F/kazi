@@ -15,7 +15,7 @@ const Homepage = () => {
               key={job.id}
               companyName={job.company}
               jobTitle={job.title}
-              jobID={job.id}
+              jobID={job.id!}
               logoPath="../src/assets/google-logo.png"
             />
           );
