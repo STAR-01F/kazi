@@ -1,5 +1,6 @@
 import React, {createContext, useState, useEffect} from 'react';
-import {getAuth, onAuthStateChanged} from 'firebase/auth';
+import {onAuthStateChanged} from 'firebase/auth';
+import {auth} from '..';
 
 interface User {
   displayName: string;
@@ -22,13 +23,12 @@ interface AuthProviderProps {
 export const AuthProvider = ({children}: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const auth = getAuth();
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser as User | null);
       setLoading(false);
     });
-  }, [auth]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{user, loading}}>
