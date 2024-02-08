@@ -13,7 +13,7 @@ import {Response} from 'src/@types';
 import type {UserCredential} from 'firebase/auth';
 import {auth} from '..';
 
-const signInwithGithub = async (): Promise<
+const signInWithGithub = async (): Promise<
   Response<UserCredential, unknown>
 > => {
   try {
@@ -171,5 +171,5 @@ export {
   sendPasswordReset,
   logout,
   sendPasswordResetEmail,
-  signInwithGithub,
+  signInWithGithub,
 };
