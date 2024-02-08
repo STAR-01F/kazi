@@ -1,0 +1,72 @@
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  TextField,
+  Link,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material';
+import {useState} from 'react';
+import jobStatus from '@repository/job.json';
+
+type LinkJobModalProps = {
+  toggle: () => void;
+  onClose: () => void;
+};
+const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
+  const [jobLink, setJobLink] = useState('');
+  const [status, setStatus] = useState('');
+  const handleAddJob = () => {};
+  return (
+    <>
+      <DialogContent>
+        <DialogContentText mb={1}>
+          Please enter the link of the job.
+        </DialogContentText>
+        <TextField
+          autoFocus
+          required
+          sx={{marginBottom: 2}}
+          id="job-link"
+          name="job-link"
+          label="Job Link"
+          placeholder=""
+          value={jobLink}
+          onChange={(e) => setJobLink(e.target.value)}
+          fullWidth
+        />
+        <FormControl fullWidth sx={{mb: 2}}>
+          <InputLabel id="job-status-input">Job Status</InputLabel>
+          <Select
+            labelId="job-status-input"
+            id="job-status-select"
+            label="Job Status"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            {jobStatus.status.map((status, i) => (
+              <MenuItem key={`${status}-${i}`} value={status}>
+                {status}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <DialogContentText mb={1}>
+          or add <Link onClick={toggle}>manually</Link>
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button type="submit" onClick={handleAddJob}>
+          Save
+        </Button>
+      </DialogActions>
+    </>
+  );
+};
+
+export default LinkJobModal;
