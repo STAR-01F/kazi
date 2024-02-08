@@ -81,7 +81,7 @@ const Header = () => {
               <Tooltip title="Settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                   <Avatar
-                    alt={user.displayName}
+                    alt={user.displayName || ''}
                     src={user.photoURL ? user.photoURL : '.'}
                   />
                 </IconButton>
