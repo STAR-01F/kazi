@@ -7,10 +7,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import AddJob from './AddJob';
-import CreateJob from '@utils/savejob';
+import {CreateJob} from '@services/firebase/jobs';
 import type {Job} from 'src/@types';
 import {FormControl, InputLabel, Link, MenuItem, Select} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
+import {useAuth} from '@services/firebase/hooks/useAuth';
 
 const JobStatus = [
   'Saved',
@@ -29,9 +30,12 @@ const Manual = ({toggle, onClose}: ManualProps) => {
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [status, setStatus] = React.useState('');
+  const {user} = useAuth();
   const navigate = useNavigate();
   const handleAddJob = async () => {
+    if (!user?.uid) return;
     const job: Partial<Job> = {
+      userid: user.uid,
       company: company,
       title: title,
       description: description,
@@ -50,9 +54,7 @@ const Manual = ({toggle, onClose}: ManualProps) => {
     setDescription('');
     onClose();
     // data returned is the jobId is navigated to.
-    if ('data' in resp) {
-      navigate(`/job/${resp.data}`);
-    }
+    navigate(`job/${resp.data?.id}`);
   };
   return (
     <>
