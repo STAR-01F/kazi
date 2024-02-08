@@ -16,7 +16,7 @@ import {
   registerWithEmailAndPassword,
   signInWithGoogle,
   signInwithGithub,
-} from '@services/firebase/firebase';
+} from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
