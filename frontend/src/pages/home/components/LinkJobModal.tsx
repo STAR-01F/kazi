@@ -12,6 +12,10 @@ import {
 } from '@mui/material';
 import {useState} from 'react';
 import jobStatus from '@repository/job.json';
+import Scrapper from '@services/scrapper';
+import {CreateJob} from '@services/firebase/jobs';
+import {useAuth} from '@services/firebase/hooks/useAuth';
+import {useNavigate} from 'react-router-dom';
 
 type LinkJobModalProps = {
   toggle: () => void;
@@ -20,7 +24,26 @@ type LinkJobModalProps = {
 const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
   const [jobLink, setJobLink] = useState('');
   const [status, setStatus] = useState('');
-  const handleAddJob = () => {};
+  const {user} = useAuth();
+  const navigate = useNavigate();
+  const handleAddJob = async () => {
+    if (!user?.uid) return;
+    const resp = await Scrapper(jobLink);
+    if (resp.status == 'Error') {
+      console.error(resp);
+      return;
+    }
+    const jobData = {userid: user.uid, status: status, ...resp.data};
+    console.log(jobData);
+    const createdJob = await CreateJob(jobData);
+    if (createdJob.status == 'Error') {
+      console.error(createdJob);
+      return;
+    }
+    console.log('created data', createdJob.data);
+    navigate(`job/${createdJob.data?.id}`);
+    onClose();
+  };
   return (
     <>
       <DialogContent>
