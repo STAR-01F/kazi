@@ -6,8 +6,8 @@ import SignInSide from '@pages/login/signin';
 import SignUp from '@pages/login/signup';
 import Header from '@components/header/Header';
 import Profilepage from './pages/profile';
-import WithAuth from './services/firebase/WithAuth';
-import WithUnauth from './services/firebase/WithUnauth';
+import WithAuth from './services/firebase/hoc/WithAuth';
+import WithUnauth from './services/firebase/hoc/WithUnauth';
 import {AuthProvider} from './services/firebase/context/Auth';
 
 const Layout = () => {

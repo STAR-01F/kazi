@@ -1,7 +1,5 @@
-import {initializeApp} from 'firebase/app';
 import {
   GoogleAuthProvider,
-  getAuth,
   signInWithPopup,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -11,12 +9,9 @@ import {
   GithubAuthProvider,
 } from 'firebase/auth';
 
-import {firebaseConfig} from './firebase-config';
 import {Response} from 'src/@types';
 import type {UserCredential} from 'firebase/auth';
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+import {auth} from '..';
 
 const signInwithGithub = async (): Promise<
   Response<UserCredential, unknown>
@@ -170,7 +165,6 @@ const logout = async () => {
 };
 
 export {
-  auth,
   signInWithGoogle,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,

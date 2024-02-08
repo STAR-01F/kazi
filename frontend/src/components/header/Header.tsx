@@ -11,7 +11,7 @@ import {
   MenuItem,
   Button,
 } from '@mui/material';
-import {logout} from '@services/firebase/firebase';
+import {logout} from '@services/firebase/auth';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
