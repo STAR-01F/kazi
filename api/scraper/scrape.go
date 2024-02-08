@@ -4,30 +4,29 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"regexp"
 )
 
-func scrape(url string) map[string]interface{} {
+func scrape(url string) (map[string]interface{}, error) {
 	// Make HTTP GET request
 	response, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	defer response.Body.Close()
 
 	// Read the response body
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	// Regular expression to find JSON-LD script tag
 	re := regexp.MustCompile(`<script data-rh="true" type="application/ld\+json">([\s\S]*?)<\/script>`)
 	matches := re.FindSubmatch(body)
 	if matches == nil {
-		log.Fatal("No JSON-LD script found")
+		return nil, fmt.Errorf("no JSON-LD data found")
 	}
 
 	jsonLD := matches[1]
@@ -35,12 +34,12 @@ func scrape(url string) map[string]interface{} {
 	// Parse the JSON-LD data
 	var data map[string]interface{}
 	if err := json.Unmarshal(jsonLD, &data); err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	// Process the data
 	cleaned := cleanMap(data)
-	return cleaned
+	return cleaned, nil
 }
 
 var re = regexp.MustCompile(`<.*?>`)
