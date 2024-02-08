@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log/slog"
 	"net/http"
+	"strings"
 )
 
 func handleScrape(w http.ResponseWriter, r *http.Request) {
@@ -25,6 +26,13 @@ func handleScrape(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Failed to scrape URL", http.StatusInternalServerError)
 			return
 		}
+		go func() {
+			arr := strings.Split(url, "/")
+			err := WriteJobInfoToFile(arr[len(arr)-1], jobInfo)
+			if err != nil {
+				slog.Error("Failed to write to file: %v", err)
+			}
+		}()
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(jobInfo)
 		return
