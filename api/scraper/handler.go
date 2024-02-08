@@ -19,7 +19,12 @@ func handleScrape(w http.ResponseWriter, r *http.Request) {
 		}
 		slog.Info("Scraping URL: %s", "url", data["url"])
 		url := data["url"]
-		jobInfo := scrape(url)
+		jobInfo, err := scrape(url)
+		if err != nil {
+			slog.Error("Failed to scrape URL: %v", err)
+			http.Error(w, "Failed to scrape URL", http.StatusInternalServerError)
+			return
+		}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(jobInfo)
 		return
