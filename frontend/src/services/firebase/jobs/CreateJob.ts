@@ -17,10 +17,10 @@ const CreateJob = async (job: Partial<Job>) => {
       message: 'Successfully created the job',
       data: {id: resp.id, ...job},
     };
-  } catch {
+  } catch (error) {
     return {
       status: 'Error',
-      message: 'Failed to create the job',
+      message: `Failed to create the job: ${(error as Error).message}`,
     };
   }
 };
