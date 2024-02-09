@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import {useState} from 'react';
 import jobStatus from '@repository/job.json';
-import Scrapper from '@services/scrapper';
+import Scrapper from '@services/scraper';
 import {CreateJob} from '@services/firebase/jobs';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useNavigate} from 'react-router-dom';
