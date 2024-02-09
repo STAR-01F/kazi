@@ -16,5 +16,9 @@ export default defineConfig({
             '@services': path.resolve(__dirname, './src/services')
         },
     },
+    preview:{
+        host: 'localhost',
+        port: 5173,
+    }
 });
 //
