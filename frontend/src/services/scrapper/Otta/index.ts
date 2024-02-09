@@ -26,7 +26,7 @@ const Otta = async (url: string): Promise<Response<Partial<Job>, unknown>> => {
     console.error('failed to fetch Otta API', error);
     return {
       status: 'Error',
-      message: 'Failed to fetch Otta API',
+      message: 'Failed to fetch Otta API ' + (error as Error).message,
     };
   }
 };
