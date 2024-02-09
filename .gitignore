@@ -31,5 +31,7 @@ dist-ssr
 .env.production.local
 config.json
 
+api/scraper/*.json
+
 # Exclude large files
 .amplify/.terraform/providers/registry.terraform.io/hashicorp/aws/5.35.0/darwin_arm64/terraform-provider-aws_v5.35.0_x5

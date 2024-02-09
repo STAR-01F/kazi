@@ -15,7 +15,7 @@ import {useNavigate} from 'react-router-dom';
 import {
   registerWithEmailAndPassword,
   signInWithGoogle,
-  signInwithGithub,
+  signInWithGithub,
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 
@@ -120,8 +120,7 @@ export default function SignUp() {
     }
   };
   const handeleSignInWithGithub = async () => {
-    console.log('github');
-    const resp = await signInwithGithub();
+    const resp = await signInWithGithub();
     if (resp.status === 'Success') {
       console.log(resp.data);
     }

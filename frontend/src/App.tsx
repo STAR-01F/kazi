@@ -26,7 +26,7 @@ const router = createBrowserRouter([
     path: '/',
     Component: () => (
       <AuthProvider>
-        <Layout />;
+        <Layout />
       </AuthProvider>
     ),
     children: [
