@@ -12,6 +12,7 @@ const Job = () => {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {status, data} = useFetchJobs(id);
+
   if (status === 'idle' || status === 'fetching') {
     return <div>Loading...</div>;
   }
@@ -19,15 +20,15 @@ const Job = () => {
     return <div>Error fetching data</div>;
   }
   const {title, description, company} = data![0];
+
   const handleGenerate = async () => {
     setIsKeywordsLoading(true);
     const resp = await getKeywords(description);
     if (resp.status === 'Success') {
-      console.log(resp.data.keywords);
+      console.log("resp.data--->" , resp.data);
       setKeywords(resp.data.keywords.split(','));
     }
     setIsKeywordsLoading(false);
-    console.log(resp);
   };
   return (
     <Grid container item direction={'row'}>

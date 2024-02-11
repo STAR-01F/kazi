@@ -41,9 +41,17 @@ To run the project, follow these steps:
 
 ## API Documentation
 
-### `GET /keywords`
+### `POST /keywords`
 
 Returns a list of 10 keywords.
+
+```json
+[
+  {
+    "description": "Go, Javascript, Teamwork..."
+  },
+]
+```
 
 #### Response
 

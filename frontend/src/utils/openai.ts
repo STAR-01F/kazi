@@ -7,13 +7,17 @@ import type {Response} from 'src/@types';
 const getKeywords = async (
   description: string
 ): Promise<Response<Keywords, unknown>> => {
-  console.log(import.meta.env.VITE_OPENAI_HOST);
+  
   try {
-    const response = await fetch(`${import.meta.env.VITE_OPENAI_HOST}`, {
+    const response = await fetch(`${import.meta.env.VITE_KEYWORDS_GW}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*', 
+          'Access-Control-Allow-Methods': 'POST', 
+          'Access-Control-Allow-Headers': 'Content-Type', 
       },
+      
       body: JSON.stringify({
         description: description,
       }),
@@ -22,7 +26,6 @@ const getKeywords = async (
     if (!response.ok) {
       throw new Error(data.message || 'Could not fetch keywords.');
     }
-    console.log(data);
     return {
       status: 'Success',
       data: data,
