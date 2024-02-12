@@ -17,6 +17,7 @@ import {useNavigate} from 'react-router-dom';
 import {
   logInWithEmailAndPassword,
   signInWithGoogle,
+  signInWithGithub,
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 
@@ -101,13 +102,18 @@ export default function SignInSide() {
       console.log(resp.data);
     }
   };
-
+  const handeleSignInWithGithub = async () => {
+    const resp = await signInWithGithub();
+    if (resp.status === 'Success') {
+      console.log(resp.data);
+    }
+  };
   const handleClick = () => {
     navigate('/signup');
   };
 
   return (
-    <Grid container component="main" width={'100vw'} height={'100vh'}>
+    <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs">
       <CssBaseline />
       <Grid
         item
@@ -198,7 +204,7 @@ export default function SignInSide() {
               <IconButton onClick={handleSignInWithGoogle}>
                 <SvgIconGoogle />
               </IconButton>
-              <IconButton>
+              <IconButton onClick={handeleSignInWithGithub}>
                 <SvgIconGithub />
               </IconButton>
             </Grid>

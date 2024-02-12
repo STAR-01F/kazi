@@ -33,3 +33,4 @@ config.json
 
 # deployments
 api/keywordsForDeployment
+api/scraper/*.json
