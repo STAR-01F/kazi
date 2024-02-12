@@ -113,7 +113,7 @@ export default function SignInSide() {
   };
 
   return (
-    <Grid container component="main" width={'100vw'} height={'100vh'}>
+    <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs">
       <CssBaseline />
       <Grid
         item
