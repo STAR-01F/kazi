@@ -1,10 +1,12 @@
-import Button from '@mui/material/Button';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
+import {
+  Button,
+  ClickAwayListener,
+  Grow,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper,
+} from '@mui/material';
 import {ReactNode, useEffect, useRef, useState} from 'react';
 
 type MenuActionList = {
