@@ -1,4 +1,5 @@
-import {Button, Grid, Typography} from '@mui/material';
+import {Button, Grid, Typography, Avatar, IconButton} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Keywords from './components/Keywords';
@@ -30,17 +31,27 @@ const Job = () => {
     console.log(resp);
   };
   return (
-    <Grid container item direction={'row'}>
+    <Grid container direction={'row'} m={3}>
       <Grid item xs={12} md={6}>
-        <Button variant={'contained'} component={Link} to={`/`} size="small">
-          back
-        </Button>
-        <Typography variant="h5">Job Details</Typography>
-        <Typography variant="body1">Job Title:</Typography>
-        <Typography variant="h5">{title}</Typography>
-        <Typography variant="body1">Company:</Typography>
-        <Typography variant="h5">{company}</Typography>
-        <Typography variant="body1">Job Description</Typography>
+        <IconButton component={Link} to="/" edge="start">
+          <ArrowBackIcon fontSize="large" />
+        </IconButton>
+        <Grid container direction="column" mb={3}>
+          <Typography mb={1} variant="h3">
+            {title}
+          </Typography>
+          <Grid container direction="row" xs={3} gap={1}>
+            <Avatar
+              alt={company}
+              src={'../src/assets/google-logo.png'}
+              sx={{height: 'auto', width: '55px'}}
+            />
+            <Grid item>
+              <Typography variant="h5">{company}</Typography>
+              <Typography variant="subtitle1">London</Typography>
+            </Grid>
+          </Grid>
+        </Grid>
         <Description description={description} />
       </Grid>
       <Grid container item xs={12} md={6} direction={'column'}>
