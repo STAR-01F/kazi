@@ -30,3 +30,6 @@ dist-ssr
 .env.test.local
 .env.production.local
 config.json
+
+# deployments
+api/keywordsForDeployment
