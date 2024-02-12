@@ -25,7 +25,6 @@ const Job = () => {
     setIsKeywordsLoading(true);
     const resp = await getKeywords(description);
     if (resp.status === 'Success') {
-      console.log("resp.data--->" , resp.data);
       setKeywords(resp.data.keywords.split(','));
     }
     setIsKeywordsLoading(false);

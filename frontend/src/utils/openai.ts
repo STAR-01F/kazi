@@ -9,13 +9,10 @@ const getKeywords = async (
 ): Promise<Response<Keywords, unknown>> => {
   
   try {
-    const response = await fetch(`${import.meta.env.VITE_KEYWORDS_GW}`, {
+    const response = await fetch(`${import.meta.env.VITE_OPENAI_HOST}`, {
       method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*', 
-          'Access-Control-Allow-Methods': 'POST', 
-          'Access-Control-Allow-Headers': 'Content-Type', 
       },
       
       body: JSON.stringify({
