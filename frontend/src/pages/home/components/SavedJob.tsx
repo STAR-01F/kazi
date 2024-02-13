@@ -8,6 +8,9 @@ import {
   Grid,
 } from '@mui/material';
 import {Link} from 'react-router-dom';
+import MenuListButton from '@components/button/MenuListButton';
+import {useAuth} from '@services/firebase/hooks/useAuth';
+import {DeleteJob} from '@services/firebase/jobs';
 
 // props to be passed in should be job title and company, possibly logo. Using ts for the props.
 
@@ -21,6 +24,22 @@ type SavedJobProps = {
   jobID: string;
 };
 const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
+  const {user} = useAuth();
+  const handleDeleteJob = async () => {
+    if (!user?.uid) return;
+    const resp = await DeleteJob(user.uid, jobID);
+    if (resp.status === 'Success') {
+      console.log(resp);
+      return;
+    }
+    console.error(resp);
+  };
+  const moveMenulist = [
+    {
+      name: 'Remove',
+      action: handleDeleteJob,
+    },
+  ];
   return (
     <Card
       variant="outlined"
@@ -49,9 +68,7 @@ const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
           >
             View
           </Button>
-          <Button variant={'contained'} size="small">
-            Move
-          </Button>
+          <MenuListButton menuActionList={moveMenulist}>Move</MenuListButton>
         </Stack>
       </CardContent>
     </Card>
