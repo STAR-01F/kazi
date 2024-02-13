@@ -1,14 +1,17 @@
+import React, {Suspense} from 'react';
 import {Outlet, RouterProvider, createBrowserRouter} from 'react-router-dom';
-import Jobpage from './pages/job';
-import Homepage from './pages/home';
 import {Grid} from '@mui/material';
-import SignInSide from '@pages/login/signin';
-import SignUp from '@pages/login/signup';
 import Header from '@components/header/Header';
-import Profilepage from './pages/profile';
-import WithAuth from './services/firebase/hoc/WithAuth';
-import WithUnauth from './services/firebase/hoc/WithUnauth';
-import {AuthProvider} from './services/firebase/context/Auth';
+import {AuthProvider} from '@services/firebase/context/Auth';
+import WithAuth from '@services/firebase/hoc/WithAuth';
+import WithUnauth from '@services/firebase/hoc/WithUnauth';
+
+// Dynamic imports
+const Jobpage = React.lazy(() => import('@pages/job'));
+const Homepage = React.lazy(() => import('@pages/home'));
+const SignInSide = React.lazy(() => import('@pages/login/signin'));
+const SignUp = React.lazy(() => import('@pages/login/signup'));
+const Profilepage = React.lazy(() => import('@pages/profile'));
 
 const Layout = () => {
   return (
@@ -27,9 +30,8 @@ const Layout = () => {
 };
 const router = createBrowserRouter([
   {
-    id: 'root',
     path: '/',
-    Component: () => (
+    element: (
       <AuthProvider>
         <Layout />
       </AuthProvider>
@@ -43,14 +45,20 @@ const router = createBrowserRouter([
         ),
         children: [
           {
-            id: 'signin',
             path: 'signin',
-            Component: SignInSide,
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <SignInSide />
+              </Suspense>
+            ),
           },
           {
-            id: 'signup',
             path: 'signup',
-            Component: SignUp,
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <SignUp />
+              </Suspense>
+            ),
           },
         ],
       },
@@ -62,25 +70,34 @@ const router = createBrowserRouter([
         ),
         children: [
           {
-            id: 'profile',
             path: 'profile',
-            Component: Profilepage,
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <Profilepage />
+              </Suspense>
+            ),
           },
           {
-            id: 'home',
             index: true,
-            Component: Homepage,
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <Homepage />
+              </Suspense>
+            ),
           },
           {
-            id: 'job',
             path: 'job/:id',
-            Component: Jobpage,
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <Jobpage />
+              </Suspense>
+            ),
           },
         ],
       },
       {
         path: '*',
-        Component: () => <h1>404</h1>,
+        element: <h1>404</h1>,
       },
     ],
   },
