@@ -18,6 +18,8 @@ import {
   signInWithGithub,
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
+import Paper from '@mui/material/Paper';
+
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Copyright(props: any) {
@@ -130,13 +132,23 @@ export default function SignUp() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
+  <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs" >
+  <Grid item xs={12} sm={8} md={true} component={Paper} elevation={6} square
+  sx={{
+   
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }}
+  >
       <Box
-        sx={{
-          marginTop: 8,
+         sx={{
+          my: 8,
+          mx: 12,
           display: 'flex',
           flexDirection: 'column',
+          justifyContent: 'center',
           alignItems: 'center',
         }}
       >
@@ -146,7 +158,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 3}}>
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -247,16 +259,18 @@ export default function SignUp() {
               <SvgIconGithub />
             </IconButton>
           </Grid>
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="center">
             <Grid item>
+            Already have an account?{' '}
               <Link onClick={handleClick} href="#" variant="body2">
-                Already have an account? Sign in
+                 Sign in
               </Link>
             </Grid>
           </Grid>
         </Box>
       </Box>
       <Copyright sx={{mt: 5}} />
-    </Container>
+      </Grid>
+      </Grid>
   );
 }
