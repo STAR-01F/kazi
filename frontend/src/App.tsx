@@ -2,16 +2,16 @@ import React, {Suspense} from 'react';
 import {Outlet, RouterProvider, createBrowserRouter} from 'react-router-dom';
 import {Grid} from '@mui/material';
 import Header from '@components/header/Header';
-import {AuthProvider} from './services/firebase/context/Auth';
-import WithAuth from './services/firebase/hoc/WithAuth';
-import WithUnauth from './services/firebase/hoc/WithUnauth';
+import {AuthProvider} from '@services/firebase/context/Auth';
+import WithAuth from '@services/firebase/hoc/WithAuth';
+import WithUnauth from '@services/firebase/hoc/WithUnauth';
 
 // Dynamic imports
-const Jobpage = React.lazy(() => import('./pages/job'));
-const Homepage = React.lazy(() => import('./pages/home'));
+const Jobpage = React.lazy(() => import('@pages/job'));
+const Homepage = React.lazy(() => import('@pages/home'));
 const SignInSide = React.lazy(() => import('@pages/login/signin'));
 const SignUp = React.lazy(() => import('@pages/login/signup'));
-const Profilepage = React.lazy(() => import('./pages/profile'));
+const Profilepage = React.lazy(() => import('@pages/profile'));
 
 const Layout = () => {
   return (
