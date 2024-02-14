@@ -19,6 +19,7 @@ const Layout = () => {
         width={'100vw'}
         height={{xs: 'calc(100vh - 65px)'}}
         sx={{overflowY: 'auto'}}
+        justifyContent={'center'}
       >
         <Outlet />
       </Grid>
