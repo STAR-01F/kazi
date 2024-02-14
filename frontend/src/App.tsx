@@ -9,6 +9,7 @@ import Profilepage from './pages/profile';
 import WithAuth from './services/firebase/hoc/WithAuth';
 import WithUnauth from './services/firebase/hoc/WithUnauth';
 import {AuthProvider} from './services/firebase/context/Auth';
+import Welcome from '@pages/welcome';
 
 const Layout = () => {
   return (
@@ -60,6 +61,11 @@ const router = createBrowserRouter([
             id: 'profile',
             path: 'profile',
             Component: Profilepage,
+          },
+              {
+            id: 'welcome',
+            path: 'welcome',
+            Component: Welcome,
           },
           {
             id: 'home',

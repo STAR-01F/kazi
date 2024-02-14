@@ -1,11 +1,8 @@
-import { Grid } from "@mui/material";
-import WelcomeModal from "./components/WelcomeModal";
+import WelcomePage from "./components/WelcomePage";
 
 const Welcome = () => {
     return (
-        <Grid container>
-        <WelcomeModal />
-        </Grid>
+        <WelcomePage />
     )
 }
 
