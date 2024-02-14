@@ -6,6 +6,8 @@ import {
   Button,
   Avatar,
   Grid,
+  CardActions,
+  Paper,
 } from '@mui/material';
 import {Link} from 'react-router-dom';
 import MenuListButton from '@components/button/MenuListButton';
@@ -42,8 +44,18 @@ const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
   ];
   return (
     <Card
+      component={Paper}
       variant="outlined"
-      sx={{maxWidth: 350, width: '100%', maxHeight: 150}}
+      sx={{
+        minWidth: '350px',
+        maxWidth: {
+          xs: '100%',
+          md: 'calc(50% - 8.5px)',
+          lg: 'calc(33.1% - 8.5px)',
+        },
+        width: '100%',
+        height: 'max-content',
+      }}
     >
       <CardContent>
         <Grid container justifyContent={'space-between'}>
@@ -59,18 +71,24 @@ const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
             sx={{height: 'auto', width: '55px'}}
           />
         </Grid>
-        <Stack mt={2} gap={1} direction={'row'}>
-          <Button
-            variant={'contained'}
-            component={Link}
-            to={`job/${jobID}`}
-            size="small"
-          >
-            View
-          </Button>
-          <MenuListButton menuActionList={moveMenulist}>Move</MenuListButton>
-        </Stack>
       </CardContent>
+      <CardActions>
+        <Button
+          variant={'contained'}
+          component={Link}
+          to={`job/${jobID}`}
+          size="small"
+        >
+          View
+        </Button>
+        <MenuListButton
+          variant="contained"
+          size="small"
+          menuActionList={moveMenulist}
+        >
+          Move
+        </MenuListButton>
+      </CardActions>
     </Card>
   );
 };

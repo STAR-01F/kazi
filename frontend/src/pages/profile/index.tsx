@@ -27,7 +27,7 @@ const Profile = () => {
         }}
       >
         <Avatar
-          alt={user.displayName}
+          alt={user.displayName || ''}
           src={user.photoURL ? user.photoURL : '.'}
           sx={{m: 1}}
         />
