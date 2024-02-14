@@ -10,6 +10,8 @@ type Job = {
   updatedAt?: Timestamp;
   status?: string;
   keywords?: string;
+  joblocation?: {address?: {addressRegion: string; addressCountry: string}};
+  hiringorganization?: {logo: string};
 };
 
 export default Job;
