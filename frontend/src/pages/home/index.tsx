@@ -2,6 +2,7 @@ import {Box, Grid} from '@mui/material';
 import SavedJob from './components/SavedJob';
 import JobModal from './components/JobModal';
 import useFetchJobs from '@hooks/useFetchJobs';
+import StatsContainer from './components/StatsContainer';
 
 const Homepage = () => {
   const jobs = useFetchJobs();
@@ -15,6 +16,7 @@ const Homepage = () => {
       wrap="nowrap"
       padding={{xs: '10px 20px', md: '15px 30px', lg: '20px 40px'}}
     >
+      <StatsContainer />
       <Box id="home-page-header" mb={3} display={'flex'}>
         <JobModal />
       </Box>
