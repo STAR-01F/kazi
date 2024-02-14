@@ -145,7 +145,7 @@ export default function SignUp() {
       <Box
          sx={{
           my: 8,
-          mx: 12,
+          mx: 28,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -162,6 +162,7 @@ export default function SignUp() {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
+                margin="normal"
                 autoComplete="given-name"
                 name="firstName"
                 required
@@ -184,6 +185,7 @@ export default function SignUp() {
             <Grid item xs={12} sm={6}>
               <TextField
                 required
+                margin="normal"
                 fullWidth
                 id="lastName"
                 label="Last Name"
