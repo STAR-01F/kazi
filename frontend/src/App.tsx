@@ -5,7 +5,7 @@ import Header from '@components/header/Header';
 import {AuthProvider} from '@services/firebase/context/Auth';
 import WithAuth from '@services/firebase/hoc/WithAuth';
 import WithUnauth from '@services/firebase/hoc/WithUnauth';
-import Box from '@mui/material/Box';
+import LandingPage from '@pages/login/landing';
 
 // Dynamic imports
 const Jobpage = React.lazy(() => import('@pages/job'));
@@ -42,21 +42,12 @@ const RegistrationLayout = () => {
 
         sx={{overflowY: 'auto'}}
       >
-        <Box
-          component={Grid}
-          md={6}
-          item
-          sx={{display: {xs: 'none', sm: 'none', md: 'block'}}}
-          display={'flex'}
-          justifyContent={'center'}
-          alignItems={'center'}
-        >
-          {<div>Kazi!!</div>}
-        </Box>
-     
+        <LandingPage />
+  
         <Grid item sm={12} md={6}>
           <Outlet />
         </Grid>
+        
       </Grid>
     </>
   );
