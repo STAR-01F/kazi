@@ -54,7 +54,7 @@ func cleanMap(data map[string]interface{}) map[string]interface{} {
 		case []interface{}:
 			cleaned[k] = cleanSlice(v)
 		default:
-			cleaned[k] = re.ReplaceAllString(fmt.Sprintf("%v", v), "")
+			cleaned[k] = re.ReplaceAllString(fmt.Sprintf("%v", v), "\n")
 		}
 	}
 	return cleaned
