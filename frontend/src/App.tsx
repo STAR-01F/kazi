@@ -47,7 +47,7 @@ const RegistrationLayout = () => {
         <Grid item sm={12} md={6}>
           <Outlet />
         </Grid>
-        
+
       </Grid>
     </>
   );

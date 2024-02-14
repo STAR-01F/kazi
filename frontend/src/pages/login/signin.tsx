@@ -96,13 +96,14 @@ export default function SignInSide() {
   return (
     <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs" >
   
-      <Grid item xs={12} sm={8} md={true} component={Paper} elevation={6} square
+      <Grid item sm={12} md={true} component={Paper} elevation={6} square
       sx={{
     
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+       
       }}
       >
         <Box

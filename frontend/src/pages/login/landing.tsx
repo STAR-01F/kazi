@@ -6,6 +6,7 @@ export default function LandingPage() {
   return (
     <Box
       component={Grid}
+      sm={0}
       md={6}
       item
       sx={{
@@ -26,7 +27,7 @@ export default function LandingPage() {
           kAZI
         </Typography>
         <Typography variant="h3"  fontWeight={600} color={'black'} >
-          your calling is calling!
+          your calling is calling
         </Typography>
       </Box>
     </Box>
