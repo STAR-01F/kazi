@@ -21,8 +21,8 @@ const WelcomePage  = () => {
     }
   };
 
-  return (
-    <Grid sx={{ backgroundColor: 'grey', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',}} container >
+    return (
+    <Grid sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',}} container >
       <SwipeableViews index={index}>
         <Typography color={'white'} component="h1" variant="h5" textAlign={'center'}>
           This is the welcome page
@@ -34,10 +34,10 @@ const WelcomePage  = () => {
           Get more info about the user
         </Typography>
       </SwipeableViews>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px', width: '100%',}}>
-        <IconButton sx={{backgroundColor: 'white'}} onClick={handleBack} color="primary" aria-label="back">
+      <Box sx={{ display: 'flex', justifyContent: index > 0 ? 'space-between' : "end", padding: '20px', width: '100%',}}>
+       <IconButton sx={{display: index > 0 ? "flex" : "none", backgroundColor: 'white'}} onClick={handleBack} color="primary" aria-label="back">
           <BackIcon />
-        </IconButton>
+          </IconButton>
         <IconButton sx={{backgroundColor: 'white'}} onClick={handleNext} color="primary" aria-label="next">
           <NextIcon />
         </IconButton>
