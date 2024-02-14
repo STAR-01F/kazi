@@ -17,29 +17,13 @@ import {
   signInWithGithub,
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
+import Copyright from '@components/copyright/copyright';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {'Copyright © '}
-      <Link color="inherit" href="https://www.linkedin.com/in/arnold-mutungi/">
-        TrackAI
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 interface SignInErrors {
   email?: string;
   password?: string;
 }
+
 interface SignInValues {
   email?: string;
   password?: string;
@@ -123,11 +107,10 @@ export default function SignInSide() {
       >
         <Box
           sx={{
-            my: 8,
-            mx: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            width: '50%', 
+             display: 'flex',
+             flexDirection: 'column',
+             alignItems: 'center',
           }}
         >
           <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
@@ -183,6 +166,7 @@ export default function SignInSide() {
               fullWidth
               variant="contained"
               sx={{mt: 3, mb: 2}}
+              size='large'
             >
               Sign In
             </Button>
@@ -209,7 +193,7 @@ export default function SignInSide() {
             </Grid>
           </Box>
         </Box>
-            <Copyright sx={{mt: 5}} />
+            <Copyright sx={{mt: 5}} href={"https://github.com/STAR-01F/"} />
       </Grid>
     </Grid>
   );

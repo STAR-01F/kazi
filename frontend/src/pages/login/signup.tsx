@@ -1,14 +1,12 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import SvgIconGoogle from '@components/icons/googleIcon';
 import SvgIconGithub from '@components/icons/githubIcon';
 import {useNavigate} from 'react-router-dom';
@@ -19,26 +17,10 @@ import {
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 import Paper from '@mui/material/Paper';
+import Copyright from '@components/copyright/copyright';
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {'Copyright © '}
-      <Link color="inherit" href="https://www.linkedin.com/in/arnold-mutungi/">
-        TrackAI
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 interface SignUpErrors {
   firstname?: string;
   lastname?: string;
@@ -132,7 +114,7 @@ export default function SignUp() {
   };
 
   return (
-  <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs" >
+  <Grid container component="main" width={'100%'} height={'100%'} maxWidth="l" >
   <Grid item xs={12} sm={8} md={true} component={Paper} elevation={6} square
   sx={{
    
@@ -144,12 +126,16 @@ export default function SignUp() {
   >
       <Box
          sx={{
-          my: 8,
-          mx: 28,
+          width: '50%', 
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
+          alignItems: 'center'
+          // my: 8,
+          // mx: 46,
+          // display: 'flex',
+          // flexDirection: 'column',
+          // justifyContent: 'center',
+          // alignItems: 'center',
         }}
       >
         <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
@@ -158,8 +144,8 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
-          <Grid container spacing={2}>
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1, boxSizing:'border-box'}}>
+          <Grid container spacing={2} >
             <Grid item xs={12} sm={6}>
               <TextField
                 margin="normal"
@@ -249,6 +235,7 @@ export default function SignUp() {
             type="submit"
             fullWidth
             variant="contained"
+            size='large'
             sx={{mt: 3, mb: 2}}
           >
             Sign Up
@@ -271,7 +258,7 @@ export default function SignUp() {
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{mt: 5}} />
+      <Copyright sx={{mt: 5}} href={"https://github.com/STAR-01F/"} />
       </Grid>
       </Grid>
   );

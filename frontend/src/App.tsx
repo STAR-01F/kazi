@@ -39,7 +39,7 @@ const RegistrationLayout = () => {
         spacing={2}
         width={'100vw'}
         height={'100vh'}
-        justifyContent={'center'}
+
         sx={{overflowY: 'auto'}}
       >
         <Box
@@ -54,7 +54,7 @@ const RegistrationLayout = () => {
           {<div>Kazi!!</div>}
         </Box>
      
-        <Grid item xs={6}>
+        <Grid item sm={12} md={6}>
           <Outlet />
         </Grid>
       </Grid>
