@@ -49,7 +49,7 @@ const Job = () => {
           <ArrowBackIcon fontSize="large" />
         </IconButton>
         <Grid container direction="column" mb={3}>
-          <Grid>
+          <Grid mb={2}>
             <Typography mb={2} variant="h4">
               {title}
             </Typography>
@@ -70,13 +70,13 @@ const Job = () => {
           </Grid>
           <Grid container gap={1}>
             <Grid item>
-              <Typography textTransform={'capitalize'} variant="h5">
+              <Typography textTransform={'capitalize'} variant="h6">
                 {company}
               </Typography>
               <Typography
                 textTransform={'capitalize'}
                 fontWeight={'light'}
-                variant="h6"
+                variant="subtitle1"
               >
                 {`${joblocation?.address?.addressRegion}, ${joblocation?.address?.addressCountry}`}
               </Typography>
@@ -107,6 +107,7 @@ const Job = () => {
         direction={'column'}
         alignItems={'center'}
         justifyContent={'center'}
+        sx={{height: '50%'}}
       >
         <Grid container item alignItems={'center'} direction={'column'} mb={3}>
           <SavedSearchIcon sx={{fontSize: 80}} />
