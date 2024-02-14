@@ -15,9 +15,16 @@ type MenuActionList = {
 };
 type MenuListButtonProps = {
   children: ReactNode;
+  variant?: 'text' | 'outlined' | 'contained';
+  size?: 'small' | 'medium' | 'large';
   menuActionList: MenuActionList[];
 };
-const MenuListButton = ({children, menuActionList}: MenuListButtonProps) => {
+const MenuListButton = ({
+  children,
+  menuActionList,
+  variant,
+  size,
+}: MenuListButtonProps) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
@@ -56,7 +63,8 @@ const MenuListButton = ({children, menuActionList}: MenuListButtonProps) => {
   return (
     <>
       <Button
-        variant={'contained'}
+        size={size}
+        variant={variant}
         ref={anchorRef}
         id="composition-button"
         aria-controls={open ? 'composition-menu' : undefined}
