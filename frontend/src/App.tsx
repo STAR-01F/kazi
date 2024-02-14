@@ -23,6 +23,7 @@ const Layout = () => {
         height={{xs: 'calc(100vh - 65px)'}}
         justifyContent={'center'}
         sx={{overflowY: 'auto'}}
+        justifyContent={'center'}
       >
         <Outlet />
       </Grid>
