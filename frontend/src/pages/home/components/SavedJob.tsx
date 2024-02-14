@@ -47,7 +47,12 @@ const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
       component={Paper}
       variant="outlined"
       sx={{
-        maxWidth: {sm: 'calc(50% - 8.5px)', lg: 'calc(33.1% - 8.5px)'},
+        minWidth: '350px',
+        maxWidth: {
+          xs: '100%',
+          md: 'calc(50% - 8.5px)',
+          lg: 'calc(33.1% - 8.5px)',
+        },
         width: '100%',
         height: 'max-content',
       }}
