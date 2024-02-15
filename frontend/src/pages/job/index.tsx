@@ -118,14 +118,7 @@ const Job = () => {
             Generate
           </Button>
         </Grid>
-        <Grid
-          m={2}
-          container
-          item
-          direction="row"
-          gap={2}
-          justifyContent={'center'}
-        >
+        <Grid container item direction="row" gap={2} justifyContent={'center'}>
           <Keywords keywords={keywords} isLoading={isKeywordsLoading} />
         </Grid>
       </Grid>
