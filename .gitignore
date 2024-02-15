@@ -35,3 +35,6 @@ api/scraper/*.json
 api/keywordsForDeployment
 
 
+# zip & build files
+*.zip
+api/scraper/bootstrap
