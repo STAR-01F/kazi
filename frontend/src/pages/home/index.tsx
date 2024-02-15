@@ -1,10 +1,14 @@
-import {Grid} from '@mui/material';
+import {Box, Grid, Typography} from '@mui/material';
 import SavedJob from './components/SavedJob';
 import useFetchJobs from '@hooks/useFetchJobs';
+import {useAuth} from '@services/firebase/hooks/useAuth';
+import {getDisplayName} from '@utils/helper';
+import StatsContainer from './components/StatsContainer';
 import Header from './components/Header';
 
 const Homepage = () => {
   const jobs = useFetchJobs();
+  const {user} = useAuth();
   return (
     <Grid
       id="home-page"
@@ -15,8 +19,18 @@ const Homepage = () => {
       wrap="nowrap"
       padding={{xs: '10px 20px', md: '15px 30px', lg: '20px 40px'}}
     >
+      <Typography variant={'h4'} gutterBottom>
+        Welcome, {getDisplayName(user?.displayName || '')}
+      </Typography>
+      <StatsContainer />
       <Header />
-      <Grid id="home-page-jobs-container" container item gap={2}>
+      <Grid
+        id="home-page-jobs-container"
+        container
+        item
+        gap={2}
+        // maxHeight={'max-content'}
+      >
         {jobs.data &&
           jobs.data.map((job) => {
             return (
