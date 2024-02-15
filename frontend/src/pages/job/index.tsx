@@ -23,6 +23,8 @@ const Job = () => {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {status, data} = useFetchJobs(id);
+  const [generateClicked, setGenerateClicked] = useState(false);
+
   if (status === 'idle' || status === 'fetching') {
     return <div>Loading...</div>;
   }
@@ -33,6 +35,7 @@ const Job = () => {
     data![0];
   console.log('checking job description', description);
   const handleGenerate = async () => {
+    setGenerateClicked(true);
     setIsKeywordsLoading(true);
     const resp = await getKeywords(description);
     if (resp.status === 'Success') {
@@ -109,22 +112,32 @@ const Job = () => {
         justifyContent={'center'}
         sx={{height: '50%'}}
       >
-        <Grid container item alignItems={'center'} direction={'column'} mb={3}>
-          <SavedSearchIcon sx={{fontSize: 80}} />
-          <Typography mb={3} variant="subtitle1" fontWeight={'light'}>
-            Generate personalised keywords to add to your CV
-          </Typography>
-          <Button onClick={handleGenerate} variant="contained" size="small">
-            Generate
-          </Button>
-        </Grid>
+        {generateClicked ? null : (
+          <>
+            <Grid
+              container
+              item
+              alignItems={'center'}
+              direction={'column'}
+              mb={3}
+            >
+              <SavedSearchIcon sx={{fontSize: 80}} />
+              <Typography mb={3} variant="subtitle1" fontWeight={'light'}>
+                Generate personalised keywords to add to your CV
+              </Typography>
+              <Button onClick={handleGenerate} variant="contained" size="small">
+                Generate
+              </Button>
+            </Grid>
+          </>
+        )}
         <Grid
-          m={2}
           container
           item
           direction="row"
           gap={2}
           justifyContent={'center'}
+          p={2}
         >
           <Keywords keywords={keywords} isLoading={isKeywordsLoading} />
         </Grid>
