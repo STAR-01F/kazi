@@ -1,31 +1,33 @@
-import { Typography } from '@mui/material';
+import {Typography} from '@mui/material';
 
 type DescriptionProps = {
-    description: string;
+  description: string;
 };
-const Description = ({ description }: DescriptionProps) => {
-    return (
-        <>
-            {description.split('\n').map((line, index) => {
-                if (line.length < 50) {
-                    return (
-                        <Typography
-                            variant='h6'
-                            fontWeight='bold'
-                            key={index}
-                            align='justify'>
-                            {line}
-                        </Typography>
-                    );
-                }
-                return (
-                    <Typography variant='h6' key={index} align='justify'>
-                        {line}
-                    </Typography>
-                );
-            })}
-        </>
-    );
+const Description = ({description}: DescriptionProps) => {
+  return (
+    <>
+      {description.split('*').map((line, index) => {
+        if (line.length > 1 && line.length < 22) {
+          return (
+            <Typography
+              mb={2}
+              variant="h6"
+              fontWeight="bold"
+              key={index}
+              align="justify"
+            >
+              {line}
+            </Typography>
+          );
+        } else if (line.length > 1)
+          return (
+            <li key={index} style={{paddingLeft: '20px', marginBottom: '1rem'}}>
+              {line}
+            </li>
+          );
+      })}
+    </>
+  );
 };
 
 export default Description;

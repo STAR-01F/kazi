@@ -1,4 +1,15 @@
-import {Button, Grid, Typography} from '@mui/material';
+import {
+  Button,
+  Grid,
+  Typography,
+  Box,
+  IconButton,
+  Card,
+  CardHeader,
+  CardContent,
+} from '@mui/material';
+import SavedSearchIcon from '@mui/icons-material/SavedSearch';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Keywords from './components/Keywords';
@@ -12,14 +23,19 @@ const Job = () => {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {status, data} = useFetchJobs(id);
+  const [generateClicked, setGenerateClicked] = useState(false);
+
   if (status === 'idle' || status === 'fetching') {
     return <div>Loading...</div>;
   }
   if (status === 'error') {
     return <div>Error fetching data</div>;
   }
-  const {title, description, company} = data![0];
+  const {title, description, company, hiringorganization, joblocation} =
+    data![0];
+  console.log('checking job description', description);
   const handleGenerate = async () => {
+    setGenerateClicked(true);
     setIsKeywordsLoading(true);
     const resp = await getKeywords(description);
     if (resp.status === 'Success') {
@@ -30,26 +46,99 @@ const Job = () => {
     console.log(resp);
   };
   return (
-    <Grid container item direction={'row'}>
+    <Grid container direction={'row'} m={3} maxWidth={'lg'}>
       <Grid item xs={12} md={6}>
-        <Button variant={'contained'} component={Link} to={`/`} size="small">
-          back
-        </Button>
-        <Typography variant="h5">Job Details</Typography>
-        <Typography variant="body1">Job Title:</Typography>
-        <Typography variant="h5">{title}</Typography>
-        <Typography variant="body1">Company:</Typography>
-        <Typography variant="h5">{company}</Typography>
-        <Typography variant="body1">Job Description</Typography>
-        <Description description={description} />
-      </Grid>
-      <Grid container item xs={12} md={6} direction={'column'}>
-        <Grid container item>
-          <Button onClick={handleGenerate} variant="contained" size="small">
-            Generate
-          </Button>
+        <IconButton component={Link} to="/" edge="start">
+          <ArrowBackIcon fontSize="large" />
+        </IconButton>
+        <Grid container direction="column" mb={3}>
+          <Grid mb={2}>
+            <Typography mb={2} variant="h4">
+              {title}
+            </Typography>
+            <Box
+              component={'img'}
+              alt={company}
+              src={
+                'https://images.otta.com/search/width_200/' +
+                hiringorganization?.logo
+              }
+              sx={{
+                height: 'auto',
+                width: 'auto',
+                maxWidth: '200px',
+                objectFit: 'contain',
+              }}
+            />
+          </Grid>
+          <Grid container gap={1}>
+            <Grid item>
+              <Typography textTransform={'capitalize'} variant="h6">
+                {company}
+              </Typography>
+              <Typography
+                textTransform={'capitalize'}
+                fontWeight={'light'}
+                variant="subtitle1"
+              >
+                {`${joblocation?.address?.addressRegion}, ${joblocation?.address?.addressCountry}`}
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid container item direction="row" gap={2} justifyContent={'center'}>
+        <Card>
+          <CardHeader
+            style={{
+              borderRadius: '5px 5px 0 0',
+              background: '#D5D5D5',
+              color: 'black',
+            }}
+            title="Role"
+            titleTypographyProps={{fontSize: '1.2rem', fontWeight: 'bold'}}
+            sx={{height: '2.5rem'}}
+          />
+          <CardContent>
+            <Description description={description} />
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid
+        container
+        item
+        xs={12}
+        md={6}
+        direction={'column'}
+        alignItems={'center'}
+        justifyContent={'center'}
+        sx={{height: '50%'}}
+      >
+        {generateClicked ? null : (
+          <>
+            <Grid
+              container
+              item
+              alignItems={'center'}
+              direction={'column'}
+              mb={3}
+            >
+              <SavedSearchIcon sx={{fontSize: 80}} />
+              <Typography mb={3} variant="subtitle1" fontWeight={'light'}>
+                Generate personalised keywords to add to your CV
+              </Typography>
+              <Button onClick={handleGenerate} variant="contained" size="small">
+                Generate
+              </Button>
+            </Grid>
+          </>
+        )}
+        <Grid
+          container
+          item
+          direction="row"
+          gap={2}
+          justifyContent={'center'}
+          p={2}
+        >
           <Keywords keywords={keywords} isLoading={isKeywordsLoading} />
         </Grid>
       </Grid>
