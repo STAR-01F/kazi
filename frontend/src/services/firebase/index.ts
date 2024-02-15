@@ -8,5 +8,6 @@ const auth = getAuth(app);
 const firestore = getFirestore(app);
 
 const jobPostings = collection(firestore, 'jobPostings');
+const userProfiles = collection(firestore, 'userProfiles');
 
-export {auth, jobPostings};
+export {auth, jobPostings, userProfiles};
