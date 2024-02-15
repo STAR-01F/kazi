@@ -6,8 +6,13 @@ import {
   Button,
   Avatar,
   Grid,
+  CardActions,
+  Paper,
 } from '@mui/material';
 import {Link} from 'react-router-dom';
+import MenuListButton from '@components/button/MenuListButton';
+import {useAuth} from '@services/firebase/hooks/useAuth';
+import {DeleteJob} from '@services/firebase/jobs';
 
 // props to be passed in should be job title and company, possibly logo. Using ts for the props.
 
@@ -21,10 +26,36 @@ type SavedJobProps = {
   jobID: string;
 };
 const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
+  const {user} = useAuth();
+  const handleDeleteJob = async () => {
+    if (!user?.uid) return;
+    const resp = await DeleteJob(user.uid, jobID);
+    if (resp.status === 'Success') {
+      console.log(resp);
+      return;
+    }
+    console.error(resp);
+  };
+  const moveMenulist = [
+    {
+      name: 'Remove',
+      action: handleDeleteJob,
+    },
+  ];
   return (
     <Card
+      component={Paper}
       variant="outlined"
-      sx={{maxWidth: 350, width: '100%', maxHeight: 150}}
+      sx={{
+        minWidth: '350px',
+        maxWidth: {
+          xs: '100%',
+          md: 'calc(50% - 8.5px)',
+          lg: 'calc(33.1% - 8.5px)',
+        },
+        width: '100%',
+        height: 'max-content',
+      }}
     >
       <CardContent>
         <Grid container justifyContent={'space-between'}>
@@ -40,20 +71,24 @@ const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
             sx={{height: 'auto', width: '55px'}}
           />
         </Grid>
-        <Stack mt={2} gap={1} direction={'row'}>
-          <Button
-            variant={'contained'}
-            component={Link}
-            to={`job/${jobID}`}
-            size="small"
-          >
-            View
-          </Button>
-          <Button variant={'contained'} size="small">
-            Move
-          </Button>
-        </Stack>
       </CardContent>
+      <CardActions>
+        <Button
+          variant={'contained'}
+          component={Link}
+          to={`job/${jobID}`}
+          size="small"
+        >
+          View
+        </Button>
+        <MenuListButton
+          variant="contained"
+          size="small"
+          menuActionList={moveMenulist}
+        >
+          Move
+        </MenuListButton>
+      </CardActions>
     </Card>
   );
 };
