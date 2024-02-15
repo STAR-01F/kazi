@@ -6,7 +6,7 @@ type DescriptionProps = {
 const Description = ({description}: DescriptionProps) => {
   return (
     <>
-      {description.split('\n').map((line, index) => {
+      {description.split('*').map((line, index) => {
         if (line.length > 1 && line.length < 22) {
           return (
             <Typography
