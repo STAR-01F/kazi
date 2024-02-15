@@ -1,7 +1,7 @@
-import {Box, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import SavedJob from './components/SavedJob';
-import JobModal from './components/JobModal';
 import useFetchJobs from '@hooks/useFetchJobs';
+import Header from './components/Header';
 
 const Homepage = () => {
   const jobs = useFetchJobs();
@@ -15,16 +15,8 @@ const Homepage = () => {
       wrap="nowrap"
       padding={{xs: '10px 20px', md: '15px 30px', lg: '20px 40px'}}
     >
-      <Box id="home-page-header" mb={3} display={'flex'}>
-        <JobModal />
-      </Box>
-      <Grid
-        id="home-page-jobs-container"
-        container
-        item
-        gap={2}
-        // maxHeight={'max-content'}
-      >
+      <Header />
+      <Grid id="home-page-jobs-container" container item gap={2}>
         {jobs.data &&
           jobs.data.map((job) => {
             return (
