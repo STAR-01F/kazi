@@ -19,10 +19,10 @@ const UpdateJob = async (userId: string, job: Partial<Job>) => {
         message: 'No such job exists',
       };
     }
-  } catch {
+  } catch (error) {
     return {
       status: 'Error',
-      message: 'Failed to update the job',
+      message: 'Failed to update the job' + (error as Error).message,
     };
   }
 };

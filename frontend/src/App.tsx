@@ -14,7 +14,13 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <Grid container width={'100vw'} height={'100vh'} padding={2}>
+      <Grid
+        container
+        width={'100vw'}
+        height={{xs: 'calc(100vh - 65px)'}}
+        sx={{overflowY: 'auto'}}
+        justifyContent={'center'}
+      >
         <Outlet />
       </Grid>
     </>
@@ -26,7 +32,7 @@ const router = createBrowserRouter([
     path: '/',
     Component: () => (
       <AuthProvider>
-        <Layout />;
+        <Layout />
       </AuthProvider>
     ),
     children: [
