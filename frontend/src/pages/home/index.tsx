@@ -1,4 +1,4 @@
-import {Box, Grid, Typography} from '@mui/material';
+import {Grid, Typography} from '@mui/material';
 import SavedJob from './components/SavedJob';
 import useFetchJobs from '@hooks/useFetchJobs';
 import {useAuth} from '@services/firebase/hooks/useAuth';
