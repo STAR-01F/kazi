@@ -1,8 +1,10 @@
 import {Avatar, Box, Button, Container, Typography} from '@mui/material';
-// import {capitalizeFirstLetter} from '@utils/helper';
 import {useState} from 'react';
 import DeleteModal from './components/DeleteModal';
 import {useAuth} from '@services/firebase/hooks/useAuth';
+import {GetAllDocs} from './getUsersDocs';
+import {DeleteJob} from '@services/firebase/jobs';
+import { deleteUser } from 'firebase/auth';
 
 const Profile = () => {
   const {user} = useAuth();
@@ -10,12 +12,37 @@ const Profile = () => {
   if (!user) {
     return <div>loading...</div>;
   }
+
+  const handleDeleteAccount = async () => {
+    if (user) {
+      const uid = user.uid;
+      const jobs = await GetAllDocs(uid);
+
+      if (jobs.status === 'Success') {
+        for (let i = 0; i < jobs.data.length; i++) {
+          const resp = await DeleteJob(user.uid, jobs.data[i]);
+          console.log('resp', resp);
+        }
+      }
+      
+      deleteUser(user)
+        .then(() => {
+          setOpen(false);
+          console.log('Account deleted');
+        })
+        .catch((error: any) => {
+          setOpen(false);
+          console.error('Account deletion err', error);
+        });
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <DeleteModal
         open={open}
         onClose={() => setOpen(false)}
-        onDelete={() => setOpen(false)}
+        onDelete={handleDeleteAccount}
       />
       <Box
         gap={2}

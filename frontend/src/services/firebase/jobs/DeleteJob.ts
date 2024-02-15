@@ -22,10 +22,10 @@ const DeleteJob = async (
         message: 'No such job exists',
       };
     }
-  } catch {
+  } catch(e) {
     return {
       status: 'Error',
-      message: 'Failed to delete the job',
+      message: 'Failed to delete the job, err: ' + e,
     };
   }
 };
