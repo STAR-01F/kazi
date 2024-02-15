@@ -4,6 +4,7 @@ import JobModal from './components/JobModal';
 import useFetchJobs from '@hooks/useFetchJobs';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {getDisplayName} from '@utils/helper';
+import StatsContainer from './components/StatsContainer';
 
 const Homepage = () => {
   const jobs = useFetchJobs();
@@ -21,6 +22,7 @@ const Homepage = () => {
       <Typography variant={'h4'} gutterBottom>
         Welcome, {getDisplayName(user?.displayName || '')}
       </Typography>
+      <StatsContainer />
       <Box id="home-page-header" mb={3} display={'flex'}>
         <JobModal />
       </Box>
