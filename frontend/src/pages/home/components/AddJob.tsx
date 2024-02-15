@@ -1,4 +1,4 @@
-import {Button} from '@mui/material';
+import {Button, Typography} from '@mui/material';
 import PlusIcon from '@components/icons/plusIcon';
 
 type AddJobProps = {
@@ -12,7 +12,7 @@ const AddJob = ({handleClickOpen}: AddJobProps) => {
       size="small"
       startIcon={<PlusIcon />}
     >
-      Add Job
+      <Typography variant="caption">Add Job</Typography>
     </Button>
   );
 };
