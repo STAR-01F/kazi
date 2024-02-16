@@ -5,6 +5,7 @@ import Header from '@components/header/Header';
 import {AuthProvider} from '@services/firebase/context/Auth';
 import WithAuth from '@services/firebase/hoc/WithAuth';
 import WithUnauth from '@services/firebase/hoc/WithUnauth';
+import LandingPage from '@pages/login/landing';
 
 // Dynamic imports
 const Jobpage = React.lazy(() => import('@pages/job'));
@@ -29,19 +30,42 @@ const Layout = () => {
     </>
   );
 };
+
+const RegistrationLayout = () => {
+  return (
+    <>
+      <Grid
+        container
+        spacing={2}
+        width={'100vw'}
+        height={'100vh'}
+
+        sx={{overflowY: 'auto'}}
+      >
+        <LandingPage />
+  
+        <Grid item sm={12} md={6}>
+          <Outlet />
+        </Grid>
+
+      </Grid>
+    </>
+  );
+};
+
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
       <AuthProvider>
-        <Layout />
+        <Outlet />
       </AuthProvider>
     ),
     children: [
       {
         element: (
           <WithUnauth>
-            <Outlet />
+            <RegistrationLayout />
           </WithUnauth>
         ),
         children: [
@@ -66,7 +90,7 @@ const router = createBrowserRouter([
       {
         element: (
           <WithAuth>
-            <Outlet />
+            <Layout />
           </WithAuth>
         ),
         children: [
