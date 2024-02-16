@@ -101,7 +101,7 @@ const Right = () => {
     </Container>
   );
 };
-const Header = () => {
+const Banner = () => {
   return (
     <Box
       component={Grid}
@@ -118,4 +118,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Banner;

@@ -4,7 +4,7 @@ import useFetchJobs from '@hooks/useFetchJobs';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {getDisplayName} from '@utils/helper';
 import StatsContainer from './components/StatsContainer';
-import Header from './components/Header';
+import Banner from './components/Banner';
 
 const Homepage = () => {
   const jobs = useFetchJobs();
@@ -23,7 +23,7 @@ const Homepage = () => {
         Welcome, {getDisplayName(user?.displayName || '')}
       </Typography>
       <StatsContainer />
-      <Header />
+      <Banner />
       <Grid
         id="home-page-jobs-container"
         container
