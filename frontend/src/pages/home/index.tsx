@@ -7,6 +7,7 @@ import {getDisplayName} from '@utils/helper';
 import StatsContainer from './components/StatsContainer';
 import type {Job} from 'src/@types';
 import {Fragment} from 'react';
+import jobStatus from '@repository/job.json';
 
 type JobStatus = 'Saved' | 'Applied' | 'Interview ' | 'Rejected';
 
@@ -25,7 +26,6 @@ const Homepage = () => {
         return acc as JobByStatus;
       }, {} as JobByStatus)
     : ({} as JobByStatus);
-  const statusNames = ['Saved', 'Applied', 'Interview', 'Rejected'];
   return (
     <Grid
       id="home-page"
@@ -50,7 +50,7 @@ const Homepage = () => {
         gap={2}
         // maxHeight={'max-content'}
       >
-        {statusNames.map((statusName) => {
+        {jobStatus.status.map((statusName) => {
           const jobs = jobByStatus[statusName as JobStatus];
           return (
             jobs &&
