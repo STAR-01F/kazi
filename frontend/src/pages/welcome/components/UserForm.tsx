@@ -2,20 +2,25 @@ import { FormControlLabel, Radio, RadioGroup } from "@mui/material"
 
 interface UserFormProps {
     labels: string[];
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const UserForm: React.FC<UserFormProps> = ({ labels }) => {
+const UserForm: React.FC<UserFormProps> = ({ labels, onChange }) => {
     return (
-        <RadioGroup name="use-radio-group" defaultValue="first">
-            {labels.map((label, index) => (
-                <FormControlLabel
-                    key={index}
-                    value={`option-${index}`}
-                    label={label}
-                    control={<Radio />}
-                />
-            ))}
-        </RadioGroup>
+      <RadioGroup
+        onChange={onChange}
+        name="use-radio-group"
+        defaultValue="first"
+      >
+        {labels.map((label, index) => (
+          <FormControlLabel
+            key={index}
+            value={label}
+            label={label}
+            control={<Radio />}
+          />
+        ))}
+      </RadioGroup>
     );
 }
 
