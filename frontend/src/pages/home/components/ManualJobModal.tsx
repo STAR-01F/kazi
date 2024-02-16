@@ -24,6 +24,7 @@ type ManualJobModalProps = {
 const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
   const [company, setCompany] = useState('');
   const [title, setTitle] = useState('');
+  const [jobLink, setJobLink] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('');
   const {user} = useAuth();
@@ -33,9 +34,11 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
     const job: Partial<Job> = {
       userid: user.uid,
       company: company,
+      joblink: jobLink,
       title: title,
       description: description,
       status: status,
+      jobSource: 'manual',
     };
 
     // awaiting the jobID to navigate to the correct job page
@@ -68,6 +71,18 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           placeholder=""
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          fullWidth
+        />
+           <TextField
+          autoFocus
+          required
+          sx={{marginBottom: 2}}
+          id="job-link"
+          name="job-link"
+          label="Job Link"
+          placeholder=""
+          value={jobLink}
+          onChange={(e) => setJobLink(e.target.value)}
           fullWidth
         />
         <TextField
@@ -110,7 +125,7 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           required
         />
         <DialogContentText mb={1}>
-          or add <Link onClick={toggle}>link</Link>
+          or add <Link style={{cursor: 'pointer'}} onClick={toggle}>link</Link>
         </DialogContentText>
       </DialogContent>
       <DialogActions>

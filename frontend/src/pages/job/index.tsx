@@ -31,9 +31,10 @@ const Job = () => {
   if (status === 'error') {
     return <div>Error fetching data</div>;
   }
+console.log('Get Jobs Data', data![0]);
   const {title, description, company, hiringorganization, joblocation} =
     data![0];
-  console.log('checking job description', description);
+  //console.log('checking job description', description);
   const handleGenerate = async () => {
     setGenerateClicked(true);
     setIsKeywordsLoading(true);
