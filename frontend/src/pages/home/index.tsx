@@ -1,10 +1,10 @@
-import {Box, Container, Divider, Grid, Typography} from '@mui/material';
+import {Container, Divider, Grid, Typography} from '@mui/material';
 import SavedJob from './components/SavedJob';
-import JobModal from './components/JobModal';
 import useFetchJobs from '@hooks/useFetchJobs';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {getDisplayName} from '@utils/helper';
 import StatsContainer from './components/StatsContainer';
+import Banner from './components/Banner';
 import type {Job} from 'src/@types';
 import {Fragment} from 'react';
 import jobStatus from '@repository/job.json';
@@ -40,9 +40,7 @@ const Homepage = () => {
         Welcome, {getDisplayName(user?.displayName || '')}
       </Typography>
       <StatsContainer />
-      <Box id="home-page-header" mb={3} display={'flex'}>
-        <JobModal />
-      </Box>
+      <Banner />
       <Grid
         id="home-page-jobs-container"
         container
