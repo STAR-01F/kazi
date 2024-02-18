@@ -18,7 +18,6 @@ import {
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 import Copyright from '@components/copyright/copyright';
-import { WidthFull } from '@mui/icons-material';
 
 interface SignInErrors {
   email?: string;
@@ -29,6 +28,8 @@ interface SignInValues {
   email?: string;
   password?: string;
 }
+
+
 export default function SignInSide() {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState<SignInErrors>({});
@@ -95,7 +96,7 @@ export default function SignInSide() {
   };
 
   return (
-    <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs" >
+    <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs"  >
   
       <Grid item sm={12} md={true} component={Paper}  square
       sx={{
@@ -104,10 +105,11 @@ export default function SignInSide() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        width: '100vw',
        
       }}
       >
-        <Box
+]        <Box
           sx={{
             width: '70%', 
              display: 'flex',
@@ -122,7 +124,7 @@ export default function SignInSide() {
             Sign in
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1,boxSizing:'border-box'} }>
-            //
+            
             <TextField
               margin="normal"
               required

@@ -17,7 +17,7 @@ export default function LandingPage() {
     >
       <Box
         sx={{
-          width: '50%',
+          width: '75%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'left',
