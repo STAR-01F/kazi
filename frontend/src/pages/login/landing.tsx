@@ -6,9 +6,9 @@ export default function LandingPage() {
   return (
     <Box
       component={Grid}
-      sm={0}
+      container
       md={6}
-      item
+      item = {true}
       sx={{
         display: {xs: 'none', sm: 'none', md: 'flex'},
         justifyContent: 'center',

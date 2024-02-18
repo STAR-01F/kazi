@@ -18,6 +18,7 @@ import {
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 import Copyright from '@components/copyright/copyright';
+import { WidthFull } from '@mui/icons-material';
 
 interface SignInErrors {
   email?: string;
@@ -96,7 +97,7 @@ export default function SignInSide() {
   return (
     <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs" >
   
-      <Grid item sm={12} md={true} component={Paper} elevation={6} square
+      <Grid item sm={12} md={true} component={Paper}  square
       sx={{
     
         display: 'flex',
@@ -108,7 +109,7 @@ export default function SignInSide() {
       >
         <Box
           sx={{
-            width: '50%', 
+            width: '70%', 
              display: 'flex',
              flexDirection: 'column',
              alignItems: 'center',
@@ -120,7 +121,8 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1,boxSizing:'border-box'} }>
+            //
             <TextField
               margin="normal"
               required
@@ -166,7 +168,7 @@ export default function SignInSide() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{mt: 3, mb: 2}}
+              sx={{mt: 2, mb: 2}}
               size='large'
             >
               Sign In
