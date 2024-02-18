@@ -18,6 +18,7 @@ import {
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 import Copyright from '@components/copyright/copyright';
+import Header from '@components/header/Header';
 
 interface SignInErrors {
   email?: string;
@@ -96,22 +97,22 @@ export default function SignInSide() {
   };
 
   return (
+    <>
     <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs"  >
-  
       <Grid item sm={12} md={true} component={Paper}  square
       sx={{
-    
+        
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         width: '100vw',
-       
+        
       }}
       >
         <Box
           sx={{
-            width: '70%', 
+            width: '85%', 
              display: 'flex',
              flexDirection: 'column',
              alignItems: 'center',
@@ -183,23 +184,35 @@ export default function SignInSide() {
                 <SvgIconGithub />
               </IconButton>
             </Grid>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
+            <Box 
+            sx=
+              {{display: 'flex',
+              flexDirection: {  xs: 'column',  md: 'row'}, 
+              justifyContent: {xs:'centre', md:'space-between'},
+              alignItems: {xs:'center'},
+              fontSize: {xs:'12px', md:'14px'},
+            }}
+            
+            >
+              <Box >
+                <Link href="#" variant="body2"
+                >
                   Forgot password?
                 </Link>
-              </Grid>
-              <Grid item>
+              </Box>
+              <Box  
+              >
                 Don't have an account?{"  "}
                 <Link onClick={handleClick} href="#" variant="body2" >
                   {"Sign Up"}
                 </Link>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </Box>
         </Box>
-            <Copyright sx={{mt: 5}} href={"https://github.com/STAR-01F/"} />
+            <Copyright sx={{mt:5}} href={"https://github.com/STAR-01F/"} />
       </Grid>
     </Grid>
+    </>
   );
 }

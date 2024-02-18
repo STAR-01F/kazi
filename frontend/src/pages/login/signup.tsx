@@ -122,11 +122,12 @@ export default function SignUp() {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100vw',
   }}
   >
       <Box
          sx={{
-          width: '70%', 
+          width: '85%', 
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center'
