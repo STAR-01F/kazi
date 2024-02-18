@@ -18,7 +18,6 @@ import {
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 import Copyright from '@components/copyright/copyright';
-import Header from '@components/header/Header';
 
 interface SignInErrors {
   email?: string;
