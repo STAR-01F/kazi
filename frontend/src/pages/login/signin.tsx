@@ -109,7 +109,7 @@ export default function SignInSide() {
        
       }}
       >
-]        <Box
+        <Box
           sx={{
             width: '70%', 
              display: 'flex',
