@@ -8,7 +8,7 @@ export default function LandingPage() {
       component={Grid}
       container
       md={6}
-      item = {true}
+      item={true}
       sx={{
         display: {xs: 'none', sm: 'none', md: 'flex'},
         justifyContent: 'center',
@@ -23,10 +23,15 @@ export default function LandingPage() {
           alignItems: 'left',
         }}
       >
-        <Typography variant="h1" component="h2" fontWeight={600} color={'purple'} >
+        <Typography
+          variant="h1"
+          component="h2"
+          fontWeight={600}
+          color={'purple'}
+        >
           kAZI
         </Typography>
-        <Typography variant="h3"  fontWeight={600} color={'black'} >
+        <Typography variant="h3" fontWeight={600}>
           your calling is calling
         </Typography>
       </Box>
