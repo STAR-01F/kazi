@@ -1,17 +1,20 @@
-import { Button } from "@mui/material"
-import PlusIcon from "../../../components/icons/plusIcon"
+import {Button, Typography} from '@mui/material';
+import PlusIcon from '@components/icons/plusIcon';
 
 type AddJobProps = {
-    handleClickOpen?: ()=> void
-}
-const AddJob = ({handleClickOpen}:AddJobProps) => {
+  handleClickOpen?: () => void;
+};
+const AddJob = ({handleClickOpen}: AddJobProps) => {
+  return (
+    <Button
+      onClick={handleClickOpen}
+      variant="outlined"
+      size="small"
+      startIcon={<PlusIcon />}
+    >
+      <Typography variant="caption">Add Job</Typography>
+    </Button>
+  );
+};
 
-    return (
-        <Button onClick={handleClickOpen} variant="outlined" startIcon={<PlusIcon />}>
-            Add New Job
-        </Button>
-    )
-
-}
-
-export default AddJob
+export default AddJob;
