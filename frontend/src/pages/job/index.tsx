@@ -13,10 +13,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Keywords from './components/Keywords';
-import Description from './components/Description';
+import OttaDescription from './components/OttaDescription';
 import getKeywords from '@utils/openai';
 import useFetchJobs from '@hooks/useFetchJobs';
 import {Link} from 'react-router-dom';
+import ManualDescription from './components/ManualDescription';
 
 const Job = () => {
   const {id} = useParams();
@@ -24,6 +25,9 @@ const Job = () => {
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {status, data} = useFetchJobs(id);
   const [generateClicked, setGenerateClicked] = useState(false);
+
+  // manual or otta job. Need to check based off job source. Currently using a boolean for testing
+  const isManualJob = true;
 
   if (status === 'idle' || status === 'fetching') {
     return <div>Loading...</div>;
@@ -33,7 +37,6 @@ const Job = () => {
   }
   const {title, description, company, hiringorganization, joblocation} =
     data![0];
-  console.log('checking job description', description);
   const handleGenerate = async () => {
     setGenerateClicked(true);
     setIsKeywordsLoading(true);
@@ -56,33 +59,37 @@ const Job = () => {
             <Typography mb={2} variant="h4">
               {title}
             </Typography>
-            <Box
-              component={'img'}
-              alt={company}
-              src={
-                'https://images.otta.com/search/width_200/' +
-                hiringorganization?.logo
-              }
-              sx={{
-                height: 'auto',
-                width: 'auto',
-                maxWidth: '200px',
-                objectFit: 'contain',
-              }}
-            />
+            {isManualJob ? null : (
+              <Box
+                component={'img'}
+                alt={company}
+                src={
+                  'https://images.otta.com/search/width_200/' +
+                  hiringorganization?.logo
+                }
+                sx={{
+                  height: 'auto',
+                  width: 'auto',
+                  maxWidth: '200px',
+                  objectFit: 'contain',
+                }}
+              />
+            )}
           </Grid>
           <Grid container gap={1}>
             <Grid item>
               <Typography textTransform={'capitalize'} variant="h6">
                 {company}
               </Typography>
-              <Typography
-                textTransform={'capitalize'}
-                fontWeight={'light'}
-                variant="subtitle1"
-              >
-                {`${joblocation?.address?.addressRegion}, ${joblocation?.address?.addressCountry}`}
-              </Typography>
+              {isManualJob ? null : (
+                <Typography
+                  textTransform={'capitalize'}
+                  fontWeight={'light'}
+                  variant="subtitle1"
+                >
+                  {`${joblocation?.address?.addressRegion}, ${joblocation?.address?.addressCountry}`}
+                </Typography>
+              )}
             </Grid>
           </Grid>
         </Grid>
@@ -98,7 +105,11 @@ const Job = () => {
             sx={{height: '2.5rem'}}
           />
           <CardContent>
-            <Description description={description} />
+            {isManualJob ? (
+              <ManualDescription description={description} />
+            ) : (
+              <OttaDescription description={description} />
+            )}
           </CardContent>
         </Card>
       </Grid>
@@ -110,7 +121,7 @@ const Job = () => {
         direction={'column'}
         alignItems={'center'}
         justifyContent={'center'}
-        sx={{height: '50%'}}
+        sx={{height: '600px'}}
       >
         {generateClicked ? null : (
           <>
