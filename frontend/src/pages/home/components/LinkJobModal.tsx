@@ -79,7 +79,10 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
           </Select>
         </FormControl>
         <DialogContentText mb={1}>
-          or add <Link onClick={toggle}>manually</Link>
+          or add{' '}
+          <Link style={{cursor: 'pointer'}} onClick={toggle}>
+            manually
+          </Link>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
