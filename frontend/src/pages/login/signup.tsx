@@ -14,12 +14,10 @@ import {
   registerWithEmailAndPassword,
   signInWithGoogle,
   signInWithGithub,
-  
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Copyright from '@components/copyright/copyright';
-import { sendEmailVerification } from 'firebase/auth';
 
 
 
@@ -37,7 +35,7 @@ interface SignUpValues {
   password?: string;
 }
 
-export default async function SignUp() {
+export default function SignUp() {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState<SignUpErrors>({});
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -74,39 +72,28 @@ export default async function SignUp() {
     console.log(errors);
     if (Object.keys(errors).length === 0) {
       try {
-        const userCred = await registerWithEmailAndPassword(
+        const resp = await registerWithEmailAndPassword(
           values.firstname!,
           values.lastname!,
           values.email!,
           values.password!
-        )
-        if (userCred.status === 'Success' ){
-          const user =  userCred.data.user;
-          await sendEmailVerification(user);
-          console.log("Success!!");
-
+        );
+        if (resp.status === 'Error') {
+          console.error(resp.message);
+          setErrors({
+            email: resp.message as string,
+            password: resp.message as string,
+          });
+          return;
         }
-          
-        }catch (error) {  ;
-                  console.error("ERROR FROM SIGNUP",error);
-
-        // if (resp.status === 'Error') {
-        //   console.error(resp.message);
-        //   setErrors({
-        //     email: resp.message as string,
-        //     password: resp.message as string,
-        //   });
-        //   return;
-        // }
-        // navigate('/');
-      } 
-      // catch (error) {
-      //   console.error(error);
-      //   setErrors({
-      //     ...errors,
-      //     password: 'Failed to sign up. Please check your credentials.',
-      //   });
-      // }
+        navigate('/');
+      } catch (error) {
+        console.error(error);
+        setErrors({
+          ...errors,
+          password: 'Failed to sign up. Please check your credentials.',
+        });
+      }
     }
   };
 
@@ -143,7 +130,12 @@ export default async function SignUp() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center'
-      
+          // my: 8,
+          // mx: 46,
+          // display: 'flex',
+          // flexDirection: 'column',
+          // justifyContent: 'center',
+          // alignItems: 'center',
         }}
       >
         <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
