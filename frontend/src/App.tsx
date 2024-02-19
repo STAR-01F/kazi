@@ -38,7 +38,7 @@ const RegistrationLayout = () => {
     <>
       <Grid
         container
-        spacing={2}
+        spacing={0}
         width={'100vw'}
         height={'100vh'}
         sx={{overflowY: 'auto'}}

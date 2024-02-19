@@ -114,28 +114,23 @@ export default function SignUp() {
   };
 
   return (
-  <Grid container component="main" width={'100%'} height={'100%'} maxWidth="l" >
-  <Grid item xs={12} sm={8} md={true} component={Paper} elevation={6} square
+  <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs" >
+  <Grid item sm={12} md={true} component={Paper} square
   sx={{
    
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100vw',
   }}
   >
       <Box
          sx={{
-          width: '50%', 
+          width: '85%', 
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center'
-          // my: 8,
-          // mx: 46,
-          // display: 'flex',
-          // flexDirection: 'column',
-          // justifyContent: 'center',
-          // alignItems: 'center',
         }}
       >
         <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
@@ -145,6 +140,7 @@ export default function SignUp() {
           Sign up
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1, boxSizing:'border-box'}}>
+         
           <Grid container spacing={2} >
             <Grid item xs={12} sm={6}>
               <TextField
