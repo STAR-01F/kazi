@@ -38,7 +38,7 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
       title: title,
       description: description,
       status: status,
-      jobSource: 'manual',
+      jobsource: 'manual',
     };
 
     // awaiting the jobID to navigate to the correct job page
@@ -73,7 +73,7 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           onChange={(e) => setTitle(e.target.value)}
           fullWidth
         />
-           <TextField
+        <TextField
           autoFocus
           required
           sx={{marginBottom: 2}}
@@ -125,7 +125,10 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           required
         />
         <DialogContentText mb={1}>
-          or add <Link style={{cursor: 'pointer'}} onClick={toggle}>link</Link>
+          or add{' '}
+          <Link style={{cursor: 'pointer'}} onClick={toggle}>
+            link
+          </Link>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
