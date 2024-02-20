@@ -26,9 +26,6 @@ const Job = () => {
   const {status, data} = useFetchJobs(id);
   const [generateClicked, setGenerateClicked] = useState(false);
 
-  // manual or otta job. Need to check based off job source. Currently using a boolean for testing
-  const isManualJob = true;
-
   if (status === 'idle' || status === 'fetching') {
     return <div>Loading...</div>;
   }
@@ -36,8 +33,15 @@ const Job = () => {
     return <div>Error fetching data</div>;
   }
   console.log('Get Jobs Data', data![0]);
-  const {title, description, company, hiringorganization, joblocation} =
-    data![0];
+  const {
+    title,
+    description,
+    company,
+    hiringorganization,
+    joblocation,
+    jobsource,
+  } = data![0];
+  console.log('checking job source', jobsource);
   const handleGenerate = async () => {
     setGenerateClicked(true);
     setIsKeywordsLoading(true);
@@ -60,7 +64,7 @@ const Job = () => {
             <Typography mb={2} variant="h4">
               {title}
             </Typography>
-            {isManualJob ? null : (
+            {jobsource === 'manual' ? null : (
               <Box
                 component={'img'}
                 alt={company}
@@ -82,7 +86,7 @@ const Job = () => {
               <Typography textTransform={'capitalize'} variant="h6">
                 {company}
               </Typography>
-              {isManualJob ? null : (
+              {jobsource === 'manual' ? null : (
                 <Typography
                   textTransform={'capitalize'}
                   fontWeight={'light'}
@@ -106,7 +110,7 @@ const Job = () => {
             sx={{height: '2.5rem'}}
           />
           <CardContent>
-            {isManualJob ? (
+            {jobsource === 'manual' ? (
               <ManualDescription description={description} />
             ) : (
               <OttaDescription description={description} />
