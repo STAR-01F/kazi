@@ -84,19 +84,16 @@ export default function SignUp() {
           });
           return;
         }
-        if (!resp.data.user.emailVerified) {
-          setErrors({
-            email: 'Email is not verified',
-          });
-          console.log("Errors from registerWithEmailAndPassword --> \n", errors);
-          console.log('UserObject --> \n', resp.data.user);
-          navigate('/login');
 
+        if(resp.data?.user?.emailVerified === false){
+          console.log("Please verify your email");
+          navigate('/signin');
           return
-        } else {
-          console.log("In here??!!");
-          navigate('/');
+
         }
+
+          navigate('/');
+        
       } catch (error) {
         console.error(error);
         setErrors({

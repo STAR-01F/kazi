@@ -18,6 +18,7 @@ import {
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 import Copyright from '@components/copyright/copyright';
+import {useAuth} from '@services/firebase/hooks/useAuth';
 
 interface SignInErrors {
   email?: string;
@@ -31,7 +32,16 @@ interface SignInValues {
 
 export default function SignInSide() {
   const navigate = useNavigate();
-  const [errors, setErrors] = React.useState<SignInErrors>({});
+  const [errors, setErrors] = React.useState<SignInErrors>({});  
+  
+  // const user = useAuth();
+  // if (user && !user.user?.emailVerified) {
+  //   console.log("please verify your email from sent link");
+  //  return
+
+  // }
+
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -61,6 +71,8 @@ export default function SignInSide() {
           values.email!,
           values.password!
         );
+
+        console.log("resp", resp);
         if (resp.status === 'Error') {
           console.log(resp.message);
           setErrors({
@@ -68,16 +80,6 @@ export default function SignInSide() {
             password: 'Failed to sign in. Please check your credentials.',
           });
           return;
-        }
-
-        if (!resp.data.user.emailVerified) {
-          setErrors({
-            email: 'Email is not verified',
-          });
-
-          console.log("Error object --> \n", errors);
-
-          return; 
         }
 
         navigate('/');

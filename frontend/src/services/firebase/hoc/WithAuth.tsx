@@ -13,7 +13,7 @@ const WithAuth = ({children}: RequireAuthProps) => {
     return <div>loading...</div>;
   }
 
-  if (!user) {
+  if (!user || !user.emailVerified) {
     return <Navigate to="/signin" state={{from: location}} replace />;
   }
   return children;
