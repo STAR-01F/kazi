@@ -1,31 +1,12 @@
-import {Container, Divider, Grid, Typography} from '@mui/material';
-import SavedJob from './components/SavedJob';
-import useFetchJobs from '@hooks/useFetchJobs';
+import {Grid, Typography} from '@mui/material';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {getDisplayName} from '@utils/helper';
-import StatsContainer from './components/StatsContainer';
+import StatsContainer from './components/Stats';
 import Banner from './components/Banner';
-import type {Job} from 'src/@types';
-import {Fragment} from 'react';
-import jobStatus from '@repository/job.json';
+import JobSection from './components/Job';
 
-type JobStatus = 'Saved' | 'Applied' | 'Interview ' | 'Rejected';
-
-type JobByStatus = {
-  [status in JobStatus]: Job[];
-};
 const Homepage = () => {
-  const jobs = useFetchJobs();
   const {user} = useAuth();
-  const jobByStatus = jobs.data
-    ? jobs.data.reduce((acc, job) => {
-        if (!acc[job.status as JobStatus]) {
-          acc[job.status as JobStatus] = [];
-        }
-        acc[job.status as JobStatus].push(job);
-        return acc as JobByStatus;
-      }, {} as JobByStatus)
-    : ({} as JobByStatus);
   return (
     <Grid
       id="home-page"
@@ -41,42 +22,7 @@ const Homepage = () => {
       </Typography>
       <StatsContainer />
       <Banner />
-      <Grid
-        id="home-page-jobs-container"
-        container
-        item
-        gap={2}
-        // maxHeight={'max-content'}
-      >
-        {jobStatus.status.map((statusName) => {
-          const jobs = jobByStatus[statusName as JobStatus];
-          return (
-            jobs &&
-            jobs.length > 0 && (
-              <Fragment key={statusName}>
-                <Typography
-                  component={Container}
-                  variant={'h5'}
-                  gutterBottom
-                  disableGutters
-                >
-                  {statusName}
-                  <Divider />
-                </Typography>
-                {jobs.map((job) => (
-                  <SavedJob
-                    key={job.id}
-                    companyName={job.company}
-                    jobTitle={job.title}
-                    jobID={job.id!}
-                    logoPath="../src/assets/google-logo.png"
-                  />
-                ))}
-              </Fragment>
-            )
-          );
-        })}
-      </Grid>
+      <JobSection />
     </Grid>
   );
 };
