@@ -5,13 +5,16 @@ import {
   sendPasswordResetEmail,
   signOut,
   signInWithEmailAndPassword,
+  sendEmailVerification,
   updateProfile,
   GithubAuthProvider,
+  //applyActionCode
 } from 'firebase/auth';
 
 import {Response} from 'src/@types';
 import type {UserCredential} from 'firebase/auth';
 import {auth} from '..';
+import { actionCodeConfig } from './actionConfig';
 
 const signInWithGithub = async (): Promise<
   Response<UserCredential, unknown>
@@ -110,6 +113,7 @@ const logInWithEmailAndPassword = async (
   }
 };
 
+
 const registerWithEmailAndPassword = async (
   firstname: string,
   lastname: string,
@@ -123,7 +127,9 @@ const registerWithEmailAndPassword = async (
       password
     );
     const user = resultFromEmailPassReg.user;
-
+    await sendEmailVerification(user, actionCodeConfig);
+    // await applyActionCode(auth, "abcd1234");
+    
     if (user.providerId) {
       updateProfile(user, {displayName: `${firstname} ${lastname}`})
         .then(() => {

@@ -28,6 +28,7 @@ interface SignInValues {
   email?: string;
   password?: string;
 }
+
 export default function SignInSide() {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState<SignInErrors>({});
@@ -68,6 +69,17 @@ export default function SignInSide() {
           });
           return;
         }
+
+        if (!resp.data.user.emailVerified) {
+          setErrors({
+            email: 'Email is not verified',
+          });
+
+          console.log("Error object --> \n", errors);
+
+          return; 
+        }
+
         navigate('/');
       } catch (error) {
         setErrors({
