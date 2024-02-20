@@ -11,21 +11,25 @@ type JobByStatus = {
 };
 function JobSection() {
   const jobs = useFetchJobs();
+
   if (jobs.status === 'fetching') {
-    return <PageCircular />;
+    return <PageCircular sx={{width: '100%', height: '100%'}} />;
   }
-  if ((jobs.data || []).length === 0) {
-    return <Empty />;
+  const jobsData = jobs.data ?? [];
+  if (jobs.status === 'fetched') {
+    if (jobsData.length === 0) {
+      return <Empty />;
+    }
   }
-  const jobByStatus = jobs.data
-    ? jobs.data.reduce((acc, job) => {
-        if (!acc[job.status as JobStatus]) {
-          acc[job.status as JobStatus] = [];
-        }
-        acc[job.status as JobStatus].push(job);
-        return acc as JobByStatus;
-      }, {} as JobByStatus)
-    : ({} as JobByStatus);
+
+  const jobByStatus = jobsData.reduce((acc, job) => {
+    const status = job.status as JobStatus;
+    if (!acc[status]) {
+      acc[status] = [];
+    }
+    acc[status].push(job);
+    return acc;
+  }, {} as JobByStatus);
   return <GridView jobByStatus={jobByStatus} />;
 }
 
