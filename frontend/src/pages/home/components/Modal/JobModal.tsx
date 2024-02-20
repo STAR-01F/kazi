@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import AddJob from './AddJob';
+import AddJob from '../Banner/AddJob';
 import LinkJobModal from './LinkJobModal';
 import ManualJobModal from './ManualJobModal';
 

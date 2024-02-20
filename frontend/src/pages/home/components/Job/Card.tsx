@@ -19,13 +19,13 @@ import {DeleteJob} from '@services/firebase/jobs';
 // TODO
 // add company logo
 
-type SavedJobProps = {
+type JobCardProps = {
   companyName: string;
   jobTitle: string;
   logoPath: string;
   jobID: string;
 };
-const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
+const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
   const {user} = useAuth();
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
@@ -93,4 +93,4 @@ const SavedJob = ({companyName, jobTitle, logoPath, jobID}: SavedJobProps) => {
   );
 };
 
-export default SavedJob;
+export default JobCard;

@@ -6,7 +6,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import JobModal from './JobModal';
+import JobModal from '../Modal/JobModal';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import {useState} from 'react';
