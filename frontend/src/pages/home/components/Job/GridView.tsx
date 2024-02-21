@@ -28,7 +28,7 @@ const GridView = ({jobByStatus}: GridViewProps) => {
             <Fragment key={statusName}>
               <Typography
                 component={Container}
-                variant={'h5'}
+                variant={'h6'}
                 gutterBottom
                 disableGutters
               >
