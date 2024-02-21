@@ -28,7 +28,6 @@ interface SignInValues {
   email?: string;
   password?: string;
 }
-
 export default function SignInSide() {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState<SignInErrors>({});  
@@ -99,21 +98,22 @@ export default function SignInSide() {
   };
 
   return (
-    <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs" >
-  
-      <Grid item sm={12} md={true} component={Paper} elevation={6} square
+    <>
+    <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs"  >
+      <Grid item sm={12} md={true} component={Paper}  square
       sx={{
-    
+        
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-       
+        width: '100vw',
+        
       }}
       >
         <Box
           sx={{
-            width: '50%', 
+            width: '85%', 
              display: 'flex',
              flexDirection: 'column',
              alignItems: 'center',
@@ -125,7 +125,8 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1,boxSizing:'border-box'} }>
+            
             <TextField
               margin="normal"
               required
@@ -171,7 +172,7 @@ export default function SignInSide() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{mt: 3, mb: 2}}
+              sx={{mt: 2, mb: 2}}
               size='large'
             >
               Sign In
@@ -184,23 +185,35 @@ export default function SignInSide() {
                 <SvgIconGithub />
               </IconButton>
             </Grid>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
+            <Box 
+            sx=
+              {{display: 'flex',
+              flexDirection: {  xs: 'column',  md: 'row'}, 
+              justifyContent: {xs:'centre', md:'space-between'},
+              alignItems: {xs:'center'},
+              fontSize: {xs:'12px', md:'14px'},
+            }}
+            
+            >
+              <Box >
+                <Link href="#" variant="body2"
+                >
                   Forgot password?
                 </Link>
-              </Grid>
-              <Grid item>
+              </Box>
+              <Box  
+              >
                 Don't have an account?{"  "}
                 <Link onClick={handleClick} href="#" variant="body2" >
                   {"Sign Up"}
                 </Link>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </Box>
         </Box>
-            <Copyright sx={{mt: 5}} href={"https://github.com/STAR-01F/"} />
+            <Copyright sx={{mt:5}} href={"https://github.com/STAR-01F/"} />
       </Grid>
     </Grid>
+    </>
   );
 }

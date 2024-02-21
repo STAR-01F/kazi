@@ -1,9 +1,9 @@
 import {Typography} from '@mui/material';
 
-type DescriptionProps = {
+type OttaDescriptionProps = {
   description: string;
 };
-const Description = ({description}: DescriptionProps) => {
+const OttaDescription = ({description}: OttaDescriptionProps) => {
   return (
     <>
       {description.split('*').map((line, index) => {
@@ -30,4 +30,4 @@ const Description = ({description}: DescriptionProps) => {
   );
 };
 
-export default Description;
+export default OttaDescription;

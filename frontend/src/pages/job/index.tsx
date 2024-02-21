@@ -13,10 +13,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Keywords from './components/Keywords';
-import Description from './components/Description';
+import OttaDescription from './components/OttaDescription';
 import getKeywords from '@utils/openai';
 import useFetchJobs from '@hooks/useFetchJobs';
 import {Link} from 'react-router-dom';
+import ManualDescription from './components/ManualDescription';
 
 const Job = () => {
   const {id} = useParams();
@@ -31,10 +32,16 @@ const Job = () => {
   if (status === 'error') {
     return <div>Error fetching data</div>;
   }
-console.log('Get Jobs Data', data![0]);
-  const {title, description, company, hiringorganization, joblocation} =
-    data![0];
-  //console.log('checking job description', description);
+  console.log('Get Jobs Data', data![0]);
+  const {
+    title,
+    description,
+    company,
+    hiringorganization,
+    joblocation,
+    jobsource,
+  } = data![0];
+  console.log('checking job source', jobsource);
   const handleGenerate = async () => {
     setGenerateClicked(true);
     setIsKeywordsLoading(true);
@@ -57,33 +64,37 @@ console.log('Get Jobs Data', data![0]);
             <Typography mb={2} variant="h4">
               {title}
             </Typography>
-            <Box
-              component={'img'}
-              alt={company}
-              src={
-                'https://images.otta.com/search/width_200/' +
-                hiringorganization?.logo
-              }
-              sx={{
-                height: 'auto',
-                width: 'auto',
-                maxWidth: '200px',
-                objectFit: 'contain',
-              }}
-            />
+            {jobsource === 'manual' ? null : (
+              <Box
+                component={'img'}
+                alt={company}
+                src={
+                  'https://images.otta.com/search/width_200/' +
+                  hiringorganization?.logo
+                }
+                sx={{
+                  height: 'auto',
+                  width: 'auto',
+                  maxWidth: '200px',
+                  objectFit: 'contain',
+                }}
+              />
+            )}
           </Grid>
           <Grid container gap={1}>
             <Grid item>
               <Typography textTransform={'capitalize'} variant="h6">
                 {company}
               </Typography>
-              <Typography
-                textTransform={'capitalize'}
-                fontWeight={'light'}
-                variant="subtitle1"
-              >
-                {`${joblocation?.address?.addressRegion}, ${joblocation?.address?.addressCountry}`}
-              </Typography>
+              {jobsource === 'manual' ? null : (
+                <Typography
+                  textTransform={'capitalize'}
+                  fontWeight={'light'}
+                  variant="subtitle1"
+                >
+                  {`${joblocation?.address?.addressRegion}, ${joblocation?.address?.addressCountry}`}
+                </Typography>
+              )}
             </Grid>
           </Grid>
         </Grid>
@@ -99,7 +110,11 @@ console.log('Get Jobs Data', data![0]);
             sx={{height: '2.5rem'}}
           />
           <CardContent>
-            <Description description={description} />
+            {jobsource === 'manual' ? (
+              <ManualDescription description={description} />
+            ) : (
+              <OttaDescription description={description} />
+            )}
           </CardContent>
         </Card>
       </Grid>
@@ -111,7 +126,7 @@ console.log('Get Jobs Data', data![0]);
         direction={'column'}
         alignItems={'center'}
         justifyContent={'center'}
-        sx={{height: '50%'}}
+        sx={{height: '600px'}}
       >
         {generateClicked ? null : (
           <>

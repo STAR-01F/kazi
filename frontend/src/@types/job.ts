@@ -13,7 +13,7 @@ type Job = {
   keywords?: string;
   joblocation?: {address?: {addressRegion: string; addressCountry: string}};
   hiringorganization?: {logo: string};
-  jobSource?: string;
+  jobsource?: string;
 };
 
 export default Job;
