@@ -1,17 +1,21 @@
-import {doc, getDoc, setDoc} from 'firebase/firestore';
+import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import {jobPostings} from '..';
-import {Job} from 'src/@types';
 
-const UpdateJob = async (userId: string, job: Partial<Job>) => {
+const UpdateJobStatus = async (
+  userId: string,
+  jobId: string,
+  status: string
+) => {
   try {
-    const docRef = doc(jobPostings, job.id);
+    const docRef = doc(jobPostings, jobId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists() && docSnap.data().userid === userId) {
-      await setDoc(docRef, job, {merge: true});
+      // await setDoc(docRef, job, {merge: true});
+      await updateDoc(docRef, {status: status});
       return {
         status: 'Success',
-        message: 'Successfully updated the job',
-        data: job.id,
+        message: `Successfully updated the job status to ${status}`,
+        data: jobId,
       };
     } else {
       return {
@@ -27,4 +31,4 @@ const UpdateJob = async (userId: string, job: Partial<Job>) => {
   }
 };
 
-export {UpdateJob};
+export {UpdateJobStatus};
