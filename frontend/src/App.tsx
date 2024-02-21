@@ -15,7 +15,7 @@ const Jobpage = React.lazy(() => import('@pages/job'));
 const SignInSide = React.lazy(() => import('@pages/login/signin'));
 const SignUp = React.lazy(() => import('@pages/login/signup'));
 const Profilepage = React.lazy(() => import('@pages/profile'));
-
+const WelcomePage = React.lazy(() => import('@pages/welcome'));
 const Layout = () => {
   return (
     <>
@@ -103,6 +103,14 @@ const router = createBrowserRouter([
                 <Profilepage />
               </Suspense>
             ),
+          },
+          {
+            path: 'welcome',
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <WelcomePage />
+              </Suspense>
+            )
           },
           {
             index: true,
