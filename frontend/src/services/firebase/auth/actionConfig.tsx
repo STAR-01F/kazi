@@ -1,4 +1,4 @@
  export const actionCodeConfig ={
-  url: 'http://localhost:5173',
+  url: import.meta.env.VITE_VERIFY_EMAIL_REDIRECT,
   handleCodeInApp: false,
 };

@@ -18,6 +18,7 @@ import {
 import {IconButton} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Copyright from '@components/copyright/copyright';
+import Toaster from '@components/toaster/toaster';
 
 interface SignUpErrors {
   firstname?: string;
@@ -87,7 +88,7 @@ export default function SignUp() {
 
         if(resp.data?.user?.emailVerified === false){
           console.log("Please verify your email");
-          navigate('/signin');
+         //show alert/toaster
           return
 
         }
