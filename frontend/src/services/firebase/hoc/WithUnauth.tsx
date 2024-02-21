@@ -1,5 +1,6 @@
 import {Navigate, useLocation} from 'react-router-dom';
 import {useAuth} from '../hooks/useAuth';
+import PageCircular from '@components/progress/PageCircular';
 
 interface RequireAuthProps {
   children: React.ReactNode;
@@ -8,7 +9,7 @@ const WithUnauth = ({children}: RequireAuthProps) => {
   const {user, loading} = useAuth();
   const location = useLocation();
   if (loading) {
-    return <div>Loading ...</div>;
+    return <PageCircular sx={{height: '100vh', width: '100vw'}} />;
   }
   if (user) {
     return <Navigate to="/" state={{from: location}} replace />;

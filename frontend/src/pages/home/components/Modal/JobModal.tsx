@@ -1,19 +1,22 @@
 import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import AddJob from './AddJob';
+import AddJob from '../Banner/AddJob';
 import LinkJobModal from './LinkJobModal';
 import ManualJobModal from './ManualJobModal';
+import {useSearchParams} from 'react-router-dom';
 
 export default function JobModal() {
-  const [open, setOpen] = React.useState(false);
+  const [openModal, setOpen] = useSearchParams();
+  const open = openModal.get('jobModal') === 'open';
+
   const [openManualJobModal, setManualJobModalOpen] = React.useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpen({jobModal: 'open'});
   };
   const handleClose = () => {
-    setOpen(false);
+    setOpen();
   };
 
   const toggle = () => {
