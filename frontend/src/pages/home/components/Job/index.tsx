@@ -2,6 +2,7 @@ import useFetchJobs from '@hooks/useFetchJobs';
 import {Job} from 'src/@types';
 import GridView from './GridView';
 import LoadingGridView from './LoadingGridView';
+import Empty from './Empty';
 
 type JobStatus = 'Saved' | 'Applied' | 'Interview ' | 'Rejected';
 
@@ -20,9 +21,10 @@ function JobSection() {
         return acc;
       }, {} as JobByStatus)
     : ({} as JobByStatus);
-  // And assuming you want to mimic 3 job cards per status
   return jobs.status === 'fetching' ? (
     <LoadingGridView />
+  ) : jobs.data?.length === 0 ? (
+    <Empty />
   ) : (
     <GridView jobByStatus={jobByStatus} />
   );

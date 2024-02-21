@@ -14,7 +14,12 @@ type GridViewProps = {
 };
 const GridView = ({jobByStatus}: GridViewProps) => {
   return (
-    <Grid id="home-page-jobs-container" container item gap={2}>
+    <Grid
+      id="home-page-jobs-container"
+      container
+      item
+      gap={2}
+    >
       {jobStatus.status.map((statusName) => {
         const jobs = jobByStatus[statusName as JobStatus];
         return (
