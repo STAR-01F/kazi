@@ -1,12 +1,12 @@
 import {useState} from 'react';
-import SwipeableViews from 'react-swipeable-views';
 import {Button, Container, Grid, IconButton} from '@mui/material';
 import BackIcon from '@components/icons/backIcon';
 import NextIcon from '@components/icons/nextIcon';
-// import SkipNextIcon from '@mui/icons-material/SkipNext';
 import UserForm from './UserForm';
 import WelcomeCard from './WelcomeCard';
 import {useAuth} from '@services/firebase/hooks/useAuth';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import 'swiper/css';
 
 const WelcomePage = () => {
   const {user} = useAuth();
@@ -134,10 +134,11 @@ const WelcomePage = () => {
     <Grid
       sx={{
         display: 'flex',
-        // flexDirection: 'row',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
       }}
+      maxWidth={"md"}
       container
     >
       <IconButton
@@ -151,41 +152,17 @@ const WelcomePage = () => {
       >
         <BackIcon />
       </IconButton>
-      <Container
-        sx={{overflow: 'hidden'}}
-        component={SwipeableViews}
-        index={index}
+      <Swiper
+        slidesPerView={1}
+        onSlideChange={(swiper) => setIndex(swiper.activeIndex)}
+        initialSlide={0}
       >
-        {welcomeCards.map((card, i) => (
-          <WelcomeCard
-            key={i}
-            title={card.title}
-            content={card.content}
-            component={card.component}
-          />
-        ))}
-      </Container>
-      {/* {index == 0 && (
-        <Container sx={{display: 'flex', justifyContent: 'center'}}>
-          <Button onClick={handleAddProfile}>
-            <SkipNextIcon />
-            Skip
-          </Button>
-        </Container>
-      )} */}
-      {/* <Box
-        sx={{
-          backgroundColor: 'transparent',
-          display: 'flex',
-          position: 'fixed',
-          justifyContent: index > 0 ? 'space-between' : 'end',
-          width: '100%',
-          maxWidth: 'md',
-          // zIndex: -1,
-          // opacity: 0.5,
-        }}
-      > */}
-
+        <WelcomeCard
+          title={welcomeCards[index].title}
+          content={welcomeCards[index].content}
+          component={welcomeCards[index].component}
+        />
+      </Swiper>
       <IconButton
         sx={{
           display: index < numViews - 1 ? 'flex' : 'none',
