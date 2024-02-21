@@ -9,6 +9,7 @@ type User = {
   jobStart?: string;
   jobIndustry?: string;
   jobLevel?: string;
+  welcomed?: boolean;
 };
 
 export default User;

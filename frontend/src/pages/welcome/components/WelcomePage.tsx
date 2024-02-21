@@ -1,8 +1,9 @@
 import {useState} from 'react';
 import SwipeableViews from 'react-swipeable-views';
-import {Box, Button, Container, Grid, IconButton} from '@mui/material';
+import {Button, Container, Grid, IconButton} from '@mui/material';
 import BackIcon from '@components/icons/backIcon';
 import NextIcon from '@components/icons/nextIcon';
+// import SkipNextIcon from '@mui/icons-material/SkipNext';
 import UserForm from './UserForm';
 import WelcomeCard from './WelcomeCard';
 import {useAuth} from '@services/firebase/hooks/useAuth';
@@ -41,6 +42,7 @@ const WelcomePage = () => {
       jobStart: jobStart,
       jobIndustry: jobIndustry,
       jobLevel: jobLevel,
+      welcomed: true,
     };
 
     const resp = await CreateProfile(userProfile);
@@ -77,7 +79,7 @@ const WelcomePage = () => {
           onChange={(e) => {
             setJobStatus(e.target.value);
           }}
-          labels={['Employed', 'Unemployed', 'Self-Employed',]}
+          labels={['Employed', 'Unemployed', 'Self-Employed']}
         />,
       ],
     },
@@ -129,7 +131,12 @@ const WelcomePage = () => {
             labels={['Entry-Level', 'Junior', 'Mid', 'Senior']}
           />
           <Container sx={{display: 'flex', justifyContent: 'end'}}>
-            <Button onClick={handleAddProfile}>Save</Button>
+            <Button
+              disabled={index == 8 && !jobLevel}
+              onClick={handleAddProfile}
+            >
+              Save
+            </Button>
           </Container>
         </>
       ),
@@ -140,14 +147,23 @@ const WelcomePage = () => {
     <Grid
       sx={{
         display: 'flex',
-        flexDirection: 'column',
+        // flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        // height: 'calc(100vh - 65px)',
-        // height: '90vh',
       }}
       container
     >
+      <IconButton
+        sx={{
+          display: index > 0 ? 'flex' : 'none',
+          backgroundColor: 'lightgrey',
+        }}
+        onClick={handleBack}
+        color="primary"
+        aria-label="back"
+      >
+        <BackIcon />
+      </IconButton>
       <Container
         sx={{overflow: 'hidden'}}
         component={SwipeableViews}
@@ -162,7 +178,15 @@ const WelcomePage = () => {
           />
         ))}
       </Container>
-      <Box
+      {/* {index == 0 && (
+        <Container sx={{display: 'flex', justifyContent: 'center'}}>
+          <Button onClick={handleAddProfile}>
+            <SkipNextIcon />
+            Skip
+          </Button>
+        </Container>
+      )} */}
+      {/* <Box
         sx={{
           backgroundColor: 'transparent',
           display: 'flex',
@@ -170,31 +194,30 @@ const WelcomePage = () => {
           justifyContent: index > 0 ? 'space-between' : 'end',
           width: '100%',
           maxWidth: 'md',
+          // zIndex: -1,
+          // opacity: 0.5,
         }}
+      > */}
+
+      <IconButton
+        sx={{
+          display: index < numViews - 1 ? 'flex' : 'none',
+          backgroundColor: 'lightgrey',
+        }}
+        onClick={handleNext}
+        color="primary"
+        aria-label="next"
+        disabled={
+          (index == 3 && !jobStatus) ||
+          (index == 4 && !jobLocation) ||
+          (index == 5 && !jobStart) ||
+          (index == 6 && !jobIndustry) ||
+          (index == 7 && !jobLevel)
+        }
       >
-        <IconButton
-          sx={{
-            display: index > 0 ? 'flex' : 'none',
-            backgroundColor: 'lightgrey',
-          }}
-          onClick={handleBack}
-          color="primary"
-          aria-label="back"
-        >
-          <BackIcon />
-        </IconButton>
-        <IconButton
-          sx={{
-            display: index < numViews - 1 ? 'flex' : 'none',
-            backgroundColor: 'lightgrey',
-          }}
-          onClick={handleNext}
-          color="primary"
-          aria-label="next"
-        >
-          <NextIcon />
-        </IconButton>
-      </Box>
+        <NextIcon />
+      </IconButton>
+      {/* </Box> */}
     </Grid>
   );
 };

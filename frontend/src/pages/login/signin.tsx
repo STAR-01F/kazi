@@ -18,6 +18,7 @@ import {
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 import Copyright from '@components/copyright/copyright';
+import {useAuth} from '@services/firebase/hooks/useAuth';
 
 interface SignInErrors {
   email?: string;
@@ -29,6 +30,9 @@ interface SignInValues {
   password?: string;
 }
 export default function SignInSide() {
+  const {user} = useAuth();
+  console.log('user', user);
+
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState<SignInErrors>({});
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -94,24 +98,33 @@ export default function SignInSide() {
   };
 
   return (
-    <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs" >
-  
-      <Grid item sm={12} md={true} component={Paper} elevation={6} square
-      sx={{
-    
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-       
-      }}
+    <Grid
+      container
+      component="main"
+      width={'100%'}
+      height={'100%'}
+      maxWidth="xs"
+    >
+      <Grid
+        item
+        sm={12}
+        md={true}
+        component={Paper}
+        elevation={6}
+        square
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
         <Box
           sx={{
-            width: '50%', 
-             display: 'flex',
-             flexDirection: 'column',
-             alignItems: 'center',
+            width: '50%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
           <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
@@ -161,13 +174,13 @@ export default function SignInSide() {
               error={!!errors.password}
               helperText={errors.password}
             />
-        
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{mt: 3, mb: 2}}
-              size='large'
+              size="large"
             >
               Sign In
             </Button>
@@ -186,15 +199,15 @@ export default function SignInSide() {
                 </Link>
               </Grid>
               <Grid item>
-                Don't have an account?{"  "}
-                <Link onClick={handleClick} href="#" variant="body2" >
-                  {"Sign Up"}
+                Don't have an account?{'  '}
+                <Link onClick={handleClick} href="#" variant="body2">
+                  {'Sign Up'}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-            <Copyright sx={{mt: 5}} href={"https://github.com/STAR-01F/"} />
+        <Copyright sx={{mt: 5}} href={'https://github.com/STAR-01F/'} />
       </Grid>
     </Grid>
   );
