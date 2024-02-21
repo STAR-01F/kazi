@@ -31,6 +31,7 @@ const useFetchJobs = (jobid: string = '') => {
         setStatus('error');
         console.error('Error fetching data:', error);
       } finally {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
         setStatus('fetched');
       }
     };
