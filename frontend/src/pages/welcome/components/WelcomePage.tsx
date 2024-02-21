@@ -5,7 +5,7 @@ import NextIcon from '@components/icons/nextIcon';
 import UserForm from './UserForm';
 import WelcomeCard from './WelcomeCard';
 import {useAuth} from '@services/firebase/hooks/useAuth';
-import {Swiper, SwiperSlide} from 'swiper/react';
+import {Swiper} from 'swiper/react';
 import 'swiper/css';
 
 const WelcomePage = () => {
@@ -138,7 +138,7 @@ const WelcomePage = () => {
         alignItems: 'center',
         justifyContent: 'center',
       }}
-      maxWidth={"md"}
+      maxWidth={'md'}
       container
     >
       <IconButton
