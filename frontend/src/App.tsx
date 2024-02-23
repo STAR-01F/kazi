@@ -16,6 +16,8 @@ const SignInSide = React.lazy(() => import('@pages/login/signin'));
 const SignUp = React.lazy(() => import('@pages/login/signup'));
 const Profilepage = React.lazy(() => import('@pages/profile'));
 const WelcomePage = React.lazy(() => import('@pages/welcome'));
+const PasswordReset = React.lazy(() => import('@pages/login/passwordReset'));
+
 const Layout = () => {
   return (
     <>
@@ -84,6 +86,14 @@ const router = createBrowserRouter([
             element: (
               <Suspense fallback={<PageCircular />}>
                 <SignUp />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'password-reset',
+            element: (
+              <Suspense fallback={<PageCircular />}>
+                <PasswordReset/>
               </Suspense>
             ),
           },

@@ -29,7 +29,6 @@ interface SignInValues {
   password?: string;
 }
 
-
 export default function SignInSide() {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState<SignInErrors>({});
@@ -85,133 +84,149 @@ export default function SignInSide() {
       console.log(resp.data);
     }
   };
+  
   const handeleSignInWithGithub = async () => {
     const resp = await signInWithGithub();
     if (resp.status === 'Success') {
       console.log(resp.data);
     }
   };
-  const handleClick = () => {
+
+  const handleNavToSignUp = () => {
     navigate('/signup');
+  };
+
+  const resetPassword = () => {
+    navigate('/password-reset');
   };
 
   return (
     <>
-    <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs"  >
-      <Grid item sm={12} md={true} component={Paper}  square
-      sx={{
-        
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100vw',
-        
-      }}
+      <Grid
+        container
+        component="main"
+        width={'100%'}
+        height={'100%'}
+        maxWidth="xs"
       >
-        <Box
+        <Grid
+          item
+          sm={12}
+          md={true}
+          component={Paper}
+          square
           sx={{
-            width: '85%', 
-             display: 'flex',
-             flexDirection: 'column',
-             alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100vw',
           }}
         >
-          <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1,boxSizing:'border-box'} }>
-            
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={() => {
-                if (errors.email) {
-                  setErrors({
-                    ...errors,
-                    email: undefined,
-                  });
-                }
-              }}
-              error={!!errors.email}
-              helperText={errors.email}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={() => {
-                if (errors.password) {
-                  setErrors({
-                    ...errors,
-                    password: undefined,
-                  });
-                }
-              }}
-              error={!!errors.password}
-              helperText={errors.password}
-            />
-        
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{mt: 2, mb: 2}}
-              size='large'
-            >
-              Sign In
-            </Button>
-            <Grid container direction="row" gap={2} justifyContent={'center'}>
-              <IconButton onClick={handleSignInWithGoogle}>
-                <SvgIconGoogle />
-              </IconButton>
-              <IconButton onClick={handeleSignInWithGithub}>
-                <SvgIconGithub />
-              </IconButton>
-            </Grid>
-            <Box 
-            sx=
-              {{display: 'flex',
-              flexDirection: {  xs: 'column',  md: 'row'}, 
-              justifyContent: {xs:'centre', md:'space-between'},
-              alignItems: {xs:'center'},
-              fontSize: {xs:'12px', md:'14px'},
+          <Box
+            sx={{
+              width: '85%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
-            
+          >
+            <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{mt: 1, boxSizing: 'border-box'}}
             >
-              <Box >
-                <Link href="#" variant="body2"
-                >
-                  Forgot password?
-                </Link>
-              </Box>
-              <Box  
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={() => {
+                  if (errors.email) {
+                    setErrors({
+                      ...errors,
+                      email: undefined,
+                    });
+                  }
+                }}
+                error={!!errors.email}
+                helperText={errors.email}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={() => {
+                  if (errors.password) {
+                    setErrors({
+                      ...errors,
+                      password: undefined,
+                    });
+                  }
+                }}
+                error={!!errors.password}
+                helperText={errors.password}
+              />
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{mt: 2, mb: 2}}
+                size="large"
               >
-                Don't have an account?{"  "}
-                <Link onClick={handleClick} href="#" variant="body2" >
-                  {"Sign Up"}
-                </Link>
+                Sign In
+              </Button>
+              <Grid container direction="row" gap={2} justifyContent={'center'}>
+                <IconButton onClick={handleSignInWithGoogle}>
+                  <SvgIconGoogle />
+                </IconButton>
+                <IconButton onClick={handeleSignInWithGithub}>
+                  <SvgIconGithub />
+                </IconButton>
+              </Grid>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: {xs: 'column', md: 'row'},
+                  justifyContent: {xs: 'centre', md: 'space-between'},
+                  alignItems: {xs: 'center'},
+                  fontSize: {xs: '12px', md: '14px'},
+                }}
+              >
+                <Box>
+                  <Link onClick={resetPassword} href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Box>
+                <Box>
+                  Don't have an account?{'  '}
+                  <Link onClick={handleNavToSignUp} href="#" variant="body2">
+                    {'Sign Up'}
+                  </Link>
+                </Box>
               </Box>
             </Box>
           </Box>
-        </Box>
-            <Copyright sx={{mt:5}} href={"https://github.com/STAR-01F/"} />
+          <Copyright sx={{mt: 5}} href={'https://github.com/STAR-01F/'} />
+        </Grid>
       </Grid>
-    </Grid>
     </>
   );
 }
