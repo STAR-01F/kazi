@@ -1,50 +1,11 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Container,
-  Grid,
-  Typography,
-} from '@mui/material';
-import JobModal from './JobModal';
-import GridViewIcon from '@mui/icons-material/GridView';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import {useState} from 'react';
+import {Box, Container, Typography} from '@mui/material';
+import JobModal from '../Modal/JobModal';
 import MenuListButton from '@components/button/MenuListButton';
 import JobStatus from '@repository/job.json';
 import {useSearchParams} from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import ViewWeekIcon from '@mui/icons-material/ViewWeek';
-const icons = [<GridViewIcon />, <ViewListIcon />, <ViewWeekIcon />];
 
-const Left = () => {
-  const [selectedButton, setSelectedButton] = useState(0);
-
-  const handleButtonClick = (index: number) => {
-    setSelectedButton(index);
-  };
-
-  return (
-    <Container component={Box} disableGutters flex={0}>
-      <ButtonGroup
-        variant="text"
-        aria-label="Basic button group"
-        sx={{border: '1px solid primary'}}
-      >
-        {icons.map((icon, index) => (
-          <Button
-            key={index}
-            onClick={() => handleButtonClick(index)}
-            color={selectedButton === index ? 'primary' : 'inherit'}
-          >
-            {icon}
-          </Button>
-        ))}
-      </ButtonGroup>
-    </Container>
-  );
-};
-const Right = () => {
+const RightSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const setFilter = (newParams: {[key: string]: string}) => {
@@ -101,21 +62,5 @@ const Right = () => {
     </Container>
   );
 };
-const Banner = () => {
-  return (
-    <Box
-      component={Grid}
-      flexDirection={{xs: 'column-reverse', sm: 'row'}}
-      id="home-page-header"
-      mb={2}
-      display={'flex'}
-      justifyContent={'space-between'}
-      alignContent={'center'}
-    >
-      <Left />
-      <Right />
-    </Box>
-  );
-};
 
-export default Banner;
+export default RightSection;
