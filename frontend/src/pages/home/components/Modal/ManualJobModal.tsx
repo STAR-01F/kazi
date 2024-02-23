@@ -74,7 +74,6 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           fullWidth
         />
         <TextField
-          autoFocus
           required
           sx={{marginBottom: 2}}
           id="job-link"
@@ -86,7 +85,6 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           fullWidth
         />
         <TextField
-          autoFocus
           required
           sx={{marginBottom: 2}}
           id="company-name"
@@ -97,7 +95,7 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           fullWidth
         />
         <FormControl fullWidth sx={{mb: 2}}>
-          <InputLabel id="job-status-input">Job Status</InputLabel>
+          <InputLabel id="job-status-input">Status</InputLabel>
           <Select
             labelId="job-status-input"
             id="job-status-select"
@@ -106,7 +104,10 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
             onChange={(e) => setStatus(e.target.value)}
           >
             {jobStatus.status.map((status, i) => (
-              <MenuItem key={`${status}-${i}`} value={status}>
+              <MenuItem
+                key={`${status}-${i}`}
+                value={jobStatus.status[0] || status}
+              >
                 {status}
               </MenuItem>
             ))}

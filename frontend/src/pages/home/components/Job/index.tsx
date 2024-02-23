@@ -14,6 +14,9 @@ function JobSection() {
   const jobByStatus = jobs.data
     ? jobs.data.reduce((acc, job) => {
         const status = job.status as JobStatus;
+        if (job.status === '') {
+          job.status = 'Saved';
+        }
         if (!acc[status]) {
           acc[status] = [];
         }
