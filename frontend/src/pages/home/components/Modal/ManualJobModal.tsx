@@ -67,7 +67,7 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           sx={{marginBottom: 2}}
           id="job-title"
           name="job"
-          label="Job Title"
+          label="Title"
           placeholder=""
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -79,7 +79,7 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           sx={{marginBottom: 2}}
           id="job-link"
           name="job-link"
-          label="Job Link"
+          label="Link"
           placeholder=""
           value={jobLink}
           onChange={(e) => setJobLink(e.target.value)}
@@ -101,7 +101,7 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           <Select
             labelId="job-status-input"
             id="job-status-select"
-            label="Job Status"
+            label="Status"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
           >
@@ -115,7 +115,7 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
         <TextField
           sx={{mb: 2}}
           id="job-description"
-          label="Job Description"
+          label="Description"
           name="description"
           placeholder=""
           value={description}
