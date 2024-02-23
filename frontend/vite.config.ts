@@ -14,6 +14,7 @@ export default defineConfig({
       '@pages': path.resolve(__dirname, './src/pages'),
       '@repository': path.resolve(__dirname, './src/repository'),
       '@services': path.resolve(__dirname, './src/services'),
+      '@context': path.resolve(__dirname, './src/context'),
     },
   },
   preview: {
