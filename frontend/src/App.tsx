@@ -8,6 +8,9 @@ import WithUnauth from '@services/firebase/hoc/WithUnauth';
 import LandingPage from '@pages/login/landing';
 import PageCircular from '@components/progress/PageCircular';
 import Homepage from '@pages/home';
+import {FeedbackProvider} from '@context/Feedback';
+import {useFeedback} from '@hooks/useFeeback';
+import Toaster from '@components/toaster/toaster';
 
 // Dynamic imports
 const Jobpage = React.lazy(() => import('@pages/job'));
@@ -17,6 +20,10 @@ const SignUp = React.lazy(() => import('@pages/login/signup'));
 const Profilepage = React.lazy(() => import('@pages/profile'));
 const WelcomePage = React.lazy(() => import('@pages/welcome'));
 const Layout = () => {
+  const {feedback, setFeedback} = useFeedback();
+  const handleClose = () => {
+    setFeedback(null);
+  };
   return (
     <>
       <Header />
@@ -29,6 +36,14 @@ const Layout = () => {
           overflowY: 'scroll',
         }}
       >
+        {feedback && (
+          <Toaster
+            open={!!feedback}
+            handleClose={handleClose}
+            message={feedback.message}
+            severity={feedback.type}
+          />
+        )}
         <Outlet />
       </Grid>
     </>
@@ -59,9 +74,11 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <AuthProvider>
-        <Outlet />
-      </AuthProvider>
+      <FeedbackProvider>
+        <AuthProvider>
+          <Outlet />
+        </AuthProvider>
+      </FeedbackProvider>
     ),
     children: [
       {
@@ -110,7 +127,7 @@ const router = createBrowserRouter([
               <Suspense fallback={<div>Loading...</div>}>
                 <WelcomePage />
               </Suspense>
-            )
+            ),
           },
           {
             index: true,
