@@ -33,6 +33,7 @@ type MenuListButtonProps = {
   size?: 'small' | 'medium' | 'large'; // The size of the button.
   title?: ReactNode; // The title of the Popper
   select?: boolean;
+  fullWidth?: boolean;
   /**
    * The list of actions for the menu.
    * Each action has a name and a function to execute when the action is triggered.
@@ -66,6 +67,7 @@ const MenuListButton = ({
   startIcon,
   title,
   select = false,
+  fullWidth = false,
 }: MenuListButtonProps): JSX.Element => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
@@ -116,6 +118,7 @@ const MenuListButton = ({
         onClick={handleToggle}
         endIcon={endIcon}
         startIcon={startIcon}
+        fullWidth={fullWidth}
       >
         {children}
       </Button>
