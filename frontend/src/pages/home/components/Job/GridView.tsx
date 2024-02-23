@@ -14,12 +14,7 @@ type GridViewProps = {
 };
 const GridView = ({jobByStatus}: GridViewProps) => {
   return (
-    <Grid
-      id="home-page-jobs-container"
-      container
-      item
-      gap={2}
-    >
+    <Grid id="home-page-jobs-container" container item gap={2}>
       {jobStatus.status.map((statusName) => {
         const jobs = jobByStatus[statusName as JobStatus];
         return (
@@ -41,7 +36,7 @@ const GridView = ({jobByStatus}: GridViewProps) => {
                   companyName={job.company}
                   jobTitle={job.title}
                   jobID={job.id!}
-                  logoPath="../src/assets/google-logo.png"
+                  logoPath={job.hiringorganization?.logo || ''}
                 />
               ))}
             </Fragment>
