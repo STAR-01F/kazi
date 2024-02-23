@@ -41,7 +41,14 @@ const GetJobsByUserID = async (
     const snapshot = await getDocs(jobPostings);
     const jobList: Job[] = snapshot.docs
       .filter((doc) => doc.data().userid === userid)
-      .map((doc) => ({id: doc.id, ...doc.data()} as Job));
+      .map((doc) => {
+        const data = doc.data();
+        const lowerCaseData = Object.keys(data).reduce((newData, key) => {
+          newData[key.toLowerCase()] = data[key];
+          return newData;
+        }, {} as Record<string, unknown>);
+        return {id: doc.id, ...lowerCaseData} as Job;
+      });
     return {
       status: 'Success',
       message: 'Successfully getting the jobs',
