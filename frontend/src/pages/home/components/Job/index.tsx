@@ -4,6 +4,7 @@ import GridView from './GridView';
 import LoadingGridView from './LoadingGridView';
 import Empty from './Empty';
 import {useSearchParams} from 'react-router-dom';
+import ListView from './ListView';
 
 type JobStatus = 'Saved' | 'Applied' | 'Interview ' | 'Rejected';
 
@@ -34,7 +35,7 @@ const JobSection = () => {
   ) : view === 'kanban' ? (
     <div>kanban</div>
   ) : view === 'list' ? (
-    <div>list</div>
+    <ListView jobs={jobs.data || []} />
   ) : (
     <>
       {jobs.status === 'fetching' ? (
