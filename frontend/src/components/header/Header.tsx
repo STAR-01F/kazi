@@ -74,7 +74,7 @@ const Header = () => {
             noWrap
             sx={{fontWeight: 700, display: {xs: 'flex'}}}
           >
-            TrackAI
+            Kazi
           </Typography>
           {user ? (
             <Box sx={{flexGrow: 0}}>

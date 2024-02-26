@@ -30,7 +30,7 @@ type ThemeCustomizationProps = {
  * ```
  */
 const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
   const theme = useMemo(
     () =>
       createTheme({
