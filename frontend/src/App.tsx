@@ -38,7 +38,7 @@ const Layout = () => {
       >
         {feedback && (
           <Toaster
-            open={!!feedback}
+            open={feedback !== null}
             handleClose={handleClose}
             message={feedback.message}
             severity={feedback.type}
