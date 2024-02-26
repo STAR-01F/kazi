@@ -18,8 +18,7 @@ import {
 import {IconButton} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Copyright from '@components/copyright/copyright';
-
-
+import {useFeedback} from '@hooks/useFeeback';
 
 interface SignUpErrors {
   firstname?: string;
@@ -36,6 +35,7 @@ interface SignUpValues {
 }
 
 export default function SignUp() {
+  const {setFeedback} = useFeedback();
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState<SignUpErrors>({});
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -86,6 +86,10 @@ export default function SignUp() {
           });
           return;
         }
+        setFeedback({
+          type: 'success',
+          message: 'Successfully signed up',
+        });
         navigate('/');
       } catch (error) {
         console.error(error);
@@ -100,162 +104,194 @@ export default function SignUp() {
   const handleSignInWithGoogle = async () => {
     const resp = await signInWithGoogle();
     if (resp.status === 'Success') {
-      console.log(resp.data);
+      setFeedback({
+        type: 'success',
+        message: resp.message as string,
+      });
+      return;
     }
+    console.error(resp.message);
+    setFeedback({
+      type: 'error',
+      message: 'Failed to authenticate with Google',
+    });
   };
   const handeleSignInWithGithub = async () => {
     const resp = await signInWithGithub();
     if (resp.status === 'Success') {
-      console.log(resp.data);
+      setFeedback({
+        type: 'success',
+        message: resp.message as string,
+      });
+      return;
     }
+    console.error(resp.message);
+    setFeedback({
+      type: 'error',
+      message: 'Failed to authenticate with GitHub',
+    });
   };
   const handleClick = () => {
     navigate('/signin');
   };
 
   return (
-  <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs" >
-  <Grid item sm={12} md={true} component={Paper} square
-  sx={{
-   
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100vw',
-  }}
-  >
-      <Box
-         sx={{
-          width: '85%', 
+    <Grid
+      container
+      component="main"
+      width={'100%'}
+      height={'100%'}
+      maxWidth="xs"
+    >
+      <Grid
+        item
+        sm={12}
+        md={true}
+        component={Paper}
+        square
+        sx={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100vw',
         }}
       >
-        <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1, boxSizing:'border-box'}}>
-         
-          <Grid container spacing={2} >
-            <Grid item xs={12} sm={6}>
-              <TextField
-                margin="normal"
-                autoComplete="given-name"
-                name="firstName"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-                onChange={() => {
-                  if (errors.firstname) {
-                    setErrors({
-                      ...errors,
-                      firstname: undefined,
-                    });
-                  }
-                }}
-                error={!!errors.firstname}
-                helperText={errors.firstname}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                margin="normal"
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-                onChange={() => {
-                  if (errors.lastname) {
-                    setErrors({
-                      ...errors,
-                      lastname: undefined,
-                    });
-                  }
-                }}
-                error={!!errors.lastname}
-                helperText={errors.lastname}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={() => {
-                  if (errors.email) {
-                    setErrors({
-                      ...errors,
-                      email: undefined,
-                    });
-                  }
-                }}
-                error={!!errors.email}
-                helperText={errors.email}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                onChange={() => {
-                  if (errors.password) {
-                    setErrors({
-                      ...errors,
-                      password: undefined,
-                    });
-                  }
-                }}
-                error={!!errors.password}
-                helperText={errors.password}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            size='large'
-            sx={{mt: 3, mb: 2}}
+        <Box
+          sx={{
+            width: '85%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{mt: 1, boxSizing: 'border-box'}}
           >
-            Sign Up
-          </Button>
-          <Grid container direction="row" gap={2} justifyContent={'center'}>
-            <IconButton onClick={handleSignInWithGoogle}>
-              <SvgIconGoogle />
-            </IconButton>
-            <IconButton onClick={handeleSignInWithGithub}>
-              <SvgIconGithub />
-            </IconButton>
-          </Grid>
-          <Grid container justifyContent="center">
-            <Grid item>
-            Already have an account?{' '}
-              <Link onClick={handleClick} href="#" variant="body2">
-                 Sign in
-              </Link>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  margin="normal"
+                  autoComplete="given-name"
+                  name="firstName"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  autoFocus
+                  onChange={() => {
+                    if (errors.firstname) {
+                      setErrors({
+                        ...errors,
+                        firstname: undefined,
+                      });
+                    }
+                  }}
+                  error={!!errors.firstname}
+                  helperText={errors.firstname}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  margin="normal"
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="family-name"
+                  onChange={() => {
+                    if (errors.lastname) {
+                      setErrors({
+                        ...errors,
+                        lastname: undefined,
+                      });
+                    }
+                  }}
+                  error={!!errors.lastname}
+                  helperText={errors.lastname}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  onChange={() => {
+                    if (errors.email) {
+                      setErrors({
+                        ...errors,
+                        email: undefined,
+                      });
+                    }
+                  }}
+                  error={!!errors.email}
+                  helperText={errors.email}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  onChange={() => {
+                    if (errors.password) {
+                      setErrors({
+                        ...errors,
+                        password: undefined,
+                      });
+                    }
+                  }}
+                  error={!!errors.password}
+                  helperText={errors.password}
+                />
+              </Grid>
             </Grid>
-          </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              size="large"
+              sx={{mt: 3, mb: 2}}
+            >
+              Sign Up
+            </Button>
+            <Grid container direction="row" gap={2} justifyContent={'center'}>
+              <IconButton onClick={handleSignInWithGoogle}>
+                <SvgIconGoogle />
+              </IconButton>
+              <IconButton onClick={handeleSignInWithGithub}>
+                <SvgIconGithub />
+              </IconButton>
+            </Grid>
+            <Grid container justifyContent="center">
+              <Grid item>
+                Already have an account?{' '}
+                <Link onClick={handleClick} href="#" variant="body2">
+                  Sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
         </Box>
-      </Box>
-      <Copyright sx={{mt: 5}} href={"https://github.com/STAR-01F/"} />
+        <Copyright sx={{mt: 5}} href={'https://github.com/STAR-01F/'} />
       </Grid>
-      </Grid>
+    </Grid>
   );
 }
