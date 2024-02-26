@@ -15,7 +15,7 @@ export default function Copyright(props: any) {
     >
       {'Copyright © '}
       <Link color="inherit" href= {props.href}>
-        TrackAI
+        Kazi
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
