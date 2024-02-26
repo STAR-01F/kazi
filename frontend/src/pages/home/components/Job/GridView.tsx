@@ -16,16 +16,18 @@ type GridViewProps = {
 const GridView = ({jobByStatus}: GridViewProps) => {
   const [searchParam] = useSearchParams();
   const searchStatus = searchParam.get('status');
-  console.log("searchStatus: ", searchStatus);
 
   return (
     <Grid id="home-page-jobs-container" container item gap={2}>
       {jobStatus.status.map((statusName) => {
-        
-        if (searchStatus !== statusName.toLowerCase() && searchStatus !== 'all' && searchStatus !== null){
-          return
+        if (
+          searchStatus !== statusName.toLowerCase() &&
+          searchStatus !== 'all' &&
+          searchStatus !== null
+        ) {
+          return;
         }
-        
+
         let jobs = jobByStatus[statusName as JobStatus];
 
         return (

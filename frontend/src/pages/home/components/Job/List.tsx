@@ -24,7 +24,6 @@ const JobList = ({
   jobTitle,
   status,
 }: JobListProps) => {
-  console.log(logoPath);
   const {user} = useAuth();
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
