@@ -83,7 +83,6 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
           onChange={(e) => {
             setJobLink(e.target.value);
             if (errors.jobLink) {
-              console.log('error removed');
               setErrors({
                 jobLink: undefined,
               });
