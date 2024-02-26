@@ -30,7 +30,8 @@
       "@assets/*": ["src/assets/*"],
       "@pages/*": ["src/pages/*"],
       "@repository/*": ["src/repository/*"],
-      "@services/*": ["src/services/*"]
+      "@services/*": ["src/services/*"],
+      "@context/*": ["src/context/*"]
     }
   },
   "include": ["src"],

@@ -5,18 +5,19 @@ import Header from '@components/header/Header';
 import {AuthProvider} from '@services/firebase/context/Auth';
 import WithAuth from '@services/firebase/hoc/WithAuth';
 import WithUnauth from '@services/firebase/hoc/WithUnauth';
-import LandingPage from '@pages/login/landing';
+import LandingPage from '@components/landing/landing';
 import PageCircular from '@components/progress/PageCircular';
 import Homepage from '@pages/home';
+import {FeedbackProvider} from '@context/Feedback';
 
 // Dynamic imports
 const Jobpage = React.lazy(() => import('@pages/job'));
 // const Homepage = React.lazy(() => import('@pages/home'));
-const SignInSide = React.lazy(() => import('@pages/login/signin'));
-const SignUp = React.lazy(() => import('@pages/login/signup'));
+const SignInSide = React.lazy(() => import('@pages/signin/signin'));
+const SignUp = React.lazy(() => import('@pages/signup/signup'));
 const Profilepage = React.lazy(() => import('@pages/profile'));
 const WelcomePage = React.lazy(() => import('@pages/welcome'));
-const PasswordReset = React.lazy(() => import('@pages/login/passwordReset'));
+const PasswordReset = React.lazy(() => import('@pages/password-reset'));
 
 const Layout = () => {
   return (
@@ -61,9 +62,11 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <AuthProvider>
-        <Outlet />
-      </AuthProvider>
+      <FeedbackProvider>
+        <AuthProvider>
+          <Outlet />
+        </AuthProvider>
+      </FeedbackProvider>
     ),
     children: [
       {
@@ -93,7 +96,7 @@ const router = createBrowserRouter([
             path: 'password-reset',
             element: (
               <Suspense fallback={<PageCircular />}>
-                <PasswordReset/>
+                <PasswordReset />
               </Suspense>
             ),
           },
@@ -120,7 +123,7 @@ const router = createBrowserRouter([
               <Suspense fallback={<div>Loading...</div>}>
                 <WelcomePage />
               </Suspense>
-            )
+            ),
           },
           {
             index: true,

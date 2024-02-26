@@ -48,7 +48,7 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
     <>
       <DialogContent>
         <DialogContentText mb={1}>
-          Please enter the link of the job.
+          Please enter the URL of the job posting.
         </DialogContentText>
         <TextField
           autoFocus
@@ -56,18 +56,18 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
           sx={{marginBottom: 2}}
           id="job-link"
           name="job-link"
-          label="Job Link"
+          label="Link"
           placeholder=""
           value={jobLink}
           onChange={(e) => setJobLink(e.target.value)}
           fullWidth
         />
         <FormControl fullWidth sx={{mb: 2}}>
-          <InputLabel id="job-status-input">Job Status</InputLabel>
+          <InputLabel id="job-status-input">Status</InputLabel>
           <Select
             labelId="job-status-input"
             id="job-status-select"
-            label="Job Status"
+            label="Status"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
           >

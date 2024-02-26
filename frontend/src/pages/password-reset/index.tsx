@@ -10,7 +10,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {useNavigate} from 'react-router-dom';
 import Copyright from '@components/copyright/copyright';
-import {getAuth, sendPasswordResetEmail} from 'firebase/auth';
+import {sendPasswordReset} from '@services/firebase/auth';
+import {useFeedback} from '@hooks/useFeeback';
 
 interface ResetPasswordErrors {
   email?: string;
@@ -21,24 +22,33 @@ interface ResetPasswordErrors {
 
 const PasswordReset = () => {
   const navigate = useNavigate();
-  const auth = getAuth();
-
+  const {setFeedback} = useFeedback();
   const [errors, setErrors] = React.useState<ResetPasswordErrors>({});
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const actionCodeSettings = {
-      url: import.meta.env.VITE_RESET_EMAIL_REDIRECT,
-      handleCodeInApp: false,
-    };
-
-    await sendPasswordResetEmail(
-      auth,
-      event.currentTarget.email.value,
-      actionCodeSettings
-    );
-    //add toaster saying 'email sent'
+    const email: string = event.currentTarget.email.value;
+    if (!email) {
+      setErrors({
+        ...errors,
+        email: 'Email is required',
+      });
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setErrors({
+        ...errors,
+        email: 'Email address is invalid',
+      });
+      return;
+    }
+    await sendPasswordReset(email);
+    console.log('success');
+    setFeedback({
+      type: 'success',
+      message: 'Password reset email sent successfully',
+    });
+    // navigate('/signin');
   };
 
   const handleGoToSignIn = () => {
