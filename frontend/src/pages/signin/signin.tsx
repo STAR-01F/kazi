@@ -114,8 +114,13 @@ export default function SignInSide() {
     });
     console.error(resp.message);
   };
-  const handleClick = () => {
+
+  const handleNavToSignUp = () => {
     navigate('/signup');
+  };
+
+  const resetPassword = () => {
+    navigate('/password-reset');
   };
 
   return (
@@ -229,13 +234,13 @@ export default function SignInSide() {
                 }}
               >
                 <Box>
-                  <Link href="#" variant="body2">
+                  <Link onClick={resetPassword} href="#" variant="body2">
                     Forgot password?
                   </Link>
                 </Box>
                 <Box>
                   Don't have an account?{'  '}
-                  <Link onClick={handleClick} href="#" variant="body2">
+                  <Link onClick={handleNavToSignUp} href="#" variant="body2">
                     {'Sign Up'}
                   </Link>
                 </Box>
