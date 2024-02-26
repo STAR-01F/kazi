@@ -15,6 +15,9 @@ type JobByStatus = {
 const groupJobsByStatus = (jobs: Job[]): JobByStatus => {
   return jobs.reduce((acc, job) => {
     const status = job.status as JobStatus;
+    if (job.status === '') {
+      job.status = 'Saved';
+    }
     if (!acc[status]) {
       acc[status] = [];
     }
