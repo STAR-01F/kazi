@@ -3,6 +3,7 @@ import type {Job} from 'src/@types';
 import {Fragment} from 'react';
 import jobStatus from '@repository/job.json';
 import JobCard from './Card';
+import {useSearchParams} from 'react-router-dom';
 
 type JobStatus = 'Saved' | 'Applied' | 'Interview ' | 'Rejected';
 
@@ -13,15 +14,22 @@ type GridViewProps = {
   jobByStatus: JobByStatus;
 };
 const GridView = ({jobByStatus}: GridViewProps) => {
+  const [searchParam] = useSearchParams();
+  const searchStatus = searchParam.get('status');
+
   return (
-    <Grid
-      id="home-page-jobs-container"
-      container
-      item
-      gap={2}
-    >
+    <Grid id="home-page-jobs-container" container item gap={2}>
       {jobStatus.status.map((statusName) => {
+        if (
+          searchStatus !== statusName.toLowerCase() &&
+          searchStatus !== 'all' &&
+          searchStatus !== null
+        ) {
+          return;
+        }
+
         const jobs = jobByStatus[statusName as JobStatus];
+
         return (
           jobs &&
           jobs.length > 0 && (
@@ -41,7 +49,7 @@ const GridView = ({jobByStatus}: GridViewProps) => {
                   companyName={job.company}
                   jobTitle={job.title}
                   jobID={job.id!}
-                  logoPath="../src/assets/google-logo.png"
+                  logoPath={job.hiringorganization?.logo || ''}
                 />
               ))}
             </Fragment>

@@ -9,10 +9,17 @@ const Otta = async (url: string): Promise<Response<Partial<Job>, unknown>> => {
       },
       body: JSON.stringify({url}),
     });
+    if (!responce.ok) {
+      return {
+        status: 'Error',
+        message: 'Failed to fetch Otta API',
+      };
+    }
     const data = await responce.json();
     const jobInfo: Partial<Job> = {
       title: data.title,
       company: data.hiringOrganization.name,
+      joblink: url,
       description:
         data.description + '\n' + data.skills + '\n' + data.responsibilities,
       ...data,
