@@ -136,7 +136,7 @@ const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
           menuActionList={moveMenulist}
           fullWidth
         >
-          Actions
+          Update
         </MenuListButton>
       </CardActions>
     </Card>
