@@ -2,7 +2,6 @@ import {ThemeProvider} from '@emotion/react';
 import {CssBaseline, createTheme} from '@mui/material';
 import {useMemo} from 'react';
 import {breakpoints} from './customs';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 /**
  * ThemeOverideProps
@@ -30,14 +29,10 @@ type ThemeCustomizationProps = {
  * ```
  */
 const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(
     () =>
       createTheme({
         breakpoints: {...breakpoints},
-        palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
-        },
         components: {
           MuiCssBaseline: {
             styleOverrides: (theme) => ({
@@ -57,7 +52,7 @@ const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
           },
         },
       }),
-    [prefersDarkMode]
+    []
   );
   return (
     <ThemeProvider theme={theme}>
