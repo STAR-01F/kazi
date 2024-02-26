@@ -28,7 +28,7 @@ const GridView = ({jobByStatus}: GridViewProps) => {
           return;
         }
 
-        let jobs = jobByStatus[statusName as JobStatus];
+        const jobs = jobByStatus[statusName as JobStatus];
 
         return (
           jobs &&
