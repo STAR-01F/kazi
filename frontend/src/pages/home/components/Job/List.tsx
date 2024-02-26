@@ -87,7 +87,7 @@ const JobList = ({
           size="small"
           menuActionList={moveMenulist}
         >
-          Move
+          Update
         </MenuListButton>
       </TableCell>
     </TableRow>
