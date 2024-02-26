@@ -3,6 +3,7 @@ import type {Job} from 'src/@types';
 import {Fragment} from 'react';
 import jobStatus from '@repository/job.json';
 import JobCard from './Card';
+import {useSearchParams} from 'react-router-dom';
 
 type JobStatus = 'Saved' | 'Applied' | 'Interview ' | 'Rejected';
 
@@ -13,10 +14,20 @@ type GridViewProps = {
   jobByStatus: JobByStatus;
 };
 const GridView = ({jobByStatus}: GridViewProps) => {
+  const [searchParam] = useSearchParams();
+  const searchStatus = searchParam.get('status');
+  console.log("searchStatus: ", searchStatus);
+
   return (
     <Grid id="home-page-jobs-container" container item gap={2}>
       {jobStatus.status.map((statusName) => {
-        const jobs = jobByStatus[statusName as JobStatus];
+        
+        if (searchStatus !== statusName.toLowerCase() && searchStatus !== 'all' && searchStatus !== null){
+          return
+        }
+        
+        let jobs = jobByStatus[statusName as JobStatus];
+
         return (
           jobs &&
           jobs.length > 0 && (
