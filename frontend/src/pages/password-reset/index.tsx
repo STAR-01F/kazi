@@ -95,7 +95,7 @@ const PasswordReset = () => {
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{mt: 1, boxSizing: 'border-box', backgroundColor: '#fafeff'}}
+            sx={{mt: 1, boxSizing: 'border-box'}}
           >
             <Grid container spacing={1}>
               <Grid item xs={12}>
@@ -108,6 +108,7 @@ const PasswordReset = () => {
                 <TextField
                   required
                   fullWidth
+                  autoFocus
                   id="email"
                   label="Email Address"
                   name="email"
