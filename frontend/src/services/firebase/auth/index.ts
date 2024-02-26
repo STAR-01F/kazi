@@ -151,12 +151,26 @@ const registerWithEmailAndPassword = async (
   }
 };
 
-const sendPasswordReset = async (email: string) => {
+const sendPasswordReset = async (
+  email: string
+): Promise<Response<string, string>> => {
+  const actionCodeSettings = {
+    url: import.meta.env.VITE_RESET_EMAIL_REDIRECT,
+    handleCodeInApp: false,
+  };
   try {
-    await sendPasswordResetEmail(auth, email);
-    alert('Password reset link sent!');
+    await sendPasswordResetEmail(auth, email, actionCodeSettings);
+    return {
+      status: 'Success',
+      message: 'Password reset email sent successfully',
+      data: 'Password reset email sent successfully',
+    };
   } catch (err: unknown) {
-    console.error(err);
+    console.error('Error from sendPasswordReset', err);
+    return {
+      status: 'Error',
+      message: 'Failed to send password reset email',
+    };
   }
 };
 

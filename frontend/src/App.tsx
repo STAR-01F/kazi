@@ -9,8 +9,6 @@ import LandingPage from '@components/landing/landing';
 import PageCircular from '@components/progress/PageCircular';
 import Homepage from '@pages/home';
 import {FeedbackProvider} from '@context/Feedback';
-import {useFeedback} from '@hooks/useFeeback';
-import Toaster from '@components/toaster/toaster';
 
 // Dynamic imports
 const Jobpage = React.lazy(() => import('@pages/job'));
@@ -19,11 +17,9 @@ const SignInSide = React.lazy(() => import('@pages/signin/signin'));
 const SignUp = React.lazy(() => import('@pages/signup/signup'));
 const Profilepage = React.lazy(() => import('@pages/profile'));
 const WelcomePage = React.lazy(() => import('@pages/welcome'));
+const PasswordReset = React.lazy(() => import('@pages/password-reset'));
+
 const Layout = () => {
-  const {feedback, setFeedback} = useFeedback();
-  const handleClose = () => {
-    setFeedback(null);
-  };
   return (
     <>
       <Header />
@@ -36,14 +32,6 @@ const Layout = () => {
           overflowY: 'scroll',
         }}
       >
-        {feedback && (
-          <Toaster
-            open={feedback !== null}
-            handleClose={handleClose}
-            message={feedback.message}
-            severity={feedback.type}
-          />
-        )}
         <Outlet />
       </Grid>
     </>
@@ -101,6 +89,14 @@ const router = createBrowserRouter([
             element: (
               <Suspense fallback={<PageCircular />}>
                 <SignUp />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'password-reset',
+            element: (
+              <Suspense fallback={<PageCircular />}>
+                <PasswordReset />
               </Suspense>
             ),
           },
