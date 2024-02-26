@@ -18,6 +18,7 @@ import {
 } from '@services/firebase/auth';
 import {IconButton} from '@mui/material';
 import Copyright from '@components/copyright/copyright';
+import {useFeedback} from '@hooks/useFeeback';
 
 interface SignInErrors {
   email?: string;
@@ -31,6 +32,7 @@ interface SignInValues {
 
 export default function SignInSide() {
   const navigate = useNavigate();
+  const {setFeedback} = useFeedback();
   const [errors, setErrors] = React.useState<SignInErrors>({});
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -69,6 +71,10 @@ export default function SignInSide() {
           });
           return;
         }
+        setFeedback({
+          type: 'success',
+          message: 'Successfully signed in',
+        });
         navigate('/');
       } catch (error) {
         setErrors({
@@ -81,15 +87,32 @@ export default function SignInSide() {
   const handleSignInWithGoogle = async () => {
     const resp = await signInWithGoogle();
     if (resp.status === 'Success') {
-      console.log(resp.data);
+      setFeedback({
+        type: 'success',
+        message: resp.message as string,
+      });
+      return;
     }
+    setFeedback({
+      type: 'error',
+      message: 'Failed to authenticate with Google',
+    });
+    console.error(resp.message);
   };
-  
   const handeleSignInWithGithub = async () => {
     const resp = await signInWithGithub();
     if (resp.status === 'Success') {
-      console.log(resp.data);
+      setFeedback({
+        type: 'success',
+        message: resp.message as string,
+      });
+      return;
     }
+    setFeedback({
+      type: 'error',
+      message: 'Failed to authenticate with Github',
+    });
+    console.error(resp.message);
   };
 
   const handleNavToSignUp = () => {

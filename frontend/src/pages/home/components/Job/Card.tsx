@@ -13,6 +13,7 @@ import {Link} from 'react-router-dom';
 import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {DeleteJob, UpdateJobStatus} from '@services/firebase/jobs';
+import {useFeedback} from '@hooks/useFeeback';
 
 // props to be passed in should be job title and company, possibly logo. Using ts for the props.
 
@@ -27,13 +28,21 @@ type JobCardProps = {
 };
 const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
   const {user} = useAuth();
+  const {setFeedback} = useFeedback();
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     const resp = await DeleteJob(user.uid, jobID);
     if (resp.status === 'Success') {
-      console.log(resp);
+      setFeedback({
+        type: 'success',
+        message: resp.message,
+      });
       return;
     }
+    setFeedback({
+      type: 'error',
+      message: resp.message as string,
+    });
     console.error(resp);
   };
 
@@ -42,9 +51,16 @@ const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
     const resp = await UpdateJobStatus(user.uid, jobID, status);
 
     if (resp.status === 'Success') {
-      console.log(resp);
+      setFeedback({
+        type: 'success',
+        message: resp.message,
+      });
       return;
     }
+    setFeedback({
+      type: 'error',
+      message: resp.message as string,
+    });
     console.error(resp);
   };
 
