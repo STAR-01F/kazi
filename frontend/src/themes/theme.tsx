@@ -2,7 +2,6 @@ import {ThemeProvider} from '@emotion/react';
 import {CssBaseline, createTheme} from '@mui/material';
 import {useMemo} from 'react';
 import {breakpoints} from './customs';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 /**
  * ThemeOverideProps
