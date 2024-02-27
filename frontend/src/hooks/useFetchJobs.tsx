@@ -1,7 +1,7 @@
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {GetJobByJobID, GetJobsByUserID} from '@services/firebase/jobs';
 import {useState, useEffect} from 'react';
-import {Job} from 'src/@types';
+import { Job } from 'src/@types';
 
 const useFetchJobs = (jobid: string = '') => {
   const [status, setStatus] = useState('idle');
@@ -21,6 +21,7 @@ const useFetchJobs = (jobid: string = '') => {
           }
         }
         const response = await GetJobsByUserID(user.uid);
+
         if (response.status === 'Success') {
           setData(response.data);
           return;

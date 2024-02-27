@@ -1,10 +1,10 @@
-import useFetchJobs from '@hooks/useFetchJobs';
 import {Job} from 'src/@types';
 import GridView from './GridView';
 import LoadingGridView from './LoadingGridView';
 import Empty from './Empty';
 import {useSearchParams} from 'react-router-dom';
 import ListView from './ListView';
+import { useJobs } from '@services/firebase/hooks/useJobs';
 
 type JobStatus = 'Saved' | 'Applied' | 'Interview ' | 'Rejected';
 
@@ -27,21 +27,22 @@ const groupJobsByStatus = (jobs: Job[]): JobByStatus => {
 };
 
 const JobSection = () => {
-  const jobs = useFetchJobs();
+  const {jobs, loading} = useJobs();
+  
   const [searchParam] = useSearchParams();
   const view = searchParam.get('view') || 'grid';
-  const jobByStatus = jobs.data
-    ? groupJobsByStatus(jobs.data)
+  const jobByStatus = jobs
+    ? groupJobsByStatus(jobs)
     : ({} as JobByStatus);
-  return jobs.data?.length === 0 ? (
+  return jobs?.length === 0 ? (
     <Empty />
   ) : view === 'kanban' ? (
     <div>kanban</div>
   ) : view === 'list' ? (
-    <ListView jobs={jobs.data || []} />
+    <ListView jobs={jobs || []} />
   ) : (
     <>
-      {jobs.status === 'fetching' ? (
+      {loading ? (
         <LoadingGridView />
       ) : (
         <GridView jobByStatus={jobByStatus} />
