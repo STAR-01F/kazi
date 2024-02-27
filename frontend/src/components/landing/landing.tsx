@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import {Typography} from '@mui/material';
 import logo from '../../assets/kazi-logo.png';
+import icon from '../../assets/kazi-icon.png';
 
 export default function LandingPage() {
   return (
@@ -26,6 +27,17 @@ export default function LandingPage() {
       >
         <Box
           sx={{
+            width: '15%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'left',
+            paddingBottom: '20px',
+          }}
+        >
+          <img src={icon} alt="Kazi Icon" />
+        </Box>
+        <Box
+          sx={{
             width: '45%',
             display: 'flex',
             flexDirection: 'column',
@@ -35,8 +47,9 @@ export default function LandingPage() {
         >
           <img src={logo} alt="Kazi Logo" />
         </Box>
-        <Typography variant="h6" fontWeight={300}>Simplify ∙ Track ∙ Succeed
-</Typography>
+        <Typography padding="40px" variant="h6" fontWeight={300}>
+          Simplify ∙ Track ∙ Succeed
+        </Typography>
       </Box>
     </Box>
   );
