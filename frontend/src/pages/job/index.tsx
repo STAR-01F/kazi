@@ -10,8 +10,8 @@ import {
 } from '@mui/material';
 import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {Component, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useState} from 'react';
+import {Navigate, useParams} from 'react-router-dom';
 import Keywords from './components/Keywords';
 import OttaDescription from './components/OttaDescription';
 import getKeywords from '@utils/openai';
@@ -40,6 +40,7 @@ const Job = () => {
     hiringorganization,
     joblocation,
     jobsource,
+    joblink,
   } = data![0];
 
   console.log('job source', data![0]);
@@ -54,8 +55,6 @@ const Job = () => {
     setIsKeywordsLoading(false);
   };
 
-  const handleViewJob = () => {};
-
   const handleUpdateJob = () => {};
 
   return (
@@ -64,8 +63,8 @@ const Job = () => {
         <IconButton component={Link} to="/" edge="start">
           <ArrowBackIcon fontSize="large" />
         </IconButton>
-        <Grid container direction="column"  >
-          <Grid mb={2} id={'check'}>
+        <Grid container direction="column">
+          <Grid mb={2}>
             <Typography mb={2} variant="h4">
               {title}
             </Typography>
@@ -83,21 +82,21 @@ const Job = () => {
                   sm: 'row',
                 },
 
-                justifyContent:{
+                justifyContent: {
                   xs: 'space-evenly',
-                }
+                },
               }}
             >
-              <Grid item xs={6} id={'company-logo'} sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                
-              } 
-    
-
-                
-              }>
+              <Grid
+                item
+                xs={6}
+                id={'company-logo'}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
                 {jobsource === 'manual' ? null : (
                   <Box
                     component={'img'}
@@ -130,9 +129,16 @@ const Job = () => {
                 }}
               >
                 <Button
-                  onClick={handleViewJob}
+                LinkComponent={'a'}
+                target='_blank'
+                href={joblink}
                   variant="contained"
                   size="small"
+                  sx={{
+                    width: {
+                      sm: '5.5rem',
+                    },
+                  }}
                 >
                   View Job
                 </Button>
@@ -140,13 +146,18 @@ const Job = () => {
                   onClick={handleUpdateJob}
                   variant="contained"
                   size="small"
+                  sx={{
+                    width: {
+                      sm: '5.5rem',
+                    },
+                  }}
                 >
                   Update
                 </Button>
               </Grid>
             </Grid>
           </Grid>
-          <Grid container gap={1}>
+          <Grid container>
             <Grid item>
               <Typography textTransform={'capitalize'} variant="h6">
                 {company}
