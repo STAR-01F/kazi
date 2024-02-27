@@ -172,7 +172,7 @@ const Job = () => {
                   display: 'flex',
                   flexDirection: {
                     xs: 'row',
-                    sm: 'column',
+                    sm: 'row',
                   },
                   justifyContent: 'space-evenly',
                   alignItems: 'center',
