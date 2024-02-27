@@ -75,7 +75,6 @@ const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
       component={Paper}
       variant="outlined"
       sx={{
-        // minWidth: '350px',
         maxWidth: {
           xs: '100%',
           sm: 'calc((100% - (1 * 16px))/2)',
@@ -86,6 +85,7 @@ const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
         height: 'max-content',
       }}
     >
+    
       {logoPath ? (
         <CardMedia
           component="img"

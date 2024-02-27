@@ -32,7 +32,7 @@ const Job = () => {
   if (status === 'error') {
     return <div>Error fetching data</div>;
   }
-  console.log('Get Jobs Data', data![0]);
+
   const {
     title,
     description,
@@ -41,45 +41,97 @@ const Job = () => {
     joblocation,
     jobsource,
   } = data![0];
-  console.log('checking job source', jobsource);
+
+  console.log('job source', data![0]);
+
   const handleGenerate = async () => {
     setGenerateClicked(true);
     setIsKeywordsLoading(true);
     const resp = await getKeywords(description);
     if (resp.status === 'Success') {
-      console.log(resp.data.keywords);
       setKeywords(resp.data.keywords.split(','));
     }
     setIsKeywordsLoading(false);
-    console.log(resp);
   };
+
+  const handleViewJob = () => {};
+
+  const handleUpdateJob = () => {};
+
   return (
     <Grid container direction={'row'} m={3} maxWidth={'lg'}>
       <Grid item xs={12} md={6}>
         <IconButton component={Link} to="/" edge="start">
           <ArrowBackIcon fontSize="large" />
         </IconButton>
-        <Grid container direction="column" mb={3}>
-          <Grid mb={2}>
+        <Grid container direction="column"  >
+          <Grid mb={2} id={'check'}>
             <Typography mb={2} variant="h4">
               {title}
             </Typography>
-            {jobsource === 'manual' ? null : (
-              <Box
-                component={'img'}
-                alt={company}
-                src={
-                  'https://images.otta.com/search/width_200/' +
-                  hiringorganization?.logo
-                }
+            <Grid
+              container
+              id={'logo-btns'}
+              sx={{
+                minHeight: {
+                  xs: '100px',
+                  sm: '200px',
+                },
+
+                flexDirection: {
+                  xs: 'column',
+                  sm: 'row',
+                },
+              }}
+            >
+              <Grid item xs={6} id={'company-logo'}>
+                {jobsource === 'manual' ? null : (
+                  <Box
+                    component={'img'}
+                    alt={company}
+                    src={
+                      'https://images.otta.com/search/width_200/' +
+                      hiringorganization?.logo
+                    }
+                    sx={{
+                      height: 'auto',
+                      width: 'auto',
+                      maxWidth: '200px',
+                      objectFit: 'contain',
+                    }}
+                  />
+                )}
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                id={'action-btns'}
                 sx={{
-                  height: 'auto',
-                  width: 'auto',
-                  maxWidth: '200px',
-                  objectFit: 'contain',
+                  display: 'flex',
+                  flexDirection: {
+                    xs: 'row',
+                    sm: 'column',
+                  },
+                  justifyContent: 'space-evenly',
+                  alignItems: 'center',
                 }}
-              />
-            )}
+              >
+                <Button
+                  onClick={handleViewJob}
+                  variant="contained"
+                  size="small"
+                >
+                  View Job
+                </Button>
+                <Button
+                  onClick={handleUpdateJob}
+                  variant="contained"
+                  size="small"
+                >
+                  Update
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
           <Grid container gap={1}>
             <Grid item>
