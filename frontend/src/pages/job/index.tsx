@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {useState} from 'react';
+import {Component, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Keywords from './components/Keywords';
 import OttaDescription from './components/OttaDescription';
@@ -59,7 +59,7 @@ const Job = () => {
   const handleUpdateJob = () => {};
 
   return (
-    <Grid container direction={'row'} m={3} maxWidth={'lg'}>
+    <Grid container direction={'row'} m={2} maxWidth={'lg'}>
       <Grid item xs={12} md={6}>
         <IconButton component={Link} to="/" edge="start">
           <ArrowBackIcon fontSize="large" />
@@ -75,16 +75,29 @@ const Job = () => {
               sx={{
                 minHeight: {
                   xs: '100px',
-                  sm: '200px',
+                  sm: '150px',
                 },
 
                 flexDirection: {
                   xs: 'column',
                   sm: 'row',
                 },
+
+                justifyContent:{
+                  xs: 'space-evenly',
+                }
               }}
             >
-              <Grid item xs={6} id={'company-logo'}>
+              <Grid item xs={6} id={'company-logo'} sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                
+              } 
+    
+
+                
+              }>
                 {jobsource === 'manual' ? null : (
                   <Box
                     component={'img'}
@@ -96,7 +109,7 @@ const Job = () => {
                     sx={{
                       height: 'auto',
                       width: 'auto',
-                      maxWidth: '200px',
+                      maxWidth: '100%',
                       objectFit: 'contain',
                     }}
                   />
