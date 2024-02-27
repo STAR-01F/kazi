@@ -45,7 +45,7 @@ function App() {
                         alignItems: 'center',
                     }}>
                     <Typography variant='h6' fontWeight={'bold'}>
-                        Simply
+                        Simplify
                     </Typography>
                     <Typography variant='h6' fontWeight={'bold'}>
                         ּ•
