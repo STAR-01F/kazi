@@ -45,7 +45,7 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
       newErrors.title = 'Title is required';
     }
     if (jobLink === '') {
-      newErrors.jobLink = 'Job link is required';
+      newErrors.jobLink = 'Link is required';
     }
     if (company === '') {
       newErrors.company = 'Company is required';
