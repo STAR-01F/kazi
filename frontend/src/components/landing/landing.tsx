@@ -47,7 +47,7 @@ export default function LandingPage() {
         >
           <img src={logo} alt="Kazi Logo" />
         </Box>
-        <Typography padding="40px" variant="h6" fontWeight={300}>
+        <Typography padding="40px" variant="h6" fontWeight="bold">
           Simplify ∙ Track ∙ Succeed
         </Typography>
       </Box>
