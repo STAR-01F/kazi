@@ -30,13 +30,20 @@ type ThemeCustomizationProps = {
  * ```
  */
 const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
   const theme = useMemo(
     () =>
       createTheme({
         breakpoints: {...breakpoints},
         palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
+          //mode: prefersDarkMode ? 'dark' : 'light',
+          primary: {
+            main: '#3d7eeb',
+          },
+          background: {
+            paper: '#edf4f2',
+            default: '#fcf7f7',
+          },
         },
         components: {
           MuiCssBaseline: {
@@ -57,7 +64,8 @@ const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
           },
         },
       }),
-    [prefersDarkMode]
+    // [prefersDarkMode]
+    []
   );
   return (
     <ThemeProvider theme={theme}>
