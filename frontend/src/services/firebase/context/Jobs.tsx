@@ -24,7 +24,6 @@ export const JobsProvider = ({children}: JobsProviderProps): JSX.Element => {
     setJobs(userJobs.data || []);
     setLoading(false);
   }
-  console.log('userJobs', userJobs);
   return (
     <JobsContext.Provider value={{jobs, setJobs, loading}}>
       {children}
