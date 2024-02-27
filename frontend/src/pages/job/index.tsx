@@ -11,16 +11,21 @@ import {
 import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useState} from 'react';
-import {Navigate, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import Keywords from './components/Keywords';
 import OttaDescription from './components/OttaDescription';
 import getKeywords from '@utils/openai';
 import useFetchJobs from '@hooks/useFetchJobs';
 import {Link} from 'react-router-dom';
 import ManualDescription from './components/ManualDescription';
+import MenuListButton from '@components/button/MenuListButton';
+import {DeleteJob, UpdateJobStatus} from '@services/firebase/jobs';
+import {useAuth} from '@services/firebase/hooks/useAuth';
+import {useFeedback} from '@hooks/useFeeback';
 
 const Job = () => {
   const {id} = useParams();
+
   const [keywords, setKeywords] = useState<string[]>([]);
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {status, data} = useFetchJobs(id);
@@ -55,8 +60,53 @@ const Job = () => {
     setIsKeywordsLoading(false);
   };
 
-  const handleUpdateJob = () => {};
+  const {user} = useAuth();
+  const {setFeedback} = useFeedback();
+  const handleDeleteJob = async () => {
+    if (!user?.uid) return;
+    const resp = await DeleteJob(user.uid, id!);
+    if (resp.status === 'Success') {
+      setFeedback({
+        type: 'success',
+        message: resp.message,
+      });
+      return;
+    }
+    setFeedback({
+      type: 'error',
+      message: resp.message as string,
+    });
+    console.error(resp);
+  };
 
+  const handleUpdateJobStatus = async (status: string) => {
+    if (!user?.uid) return;
+    const resp = await UpdateJobStatus(user.uid, id!, status);
+
+    if (resp.status === 'Success') {
+      setFeedback({
+        type: 'success',
+        message: resp.message,
+      });
+      return;
+    }
+    setFeedback({
+      type: 'error',
+      message: resp.message as string,
+    });
+    console.error(resp);
+  };
+
+  const moveMenulist = [
+    {name: 'Saved', action: () => handleUpdateJobStatus('Saved')},
+    {name: 'Applied', action: () => handleUpdateJobStatus('Applied')},
+    {name: 'Interview', action: () => handleUpdateJobStatus('Interview')},
+    {name: 'Rejected', action: () => handleUpdateJobStatus('Rejected')},
+    {
+      name: 'Remove',
+      action: handleDeleteJob,
+    },
+  ];
   return (
     <Grid container direction={'row'} m={2} maxWidth={'lg'}>
       <Grid item xs={12} md={6}>
@@ -129,9 +179,9 @@ const Job = () => {
                 }}
               >
                 <Button
-                LinkComponent={'a'}
-                target='_blank'
-                href={joblink}
+                  LinkComponent={'a'}
+                  target="_blank"
+                  href={joblink}
                   variant="contained"
                   size="small"
                   sx={{
@@ -142,10 +192,10 @@ const Job = () => {
                 >
                   View Job
                 </Button>
-                <Button
-                  onClick={handleUpdateJob}
+                <MenuListButton
                   variant="contained"
                   size="small"
+                  menuActionList={moveMenulist}
                   sx={{
                     width: {
                       sm: '5.5rem',
@@ -153,7 +203,7 @@ const Job = () => {
                   }}
                 >
                   Update
-                </Button>
+                </MenuListButton>
               </Grid>
             </Grid>
           </Grid>
