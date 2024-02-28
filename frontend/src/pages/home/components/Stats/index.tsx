@@ -35,7 +35,11 @@ const StatsContainer = () => {
         variant={'determinate'}
         value={percentage}
         size={150}
-        label={'Goal'}
+        label={
+          <Typography variant="h6" sx={{mt: 1}}>
+            "Goal"
+          </Typography>
+        }
       >
         <Typography variant="h4">{`${lengthJobsThatYouApplied}`}</Typography>
         <Typography variant="h6">{`/`}</Typography>
