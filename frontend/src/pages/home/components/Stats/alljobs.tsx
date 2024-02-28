@@ -1,19 +1,26 @@
-import CircularProgressWithLabel from '@components/progress/CircularProgressWithLabel';
-import {Box, Typography} from '@mui/material';
+import CircularProgress from '@components/progress/CircularProgressWithLabel';
+import {Box} from '@mui/material';
+// import {Typography} from '@mui/material';
 import {useJobs} from '@services/firebase/hooks/useJobs';
-import {JobByStatus, groupJobsByStatus} from '@utils/groupJobStatus';
+import {JobByStatus, JobStatus, groupJobsByStatus} from '@utils/groupJobStatus';
 
 const AllJobs = () => {
   const {jobs} = useJobs();
   const totalJobs = jobs.length;
 
   const alljobs: JobByStatus = groupJobsByStatus(jobs);
-
-  const getJobCount = (status: string) =>
+  console.log(alljobs);
+  const getJobCount = (status: JobStatus) =>
     alljobs && alljobs[status] ? alljobs[status].length : 0;
 
   return (
     <Box
+      sx={{
+        position: 'relative',
+        display: 'inline-flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
     >
       {/* <CircularProgressWithLabel
         variant={'determinate'}
@@ -28,35 +35,38 @@ const AllJobs = () => {
       >
         <Typography variant="h4">{`${totalJobs}`}</Typography>
       </CircularProgressWithLabel> */}
-      <CircularProgressWithLabel
+      <CircularProgress
         variant={'determinate'}
         value={(getJobCount('Saved') / totalJobs) * 100}
         size={150}
         color="inherit"
-        label={
-          <Typography variant="h6" sx={{mt: 1}}>
-            "Saved Jobs"
-          </Typography>
-        }
+        sx={{position: 'absolute', zIndex: 4}}
+        // label={
+        //   <Typography variant="h6" sx={{mt: 1}}>
+        //     "Saved Jobs"
+        //   </Typography>
+        // }
       >
-        <Typography variant="h4">{getJobCount('Saved')}</Typography>
-      </CircularProgressWithLabel>
-      <CircularProgressWithLabel
+        {/* <Typography variant="h4">{getJobCount('Saved')}</Typography> */}
+      </CircularProgress>
+      <CircularProgress
         variant={'determinate'}
         value={
           ((getJobCount('Applied') + getJobCount('Saved')) / totalJobs) * 100
         }
         size={150}
         color="warning"
-        label={
-          <Typography variant="h6" sx={{mt: 1}}>
-            "Applied Jobs"
-          </Typography>
-        }
+        sx={{position: 'absolute', zIndex: 3}}
+
+        // label={
+        //   <Typography variant="h6" sx={{mt: 1}}>
+        //     "Applied Jobs"
+        //   </Typography>
+        // }
       >
-        <Typography variant="h4">{getJobCount('Applied')}</Typography>
-      </CircularProgressWithLabel>
-      <CircularProgressWithLabel
+        {/* <Typography variant="h4">{getJobCount('Applied')}</Typography> */}
+      </CircularProgress>
+      <CircularProgress
         variant={'determinate'}
         value={
           ((getJobCount('Interview') +
@@ -67,15 +77,16 @@ const AllJobs = () => {
         }
         size={150}
         color="success"
-        label={
-          <Typography variant="h6" sx={{mt: 1}}>
-            "Interview Jobs"
-          </Typography>
-        }
+        sx={{position: 'absolute', zIndex: 2}}
+        // label={
+        //   <Typography variant="h6" sx={{mt: 1}}>
+        //     "Interview Jobs"
+        //   </Typography>
+        // }
       >
-        <Typography variant="h4">{getJobCount('Interview')}</Typography>
-      </CircularProgressWithLabel>
-      <CircularProgressWithLabel
+        {/* <Typography variant="h4">{getJobCount('Interview')}</Typography> */}
+      </CircularProgress>
+      <CircularProgress
         variant={'determinate'}
         value={
           ((getJobCount('Rejected') +
@@ -87,14 +98,15 @@ const AllJobs = () => {
         }
         size={150}
         color="error"
-        label={
-          <Typography variant="h6" sx={{mt: 1}}>
-            "Rejected Jobs"
-          </Typography>
-        }
+        sx={{position: 'absolute', zIndex: 1}}
+        // label={
+        //   <Typography variant="h6" sx={{mt: 1}}>
+        //     "Rejected Jobs"
+        //   </Typography>
+        // }
       >
-        <Typography variant="h4">{getJobCount('Rejected')}</Typography>
-      </CircularProgressWithLabel>
+        {/* <Typography variant="h4">{getJobCount('Rejected')}</Typography> */}
+      </CircularProgress>
     </Box>
   );
 };
