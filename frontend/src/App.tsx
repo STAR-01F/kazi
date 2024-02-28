@@ -3,6 +3,7 @@ import {Outlet, RouterProvider, createBrowserRouter} from 'react-router-dom';
 import {Grid} from '@mui/material';
 import Header from '@components/header/Header';
 import {AuthProvider} from '@services/firebase/context/Auth';
+import {JobsProvider} from '@services/firebase/context/Jobs';
 import WithAuth from '@services/firebase/hoc/WithAuth';
 import WithUnauth from '@services/firebase/hoc/WithUnauth';
 import LandingPage from '@components/landing/landing';
@@ -105,7 +106,9 @@ const router = createBrowserRouter([
       {
         element: (
           <WithAuth>
-            <Layout />
+            <JobsProvider>
+              <Layout />
+            </JobsProvider>
           </WithAuth>
         ),
         children: [

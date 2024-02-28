@@ -1,7 +1,22 @@
+import CircularProgressWithLabel from '@components/progress/CircularProgressWithLabel';
 import {Container, Paper, Typography} from '@mui/material';
-import QueryStatsTwoToneIcon from '@mui/icons-material/QueryStatsTwoTone';
+import {useJobs} from '@services/firebase/hooks/useJobs';
 
 const StatsContainer = () => {
+  const {jobs} = useJobs();
+  const lengthJobsThatYouApplied = jobs.filter(
+    (job) => job.status === 'Applied' || job.status === 'Interviewing'
+  ).length;
+  // TODO: Replace with actual goal value
+  const defaultValue = 10;
+
+  const percentage =
+    ((lengthJobsThatYouApplied > defaultValue
+      ? defaultValue
+      : lengthJobsThatYouApplied) /
+      defaultValue) *
+    100;
+
   return (
     <Container
       component={Paper}
@@ -10,13 +25,26 @@ const StatsContainer = () => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '250px',
-        flexDirection: 'column',
+        flexDirection: 'row',
         minWidth: '350px',
+        gap: 10,
         mb: 3,
       }}
     >
-      <QueryStatsTwoToneIcon sx={{fontSize: '100px'}} />
-      <Typography>No stats available</Typography>
+      <CircularProgressWithLabel
+        variant={'determinate'}
+        value={percentage}
+        size={150}
+        label={
+          <Typography variant="h6" sx={{mt: 1}}>
+            "Goal"
+          </Typography>
+        }
+      >
+        <Typography variant="h4">{`${lengthJobsThatYouApplied}`}</Typography>
+        <Typography variant="h6">{`/`}</Typography>
+        <Typography>{`${defaultValue}`}</Typography>
+      </CircularProgressWithLabel>
     </Container>
   );
 };

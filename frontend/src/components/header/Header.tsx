@@ -15,6 +15,7 @@ import {logout} from '@services/firebase/auth';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
+import logo from '../../assets/kazi-logo.png';
 
 type Settings = {
   name: string;
@@ -68,14 +69,23 @@ const Header = () => {
             justifyContent: 'space-between',
           }}
         >
-          {/* actual logo can go here */}
-          <Typography
+          <Box
+            sx={{
+              width: '80px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'left',
+            }}
+          >
+            <img src={logo} alt="Kazi Logo" />
+          </Box>
+          {/* <Typography
             variant="h6"
             noWrap
             sx={{fontWeight: 700, display: {xs: 'flex'}}}
           >
-            TrackAI
-          </Typography>
+            Kazi
+          </Typography> */}
           {user ? (
             <Box sx={{flexGrow: 0}}>
               <Tooltip title="Settings">
