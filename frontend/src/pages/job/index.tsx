@@ -170,10 +170,10 @@ const Job = () => {
                 id={'action-btns'}
                 sx={{
                   display: 'flex',
-                  flexDirection: {
-                    xs: 'row',
-                    sm: 'row',
-                  },
+                  // flexDirection: {
+                  //   xs: 'row',
+                  //   sm: 'row',
+                  // },
                   justifyContent: 'space-evenly',
                   alignItems: 'center',
                 }}
