@@ -1,6 +1,6 @@
 import CircularProgress from '@components/progress/CircularProgressWithLabel';
 import {Box} from '@mui/material';
-// import {Typography} from '@mui/material';
+import {Typography} from '@mui/material';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 import {JobByStatus, JobStatus, groupJobsByStatus} from '@utils/groupJobStatus';
 
@@ -14,14 +14,7 @@ const AllJobs = () => {
     alljobs && alljobs[status] ? alljobs[status].length : 0;
 
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        display: 'inline-flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
+    <Box>
       {/* <CircularProgressWithLabel
         variant={'determinate'}
         value={(totalJobs / totalJobs) * 100}
@@ -46,9 +39,7 @@ const AllJobs = () => {
         //     "Saved Jobs"
         //   </Typography>
         // }
-      >
-        {/* <Typography variant="h4">{getJobCount('Saved')}</Typography> */}
-      </CircularProgress>
+      ></CircularProgress>
       <CircularProgress
         variant={'determinate'}
         value={
@@ -106,6 +97,20 @@ const AllJobs = () => {
         // }
       >
         {/* <Typography variant="h4">{getJobCount('Rejected')}</Typography> */}
+        <Box
+          sx={{
+            top: 80,
+            left: 75,
+            bottom: 0,
+            right: 0,
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography variant="h4">{totalJobs}</Typography>
+        </Box>
       </CircularProgress>
     </Box>
   );

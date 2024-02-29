@@ -17,6 +17,7 @@ const Goal = () => {
       defaultValue) *
     100;
   return (
+    
     <CircularProgressWithLabel
       variant={'determinate'}
       value={percentage}
