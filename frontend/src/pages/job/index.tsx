@@ -25,7 +25,8 @@ import {useFeedback} from '@hooks/useFeeback';
 
 const Job = () => {
   const {id} = useParams();
-
+  const {user} = useAuth();
+  const {setFeedback} = useFeedback();
   const [keywords, setKeywords] = useState<string[]>([]);
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {status, data} = useFetchJobs(id);
@@ -60,8 +61,6 @@ const Job = () => {
     setIsKeywordsLoading(false);
   };
 
-  const {user} = useAuth();
-  const {setFeedback} = useFeedback();
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     const resp = await DeleteJob(user.uid, id!);
