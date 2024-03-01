@@ -20,10 +20,12 @@ const RightSection = () => {
     {
       name: 'All',
       action: () => setFilter({status: 'all'}),
+      selected: searchParams.get('status') === null,
     },
     ...JobStatus.status.map((status) => ({
       name: <Typography>{status}</Typography>,
       action: () => setFilter({status: status.toLowerCase()}),
+      selected: status.toLowerCase() === searchParams.get('status'),
     })),
   ];
 
@@ -31,6 +33,7 @@ const RightSection = () => {
   const sortByActionList = sortBy.map((name) => ({
     name: name,
     action: () => setFilter({sort: name.toLowerCase()}),
+    selected: name.toLowerCase() === searchParams.get('sort'),
   }));
   return (
     <Container

@@ -19,6 +19,7 @@ import CheckIcon from '@mui/icons-material/Check';
 type MenuActionList = {
   name: ReactNode;
   action: () => void;
+  selected?: boolean;
 };
 /**
  * Represents a job status action.
@@ -75,7 +76,10 @@ const MenuListButton = ({
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
   const theme = useTheme();
-  const [selectedItem, setSelectedItem] = useState<number>(0);
+  const selectedPosition = menuActionList.findIndex(
+    (action) => action.selected
+  );
+  const [selectedItem, setSelectedItem] = useState<number>(selectedPosition);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -165,12 +169,14 @@ const MenuListButton = ({
                       <Divider />
                     </>
                   )}
-                  {menuActionList.map(({name, action}, i) => (
+                  {menuActionList.map(({name, action, selected}, i) => (
                     <MenuItem
                       key={i}
                       onClick={(e) => {
                         action();
-                        setSelectedItem(i);
+                        if (selected) {
+                          setSelectedItem(i);
+                        }
                         handleClose(e);
                       }}
                       sx={{display: 'flex', alignItems: 'center'}}

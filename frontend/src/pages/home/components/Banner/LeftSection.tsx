@@ -12,7 +12,10 @@ const LeftSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const view = ['grid', 'list', 'kanban'];
   const handleButtonClick = (index: number) => {
-    setSearchParams({view: view[index]});
+    setSearchParams((prev) => {
+      prev.set('view', view[index]);
+      return prev;
+    });
   };
   const selectedButton = view.indexOf(searchParams.get('view') || 'grid');
   return (
