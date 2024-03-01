@@ -19,7 +19,6 @@ import CheckIcon from '@mui/icons-material/Check';
 type MenuActionList = {
   name: ReactNode;
   action: () => void;
-  selected?: boolean;
 };
 /**
  * Represents a job status action.
@@ -34,8 +33,9 @@ type MenuListButtonProps = {
   variant?: 'text' | 'outlined' | 'contained'; // The variant of the button.
   size?: 'small' | 'medium' | 'large'; // The size of the button.
   title?: ReactNode; // The title of the Popper
-  select?: boolean;
-  fullWidth?: boolean;
+  select?: boolean; // Whether to show the selected icon
+  fullWidth?: boolean; // Whether the button should take the full width of the parent.
+  menuSelected: number; // The index of the selected menu item.
   sx?: SxProps;
   /**
    * The list of actions for the menu.
@@ -69,6 +69,7 @@ const MenuListButton = ({
   endIcon,
   startIcon,
   title,
+  menuSelected,
   select = false,
   fullWidth = false,
   sx,
@@ -76,10 +77,10 @@ const MenuListButton = ({
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
   const theme = useTheme();
-  const selectedPosition = menuActionList.findIndex(
-    (action) => action.selected
-  );
-  const [selectedItem, setSelectedItem] = useState<number>(selectedPosition);
+  const [selectedItem, setSelectedItem] = useState<number>(0);
+  useEffect(() => {
+    setSelectedItem(menuSelected);
+  }, [menuSelected]);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -169,14 +170,12 @@ const MenuListButton = ({
                       <Divider />
                     </>
                   )}
-                  {menuActionList.map(({name, action, selected}, i) => (
+                  {menuActionList.map(({name, action}, i) => (
                     <MenuItem
                       key={i}
                       onClick={(e) => {
                         action();
-                        if (selected) {
-                          setSelectedItem(i);
-                        }
+                        setSelectedItem(i);
                         handleClose(e);
                       }}
                       sx={{display: 'flex', alignItems: 'center'}}

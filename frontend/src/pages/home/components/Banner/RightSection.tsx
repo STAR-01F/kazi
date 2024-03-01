@@ -20,21 +20,31 @@ const RightSection = () => {
     {
       name: 'All',
       action: () => setFilter({status: 'all'}),
-      selected: searchParams.get('status') === null,
     },
     ...JobStatus.status.map((status) => ({
-      name: <Typography>{status}</Typography>,
+      name: status,
       action: () => setFilter({status: status.toLowerCase()}),
-      selected: status.toLowerCase() === searchParams.get('status'),
     })),
   ];
 
-  const sortBy = ['Newest', 'Oldest', 'Last updated'];
-  const sortByActionList = sortBy.map((name) => ({
-    name: name,
-    action: () => setFilter({sort: name.toLowerCase()}),
-    selected: name.toLowerCase() === searchParams.get('sort'),
-  }));
+  const sortBy = ['Oldest', 'Last updated'];
+  const sortByActionList = [
+    {
+      name: 'Newest',
+      action: () => setFilter({sort: 'newest'}),
+    },
+    ...sortBy.map((name) => ({
+      name: name,
+      action: () => setFilter({sort: name.toLowerCase()}),
+    })),
+  ];
+  const selectedSortIndex = sortByActionList.findIndex(
+    (action) => action.name.toLowerCase() === searchParams.get('sort')
+  );
+  const selectedStatusIndex = statusActionList.findIndex(
+    (action) => action.name.toLowerCase() === searchParams.get('status')
+  );
+
   return (
     <Container
       component={Box}
@@ -47,6 +57,7 @@ const RightSection = () => {
         size="small"
         variant="outlined"
         select
+        menuSelected={selectedSortIndex === -1 ? 0 : selectedSortIndex}
         menuActionList={sortByActionList}
         endIcon={<KeyboardArrowDownIcon />}
       >
@@ -56,6 +67,7 @@ const RightSection = () => {
         size="small"
         variant="outlined"
         select
+        menuSelected={selectedStatusIndex === -1 ? 0 : selectedStatusIndex}
         menuActionList={statusActionList}
         endIcon={<KeyboardArrowDownIcon />}
       >

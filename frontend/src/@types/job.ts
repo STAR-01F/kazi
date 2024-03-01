@@ -7,8 +7,8 @@ type Job = {
   description: string;
   company: string;
   joblink: string;
-  createdAt?: Timestamp;
-  updatedAt?: Timestamp;
+  createdat?: Timestamp;
+  updatedat?: Timestamp;
   status?: string;
   keywords?: string;
   joblocation?: {address?: {addressRegion: string; addressCountry: string}};

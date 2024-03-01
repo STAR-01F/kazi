@@ -9,9 +9,10 @@ const UpdateJobStatus = async (
   try {
     const docRef = doc(jobPostings, jobId);
     const docSnap = await getDoc(docRef);
+    const updatedAt = new Date();
     if (docSnap.exists() && docSnap.data().userid === userId) {
       // await setDoc(docRef, job, {merge: true});
-      await updateDoc(docRef, {status: status});
+      await updateDoc(docRef, {status: status, updatedat: updatedAt});
       return {
         status: 'Success',
         message: `Successfully updated the job status to ${status}`,
