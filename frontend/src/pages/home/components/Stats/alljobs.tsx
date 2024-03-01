@@ -14,7 +14,12 @@ const AllJobs = () => {
     alljobs && alljobs[status] ? alljobs[status].length : 0;
 
   return (
-    <Box>
+    <Box
+      id="alljobs-1"
+      sx={{
+        position: 'relative',
+      }}
+    >
       {/* <CircularProgressWithLabel
         variant={'determinate'}
         value={(totalJobs / totalJobs) * 100}
@@ -33,7 +38,14 @@ const AllJobs = () => {
         value={(getJobCount('Saved') / totalJobs) * 100}
         size={150}
         color="inherit"
-        sx={{position: 'absolute', zIndex: 4}}
+        sx={{
+          position: 'absolute',
+          top: -80,
+          left: -30,
+          bottom: 0,
+          right: 0,
+          zIndex: 4,
+        }}
         // label={
         //   <Typography variant="h6" sx={{mt: 1}}>
         //     "Saved Jobs"
@@ -47,7 +59,14 @@ const AllJobs = () => {
         }
         size={150}
         color="warning"
-        sx={{position: 'absolute', zIndex: 3}}
+        sx={{
+          position: 'absolute',
+          top: -80,
+          left: -30,
+          bottom: 0,
+          right: 0,
+          zIndex: 3,
+        }}
 
         // label={
         //   <Typography variant="h6" sx={{mt: 1}}>
@@ -68,7 +87,14 @@ const AllJobs = () => {
         }
         size={150}
         color="success"
-        sx={{position: 'absolute', zIndex: 2}}
+        sx={{
+          position: 'absolute',
+          top: -80,
+          left: -30,
+          bottom: 0,
+          right: 0,
+          zIndex: 2,
+        }}
         // label={
         //   <Typography variant="h6" sx={{mt: 1}}>
         //     "Interview Jobs"
@@ -89,7 +115,14 @@ const AllJobs = () => {
         }
         size={150}
         color="error"
-        sx={{position: 'absolute', zIndex: 1}}
+        sx={{
+          position: 'absolute',
+          zIndex: 1,
+          top: -80,
+          left: -30,
+          bottom: 0,
+          right: 0,
+        }}
         // label={
         //   <Typography variant="h6" sx={{mt: 1}}>
         //     "Rejected Jobs"
@@ -99,8 +132,8 @@ const AllJobs = () => {
         {/* <Typography variant="h4">{getJobCount('Rejected')}</Typography> */}
         <Box
           sx={{
-            top: 80,
-            left: 75,
+            top: -10,
+            left: 45,
             bottom: 0,
             right: 0,
             position: 'absolute',
@@ -112,6 +145,9 @@ const AllJobs = () => {
           <Typography variant="h4">{totalJobs}</Typography>
         </Box>
       </CircularProgress>
+      <Typography variant="h6" sx={{mt: 1}}>
+            Jobs
+      </Typography>
     </Box>
   );
 };
