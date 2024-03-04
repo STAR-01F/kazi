@@ -43,10 +43,10 @@ const Job = () => {
     title,
     description,
     company,
-    hiringorganization,
-    joblocation,
-    jobsource,
-    joblink,
+    hiringOrganization,
+    jobLocation,
+    jobSource,
+    jobLink,
   } = data![0];
 
   console.log('job source', data![0]);
@@ -146,13 +146,13 @@ const Job = () => {
                   alignItems: 'center',
                 }}
               >
-                {jobsource === 'manual' ? null : (
+                {jobSource === 'manual' ? null : (
                   <Box
                     component={'img'}
                     alt={company}
                     src={
                       'https://images.otta.com/search/width_200/' +
-                      hiringorganization?.logo
+                      hiringOrganization?.logo
                     }
                     sx={{
                       height: 'auto',
@@ -180,7 +180,7 @@ const Job = () => {
                 <Button
                   LinkComponent={'a'}
                   target="_blank"
-                  href={joblink}
+                  href={jobLink}
                   variant="contained"
                   size="small"
                   sx={{
@@ -211,13 +211,13 @@ const Job = () => {
               <Typography textTransform={'capitalize'} variant="h6">
                 {company}
               </Typography>
-              {jobsource === 'manual' ? null : (
+              {jobSource === 'manual' ? null : (
                 <Typography
                   textTransform={'capitalize'}
                   fontWeight={'light'}
                   variant="subtitle1"
                 >
-                  {`${joblocation?.address?.addressRegion}, ${joblocation?.address?.addressCountry}`}
+                  {`${jobLocation?.address?.addressRegion}, ${jobLocation?.address?.addressCountry}`}
                 </Typography>
               )}
             </Grid>
@@ -235,7 +235,7 @@ const Job = () => {
             sx={{height: '2.5rem'}}
           />
           <CardContent>
-            {jobsource === 'manual' ? (
+            {jobSource === 'manual' ? (
               <ManualDescription description={description} />
             ) : (
               <OttaDescription description={description} />

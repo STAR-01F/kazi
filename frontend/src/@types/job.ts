@@ -6,14 +6,14 @@ type Job = {
   title: string;
   description: string;
   company: string;
-  joblink: string;
-  createdat?: Timestamp;
-  updatedat?: Timestamp;
+  jobLink: string;
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
   status?: string;
   keywords?: string;
-  joblocation?: {address?: {addressRegion: string; addressCountry: string}};
-  hiringorganization?: {logo: string};
-  jobsource?: string;
+  jobLocation?: {address?: {addressRegion: string; addressCountry: string}};
+  hiringOrganization?: {logo: string};
+  jobSource?: string;
 };
 
 export default Job;

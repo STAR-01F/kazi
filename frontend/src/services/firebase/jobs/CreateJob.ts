@@ -6,7 +6,7 @@ const CreateJob = async (job: Partial<Job>) => {
   if (!job.description)
     return {status: 'Error', message: 'Job Description is empty'};
   if (!job.title) return {status: 'Error', message: 'Job Title is empty'};
-  if (!job.joblink) return {status: 'Error', message: 'Job Link is empty'};
+  if (!job.jobLink) return {status: 'Error', message: 'Job Link is empty'};
   if (!job.company) return {status: 'Error', message: 'Company is empty'};
   try {
     const createdAt = Timestamp.now();

@@ -49,7 +49,7 @@ const GridView = ({jobByStatus}: GridViewProps) => {
                   companyName={job.company}
                   jobTitle={job.title}
                   jobID={job.id!}
-                  logoPath={job.hiringorganization?.logo || ''}
+                  logoPath={job.hiringOrganization?.logo || ''}
                 />
               ))}
             </Fragment>

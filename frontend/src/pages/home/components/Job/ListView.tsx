@@ -27,7 +27,7 @@ const ListView = ({jobs}: ListViewProps) => {
                 jobID={job.id!}
                 companyName={job.company}
                 logoPath={`https://images.otta.com/search/width_200/${
-                  job.hiringorganization?.logo || ''
+                  job.hiringOrganization?.logo || ''
                 }`}
                 status={job.status || 'Saved'}
                 jobTitle={job.title}

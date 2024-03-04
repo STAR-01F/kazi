@@ -65,15 +65,15 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
       userid: user.uid,
       title: title,
       company: company,
-      joblink: jobLink,
+      jobLink: jobLink,
       description: description,
       status: status,
-      jobsource: 'manual',
+      jobSource: 'manual',
     };
 
-    job.joblink?.startsWith('http') || job.joblink?.startsWith('https')
+    job.jobLink?.startsWith('http') || job.jobLink?.startsWith('https')
       ? null
-      : (job.joblink = `https://${job.joblink}`);
+      : (job.jobLink = `https://${job.jobLink}`);
 
     // awaiting the jobID to navigate to the correct job page
     const resp = await CreateJob(job);

@@ -10,15 +10,10 @@ const GetJobByJobID = async (
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      const data = docSnap.data();
-      const lowerCaseData = Object.keys(data).reduce((acc, key) => {
-        acc[key.toLowerCase()] = data[key];
-        return acc;
-      }, {} as Record<string, unknown>);
       return {
         status: 'Success',
         message: 'Successfully got the job',
-        data: {id: docSnap.id, ...lowerCaseData} as Job,
+        data: {id: docSnap.id, ...docSnap.data()} as Job,
       };
     } else {
       return {
@@ -42,12 +37,7 @@ const GetJobsByUserID = async (
     const jobList: Job[] = snapshot.docs
       .filter((doc) => doc.data().userid === userid)
       .map((doc) => {
-        const data = doc.data();
-        const lowerCaseData = Object.keys(data).reduce((newData, key) => {
-          newData[key.toLowerCase()] = data[key];
-          return newData;
-        }, {} as Record<string, unknown>);
-        return {id: doc.id, ...lowerCaseData} as Job;
+        return {id: doc.id, ...doc.data()} as Job;
       });
     return {
       status: 'Success',

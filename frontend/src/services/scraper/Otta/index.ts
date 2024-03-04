@@ -19,7 +19,7 @@ const Otta = async (url: string): Promise<Response<Partial<Job>, unknown>> => {
     const jobInfo: Partial<Job> = {
       title: data.title,
       company: data.hiringOrganization.name,
-      joblink: url,
+      jobLink: url,
       description:
         data.description + '\n' + data.skills + '\n' + data.responsibilities,
       ...data,
