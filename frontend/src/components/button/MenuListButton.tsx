@@ -35,7 +35,7 @@ type MenuListButtonProps = {
   title?: ReactNode; // The title of the Popper
   select?: boolean; // Whether to show the selected icon
   fullWidth?: boolean; // Whether the button should take the full width of the parent.
-  menuSelected: number; // The index of the selected menu item.
+  menuSelected?: number; // The index of the selected menu item.
   sx?: SxProps;
   /**
    * The list of actions for the menu.
@@ -69,7 +69,7 @@ const MenuListButton = ({
   endIcon,
   startIcon,
   title,
-  menuSelected,
+  menuSelected = 0,
   select = false,
   fullWidth = false,
   sx,

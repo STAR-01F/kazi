@@ -27,12 +27,8 @@ const RightSection = () => {
     })),
   ];
 
-  const sortBy = ['Oldest', 'Last updated'];
+  const sortBy = ['Newest', 'Oldest', 'Last updated'];
   const sortByActionList = [
-    {
-      name: 'Newest',
-      action: () => setFilter({sort: 'newest'}),
-    },
     ...sortBy.map((name) => ({
       name: name,
       action: () => setFilter({sort: name.toLowerCase()}),
