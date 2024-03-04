@@ -33,8 +33,9 @@ type MenuListButtonProps = {
   variant?: 'text' | 'outlined' | 'contained'; // The variant of the button.
   size?: 'small' | 'medium' | 'large'; // The size of the button.
   title?: ReactNode; // The title of the Popper
-  select?: boolean;
-  fullWidth?: boolean;
+  select?: boolean; // Whether to show the selected icon
+  fullWidth?: boolean; // Whether the button should take the full width of the parent.
+  menuSelected?: number; // The index of the selected menu item.
   sx?: SxProps;
   /**
    * The list of actions for the menu.
@@ -68,6 +69,7 @@ const MenuListButton = ({
   endIcon,
   startIcon,
   title,
+  menuSelected = 0,
   select = false,
   fullWidth = false,
   sx,
@@ -76,6 +78,9 @@ const MenuListButton = ({
   const anchorRef = useRef<HTMLButtonElement>(null);
   const theme = useTheme();
   const [selectedItem, setSelectedItem] = useState<number>(0);
+  useEffect(() => {
+    setSelectedItem(menuSelected);
+  }, [menuSelected]);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
