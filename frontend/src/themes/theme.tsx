@@ -30,19 +30,33 @@ type ThemeCustomizationProps = {
  */
 const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
   // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
+  const baseTheme = createTheme();
   const theme = useMemo(
     () =>
       createTheme({
         breakpoints: {...breakpoints},
         palette: {
           //mode: prefersDarkMode ? 'dark' : 'light',
-          primary: {
-            main: '#3d7eeb',
-          },
+          primary: baseTheme.palette.augmentColor({
+            color: {
+              main: '#5836f7',
+            },
+          }),
           background: {
-            paper: '#edf4f2',
-            default: '#fcf7f7',
+            paper: '#f0f0f6',
+            default: '#f0f0f3',
           },
+        },
+        typography: {
+          fontFamily: [
+            '"Helvetica Neue"',
+            '-apple-system',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+          ].join(','),
         },
         components: {
           MuiCssBaseline: {
@@ -61,10 +75,34 @@ const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
               },
             }),
           },
+          MuiPaper: {
+            styleOverrides: {
+              root: {
+                border: '1px solid ' + baseTheme.palette.divider,
+                boxShadow: 'none',
+                borderRadius: '16px',
+              },
+            },
+          },
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                textTransform: 'none',
+                borderRadius: '16px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textAlign: 'center',
+                px: '10px',
+                '&.MuiButton-contained': {
+                  boxShadow: 'none',
+                },
+              },
+            },
+          },
         },
       }),
     // [prefersDarkMode]
-    []
+    [baseTheme]
   );
   return (
     <ThemeProvider theme={theme}>
