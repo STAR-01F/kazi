@@ -1,7 +1,6 @@
-import {doc, getDoc, getDocs} from 'firebase/firestore';
+import {doc, getDoc} from 'firebase/firestore';
 import {jobPostings} from '..';
 import {Job, Response} from 'src/@types';
-
 const GetJobByJobID = async (
   jobid: string
 ): Promise<Response<Job, unknown>> => {
@@ -29,27 +28,4 @@ const GetJobByJobID = async (
   }
 };
 
-const GetJobsByUserID = async (
-  userid: string
-): Promise<Response<Job[], unknown>> => {
-  try {
-    const snapshot = await getDocs(jobPostings);
-    const jobList: Job[] = snapshot.docs
-      .filter((doc) => doc.data().userid === userid)
-      .map((doc) => {
-        return {id: doc.id, ...doc.data()} as Job;
-      });
-    return {
-      status: 'Success',
-      message: 'Successfully getting the jobs',
-      data: jobList,
-    };
-  } catch {
-    return {
-      status: 'Error',
-      message: 'Failed to get the jobs',
-    };
-  }
-};
-
-export {GetJobByJobID, GetJobsByUserID};
+export {GetJobByJobID};
