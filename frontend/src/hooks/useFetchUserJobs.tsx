@@ -1,5 +1,5 @@
 import {useAuth} from '@services/firebase/hooks/useAuth';
-import {GetJobsByUserID} from '@services/firebase/userJobs';
+import {GetUserJobsByUserID} from '@services/firebase/userJobs';
 import {useState, useEffect} from 'react';
 import {UserJob} from 'src/@types';
 
@@ -13,7 +13,7 @@ const useFetchUserJobs = () => {
     const fetchData = async () => {
       setStatus('fetching');
       try {
-        const response = await GetJobsByUserID(user.uid);
+        const response = await GetUserJobsByUserID(user.uid);
 
         if (response.status === 'Success') {
           setData(response.data);
