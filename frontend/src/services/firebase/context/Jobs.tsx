@@ -1,10 +1,10 @@
-import useFetchJobs from '@hooks/useFetchJobs';
+import useFetchUserJobs from '@hooks/useFetchUserJobs';
 import React, {createContext, useState} from 'react';
-import {Job} from 'src/@types';
+import {UserJob} from 'src/@types';
 
 export interface JobsContextType {
-  jobs: Job[];
-  setJobs: React.Dispatch<React.SetStateAction<Job[]>>;
+  jobs: UserJob[];
+  setJobs: React.Dispatch<React.SetStateAction<UserJob[]>>;
   loading: boolean;
 }
 
@@ -17,9 +17,9 @@ interface JobsProviderProps {
 }
 
 export const JobsProvider = ({children}: JobsProviderProps): JSX.Element => {
-  const [jobs, setJobs] = useState<Job[]>([]);
+  const [jobs, setJobs] = useState<UserJob[]>([]);
   const [loading, setLoading] = useState(true);
-  const userJobs = useFetchJobs();
+  const userJobs = useFetchUserJobs();
   if (userJobs.status === 'fetched' && loading) {
     setJobs(userJobs.data || []);
     setLoading(false);
