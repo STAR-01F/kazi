@@ -31,7 +31,9 @@
       "@pages/*": ["src/pages/*"],
       "@repository/*": ["src/repository/*"],
       "@services/*": ["src/services/*"],
-      "@context/*": ["src/context/*"]
+      "@context/*": ["src/context/*"],
+      "react": ["node_modules/@types/react"]
+
     }
   },
   "include": ["src"],
