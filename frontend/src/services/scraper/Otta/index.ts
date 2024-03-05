@@ -23,6 +23,7 @@ const Otta = async (url: string): Promise<Response<Partial<Job>, unknown>> => {
       description:
         data.description + '\n' + data.skills + '\n' + data.responsibilities,
       ...data,
+      jobSource: 'Otta',
     };
     return {
       status: 'Success',
