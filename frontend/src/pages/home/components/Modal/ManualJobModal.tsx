@@ -16,6 +16,7 @@ import {useNavigate} from 'react-router-dom';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useState} from 'react';
 import jobStatus from '@repository/job.json';
+import {CreateUserJob} from '@services/firebase/userJobs';
 
 type ManualJobModalProps = {
   toggle: () => void;
@@ -45,7 +46,7 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
       newErrors.title = 'Title is required';
     }
     if (jobLink === '') {
-      newErrors.jobLink = 'Job link is required';
+      newErrors.jobLink = 'Link is required';
     }
     if (company === '') {
       newErrors.company = 'Company is required';
@@ -62,14 +63,16 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
     validateForm();
 
     const job: Partial<Job> = {
-      userid: user.uid,
       title: title,
       company: company,
-      joblink: jobLink,
+      jobLink: jobLink,
       description: description,
-      status: status,
-      jobsource: 'manual',
+      jobSource: 'manual',
     };
+
+    job.jobLink?.startsWith('http') || job.jobLink?.startsWith('https')
+      ? null
+      : (job.jobLink = `https://${job.jobLink}`);
 
     // awaiting the jobID to navigate to the correct job page
     const resp = await CreateJob(job);
@@ -77,6 +80,12 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
     // check if resp is an error
     if (resp.status === 'Error') {
       console.error(resp);
+      return;
+    }
+
+    const createdUserJob = await CreateUserJob(user.uid, status, resp.data);
+    if (createdUserJob.status === 'Error') {
+      console.error(createdUserJob);
       return;
     }
 
@@ -101,7 +110,6 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           value={title}
           onChange={(e) => {
             setTitle(e.target.value);
-            console.log('title=========>', title);
           }}
           fullWidth
           error={!!errors.title}
@@ -117,7 +125,6 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           value={jobLink}
           onChange={(e) => {
             setJobLink(e.target.value);
-            console.log('job link=========>', e.target.value);
           }}
           fullWidth
           error={!!errors.jobLink}
@@ -132,7 +139,6 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           value={company}
           onChange={(e) => {
             setCompany(e.target.value);
-            console.log('company=========>', e.target.value);
           }}
           fullWidth
           error={!!errors.company}
@@ -164,7 +170,6 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           value={description}
           onChange={(e) => {
             setDescription(e.target.value);
-            console.log('description=========>', e.target.value);
           }}
           multiline
           fullWidth

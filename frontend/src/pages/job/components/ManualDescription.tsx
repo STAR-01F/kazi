@@ -5,7 +5,6 @@ type ManualDescriptionProps = {
 };
 
 const ManualDescription = ({description}: ManualDescriptionProps) => {
-  console.log('checking description', description);
   return (
     <>
       {description.split('\n').map((line, index) => {

@@ -1,51 +1,50 @@
-import useFetchJobs from '@hooks/useFetchJobs';
-import {Job} from 'src/@types';
 import GridView from './GridView';
 import LoadingGridView from './LoadingGridView';
 import Empty from './Empty';
 import {useSearchParams} from 'react-router-dom';
 import ListView from './ListView';
-
-type JobStatus = 'Saved' | 'Applied' | 'Interview ' | 'Rejected';
-
-type JobByStatus = {
-  [status in JobStatus]: Job[];
-};
-
-const groupJobsByStatus = (jobs: Job[]): JobByStatus => {
-  return jobs.reduce((acc, job) => {
-    const status = job.status as JobStatus;
-    if (job.status === '') {
-      job.status = 'Saved';
-    }
-    if (!acc[status]) {
-      acc[status] = [];
-    }
-    acc[status].push(job);
-    return acc;
-  }, {} as JobByStatus);
-};
+import { useJobs } from '@services/firebase/hooks/useJobs';
+import { JobByStatus, groupJobsByStatus } from '@utils/groupJobStatus';
+import {Timestamp} from 'firebase/firestore';
 
 const JobSection = () => {
-  const jobs = useFetchJobs();
+  const {jobs, loading} = useJobs();
+
   const [searchParam] = useSearchParams();
   const view = searchParam.get('view') || 'grid';
-  const jobByStatus = jobs.data
-    ? groupJobsByStatus(jobs.data)
-    : ({} as JobByStatus);
-  return jobs.data?.length === 0 ? (
+  const sort = searchParam.get('sort') || 'newest';
+  // useEffect(() => {
+  console.log('jobs', jobs);
+  jobs.sort((a, b) => {
+    const aStatus = a.status;
+    const bStatus = b.status;
+    if (!a.statusUpdates[aStatus] || !b.statusUpdates[bStatus]) {
+      return 0;
+    }
+    const createdAtA = (a.statusUpdates['Saved'] as Timestamp).toMillis();
+    const createdAtB = (b.statusUpdates['Saved'] as Timestamp).toMillis();
+    if (sort === 'oldest') {
+      return createdAtA - createdAtB;
+    }
+    if (sort === 'last updated') {
+      const updatedAtA = (a.statusUpdates[aStatus] as Timestamp).toMillis();
+      const updatedAtB = (a.statusUpdates[aStatus] as Timestamp).toMillis();
+      return updatedAtB - updatedAtA;
+    }
+    return createdAtB - createdAtA;
+  });
+  // }, [jobs, sort]); // dependencies array
+
+  const jobByStatus = jobs ? groupJobsByStatus(jobs) : ({} as JobByStatus);
+  return jobs?.length === 0 ? (
     <Empty />
   ) : view === 'kanban' ? (
     <div>kanban</div>
   ) : view === 'list' ? (
-    <ListView jobs={jobs.data || []} />
+    <ListView jobs={jobs || []} />
   ) : (
     <>
-      {jobs.status === 'fetching' ? (
-        <LoadingGridView />
-      ) : (
-        <GridView jobByStatus={jobByStatus} />
-      )}
+      {loading ? <LoadingGridView /> : <GridView jobByStatus={jobByStatus} />}
     </>
   );
 };

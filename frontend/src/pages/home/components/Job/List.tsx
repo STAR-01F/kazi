@@ -7,10 +7,11 @@ import {
   Typography,
 } from '@mui/material';
 import {useAuth} from '@services/firebase/hooks/useAuth';
-import {DeleteJob, UpdateJobStatus} from '@services/firebase/jobs';
+import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import LaunchIcon from '@mui/icons-material/Launch';
 import {Link} from 'react-router-dom';
 type JobListProps = {
+  userJobsId: string;
   jobID: string;
   companyName: string;
   logoPath: string;
@@ -18,6 +19,7 @@ type JobListProps = {
   status: string;
 };
 const JobList = ({
+  userJobsId,
   jobID,
   companyName,
   logoPath,
@@ -27,7 +29,7 @@ const JobList = ({
   const {user} = useAuth();
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
-    const resp = await DeleteJob(user.uid, jobID);
+    const resp = await DeleteUserJob(user.uid, userJobsId);
     if (resp.status === 'Success') {
       console.log(resp);
       return;
@@ -37,7 +39,7 @@ const JobList = ({
 
   const handleUpdateJobStatus = async (status: string) => {
     if (!user?.uid) return;
-    const resp = await UpdateJobStatus(user.uid, jobID, status);
+    const resp = await UpdateUserJobStatus(userJobsId, status);
 
     if (resp.status === 'Success') {
       console.log(resp);

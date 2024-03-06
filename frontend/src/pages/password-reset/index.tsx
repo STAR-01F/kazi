@@ -43,7 +43,6 @@ const PasswordReset = () => {
       return;
     }
     await sendPasswordReset(email);
-    console.log('success');
     setFeedback({
       type: 'success',
       message: 'Password reset email sent successfully',

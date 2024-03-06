@@ -29,6 +29,8 @@ type ThemeCustomizationProps = {
  * ```
  */
 const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
+  const baseTheme = createTheme();
   const theme = useMemo(
     () =>
       createTheme({
@@ -49,6 +51,30 @@ const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
                 borderRadius: '8px',
               },
             }),
+          },
+          MuiPaper: {
+            styleOverrides: {
+              root: {
+                border: '1px solid ' + baseTheme.palette.divider,
+                boxShadow: 'none',
+                borderRadius: '16px',
+              },
+            },
+          },
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                textTransform: 'none',
+                borderRadius: '16px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textAlign: 'center',
+                px: '10px',
+                '&.MuiButton-contained': {
+                  boxShadow: 'none',
+                },
+              },
+            },
           },
         },
       }),
