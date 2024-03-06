@@ -1,10 +1,10 @@
 import {Table, TableBody, TableContainer} from '@mui/material';
 import JobList from './List';
-import {Job} from 'src/@types';
+import {UserJob} from 'src/@types';
 import {useSearchParams} from 'react-router-dom';
 
 type ListViewProps = {
-  jobs: Job[];
+  jobs: UserJob[];
 };
 const ListView = ({jobs}: ListViewProps) => {
   const [searchParam] = useSearchParams();
@@ -23,8 +23,9 @@ const ListView = ({jobs}: ListViewProps) => {
             )
             .map((job) => (
               <JobList
-                key={job.id!}
-                jobID={job.id!}
+                key={job.id}
+                jobID={job.jobid}
+                userJobsId={job.id}
                 companyName={job.company}
                 logoPath={`https://images.otta.com/search/width_200/${
                   job.hiringOrganization?.logo || ''
