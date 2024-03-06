@@ -11,6 +11,7 @@ type UserJob = {
   statusUpdates: {[key: string]: Timestamp};
   keywords: string;
   jobSource: string;
+  notes?: {content: string; updatedAt: Timestamp};
 };
 
 export default UserJob;

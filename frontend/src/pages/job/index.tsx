@@ -45,7 +45,7 @@ const Job = () => {
     if (!userJob) {
       return;
     }
-    setNotesData(userJob.notes || '');
+    setNotesData(userJob.notes?.content || '');
   }, [userJob]);
   if (status === 'idle' || status === 'fetching') {
     return <div>Loading...</div>;
@@ -112,8 +112,8 @@ const Job = () => {
   };
 
   const handleUpdateJobNotes = async (notes: string) => {
-    if (!user?.uid) return;
-    const resp = await UpdateUserJobNotes(user.uid, id!, notes);
+    if (!user?.uid || !userJob) return;
+    const resp = await UpdateUserJobNotes(user.uid, userJob.id, notes);
     if (resp.status === 'Success') {
       setFeedback({
         type: 'success',
