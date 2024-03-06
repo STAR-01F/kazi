@@ -55,7 +55,7 @@ const RightSection = () => {
         menuActionList={sortByActionList}
         endIcon={<KeyboardArrowDownIcon />}
       >
-        <Typography variant="caption">Sort</Typography>
+        <Typography variant="body2">Sort</Typography>
       </MenuListButton>
       <MenuListButton
         size="small"
@@ -65,7 +65,7 @@ const RightSection = () => {
         menuActionList={statusActionList}
         endIcon={<KeyboardArrowDownIcon />}
       >
-        <Typography variant="caption">Status</Typography>
+        <Typography variant="body2">Status</Typography>
       </MenuListButton>
       <JobModal />
     </Container>

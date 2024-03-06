@@ -10,6 +10,7 @@ import {
   Menu,
   MenuItem,
   Button,
+  useTheme,
 } from '@mui/material';
 import {logout} from '@services/firebase/auth';
 import {useAuth} from '@services/firebase/hooks/useAuth';
@@ -24,6 +25,7 @@ type Settings = {
 const Header = () => {
   const {user} = useAuth();
   const navigate = useNavigate();
+  const theme = useTheme();
   const handleLogin = () => {
     navigate('/signin');
   };
@@ -60,7 +62,16 @@ const Header = () => {
     },
   ];
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={{
+        padding: '0px',
+        borderRadius: '0px',
+        border: 'none',
+        borderBottom: '1px solid ' + theme.palette.divider,
+        backgroundColor: 'background.default',
+      }}
+    >
       <Container maxWidth="lg">
         <Toolbar
           disableGutters
