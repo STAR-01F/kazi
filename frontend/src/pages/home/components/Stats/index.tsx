@@ -1,6 +1,6 @@
 import {Container, Paper} from '@mui/material';
 import Goal from './components/goal';
-import AllJobs from './components/alljobs';
+import JobsByStatus from './components/jobsbystatus';
 
 const StatsContainer = () => {
   return (
@@ -18,7 +18,7 @@ const StatsContainer = () => {
       }}
     >
         <Goal />
-        <AllJobs />
+        <JobsByStatus />
     </Container>
   );
 };

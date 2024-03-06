@@ -17,20 +17,17 @@ const Goal = () => {
     100;
   console.log('percentage', percentage);
   return (
-    // <Typography variant="h4">{`${lengthJobsThatYouApplied}`}</Typography>
-    // <Typography variant="h6">{`/`}</Typography>
-    // <Typography>{`${defaultValue}`}</Typography>
     <PieChart
+      height={200}
       series={[
         {
           data: [
             {
               value: lengthJobsThatYouApplied,
-              // label: `GOAL: ${defaultValue}`,
             },
           ],
-          innerRadius: 70,
-          outerRadius: 100,
+          innerRadius: 30,
+          outerRadius: 80,
           paddingAngle: 5,
           cornerRadius: 5,
           startAngle: 0,

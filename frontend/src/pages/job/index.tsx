@@ -18,9 +18,15 @@ import getKeywords from '@utils/openai';
 import useFetchJobs from '@hooks/useFetchJobs';
 import {Link} from 'react-router-dom';
 import ManualDescription from './components/ManualDescription';
+import MenuListButton from '@components/button/MenuListButton';
+import {DeleteJob, UpdateJobStatus} from '@services/firebase/jobs';
+import {useAuth} from '@services/firebase/hooks/useAuth';
+import {useFeedback} from '@hooks/useFeeback';
 
 const Job = () => {
   const {id} = useParams();
+  const {user} = useAuth();
+  const {setFeedback} = useFeedback();
   const [keywords, setKeywords] = useState<string[]>([]);
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {status, data} = useFetchJobs(id);
@@ -32,7 +38,7 @@ const Job = () => {
   if (status === 'error') {
     return <div>Error fetching data</div>;
   }
-  console.log('Get Jobs Data', data![0]);
+
   const {
     title,
     description,
@@ -40,48 +46,167 @@ const Job = () => {
     hiringorganization,
     joblocation,
     jobsource,
+    joblink,
   } = data![0];
-  console.log('checking job source', jobsource);
+
+  console.log('job source', data![0]);
+
   const handleGenerate = async () => {
     setGenerateClicked(true);
     setIsKeywordsLoading(true);
     const resp = await getKeywords(description);
     if (resp.status === 'Success') {
-      console.log(resp.data.keywords);
       setKeywords(resp.data.keywords.split(','));
     }
     setIsKeywordsLoading(false);
-    console.log(resp);
   };
+
+  const handleDeleteJob = async () => {
+    if (!user?.uid) return;
+    const resp = await DeleteJob(user.uid, id!);
+    if (resp.status === 'Success') {
+      setFeedback({
+        type: 'success',
+        message: resp.message,
+      });
+      return;
+    }
+    setFeedback({
+      type: 'error',
+      message: resp.message as string,
+    });
+    console.error(resp);
+  };
+
+  const handleUpdateJobStatus = async (status: string) => {
+    if (!user?.uid) return;
+    const resp = await UpdateJobStatus(user.uid, id!, status);
+
+    if (resp.status === 'Success') {
+      setFeedback({
+        type: 'success',
+        message: resp.message,
+      });
+      return;
+    }
+    setFeedback({
+      type: 'error',
+      message: resp.message as string,
+    });
+    console.error(resp);
+  };
+
+  const moveMenulist = [
+    {name: 'Saved', action: () => handleUpdateJobStatus('Saved')},
+    {name: 'Applied', action: () => handleUpdateJobStatus('Applied')},
+    {name: 'Interview', action: () => handleUpdateJobStatus('Interview')},
+    {name: 'Rejected', action: () => handleUpdateJobStatus('Rejected')},
+    {
+      name: 'Remove',
+      action: handleDeleteJob,
+    },
+  ];
   return (
-    <Grid container direction={'row'} m={3} maxWidth={'lg'}>
+    <Grid container direction={'row'} m={2} maxWidth={'lg'}>
       <Grid item xs={12} md={6}>
         <IconButton component={Link} to="/" edge="start">
           <ArrowBackIcon fontSize="large" />
         </IconButton>
-        <Grid container direction="column" mb={3}>
+        <Grid container direction="column">
           <Grid mb={2}>
             <Typography mb={2} variant="h4">
               {title}
             </Typography>
-            {jobsource === 'manual' ? null : (
-              <Box
-                component={'img'}
-                alt={company}
-                src={
-                  'https://images.otta.com/search/width_200/' +
-                  hiringorganization?.logo
-                }
+            <Grid
+              container
+              id={'logo-btns'}
+              sx={{
+                minHeight: {
+                  xs: '100px',
+                  sm: '150px',
+                },
+
+                flexDirection: {
+                  xs: 'column',
+                  sm: 'row',
+                },
+
+                justifyContent: {
+                  xs: 'space-evenly',
+                },
+              }}
+            >
+              <Grid
+                item
+                xs={6}
+                id={'company-logo'}
                 sx={{
-                  height: 'auto',
-                  width: 'auto',
-                  maxWidth: '200px',
-                  objectFit: 'contain',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
-              />
-            )}
+              >
+                {jobsource === 'manual' ? null : (
+                  <Box
+                    component={'img'}
+                    alt={company}
+                    src={
+                      'https://images.otta.com/search/width_200/' +
+                      hiringorganization?.logo
+                    }
+                    sx={{
+                      height: 'auto',
+                      width: 'auto',
+                      maxWidth: '100%',
+                      objectFit: 'contain',
+                    }}
+                  />
+                )}
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                id={'action-btns'}
+                sx={{
+                  display: 'flex',
+                  // flexDirection: {
+                  //   xs: 'row',
+                  //   sm: 'row',
+                  // },
+                  justifyContent: 'space-evenly',
+                  alignItems: 'center',
+                }}
+              >
+                <Button
+                  LinkComponent={'a'}
+                  target="_blank"
+                  href={joblink}
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    width: {
+                      sm: '5.5rem',
+                    },
+                  }}
+                >
+                  View Job
+                </Button>
+                <MenuListButton
+                  variant="contained"
+                  size="small"
+                  menuActionList={moveMenulist}
+                  sx={{
+                    width: {
+                      sm: '5.5rem',
+                    },
+                  }}
+                >
+                  Update
+                </MenuListButton>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid container gap={1}>
+          <Grid container>
             <Grid item>
               <Typography textTransform={'capitalize'} variant="h6">
                 {company}

@@ -71,6 +71,10 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
       jobsource: 'manual',
     };
 
+    job.joblink?.startsWith('http') || job.joblink?.startsWith('https')
+      ? null
+      : (job.joblink = `https://${job.joblink}`);
+
     // awaiting the jobID to navigate to the correct job page
     const resp = await CreateJob(job);
 
@@ -101,7 +105,6 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           value={title}
           onChange={(e) => {
             setTitle(e.target.value);
-            console.log('title=========>', title);
           }}
           fullWidth
           error={!!errors.title}
@@ -117,7 +120,6 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           value={jobLink}
           onChange={(e) => {
             setJobLink(e.target.value);
-            console.log('job link=========>', e.target.value);
           }}
           fullWidth
           error={!!errors.jobLink}
@@ -132,7 +134,6 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           value={company}
           onChange={(e) => {
             setCompany(e.target.value);
-            console.log('company=========>', e.target.value);
           }}
           fullWidth
           error={!!errors.company}
@@ -164,7 +165,6 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
           value={description}
           onChange={(e) => {
             setDescription(e.target.value);
-            console.log('description=========>', e.target.value);
           }}
           multiline
           fullWidth

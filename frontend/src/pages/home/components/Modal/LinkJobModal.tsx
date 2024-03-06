@@ -16,8 +16,7 @@ import Scrapper from '@services/scraper';
 import {CreateJob} from '@services/firebase/jobs';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useNavigate} from 'react-router-dom';
-import { useFeedback } from '@hooks/useFeeback';
-
+import {useFeedback} from '@hooks/useFeeback';
 
 type LinkJobModalProps = {
   toggle: () => void;
@@ -45,8 +44,9 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
 
     const resp = await Scrapper(jobLink);
     if (resp.status == 'Error') {
-      console.error(resp);
-
+      setErrors({
+        jobLink: resp.message as string,
+      });
       return;
     }
     const jobData = {userid: user.uid, status: status, ...resp.data};
@@ -91,7 +91,7 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
           }}
           fullWidth
           error={!!errors.jobLink}
-          helperText={errors.jobLink}
+          helperText={errors.jobLink ? errors.jobLink : 'Supported URL: Otta'}
         />
         <FormControl fullWidth sx={{mb: 2}}>
           <InputLabel id="job-status-input">Status</InputLabel>
