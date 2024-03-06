@@ -13,21 +13,28 @@ import {
 import {Link} from 'react-router-dom';
 import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
-import {DeleteJob, UpdateJobStatus} from '@services/firebase/jobs';
+import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useFeedback} from '@hooks/useFeeback';
 
 type JobCardProps = {
+  userJobId: string;
   companyName: string;
   jobTitle: string;
   logoPath: string;
   jobID: string;
 };
-const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
+const JobCard = ({
+  userJobId,
+  companyName,
+  jobTitle,
+  logoPath,
+  jobID,
+}: JobCardProps) => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
-    const resp = await DeleteJob(user.uid, jobID);
+    const resp = await DeleteUserJob(user.uid, userJobId);
     if (resp.status === 'Success') {
       setFeedback({
         type: 'success',
@@ -44,7 +51,7 @@ const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
 
   const handleUpdateJobStatus = async (status: string) => {
     if (!user?.uid) return;
-    const resp = await UpdateJobStatus(user.uid, jobID, status);
+    const resp = await UpdateUserJobStatus(userJobId, status);
 
     if (resp.status === 'Success') {
       setFeedback({
@@ -85,7 +92,6 @@ const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
         height: 'max-content',
       }}
     >
-    
       {logoPath ? (
         <CardMedia
           component="img"
