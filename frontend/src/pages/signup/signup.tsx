@@ -69,7 +69,6 @@ export default function SignUp() {
     }
 
     setErrors(errors);
-    console.log(errors);
     if (Object.keys(errors).length === 0) {
       try {
         const resp = await registerWithEmailAndPassword(

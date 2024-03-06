@@ -22,6 +22,7 @@ import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useFeedback} from '@hooks/useFeeback';
 import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
+import {useJobs} from '@services/firebase/hooks/useJobs';
 
 const Job = () => {
   const {id} = useParams();
@@ -31,7 +32,8 @@ const Job = () => {
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {status, data} = useFetchJobs(id || '');
   const [generateClicked, setGenerateClicked] = useState(false);
-
+  const {jobs} = useJobs();
+  const userJob = jobs.find((job) => job.jobid === id);
   if (status === 'idle' || status === 'fetching') {
     return <div>Loading...</div>;
   }
@@ -40,7 +42,6 @@ const Job = () => {
   }
 
   const {
-    id: userJobsId,
     title,
     description,
     company,
@@ -64,7 +65,8 @@ const Job = () => {
 
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
-    const resp = await DeleteUserJob(user.uid, userJobsId || '');
+    if (!userJob) return;
+    const resp = await DeleteUserJob(user.uid, userJob.id);
     if (resp.status === 'Success') {
       setFeedback({
         type: 'success',
@@ -81,7 +83,8 @@ const Job = () => {
 
   const handleUpdateJobStatus = async (status: string) => {
     if (!user?.uid) return;
-    const resp = await UpdateUserJobStatus(userJobsId || '', status);
+    if (!userJob) return;
+    const resp = await UpdateUserJobStatus(userJob.id, status);
 
     if (resp.status === 'Success') {
       setFeedback({
