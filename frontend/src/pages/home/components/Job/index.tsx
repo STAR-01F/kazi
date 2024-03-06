@@ -1,4 +1,4 @@
-import {Job} from 'src/@types';
+import {UserJob} from 'src/@types';
 import GridView from './GridView';
 import LoadingGridView from './LoadingGridView';
 import Empty from './Empty';
@@ -10,10 +10,10 @@ import {Timestamp} from 'firebase/firestore';
 type JobStatus = 'Saved' | 'Applied' | 'Interview ' | 'Rejected';
 
 type JobByStatus = {
-  [status in JobStatus]: Job[];
+  [status in JobStatus]: UserJob[];
 };
 
-const groupJobsByStatus = (jobs: Job[]): JobByStatus => {
+const groupJobsByStatus = (jobs: UserJob[]): JobByStatus => {
   return jobs.reduce((acc, job) => {
     const status = job.status as JobStatus;
     if (job.status === '') {
@@ -36,17 +36,19 @@ const JobSection = () => {
   // useEffect(() => {
   console.log('jobs', jobs);
   jobs.sort((a, b) => {
-    if (!a.createdAt || !b.createdAt) {
+    const aStatus = a.status;
+    const bStatus = b.status;
+    if (!a.statusUpdates[aStatus] || !b.statusUpdates[bStatus]) {
       return 0;
     }
-    const createdAtA = (a.createdAt as Timestamp).toMillis();
-    const createdAtB = (b.createdAt as Timestamp).toMillis();
+    const createdAtA = (a.statusUpdates['Saved'] as Timestamp).toMillis();
+    const createdAtB = (b.statusUpdates['Saved'] as Timestamp).toMillis();
     if (sort === 'oldest') {
       return createdAtA - createdAtB;
     }
     if (sort === 'last updated') {
-      const updatedAtA = (a.updatedAt as Timestamp).toMillis();
-      const updatedAtB = (b.updatedAt as Timestamp).toMillis();
+      const updatedAtA = (a.statusUpdates[aStatus] as Timestamp).toMillis();
+      const updatedAtB = (a.statusUpdates[aStatus] as Timestamp).toMillis();
       return updatedAtB - updatedAtA;
     }
     return createdAtB - createdAtA;
