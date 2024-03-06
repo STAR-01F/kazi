@@ -1,31 +1,11 @@
-import {UserJob} from 'src/@types';
 import GridView from './GridView';
 import LoadingGridView from './LoadingGridView';
 import Empty from './Empty';
 import {useSearchParams} from 'react-router-dom';
 import ListView from './ListView';
-import {useJobs} from '@services/firebase/hooks/useJobs';
+import { useJobs } from '@services/firebase/hooks/useJobs';
+import { JobByStatus, groupJobsByStatus } from '@utils/groupJobStatus';
 import {Timestamp} from 'firebase/firestore';
-
-type JobStatus = 'Saved' | 'Applied' | 'Interview ' | 'Rejected';
-
-type JobByStatus = {
-  [status in JobStatus]: UserJob[];
-};
-
-const groupJobsByStatus = (jobs: UserJob[]): JobByStatus => {
-  return jobs.reduce((acc, job) => {
-    const status = job.status as JobStatus;
-    if (job.status === '') {
-      job.status = 'Saved';
-    }
-    if (!acc[status]) {
-      acc[status] = [];
-    }
-    acc[status].push(job);
-    return acc;
-  }, {} as JobByStatus);
-};
 
 const JobSection = () => {
   const {jobs, loading} = useJobs();

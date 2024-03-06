@@ -49,6 +49,8 @@ const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
         },
         typography: {
           fontFamily: [
+            'Kanit',
+            'Oswald',
             '"Helvetica Neue"',
             '-apple-system',
             'Arial',
