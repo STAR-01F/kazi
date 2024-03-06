@@ -7,10 +7,11 @@ import {
   Card,
   CardHeader,
   CardContent,
+  TextField,
 } from '@mui/material';
 import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Keywords from './components/Keywords';
 import OttaDescription from './components/OttaDescription';
@@ -19,7 +20,11 @@ import useFetchJobs from '@hooks/useFetchJobs';
 import {Link} from 'react-router-dom';
 import ManualDescription from './components/ManualDescription';
 import MenuListButton from '@components/button/MenuListButton';
-import {DeleteJob, UpdateJobStatus} from '@services/firebase/jobs';
+import {
+  DeleteJob,
+  UpdateJobStatus,
+  UpdateJobNotes,
+} from '@services/firebase/jobs';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useFeedback} from '@hooks/useFeeback';
 
@@ -31,6 +36,14 @@ const Job = () => {
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {status, data} = useFetchJobs(id);
   const [generateClicked, setGenerateClicked] = useState(false);
+  const [notesData, setNotesData] = useState('');
+
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+    setNotesData(data[0].notes || '');
+  }, [data]);
 
   if (status === 'idle' || status === 'fetching') {
     return <div>Loading...</div>;
@@ -48,8 +61,6 @@ const Job = () => {
     jobsource,
     joblink,
   } = data![0];
-
-  console.log('job source', data![0]);
 
   const handleGenerate = async () => {
     setGenerateClicked(true);
@@ -96,6 +107,22 @@ const Job = () => {
     console.error(resp);
   };
 
+  const handleUpdateJobNotes = async (notes: string) => {
+    if (!user?.uid) return;
+    const resp = await UpdateJobNotes(user.uid, id!, notes);
+    if (resp.status === 'Success') {
+      setFeedback({
+        type: 'success',
+        message: resp.message,
+      });
+      return;
+    }
+
+    setFeedback({
+      type: 'error',
+      message: resp.message,
+    });
+  };
   const moveMenulist = [
     {name: 'Saved', action: () => handleUpdateJobStatus('Saved')},
     {name: 'Applied', action: () => handleUpdateJobStatus('Applied')},
@@ -248,11 +275,28 @@ const Job = () => {
         item
         xs={12}
         md={6}
-        direction={'column'}
         alignItems={'center'}
         justifyContent={'center'}
         sx={{height: '600px'}}
+        p={1}
       >
+        <Grid container item justifyContent={'center'}>
+          <TextField
+            id="outlined-multiline-static"
+            label="notes"
+            multiline
+            rows={5}
+            fullWidth={true}
+            value={notesData}
+            onChange={(e) => setNotesData(e.target.value)}
+          />
+          <Button
+            onClick={() => handleUpdateJobNotes(notesData)}
+            variant="contained"
+          >
+            Save
+          </Button>
+        </Grid>
         {generateClicked ? null : (
           <>
             <Grid
