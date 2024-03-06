@@ -1,11 +1,11 @@
 import {useAuth} from '@services/firebase/hooks/useAuth';
-import {GetJobByJobID} from '@services/firebase/jobs';
+import {GetUserJobsByUserID} from '@services/firebase/userJobs';
 import {useState, useEffect} from 'react';
-import {Job} from 'src/@types';
+import {UserJob} from 'src/@types';
 
-const useFetchJobs = (jobid: string) => {
+const useFetchUserJobs = () => {
   const [status, setStatus] = useState('idle');
-  const [data, setData] = useState<Job[]>();
+  const [data, setData] = useState<UserJob[]>();
   const {user} = useAuth();
 
   useEffect(() => {
@@ -13,12 +13,11 @@ const useFetchJobs = (jobid: string) => {
     const fetchData = async () => {
       setStatus('fetching');
       try {
-        if (user.uid && jobid) {
-          const response = await GetJobByJobID(jobid);
-          if (response.status === 'Success') {
-            setData([response.data]);
-            return;
-          }
+        const response = await GetUserJobsByUserID(user.uid);
+
+        if (response.status === 'Success') {
+          setData(response.data);
+          return;
         }
         setStatus('error');
       } catch (error) {
@@ -29,9 +28,9 @@ const useFetchJobs = (jobid: string) => {
       }
     };
     fetchData();
-  }, [jobid, user]);
+  }, [user]);
 
   return {status, data};
 };
 
-export default useFetchJobs;
+export default useFetchUserJobs;

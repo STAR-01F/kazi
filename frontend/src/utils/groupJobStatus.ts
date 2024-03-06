@@ -1,12 +1,12 @@
-import {Job} from 'src/@types';
+import {UserJob} from 'src/@types';
 
 export type JobStatus = 'Saved' | 'Applied' | 'Interview' | 'Rejected';
 
 export type JobByStatus = {
-  [status in JobStatus]: Job[];
+  [status in JobStatus]: UserJob[];
 };
 
-export const groupJobsByStatus = (jobs: Job[]): JobByStatus => {
+export const groupJobsByStatus = (jobs: UserJob[]): JobByStatus => {
   return jobs.reduce((acc, job) => {
     const status = job.status as JobStatus;
     if (job.status === '') {
