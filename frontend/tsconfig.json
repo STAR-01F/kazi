@@ -33,9 +33,8 @@
       "@services/*": ["src/services/*"],
       "@context/*": ["src/context/*"],
       "react": ["node_modules/@types/react"]
-
     }
   },
-  "include": ["src"],
+  "include": ["src", "src/tests"],
   "references": [{"path": "./tsconfig.node.json"}]
 }
