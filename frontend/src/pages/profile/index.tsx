@@ -4,7 +4,6 @@ import DeleteModal from './components/DeleteModal';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {DeleteUserProfileByUserId} from '@services/firebase/userProfiles/Delete';
 import {useFeedback} from '@hooks/useFeeback';
-import {DeleteUserByUserAuth} from '@services/firebase/auth';
 
 const Profile = () => {
   const {user} = useAuth();
@@ -22,14 +21,6 @@ const Profile = () => {
       setFeedback({
         type: 'error',
         message: resp.message,
-      });
-      return;
-    }
-    const userResp = await DeleteUserByUserAuth(user);
-    if (userResp.status === 'Error') {
-      setFeedback({
-        type: 'error',
-        message: userResp.message,
       });
       return;
     }
