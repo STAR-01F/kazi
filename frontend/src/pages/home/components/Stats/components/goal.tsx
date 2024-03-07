@@ -7,7 +7,7 @@ const Goal = () => {
     (job) => job.status === 'Applied' || job.status === 'Interviewing'
   ).length;
   // TODO: Replace with actual goal value
-  const defaultValue = 10;
+  const defaultValue = 1;
 
   const percentage =
     ((lengthJobsThatYouApplied > defaultValue
@@ -18,7 +18,7 @@ const Goal = () => {
   console.log('percentage', percentage);
   return (
     <PieChart
-      height={250}
+      height={190}
       width={160}
       series={[
         {
