@@ -1,33 +1,86 @@
 import {
   Button,
   ClickAwayListener,
+  Container,
+  Divider,
   Grow,
   MenuItem,
   MenuList,
   Paper,
   Popper,
+  SvgIcon,
+  SxProps,
+  Typography,
+  useTheme,
 } from '@mui/material';
 import {ReactNode, useEffect, useRef, useState} from 'react';
+import CheckIcon from '@mui/icons-material/Check';
 
 type MenuActionList = {
   name: ReactNode;
   action: () => void;
 };
+/**
+ * Represents a job status action.
+ * @typedef {Object} JobStatusAction
+ * @property {ReactNode} name - The name of the action.
+ * @property {Function} action - The function to execute when the action is triggered.
+ */
 type MenuListButtonProps = {
-  children: ReactNode;
-  variant?: 'text' | 'outlined' | 'contained';
-  size?: 'small' | 'medium' | 'large';
+  children: ReactNode; // The content of the button.
+  endIcon?: ReactNode; // The icon displayed at the end of the button.
+  startIcon?: ReactNode; // The icon displayed at the start of the button.
+  variant?: 'text' | 'outlined' | 'contained'; // The variant of the button.
+  size?: 'small' | 'medium' | 'large'; // The size of the button.
+  title?: ReactNode; // The title of the Popper
+  select?: boolean; // Whether to show the selected icon
+  fullWidth?: boolean; // Whether the button should take the full width of the parent.
+  menuSelected?: number; // The index of the selected menu item.
+  sx?: SxProps;
+  /**
+   * The list of actions for the menu.
+   * Each action has a name and a function to execute when the action is triggered.
+   */
   menuActionList: MenuActionList[];
 };
+/**
+ * A button component that displays a menu list when clicked.
+ *
+ * @component
+ * @example
+ * // Usage:
+ * <MenuListButton
+ *   menuActionList={[
+ *     { name: 'Action 1', action: () => console.log('Action 1 clicked') },
+ *     { name: 'Action 2', action: () => console.log('Action 2 clicked') },
+ *   ]}
+ * >
+ *   Open Menu
+ * </MenuListButton>
+ *
+ * @param {MenuListButtonProps} props - The props for the MenuListButton component.
+ * @returns {React.JSX} The rendered MenuListButton component.
+ */
 const MenuListButton = ({
   children,
   menuActionList,
   variant,
   size,
-}: MenuListButtonProps) => {
+  endIcon,
+  startIcon,
+  title,
+  menuSelected = 0,
+  select = false,
+  fullWidth = false,
+  sx,
+}: MenuListButtonProps): JSX.Element => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
-
+  const theme = useTheme();
+  const [selectedItem, setSelectedItem] = useState<number>(0);
+  useEffect(() => {
+    setSelectedItem(menuSelected);
+  }, [menuSelected]);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -71,26 +124,32 @@ const MenuListButton = ({
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
+        endIcon={endIcon}
+        startIcon={startIcon}
+        fullWidth={fullWidth}
+        sx={sx}
       >
         {children}
       </Button>
+
       <Popper
         open={open}
         anchorEl={anchorRef.current}
         role={undefined}
-        placement="bottom"
+        placement="bottom-end"
         transition
-        disablePortal
+        style={{marginTop: theme.spacing(1)}}
       >
-        {({TransitionProps, placement}) => (
+        {({TransitionProps}) => (
           <Grow
             {...TransitionProps}
             style={{
-              transformOrigin:
-                placement === 'bottom-start' ? 'left top' : 'top bottom',
+              transformOrigin: 'right bottom',
+              border: '1px solid ' + theme.palette.divider,
+              marginTop: theme.spacing(0.5),
             }}
           >
-            <Paper>
+            <Paper sx={{minWidth: '200px'}}>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
@@ -98,9 +157,42 @@ const MenuListButton = ({
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
                 >
+                  {title && (
+                    <>
+                      <Typography
+                        component={Container}
+                        // variant="caption"
+                        display="block"
+                        gutterBottom
+                      >
+                        {title}
+                      </Typography>
+                      <Divider />
+                    </>
+                  )}
                   {menuActionList.map(({name, action}, i) => (
-                    <MenuItem key={i} onClick={action}>
-                      {name}
+                    <MenuItem
+                      key={i}
+                      onClick={(e) => {
+                        action();
+                        setSelectedItem(i);
+                        handleClose(e);
+                      }}
+                      sx={{display: 'flex', alignItems: 'center'}}
+                    >
+                      {select && (
+                        <SvgIcon
+                          component={CheckIcon}
+                          sx={{mb: 0.35, opacity: selectedItem === i ? 1 : 0}}
+                        />
+                      )}
+                      <Typography
+                        component={Container}
+                        display="block"
+                        gutterBottom
+                      >
+                        {name}
+                      </Typography>
                     </MenuItem>
                   ))}
                 </MenuList>

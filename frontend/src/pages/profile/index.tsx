@@ -2,39 +2,41 @@ import {Avatar, Box, Button, Container, Typography} from '@mui/material';
 import {useState} from 'react';
 import DeleteModal from './components/DeleteModal';
 import {useAuth} from '@services/firebase/hooks/useAuth';
-import {GetAllDocs} from './getUsersDocs';
-import {DeleteJob} from '@services/firebase/jobs';
-import { deleteUser } from 'firebase/auth';
+import {DeleteUserProfileByUserId} from '@services/firebase/userProfiles/Delete';
+import {useFeedback} from '@hooks/useFeeback';
+import {DeleteUserByUserAuth} from '@services/firebase/auth';
 
 const Profile = () => {
   const {user} = useAuth();
+  const {setFeedback} = useFeedback();
   const [open, setOpen] = useState(false);
   if (!user) {
     return <div>loading...</div>;
   }
 
   const handleDeleteAccount = async () => {
-    if (user) {
-      const uid = user.uid;
-      const jobs = await GetAllDocs(uid);
+    if (!user.uid) return;
 
-      if (jobs.status === 'Success') {
-        for (let i = 0; i < jobs.data.length; i++) {
-          const resp = await DeleteJob(user.uid, jobs.data[i]);
-          console.log('resp', resp);
-        }
-      }
-      
-      deleteUser(user)
-        .then(() => {
-          setOpen(false);
-          console.log('Account deleted');
-        })
-        .catch((error: any) => {
-          setOpen(false);
-          console.error('Account deletion err', error);
-        });
+    const resp = await DeleteUserProfileByUserId(user);
+    if (resp.status === 'Error') {
+      setFeedback({
+        type: 'error',
+        message: resp.message,
+      });
+      return;
     }
+    const userResp = await DeleteUserByUserAuth(user);
+    if (userResp.status === 'Error') {
+      setFeedback({
+        type: 'error',
+        message: userResp.message,
+      });
+      return;
+    }
+    setFeedback({
+      type: 'success',
+      message: 'Account deleted successfully',
+    });
   };
 
   return (

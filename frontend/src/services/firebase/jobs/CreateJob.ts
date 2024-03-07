@@ -1,21 +1,21 @@
-import {Timestamp, addDoc} from 'firebase/firestore';
+import {addDoc} from 'firebase/firestore';
 import {jobPostings} from '..';
-import {Job} from 'src/@types';
+import {Job, Response} from 'src/@types';
 
-const CreateJob = async (job: Partial<Job>) => {
+const CreateJob = async (job: Partial<Job>): Promise<Response<Job, string>> => {
   if (!job.description)
     return {status: 'Error', message: 'Job Description is empty'};
+  if (!job.title) return {status: 'Error', message: 'Job Title is empty'};
+  if (!job.jobLink) return {status: 'Error', message: 'Job Link is empty'};
+  if (!job.company) return {status: 'Error', message: 'Company is empty'};
   try {
-    const createdAt = Timestamp.now();
-    const updatedAt = Timestamp.now();
-    job.createdAt = createdAt;
-    job.updatedAt = updatedAt;
+    //
     const resp = await addDoc(jobPostings, job);
 
     return {
       status: 'Success',
       message: 'Successfully created the job',
-      data: {id: resp.id, ...job},
+      data: {id: resp.id, ...job} as Job,
     };
   } catch (error) {
     return {

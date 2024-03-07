@@ -16,31 +16,61 @@ import Scrapper from '@services/scraper';
 import {CreateJob} from '@services/firebase/jobs';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useNavigate} from 'react-router-dom';
+import {useFeedback} from '@hooks/useFeeback';
+import {CreateUserJob} from '@services/firebase/userJobs';
 
 type LinkJobModalProps = {
   toggle: () => void;
   onClose: () => void;
 };
+
+interface SaveJobError {
+  jobLink?: string;
+}
 const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
   const [jobLink, setJobLink] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState('Saved');
+  const {setFeedback} = useFeedback();
   const {user} = useAuth();
   const navigate = useNavigate();
+  const [errors, setErrors] = useState<SaveJobError>({});
+
   const handleAddJob = async () => {
     if (!user?.uid) return;
+    if (jobLink === '') {
+      setErrors({
+        jobLink: 'Job link is required',
+      });
+    }
+
     const resp = await Scrapper(jobLink);
     if (resp.status == 'Error') {
-      console.error(resp);
+      setErrors({
+        jobLink: resp.message as string,
+      });
       return;
     }
-    const jobData = {userid: user.uid, status: status, ...resp.data};
-    console.log(jobData);
-    const createdJob = await CreateJob(jobData);
-    if (createdJob.status == 'Error') {
+    const createdJob = await CreateJob(resp.data);
+
+    if (createdJob.status === 'Error') {
       console.error(createdJob);
       return;
     }
-    console.log('created data', createdJob.data);
+
+    const createdUserJob = await CreateUserJob(
+      user.uid,
+      status,
+      createdJob.data
+    );
+    if (createdUserJob.status === 'Error') {
+      console.error(createdUserJob);
+      return;
+    }
+
+    setFeedback({
+      type: 'success',
+      message: 'Job added successfully',
+    });
     navigate(`job/${createdJob.data?.id}`);
     onClose();
   };
@@ -48,7 +78,7 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
     <>
       <DialogContent>
         <DialogContentText mb={1}>
-          Please enter the link of the job.
+          Please enter the URL of the job posting.
         </DialogContentText>
         <TextField
           autoFocus
@@ -56,20 +86,30 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
           sx={{marginBottom: 2}}
           id="job-link"
           name="job-link"
-          label="Job Link"
+          label="Link"
           placeholder=""
           value={jobLink}
-          onChange={(e) => setJobLink(e.target.value)}
+          onChange={(e) => {
+            setJobLink(e.target.value);
+            if (errors.jobLink) {
+              setErrors({
+                jobLink: undefined,
+              });
+            }
+          }}
           fullWidth
+          error={!!errors.jobLink}
+          helperText={errors.jobLink ? errors.jobLink : 'Supported URL: Otta'}
         />
         <FormControl fullWidth sx={{mb: 2}}>
-          <InputLabel id="job-status-input">Job Status</InputLabel>
+          <InputLabel id="job-status-input">Status</InputLabel>
           <Select
             labelId="job-status-input"
             id="job-status-select"
-            label="Job Status"
+            label="Status"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
+            required
           >
             {jobStatus.status.map((status, i) => (
               <MenuItem key={`${status}-${i}`} value={status}>
@@ -79,7 +119,10 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
           </Select>
         </FormControl>
         <DialogContentText mb={1}>
-          or add <Link onClick={toggle}>manually</Link>
+          or add{' '}
+          <Link style={{cursor: 'pointer'}} onClick={toggle}>
+            manually
+          </Link>
         </DialogContentText>
       </DialogContent>
       <DialogActions>

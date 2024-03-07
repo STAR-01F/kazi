@@ -7,10 +7,11 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   GithubAuthProvider,
+  deleteUser,
 } from 'firebase/auth';
 
 import {Response} from 'src/@types';
-import type {UserCredential} from 'firebase/auth';
+import type {User, UserCredential} from 'firebase/auth';
 import {auth} from '..';
 
 const signInWithGithub = async (): Promise<
@@ -151,17 +152,49 @@ const registerWithEmailAndPassword = async (
   }
 };
 
-const sendPasswordReset = async (email: string) => {
+const sendPasswordReset = async (
+  email: string
+): Promise<Response<string, string>> => {
+  const actionCodeSettings = {
+    url: import.meta.env.VITE_RESET_EMAIL_REDIRECT,
+    handleCodeInApp: false,
+  };
   try {
-    await sendPasswordResetEmail(auth, email);
-    alert('Password reset link sent!');
+    await sendPasswordResetEmail(auth, email, actionCodeSettings);
+    return {
+      status: 'Success',
+      message: 'Password reset email sent successfully',
+      data: 'Password reset email sent successfully',
+    };
   } catch (err: unknown) {
-    console.error(err);
+    console.error('Error from sendPasswordReset', err);
+    return {
+      status: 'Error',
+      message: 'Failed to send password reset email',
+    };
   }
 };
 
 const logout = async () => {
   await signOut(auth);
+};
+
+const DeleteUserByUserAuth = async (
+  user: User
+): Promise<Response<string, string>> => {
+  try {
+    await deleteUser(user);
+    return {
+      status: 'Success',
+      message: 'Successfully deleted the user',
+      data: '',
+    };
+  } catch (error) {
+    return {
+      status: 'Error',
+      message: `Failed to delete the user: ${(error as Error).message}`,
+    };
+  }
 };
 
 export {
@@ -172,4 +205,5 @@ export {
   logout,
   sendPasswordResetEmail,
   signInWithGithub,
+  DeleteUserByUserAuth,
 };
