@@ -1,6 +1,7 @@
 import {Box, Container, Paper, Typography} from '@mui/material';
 import Goal from './components/goal';
 import JobsByStatus from './components/jobsbystatus';
+import Streak from './components/streak';
 
 const StatsContainer = () => {
   return (
@@ -61,9 +62,7 @@ const StatsContainer = () => {
         flexDirection={'column'}
       >
         <Typography>Streak</Typography>
-        <Typography fontWeight={800} color="red" variant="h1">
-          341
-        </Typography>
+        <Streak/>
       </Box>
     </Container>
   );

@@ -30,13 +30,14 @@ const JobsByStatus = () => {
           endAngle: 360,
           faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
           highlightScope: { faded: 'global', highlighted: 'item' },
-          cx: '60%',
+          cx: '70%',
           cy: '50%',
         },
       ]}
       slotProps={{
         legend: {hidden: true},
       }}
+      
     />
   );
 };
