@@ -45,4 +45,40 @@ const UpdateUserJobStatus = async (
   }
 };
 
+const UpdateUserJobNotes = async (
+  userId: string,
+  userJobId: string,
+  notes: string
+) => {
+  try {
+    const docRef = doc(userJobs, userJobId);
+    const docSnap = await getDoc(docRef);
+    const updatedAt = Timestamp.now();
+    if (docSnap.exists() && docSnap.data().userid === userId) {
+      await setDoc(
+        docRef,
+        {notes: {content: notes, updatedAt: updatedAt}},
+        {merge: true}
+      );
+
+      return {
+        status: 'Success',
+        message: 'Successfully updated notes',
+        data: userJobId,
+      };
+    } else {
+      return {
+        status: 'Error',
+        message: 'No such job exists',
+      };
+    }
+  } catch (error) {
+    return {
+      status: 'Error',
+      message: 'Failed to update notes: ' + (error as Error).message,
+    };
+  }
+};
+export {UpdateUserJobNotes};
+
 export default UpdateUserJobStatus;

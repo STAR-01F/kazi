@@ -1,6 +1,6 @@
 import {GetUserJobsByID, GetUserJobsByUserID} from './Get';
 import CreateUserJob from './Create';
-import UpdateUserJobStatus from './Update';
+import UpdateUserJobStatus, {UpdateUserJobNotes} from './Update';
 import DeleteUserJob from './Delete';
 
 export {
@@ -9,4 +9,5 @@ export {
   CreateUserJob,
   UpdateUserJobStatus,
   DeleteUserJob,
+  UpdateUserJobNotes,
 };
