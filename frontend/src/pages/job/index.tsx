@@ -7,11 +7,10 @@ import {
   Card,
   CardHeader,
   CardContent,
-  TextField,
 } from '@mui/material';
 import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Keywords from './components/Keywords';
 import OttaDescription from './components/OttaDescription';
@@ -22,12 +21,9 @@ import ManualDescription from './components/ManualDescription';
 import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useFeedback} from '@hooks/useFeeback';
-import {
-  DeleteUserJob,
-  UpdateUserJobStatus,
-  UpdateUserJobNotes,
-} from '@services/firebase/userJobs';
+import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useJobs} from '@services/firebase/hooks/useJobs';
+import Notes from './components/Notes';
 
 const Job = () => {
   const {id} = useParams();
@@ -39,14 +35,7 @@ const Job = () => {
   const [generateClicked, setGenerateClicked] = useState(false);
   const {jobs} = useJobs();
   const userJob = jobs.find((job) => job.jobid === id);
-  const [notesData, setNotesData] = useState('');
 
-  useEffect(() => {
-    if (!userJob) {
-      return;
-    }
-    setNotesData(userJob.notes?.content || '');
-  }, [userJob]);
   if (status === 'idle' || status === 'fetching') {
     return <div>Loading...</div>;
   }
@@ -111,22 +100,6 @@ const Job = () => {
     console.error(resp);
   };
 
-  const handleUpdateJobNotes = async (notes: string) => {
-    if (!user?.uid || !userJob) return;
-    const resp = await UpdateUserJobNotes(user.uid, userJob.id, notes);
-    if (resp.status === 'Success') {
-      setFeedback({
-        type: 'success',
-        message: resp.message,
-      });
-      return;
-    }
-
-    setFeedback({
-      type: 'error',
-      message: resp.message,
-    });
-  };
   const moveMenulist = [
     {name: 'Saved', action: () => handleUpdateJobStatus('Saved')},
     {name: 'Applied', action: () => handleUpdateJobStatus('Applied')},
@@ -284,23 +257,7 @@ const Job = () => {
         sx={{height: '600px'}}
         p={1}
       >
-        <Grid container item justifyContent={'center'}>
-          <TextField
-            id="outlined-multiline-static"
-            label="notes"
-            multiline
-            rows={5}
-            fullWidth={true}
-            value={notesData}
-            onChange={(e) => setNotesData(e.target.value)}
-          />
-          <Button
-            onClick={() => handleUpdateJobNotes(notesData)}
-            variant="contained"
-          >
-            Save
-          </Button>
-        </Grid>
+        <Notes userJob={userJob}></Notes>
         {generateClicked ? null : (
           <>
             <Grid
