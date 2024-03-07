@@ -57,10 +57,7 @@ const DeleteUserProfileByUserId = async (
       }
       await deleteDoc(docRef);
     }
-    const resp = await DeleteUserByUserAuth(user);
-    if (resp.status === 'Error') {
-      return resp;
-    }
+    await DeleteUserByUserAuth(user);
     return {
       status: 'Success',
       message: 'Successfully deleted the user profile',
