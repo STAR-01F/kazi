@@ -10,17 +10,17 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useParams} from 'react-router-dom';
-import Keywords from './components/Keywords';
-import OttaDescription from './components/OttaDescription';
+import Keywords from './components/Keywords/Keywords';
+import OttaDescription from './components/JobDescription/OttaDescription';
 import useFetchJobs from '@hooks/useFetchJobs';
 import {Link} from 'react-router-dom';
-import ManualDescription from './components/ManualDescription';
+import ManualDescription from './components/JobDescription/ManualDescription';
 import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useFeedback} from '@hooks/useFeeback';
 import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useJobs} from '@services/firebase/hooks/useJobs';
-import Notes from './components/Notes';
+import Notes from './components/Notes/Notes';
 
 const Job = () => {
   const {id} = useParams();
