@@ -8,13 +8,10 @@ import {
   CardHeader,
   CardContent,
 } from '@mui/material';
-import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Keywords from './components/Keywords';
 import OttaDescription from './components/OttaDescription';
-import getKeywords from '@utils/openai';
 import useFetchJobs from '@hooks/useFetchJobs';
 import {Link} from 'react-router-dom';
 import ManualDescription from './components/ManualDescription';
@@ -29,10 +26,7 @@ const Job = () => {
   const {id} = useParams();
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
-  const [keywords, setKeywords] = useState<string[]>([]);
-  const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {status, data} = useFetchJobs(id || '');
-  const [generateClicked, setGenerateClicked] = useState(false);
   const {jobs} = useJobs();
   const userJob = jobs.find((job) => job.jobid === id);
 
@@ -52,16 +46,6 @@ const Job = () => {
     jobSource,
     jobLink,
   } = data![0];
-
-  const handleGenerate = async () => {
-    setGenerateClicked(true);
-    setIsKeywordsLoading(true);
-    const resp = await getKeywords(description);
-    if (resp.status === 'Success') {
-      setKeywords(resp.data.keywords.split(','));
-    }
-    setIsKeywordsLoading(false);
-  };
 
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
@@ -258,35 +242,7 @@ const Job = () => {
         p={1}
       >
         <Notes userJob={userJob}></Notes>
-        {generateClicked ? null : (
-          <>
-            <Grid
-              container
-              item
-              alignItems={'center'}
-              direction={'column'}
-              mb={3}
-            >
-              <SavedSearchIcon sx={{fontSize: 80}} />
-              <Typography mb={3} variant="subtitle1" fontWeight={'light'}>
-                Generate personalised keywords to add to your CV
-              </Typography>
-              <Button onClick={handleGenerate} variant="contained" size="small">
-                Generate
-              </Button>
-            </Grid>
-          </>
-        )}
-        <Grid
-          container
-          item
-          direction="row"
-          gap={2}
-          justifyContent={'center'}
-          p={2}
-        >
-          <Keywords keywords={keywords} isLoading={isKeywordsLoading} />
-        </Grid>
+        <Keywords description={description} />
       </Grid>
     </Grid>
   );
