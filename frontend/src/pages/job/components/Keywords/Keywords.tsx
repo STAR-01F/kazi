@@ -35,13 +35,7 @@ const Keywords = ({description}: KeywordsProps) => {
     <>
       {generateClicked ? null : (
         <>
-          <Grid
-            container
-            item
-            alignItems={'center'}
-            direction={'column'}
-            mb={3}
-          >
+          <Grid container item alignItems={'center'} direction={'column'}>
             <SavedSearchIcon sx={{fontSize: 80}} />
             <Typography mb={3} variant="subtitle1" fontWeight={'light'}>
               Generate personalised keywords to add to your CV

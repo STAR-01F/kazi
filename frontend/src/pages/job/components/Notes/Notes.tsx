@@ -39,12 +39,12 @@ const Notes = ({userJob}: NotesProps) => {
   };
 
   return (
-    <Grid container item justifyContent={'center'}>
+    <Grid alignItems={'center'} justifyContent={'center'} container item>
       <TextField
         id="outlined-multiline-static"
         label="notes"
         multiline
-        rows={5}
+        rows={15}
         fullWidth={true}
         value={notesData}
         onChange={(e) => setNotesData(e.target.value)}
