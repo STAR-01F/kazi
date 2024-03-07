@@ -4,6 +4,7 @@ import { describe, it, expect } from "vitest";
 
 
 describe("MenuListButton", () => {
+ 
   it("should render with the expected inputs", () => {
     render(
       <MenuListButton menuActionList={[]} variant="contained">
@@ -11,9 +12,7 @@ describe("MenuListButton", () => {
       </MenuListButton>
     );
 
-    const titleElement = screen.getByRole('heading')
-
-
-    expect(titleElement).toBeInTheDocument()
+    const buttonElement = screen.getByRole('button')
+    expect(buttonElement).toBeInTheDocument()
 });
 })
