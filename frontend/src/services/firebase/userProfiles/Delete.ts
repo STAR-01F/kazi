@@ -1,6 +1,15 @@
-import {arrayRemove, doc, getDoc, updateDoc} from 'firebase/firestore';
+import {
+  arrayRemove,
+  deleteDoc,
+  doc,
+  getDoc,
+  updateDoc,
+} from 'firebase/firestore';
 import {userProfiles} from '..';
 import {Response} from 'src/@types';
+import {DeleteUserByUserAuth} from '../auth';
+import {User} from 'firebase/auth';
+import {DeleteUserJob} from '../userJobs';
 
 const DeleteUserProfileJobById = async (
   userId: string,
@@ -33,4 +42,39 @@ const DeleteUserProfileJobById = async (
   }
 };
 
-export {DeleteUserProfileJobById};
+const DeleteUserProfileByUserId = async (
+  user: User
+): Promise<Response<string, string>> => {
+  try {
+    const docRef = doc(userProfiles, user.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (data?.jobs) {
+        for (const jobId of data.jobs) {
+          await DeleteUserJob(user.uid, jobId);
+        }
+      }
+      await deleteDoc(docRef);
+    }
+    const resp = await DeleteUserByUserAuth(user);
+    if (resp.status === 'Error') {
+      return {
+        status: 'Error',
+        message: `Failed to delete the user profile: ${resp.message}`,
+      };
+    }
+    return {
+      status: 'Success',
+      message: 'Successfully deleted the user profile',
+      data: '',
+    };
+  } catch {
+    return {
+      status: 'Error',
+      message: `Failed to delete the user profile job`,
+    };
+  }
+};
+
+export {DeleteUserProfileJobById, DeleteUserProfileByUserId};
