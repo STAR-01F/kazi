@@ -16,6 +16,7 @@ import {useNavigate} from 'react-router-dom';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useState} from 'react';
 import jobStatus from '@repository/job.json';
+import {CreateUserJob} from '@services/firebase/userJobs';
 
 type ManualJobModalProps = {
   toggle: () => void;
@@ -62,18 +63,16 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
     validateForm();
 
     const job: Partial<Job> = {
-      userid: user.uid,
       title: title,
       company: company,
-      joblink: jobLink,
+      jobLink: jobLink,
       description: description,
-      status: status,
-      jobsource: 'manual',
+      jobSource: 'manual',
     };
 
-    job.joblink?.startsWith('http') || job.joblink?.startsWith('https')
+    job.jobLink?.startsWith('http') || job.jobLink?.startsWith('https')
       ? null
-      : (job.joblink = `https://${job.joblink}`);
+      : (job.jobLink = `https://${job.jobLink}`);
 
     // awaiting the jobID to navigate to the correct job page
     const resp = await CreateJob(job);
@@ -81,6 +80,12 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
     // check if resp is an error
     if (resp.status === 'Error') {
       console.error(resp);
+      return;
+    }
+
+    const createdUserJob = await CreateUserJob(user.uid, status, resp.data);
+    if (createdUserJob.status === 'Error') {
+      console.error(createdUserJob);
       return;
     }
 

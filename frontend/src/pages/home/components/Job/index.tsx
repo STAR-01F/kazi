@@ -16,17 +16,19 @@ const JobSection = () => {
   // useEffect(() => {
   console.log('jobs', jobs);
   jobs.sort((a, b) => {
-    if (!a.createdat || !b.createdat) {
+    const aStatus = a.status;
+    const bStatus = b.status;
+    if (!a.statusUpdates[aStatus] || !b.statusUpdates[bStatus]) {
       return 0;
     }
-    const createdAtA = (a.createdat as Timestamp).toMillis();
-    const createdAtB = (b.createdat as Timestamp).toMillis();
+    const createdAtA = (a.statusUpdates['Saved'] as Timestamp).toMillis();
+    const createdAtB = (b.statusUpdates['Saved'] as Timestamp).toMillis();
     if (sort === 'oldest') {
       return createdAtA - createdAtB;
     }
     if (sort === 'last updated') {
-      const updatedAtA = (a.updatedat as Timestamp).toMillis();
-      const updatedAtB = (b.updatedat as Timestamp).toMillis();
+      const updatedAtA = (a.statusUpdates[aStatus] as Timestamp).toMillis();
+      const updatedAtB = (a.statusUpdates[aStatus] as Timestamp).toMillis();
       return updatedAtB - updatedAtA;
     }
     return createdAtB - createdAtA;
