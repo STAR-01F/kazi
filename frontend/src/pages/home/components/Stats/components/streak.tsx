@@ -5,9 +5,8 @@ import isStreak from '@utils/isStreak';
 const Streak = () => {
   const {jobs} = useJobs();
 
-  const streak = isStreak(
-    jobs.map((job) => job.statusUpdates['Saved'].toDate())
-  );
+  const savedJobs = jobs.map((job) => job.statusUpdates['Saved'].toDate());
+  const streak = isStreak(savedJobs);
   console.log(streak, 'streak');
 
   jobs.map((job) => console.log(job.statusUpdates['Saved'].toDate()));
