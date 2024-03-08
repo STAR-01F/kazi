@@ -8,6 +8,9 @@ const Streak = () => {
   const streak = isStreak(
     jobs.map((job) => job.statusUpdates['Saved'].toDate())
   );
+  console.log(streak, 'streak');
+
+  jobs.map((job) => console.log(job.statusUpdates['Saved'].toDate()));
 
   return (
     <Typography fontWeight={600} variant="h1" color="textSecondary">
