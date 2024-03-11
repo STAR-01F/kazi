@@ -39,6 +39,7 @@ const Job = () => {
   const breadcrumbs = [
     <MuiLink
       underline="hover"
+      key={"1"}
       sx={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}
       onClick={() => setSelectedComponent('Notes')}
     >
@@ -47,6 +48,7 @@ const Job = () => {
     </MuiLink>,
     <MuiLink
       underline="hover"
+      key={"2"}
       sx={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}
       onClick={() => setSelectedComponent('Keywords')}
     >
@@ -264,6 +266,7 @@ const Job = () => {
 
       <Grid
         container
+        item
         xs={12}
         md={6}
         // alignItems={'center'}
