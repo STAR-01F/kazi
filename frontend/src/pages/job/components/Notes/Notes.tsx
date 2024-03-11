@@ -46,13 +46,7 @@ const Notes = ({userJob}: NotesProps) => {
   };
 
   return (
-    <Grid
-      justifyContent={'center'}
-      flexDirection={'column'}
-      container
-      item
-
-    >
+    <Grid justifyContent={'center'} flexDirection={'column'} container item>
       <Card sx={{width: '100%'}}>
         <CardHeader
           style={{
@@ -66,9 +60,6 @@ const Notes = ({userJob}: NotesProps) => {
         />
         <CardContent sx={{width: '100%'}}>
           <TextField
-            sx={{
-              minHeight: '300px',
-            }}
             id="outlined-multiline-static"
             variant="standard"
             multiline
@@ -76,6 +67,10 @@ const Notes = ({userJob}: NotesProps) => {
             fullWidth={true}
             value={notesData}
             onChange={(e) => setNotesData(e.target.value)}
+            // autoFocus
+            onBlur={() => {
+              handleUpdateJobNotes(notesData);
+            }}
           />
         </CardContent>
       </Card>
