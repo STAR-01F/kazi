@@ -17,10 +17,10 @@ const JobsByStatus = () => {
       series={[
         {
           data: [
-            { label: 'Saved', value: getJobCount('Saved') },
-            { label: 'Interview', value: getJobCount('Interview') },
-            { label: 'Applied', value: getJobCount('Applied') },
-            { label: 'Rejected', value: getJobCount('Rejected') },
+            {label: 'Saved', value: getJobCount('Saved')},
+            {label: 'Interview', value: getJobCount('Interview')},
+            {label: 'Applied', value: getJobCount('Applied')},
+            {label: 'Rejected', value: getJobCount('Rejected')},
           ],
           innerRadius: 30,
           outerRadius: 80,
@@ -28,8 +28,8 @@ const JobsByStatus = () => {
           cornerRadius: 5,
           startAngle: 0,
           endAngle: 360,
-          faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-          highlightScope: { faded: 'global', highlighted: 'item' },
+          faded: {innerRadius: 30, additionalRadius: -30, color: 'gray'},
+          highlightScope: {faded: 'global', highlighted: 'item'},
           cx: '70%',
           cy: '50%',
         },
@@ -37,7 +37,6 @@ const JobsByStatus = () => {
       slotProps={{
         legend: {hidden: true},
       }}
-      
     />
   );
 };

@@ -1,3 +1,3 @@
 import SkeletonChip from './chip';
 
-export { SkeletonChip };
+export {SkeletonChip};
