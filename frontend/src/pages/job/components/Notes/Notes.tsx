@@ -67,7 +67,6 @@ const Notes = ({userJob}: NotesProps) => {
             fullWidth={true}
             value={notesData}
             onChange={(e) => setNotesData(e.target.value)}
-            // autoFocus
             onBlur={() => {
               handleUpdateJobNotes(notesData);
             }}
