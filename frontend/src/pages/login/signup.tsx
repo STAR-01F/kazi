@@ -19,6 +19,7 @@ import {IconButton} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Copyright from '@components/copyright/copyright';
 
+
 interface SignUpErrors {
   firstname?: string;
   lastname?: string;

@@ -11,7 +11,8 @@ const WithUnauth = ({children}: RequireAuthProps) => {
   if (loading) {
     return <PageCircular sx={{height: '100vh', width: '100vw'}} />;
   }
-  if (user && user.emailVerified) {
+  console.log('user object:', user);
+  if (user && (user.emailVerified || user.providerData[0].providerId === 'github.com') ) {
     return <Navigate to="/" state={{from: location}} replace />;
   }
   return children;
