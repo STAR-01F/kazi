@@ -62,7 +62,7 @@ const StatsContainer = () => {
         flexDirection={'column'}
       >
         <Typography>Streak</Typography>
-        <Streak/>
+        <Streak />
       </Box>
     </Container>
   );

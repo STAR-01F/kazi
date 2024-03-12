@@ -5,8 +5,8 @@ import {ThemeCustomization} from './themes';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-        <ThemeCustomization>
-          <App />
-        </ThemeCustomization>
+    <ThemeCustomization>
+      <App />
+    </ThemeCustomization>
   </React.StrictMode>
 );

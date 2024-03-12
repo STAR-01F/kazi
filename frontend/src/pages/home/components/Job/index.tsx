@@ -3,8 +3,8 @@ import LoadingGridView from './LoadingGridView';
 import Empty from './Empty';
 import {useSearchParams} from 'react-router-dom';
 import ListView from './ListView';
-import { useJobs } from '@services/firebase/hooks/useJobs';
-import { JobByStatus, groupJobsByStatus } from '@utils/groupJobStatus';
+import {useJobs} from '@services/firebase/hooks/useJobs';
+import {JobByStatus, groupJobsByStatus} from '@utils/groupJobStatus';
 import {Timestamp} from 'firebase/firestore';
 
 const JobSection = () => {
