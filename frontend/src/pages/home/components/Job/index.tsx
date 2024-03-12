@@ -13,8 +13,7 @@ const JobSection = () => {
   const [searchParam] = useSearchParams();
   const view = searchParam.get('view') || 'grid';
   const sort = searchParam.get('sort') || 'newest';
-  // useEffect(() => {
-  console.log('jobs', jobs);
+
   jobs.sort((a, b) => {
     const aStatus = a.status;
     const bStatus = b.status;

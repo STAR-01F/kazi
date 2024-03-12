@@ -4,10 +4,8 @@ import {PieChart} from '@mui/x-charts/PieChart';
 
 const JobsByStatus = () => {
   const {jobs} = useJobs();
-  // const totalJobs = jobs.length;
 
   const alljobs: JobByStatus = groupJobsByStatus(jobs);
-  console.log(alljobs);
   const getJobCount = (status: JobStatus) =>
     alljobs && alljobs[status] ? alljobs[status].length : 0;
 
