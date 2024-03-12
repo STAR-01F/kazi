@@ -64,9 +64,14 @@ export default function SignInSide() {
           values.password!
         );
         if (resp.status === 'Error') {
+          console.log('error from sign in', resp.message);
+          const errorMessage =
+            resp.message == 'auth/invalid-credential'
+              ? 'Invalid credentials'
+              : resp.message;
           setErrors({
-            email: 'Failed to sign in. Please check your credentials.',
-            password: 'Failed to sign in. Please check your credentials.',
+            email: errorMessage as string,
+            password: errorMessage as string,
           });
           return;
         }

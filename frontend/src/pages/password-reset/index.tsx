@@ -140,7 +140,7 @@ const PasswordReset = () => {
               <Grid item>
                 {' '}
                 <Link onClick={handleGoToSignIn} href="#" variant="body2">
-                  SIGN IN
+                  Sign in
                 </Link>
               </Grid>
             </Grid>

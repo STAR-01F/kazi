@@ -11,12 +11,12 @@ import {
   deleteUser,
 } from 'firebase/auth';
 
-import { FirebaseError } from 'firebase/app';
+import {FirebaseError} from 'firebase/app';
 
 import {Response} from 'src/@types';
 import type {User, UserCredential} from 'firebase/auth';
 import {auth} from '..';
-import { actionCodeConfig } from './actionConfig';
+import {actionCodeConfig} from './actionConfig';
 
 const signInWithGithub = async (): Promise<
   Response<UserCredential, unknown>
@@ -68,7 +68,7 @@ const signInWithGoogle = async (): Promise<
       status: 'Error',
       message: 'Provider id is null or undefined',
     };
-  } catch (err: FirebaseError|any) {
+  } catch (err: FirebaseError | any) {
     return {
       status: 'Error',
       message: err.code,
@@ -105,14 +105,13 @@ const logInWithEmailAndPassword = async (
       status: 'Error',
       message: 'Provider id is null or undefined',
     };
-  } catch (err: FirebaseError|any) {
+  } catch (err: FirebaseError | any) {
     return {
       status: 'Error',
       message: err.code,
     };
   }
 };
-
 
 const registerWithEmailAndPassword = async (
   firstname: string,
@@ -128,7 +127,7 @@ const registerWithEmailAndPassword = async (
     );
     const user = resultFromEmailPassReg.user;
     await sendEmailVerification(user, actionCodeConfig);
-    
+
     if (user.providerId) {
       updateProfile(user, {displayName: `${firstname} ${lastname}`})
         .then(() => {
@@ -147,7 +146,7 @@ const registerWithEmailAndPassword = async (
       status: 'Error',
       message: 'From register, provider id is null or undefined',
     };
-  } catch (err: FirebaseError|any) {
+  } catch (err: FirebaseError | any) {
     return {
       status: 'Error',
       message: err.code,
@@ -169,8 +168,7 @@ const sendPasswordReset = async (
       message: 'Password reset email sent successfully',
       data: 'Password reset email sent successfully',
     };
-  } catch (err: FirebaseError|any) {
-    console.error('Error from sendPasswordReset', err);
+  } catch (err: FirebaseError | any) {
     return {
       status: 'Error',
       message: err.code,
