@@ -34,7 +34,6 @@ interface SignUpValues {
   password?: string;
 }
 
-
 export default function SignUp() {
   const {setFeedback} = useFeedback();
   const navigate = useNavigate();
@@ -52,7 +51,11 @@ export default function SignUp() {
 
     // Validate username
     if (!values.firstname) {
-      errors.firstname = 'Username is required *';
+      errors.firstname = 'Firstname is required *';
+    }
+
+    if (!values.lastname) {
+      errors.lastname = 'Lastname is required *';
     }
 
     // Validate email
@@ -79,9 +82,13 @@ export default function SignUp() {
           values.password!
         );
         if (resp.status === 'Error') {
+          const errorMessage =
+            resp.message == 'auth/email-already-in-use'
+              ? 'This email is already in use'
+              : 'Failed to register credentials';
           setErrors({
-            email: resp.message as string,
-            password: resp.message as string,
+            email: errorMessage,
+            password: '',
           });
           return;
         }
@@ -89,7 +96,6 @@ export default function SignUp() {
           type: 'success',
           message: 'Please check your email to verify your account.',
         });
-
       } catch (error) {
         console.error(error);
         setErrors({
@@ -99,8 +105,6 @@ export default function SignUp() {
       }
     }
   };
-
-
 
   const handeleSignInWithGithub = async () => {
     const resp = await signInWithGithub();
@@ -120,7 +124,7 @@ export default function SignUp() {
     });
   };
 
- const handleSignInWithGoogle = async () => {
+  const handleSignInWithGoogle = async () => {
     const resp = await signInWithGoogle();
     if (resp.status === 'Success') {
       setFeedback({
@@ -134,7 +138,6 @@ export default function SignUp() {
       message: 'Failed to authenticate with Google',
     });
   };
-  
 
   const handleClick = () => {
     navigate('/signin');
