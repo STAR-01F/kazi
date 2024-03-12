@@ -68,10 +68,10 @@ const signInWithGoogle = async (): Promise<
       status: 'Error',
       message: 'Provider id is null or undefined',
     };
-  } catch (err: FirebaseError | any) {
+  } catch (err: unknown) {
     return {
       status: 'Error',
-      message: err.code,
+      message: (err as FirebaseError).code,
     };
   }
 };
@@ -105,10 +105,10 @@ const logInWithEmailAndPassword = async (
       status: 'Error',
       message: 'Provider id is null or undefined',
     };
-  } catch (err: FirebaseError | any) {
+  } catch (err: unknown) {
     return {
       status: 'Error',
-      message: err.code,
+      message: (err as FirebaseError).code,
     };
   }
 };
@@ -146,10 +146,10 @@ const registerWithEmailAndPassword = async (
       status: 'Error',
       message: 'From register, provider id is null or undefined',
     };
-  } catch (err: FirebaseError | any) {
+  } catch (err: unknown) {
     return {
       status: 'Error',
-      message: err.code,
+      message: (err as FirebaseError).code,
     };
   }
 };
@@ -168,10 +168,10 @@ const sendPasswordReset = async (
       message: 'Password reset email sent successfully',
       data: 'Password reset email sent successfully',
     };
-  } catch (err: FirebaseError | any) {
+  } catch (err: unknown) {
     return {
       status: 'Error',
-      message: err.code,
+      message: (err as FirebaseError).code,
     };
   }
 };

@@ -64,7 +64,6 @@ export default function SignInSide() {
           values.password!
         );
         if (resp.status === 'Error') {
-          console.log('error from sign in', resp.message);
           const errorMessage =
             resp.message == 'auth/invalid-credential'
               ? 'Invalid credentials'
