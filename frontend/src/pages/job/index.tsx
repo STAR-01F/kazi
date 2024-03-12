@@ -7,20 +7,26 @@ import {
   Card,
   CardHeader,
   CardContent,
+  Breadcrumbs,
+  Stack,
+  Link as MuiLink,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import NotesIcon from '@mui/icons-material/Notes';
+import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import {useParams} from 'react-router-dom';
 import Keywords from './components/Keywords/Keywords';
 import OttaDescription from './components/JobDescription/OttaDescription';
 import useFetchJobs from '@hooks/useFetchJobs';
-import {Link} from 'react-router-dom';
 import ManualDescription from './components/JobDescription/ManualDescription';
 import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
+import {Link} from 'react-router-dom';
 import {useFeedback} from '@hooks/useFeeback';
 import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 import Notes from './components/Notes/Notes';
+import {useState} from 'react';
 
 const Job = () => {
   const {id} = useParams();
@@ -29,7 +35,27 @@ const Job = () => {
   const {status, data} = useFetchJobs(id || '');
   const {jobs} = useJobs();
   const userJob = jobs.find((job) => job.jobid === id);
-
+  const [selectedComponent, setSelectedComponent] = useState('Notes');
+  const breadcrumbs = [
+    <MuiLink
+      underline="hover"
+      key={'1'}
+      sx={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}
+      onClick={() => setSelectedComponent('Notes')}
+    >
+      <NotesIcon sx={{mr: 0.5}}></NotesIcon>
+      Notes
+    </MuiLink>,
+    <MuiLink
+      underline="hover"
+      key={'2'}
+      sx={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}
+      onClick={() => setSelectedComponent('Keywords')}
+    >
+      <SavedSearchIcon sx={{mr: 0.5}}></SavedSearchIcon>
+      Suggestions
+    </MuiLink>,
+  ];
   if (status === 'idle' || status === 'fetching') {
     return <div>Loading...</div>;
   }
@@ -95,7 +121,13 @@ const Job = () => {
     },
   ];
   return (
-    <Grid container direction={'row'} m={2} maxWidth={'lg'}>
+    <Grid
+      container
+      direction={'row'}
+      m={2}
+      maxWidth={'lg'}
+      padding={{xs: '10px 20px', md: '15px 30px', lg: '20px 40px'}}
+    >
       <Grid item xs={12} md={6}>
         <IconButton component={Link} to="/" edge="start">
           <ArrowBackIcon fontSize="large" />
@@ -231,18 +263,24 @@ const Job = () => {
           </CardContent>
         </Card>
       </Grid>
+
       <Grid
         container
         item
         xs={12}
         md={6}
-        alignItems={'center'}
-        justifyContent={'center'}
+        // alignItems={'center'}
+        // justifyContent={'center'}
         sx={{height: '600px'}}
         p={1}
       >
-        <Notes userJob={userJob}></Notes>
-        <Keywords description={description} />
+        <Stack spacing={2}>
+          <Breadcrumbs separator="|">{breadcrumbs}</Breadcrumbs>
+        </Stack>
+        {selectedComponent === 'Notes' && <Notes userJob={userJob}></Notes>}
+        {selectedComponent === 'Keywords' && (
+          <Keywords description={description} />
+        )}
       </Grid>
     </Grid>
   );

@@ -11,7 +11,7 @@ const JobsByStatus = () => {
 
   return (
     <PieChart
-      height={250}
+      height={190}
       series={[
         {
           data: [
@@ -28,19 +28,12 @@ const JobsByStatus = () => {
           endAngle: 360,
           faded: {innerRadius: 30, additionalRadius: -30, color: 'gray'},
           highlightScope: {faded: 'global', highlighted: 'item'},
-          cx: '60%',
+          cx: '70%',
           cy: '50%',
         },
       ]}
       slotProps={{
-        legend: {
-          position: {vertical: 'bottom', horizontal: 'middle'},
-          direction: 'row',
-          itemMarkWidth: 20,
-          itemMarkHeight: 2,
-          markGap: 5,
-          itemGap: 10,
-        },
+        legend: {hidden: true},
       }}
     />
   );

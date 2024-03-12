@@ -1,4 +1,4 @@
-import { createSvgIcon } from '@mui/material/utils';
+import {createSvgIcon} from '@mui/material/utils';
 
 const PlusIcon = createSvgIcon(
   // credit: plus icon from https://heroicons.com/
@@ -9,9 +9,13 @@ const PlusIcon = createSvgIcon(
     strokeWidth={1.5}
     stroke="currentColor"
   >
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 4.5v15m7.5-7.5h-15"
+    />
   </svg>,
-  'Plus',
+  'Plus'
 );
 
-export default PlusIcon
+export default PlusIcon;
