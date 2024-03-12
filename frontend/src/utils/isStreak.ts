@@ -57,7 +57,7 @@ const isStreak = (dates: Date[]) => {
   return {
     bestStreak: longestStreak,
     currentStreak: finalCurrentStreak,
-    isPB: longestStreak === finalCurrentStreak,
+    isPB: longestStreak >= finalCurrentStreak,
   };
 };
 
