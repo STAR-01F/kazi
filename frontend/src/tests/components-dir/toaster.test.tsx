@@ -7,7 +7,7 @@ import { describe, it, expect} from "vitest";
 describe("Toaster ", () => {
   it("should render with the expected inputs", () => {
     const open = false
-    let toasterMessage = "toaster-test-successful"
+    const toasterMessage = "toaster-test-successful"
 
     render(<Toaster open = {!open} handleClose={()=>{open}} severity="success" message= {toasterMessage}/>);
     const toasterElement = screen.getByRole('alert');
