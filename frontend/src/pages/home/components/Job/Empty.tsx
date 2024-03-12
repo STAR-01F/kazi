@@ -8,6 +8,7 @@ const Empty = () => {
   };
   return (
     <Grid
+    container
       sx={{display: 'flex'}}
       direction={'column'}
       width="100%"

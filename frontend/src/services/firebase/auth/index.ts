@@ -5,14 +5,18 @@ import {
   sendPasswordResetEmail,
   signOut,
   signInWithEmailAndPassword,
+  sendEmailVerification,
   updateProfile,
   GithubAuthProvider,
   deleteUser,
 } from 'firebase/auth';
 
+import { FirebaseError } from 'firebase/app';
+
 import {Response} from 'src/@types';
 import type {User, UserCredential} from 'firebase/auth';
 import {auth} from '..';
+import { actionCodeConfig } from './actionConfig';
 
 const signInWithGithub = async (): Promise<
   Response<UserCredential, unknown>
@@ -30,7 +34,7 @@ const signInWithGithub = async (): Promise<
     if (user.providerId) {
       return {
         status: 'Success',
-        message: 'Successfully authenticated with Google',
+        message: 'Successfully authenticated with GitHub',
         data: resultFromPopup,
       };
     }
@@ -41,7 +45,7 @@ const signInWithGithub = async (): Promise<
   } catch (e) {
     return {
       status: 'Error',
-      message: 'Failed to authenticate user with Google',
+      message: 'Failed to authenticate user with GitHub',
     };
   }
 };
@@ -64,11 +68,10 @@ const signInWithGoogle = async (): Promise<
       status: 'Error',
       message: 'Provider id is null or undefined',
     };
-  } catch (err: unknown) {
-    console.error('Errror from google auth', err);
+  } catch (err: FirebaseError|any) {
     return {
       status: 'Error',
-      message: 'Failed to authenticate user with Google',
+      message: err.code,
     };
   }
 };
@@ -102,14 +105,14 @@ const logInWithEmailAndPassword = async (
       status: 'Error',
       message: 'Provider id is null or undefined',
     };
-  } catch (err: unknown) {
-    console.error('error from logInWithEmailAndPassword', err);
+  } catch (err: FirebaseError|any) {
     return {
       status: 'Error',
-      message: 'Failed to login with email',
+      message: err.code,
     };
   }
 };
+
 
 const registerWithEmailAndPassword = async (
   firstname: string,
@@ -124,7 +127,8 @@ const registerWithEmailAndPassword = async (
       password
     );
     const user = resultFromEmailPassReg.user;
-
+    await sendEmailVerification(user, actionCodeConfig);
+    
     if (user.providerId) {
       updateProfile(user, {displayName: `${firstname} ${lastname}`})
         .then(() => {
@@ -143,11 +147,10 @@ const registerWithEmailAndPassword = async (
       status: 'Error',
       message: 'From register, provider id is null or undefined',
     };
-  } catch (err: unknown) {
-    console.error('Error from register with email', err);
+  } catch (err: FirebaseError|any) {
     return {
       status: 'Error',
-      message: 'Failed to register user with Email',
+      message: err.code,
     };
   }
 };
@@ -166,11 +169,11 @@ const sendPasswordReset = async (
       message: 'Password reset email sent successfully',
       data: 'Password reset email sent successfully',
     };
-  } catch (err: unknown) {
+  } catch (err: FirebaseError|any) {
     console.error('Error from sendPasswordReset', err);
     return {
       status: 'Error',
-      message: 'Failed to send password reset email',
+      message: err.code,
     };
   }
 };

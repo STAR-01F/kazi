@@ -2,7 +2,6 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import ToasterProps from 'src/@types/toasterProps';
 
-
 const Toaster = ({open, handleClose, message, severity}: ToasterProps) => {
   return (
     <Snackbar

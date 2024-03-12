@@ -15,7 +15,7 @@ const Goal = () => {
       : lengthJobsThatYouApplied) /
       defaultValue) *
     100;
-  console.log('percentage', percentage);
+
   return (
     <PieChart
       height={190}

@@ -34,10 +34,9 @@
       "@context/*": ["src/context/*"],
       "react": ["node_modules/@types/react"]
     },
-    
-    /* Testing */
-    "types": ["@testing-library/jest-dom"],
 
+    /* Testing */
+    "types": ["@testing-library/jest-dom"]
   },
   "include": ["src", "src/tests"],
   "references": [{"path": "./tsconfig.node.json"}]

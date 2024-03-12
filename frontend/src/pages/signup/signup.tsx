@@ -34,6 +34,7 @@ interface SignUpValues {
   password?: string;
 }
 
+
 export default function SignUp() {
   const {setFeedback} = useFeedback();
   const navigate = useNavigate();
@@ -78,7 +79,6 @@ export default function SignUp() {
           values.password!
         );
         if (resp.status === 'Error') {
-          console.error(resp.message);
           setErrors({
             email: resp.message as string,
             password: resp.message as string,
@@ -87,9 +87,9 @@ export default function SignUp() {
         }
         setFeedback({
           type: 'success',
-          message: 'Successfully signed up',
+          message: 'Please check your email to verify your account.',
         });
-        navigate('/');
+
       } catch (error) {
         console.error(error);
         setErrors({
@@ -100,7 +100,27 @@ export default function SignUp() {
     }
   };
 
-  const handleSignInWithGoogle = async () => {
+
+
+  const handeleSignInWithGithub = async () => {
+    const resp = await signInWithGithub();
+    if (resp.status === 'Success') {
+      setFeedback({
+        type: 'success',
+        message: resp.message as string,
+      });
+
+      return;
+    }
+
+    console.error(resp.message);
+    setFeedback({
+      type: 'error',
+      message: 'Failed to authenticate with GitHub',
+    });
+  };
+
+ const handleSignInWithGoogle = async () => {
     const resp = await signInWithGoogle();
     if (resp.status === 'Success') {
       setFeedback({
@@ -109,27 +129,13 @@ export default function SignUp() {
       });
       return;
     }
-    console.error(resp.message);
     setFeedback({
       type: 'error',
       message: 'Failed to authenticate with Google',
     });
   };
-  const handeleSignInWithGithub = async () => {
-    const resp = await signInWithGithub();
-    if (resp.status === 'Success') {
-      setFeedback({
-        type: 'success',
-        message: resp.message as string,
-      });
-      return;
-    }
-    console.error(resp.message);
-    setFeedback({
-      type: 'error',
-      message: 'Failed to authenticate with GitHub',
-    });
-  };
+  
+
   const handleClick = () => {
     navigate('/signin');
   };
