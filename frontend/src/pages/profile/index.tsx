@@ -1,21 +1,41 @@
 import {Avatar, Box, Button, Container, Typography} from '@mui/material';
-// import {capitalizeFirstLetter} from '@utils/helper';
 import {useState} from 'react';
 import DeleteModal from './components/DeleteModal';
 import {useAuth} from '@services/firebase/hooks/useAuth';
+import {DeleteUserProfileByUserId} from '@services/firebase/userProfiles/Delete';
+import {useFeedback} from '@hooks/useFeeback';
 
 const Profile = () => {
   const {user} = useAuth();
+  const {setFeedback} = useFeedback();
   const [open, setOpen] = useState(false);
   if (!user) {
     return <div>loading...</div>;
   }
+
+  const handleDeleteAccount = async () => {
+    if (!user.uid) return;
+
+    const resp = await DeleteUserProfileByUserId(user);
+    if (resp.status === 'Error') {
+      setFeedback({
+        type: 'error',
+        message: resp.message,
+      });
+      return;
+    }
+    setFeedback({
+      type: 'success',
+      message: 'Account deleted successfully',
+    });
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <DeleteModal
         open={open}
         onClose={() => setOpen(false)}
-        onDelete={() => setOpen(false)}
+        onDelete={handleDeleteAccount}
       />
       <Box
         gap={2}

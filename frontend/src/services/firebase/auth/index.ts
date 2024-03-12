@@ -7,10 +7,11 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   GithubAuthProvider,
+  deleteUser,
 } from 'firebase/auth';
 
 import {Response} from 'src/@types';
-import type {UserCredential} from 'firebase/auth';
+import type {User, UserCredential} from 'firebase/auth';
 import {auth} from '..';
 
 const signInWithGithub = async (): Promise<
@@ -178,6 +179,24 @@ const logout = async () => {
   await signOut(auth);
 };
 
+const DeleteUserByUserAuth = async (
+  user: User
+): Promise<Response<string, string>> => {
+  try {
+    await deleteUser(user);
+    return {
+      status: 'Success',
+      message: 'Successfully deleted the user',
+      data: '',
+    };
+  } catch (error) {
+    return {
+      status: 'Error',
+      message: `Failed to delete the user: ${(error as Error).message}`,
+    };
+  }
+};
+
 export {
   signInWithGoogle,
   logInWithEmailAndPassword,
@@ -186,4 +205,5 @@ export {
   logout,
   sendPasswordResetEmail,
   signInWithGithub,
+  DeleteUserByUserAuth,
 };
