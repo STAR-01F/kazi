@@ -1,5 +1,6 @@
-import {Container, Paper, Typography} from '@mui/material';
-import QueryStatsTwoToneIcon from '@mui/icons-material/QueryStatsTwoTone';
+import {Box, Container, Paper} from '@mui/material';
+import Goal from './components/goal';
+import JobsByStatus from './components/jobsbystatus';
 
 const StatsContainer = () => {
   return (
@@ -10,13 +11,36 @@ const StatsContainer = () => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '250px',
-        flexDirection: 'column',
-        minWidth: '350px',
+        flexDirection: 'row',
+        minWidth: '325px',
+        // gap: 10,
         mb: 3,
       }}
     >
-      <QueryStatsTwoToneIcon sx={{fontSize: '100px'}} />
-      <Typography>No stats available</Typography>
+      <Box
+        width={{
+          xs: '100%',
+          md: '50%',
+        }}
+        display={'flex'}
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
+        <Box width={'160px'}>
+          <Goal />
+        </Box>
+      </Box>
+      <Box
+        width={{
+          xs: '0%',
+          md: '50%',
+        }}
+        display={'flex'}
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
+        <JobsByStatus />
+      </Box>
     </Container>
   );
 };

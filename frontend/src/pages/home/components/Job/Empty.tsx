@@ -11,7 +11,7 @@ const Empty = () => {
       sx={{display: 'flex'}}
       direction={'column'}
       width="100%"
-      height="100%"
+      height={'50%'}
       alignItems={'center'}
       justifyContent={'center'}
     >

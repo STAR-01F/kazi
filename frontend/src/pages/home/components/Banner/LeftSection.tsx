@@ -1,18 +1,23 @@
 import {Box, Button, ButtonGroup, Container} from '@mui/material';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ViewListIcon from '@mui/icons-material/ViewList';
-import {useState} from 'react';
-import ViewWeekIcon from '@mui/icons-material/ViewWeek';
+// import {useState} from 'react';
+import ViewKanbanIcon from '@mui/icons-material/ViewKanban';
+import {useSearchParams} from 'react-router-dom';
 
-const icons = [<GridViewIcon />, <ViewListIcon />, <ViewWeekIcon />];
+const icons = [<GridViewIcon />, <ViewListIcon />, <ViewKanbanIcon />];
 
 const LeftSection = () => {
-  const [selectedButton, setSelectedButton] = useState(0);
-
+  // const [selectedButton, setSelectedButton] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const view = ['grid', 'list', 'kanban'];
   const handleButtonClick = (index: number) => {
-    setSelectedButton(index);
+    setSearchParams((prev) => {
+      prev.set('view', view[index]);
+      return prev;
+    });
   };
-
+  const selectedButton = view.indexOf(searchParams.get('view') || 'grid');
   return (
     <Container component={Box} disableGutters flex={0}>
       <ButtonGroup

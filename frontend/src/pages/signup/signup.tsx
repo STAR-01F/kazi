@@ -18,7 +18,7 @@ import {
 import {IconButton} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Copyright from '@components/copyright/copyright';
-
+import {useFeedback} from '@hooks/useFeeback';
 
 interface SignUpErrors {
   firstname?: string;
@@ -35,6 +35,7 @@ interface SignUpValues {
 }
 
 export default function SignUp() {
+  const {setFeedback} = useFeedback();
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState<SignUpErrors>({});
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -68,7 +69,6 @@ export default function SignUp() {
     }
 
     setErrors(errors);
-
     if (Object.keys(errors).length === 0) {
       try {
         const resp = await registerWithEmailAndPassword(
@@ -85,15 +85,10 @@ export default function SignUp() {
           });
           return;
         }
-
-        if(resp.data?.user?.emailVerified === false){
-          console.log("Please verify your email");
-         //show alert/toaster
-          return
-
-        }
-
-          navigate('/');
+        setFeedback({
+          type: 'success',
+          message: 'Please check your email to verify your account.',
+        });
         
       } catch (error) {
         console.error(error);
@@ -108,47 +103,82 @@ export default function SignUp() {
   const handleSignInWithGoogle = async () => {
     const resp = await signInWithGoogle();
     if (resp.status === 'Success') {
-      console.log(resp.data);
+      setFeedback({
+        type: 'success',
+        message: resp.message as string,
+      });
+      return;
     }
+    setFeedback({
+      type: 'error',
+      message: 'Failed to authenticate with Google',
+    });
   };
+
   const handeleSignInWithGithub = async () => {
     const resp = await signInWithGithub();
     if (resp.status === 'Success') {
-      console.log(resp.data);
+      setFeedback({
+        type: 'success',
+        message: resp.message as string,
+      });
+
+      return;
     }
+    
+
+    console.error(resp.message);
+    setFeedback({
+      type: 'error',
+      message: 'Failed to authenticate with GitHub',
+    });
   };
   const handleClick = () => {
     navigate('/signin');
   };
 
   return (
-  <Grid container component="main" width={'100%'} height={'100%'} maxWidth="xs" >
-  <Grid item sm={12} md={true} component={Paper} square
-  sx={{
-   
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100vw',
-  }}
-  >
-      <Box
-         sx={{
-          width: '85%', 
+    <Grid
+      container
+      component="main"
+      width={'100%'}
+      height={'100%'}
+      maxWidth="xs"
+    >
+      <Grid
+        item
+        sm={12}
+        md={true}
+        component={Paper}
+        square
+        sx={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100vw',
         }}
       >
-        <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1, boxSizing:'border-box'}}>
-        
+        <Box
+          sx={{
+            width: '85%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{mt: 1, boxSizing: 'border-box'}}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField

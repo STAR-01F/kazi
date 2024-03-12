@@ -4,47 +4,66 @@ import {
   Typography,
   Stack,
   Button,
-  Avatar,
   Grid,
   CardActions,
   Paper,
+  CardMedia,
+  Box,
 } from '@mui/material';
 import {Link} from 'react-router-dom';
 import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
-import {DeleteJob, UpdateJobStatus} from '@services/firebase/jobs';
-
-// props to be passed in should be job title and company, possibly logo. Using ts for the props.
-
-// TODO
-// add company logo
+import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
+import {useFeedback} from '@hooks/useFeeback';
 
 type JobCardProps = {
+  userJobId: string;
   companyName: string;
   jobTitle: string;
   logoPath: string;
   jobID: string;
 };
-const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
+const JobCard = ({
+  userJobId,
+  companyName,
+  jobTitle,
+  logoPath,
+  jobID,
+}: JobCardProps) => {
   const {user} = useAuth();
+  const {setFeedback} = useFeedback();
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
-    const resp = await DeleteJob(user.uid, jobID);
+    const resp = await DeleteUserJob(user.uid, userJobId);
     if (resp.status === 'Success') {
-      console.log(resp);
+      setFeedback({
+        type: 'success',
+        message: resp.message,
+      });
       return;
     }
+    setFeedback({
+      type: 'error',
+      message: resp.message as string,
+    });
     console.error(resp);
   };
 
   const handleUpdateJobStatus = async (status: string) => {
     if (!user?.uid) return;
-    const resp = await UpdateJobStatus(user.uid, jobID, status);
+    const resp = await UpdateUserJobStatus(userJobId, status);
 
     if (resp.status === 'Success') {
-      console.log(resp);
+      setFeedback({
+        type: 'success',
+        message: resp.message,
+      });
       return;
     }
+    setFeedback({
+      type: 'error',
+      message: resp.message as string,
+    });
     console.error(resp);
   };
 
@@ -63,37 +82,57 @@ const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
       component={Paper}
       variant="outlined"
       sx={{
-        minWidth: '350px',
         maxWidth: {
           xs: '100%',
-          md: 'calc(50% - 8.5px)',
-          lg: 'calc(33.1% - 8.5px)',
+          sm: 'calc((100% - (1 * 16px))/2)',
+          md: 'calc((100% - (2 * 16px))/3)',
+          lg: 'calc((100% - (3 * 16px))/4)',
         },
         width: '100%',
         height: 'max-content',
       }}
     >
+      {logoPath ? (
+        <CardMedia
+          component="img"
+          alt={companyName}
+          sx={{
+            height: '100px',
+            objectFit: 'contain',
+            p: '10px',
+          }}
+          image={'https://images.otta.com/search/width_400/' + logoPath}
+        />
+      ) : (
+        <Box
+          sx={{
+            height: '100px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            p: '10px',
+          }}
+        >
+          <Typography variant="h5">{companyName}</Typography>
+        </Box>
+      )}
       <CardContent>
         <Grid container justifyContent={'space-between'}>
-          <Stack>
-            <Typography fontSize={20} fontWeight={'bold'}>
+          <Stack sx={{width: '100%'}}>
+            <Typography fontSize={20} fontWeight={'bold'} noWrap>
               {companyName}
             </Typography>
-            <Typography>{jobTitle}</Typography>
+            <Typography noWrap>{jobTitle}</Typography>
           </Stack>
-          <Avatar
-            alt={companyName}
-            src={logoPath}
-            sx={{height: 'auto', width: '55px'}}
-          />
         </Grid>
       </CardContent>
       <CardActions>
         <Button
-          variant={'contained'}
+          variant={'outlined'}
           component={Link}
           to={`job/${jobID}`}
           size="small"
+          fullWidth
         >
           View
         </Button>
@@ -101,8 +140,9 @@ const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
           variant="contained"
           size="small"
           menuActionList={moveMenulist}
+          fullWidth
         >
-          Move
+          Update
         </MenuListButton>
       </CardActions>
     </Card>
