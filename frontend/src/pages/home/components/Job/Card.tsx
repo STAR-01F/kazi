@@ -15,6 +15,9 @@ import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useFeedback} from '@hooks/useFeeback';
+import {Timestamp} from 'firebase/firestore';
+import daysToDaysAndMonths from '@utils/jobcard/daysAndMonths';
+import daysPassedSinceUTC from '@utils/jobcard/daysPassedSince';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 
 type JobCardProps = {
@@ -23,6 +26,7 @@ type JobCardProps = {
   jobTitle: string;
   logoPath: string;
   jobID: string;
+  timeSince: Timestamp;
 };
 const JobCard = ({
   userJobId,
@@ -30,10 +34,15 @@ const JobCard = ({
   jobTitle,
   logoPath,
   jobID,
+  timeSince,
 }: JobCardProps) => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
   const {jobs, setJobs} = useJobs();
+
+  const timeinDays = daysPassedSinceUTC(timeSince.toDate());
+  const dayAndMonths = daysToDaysAndMonths(timeinDays);
+
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     const resp = await DeleteUserJob(user.uid, userJobId);
@@ -127,13 +136,20 @@ const JobCard = ({
           <Typography variant="h5">{companyName}</Typography>
         </Box>
       )}
-      <CardContent>
+      <CardContent
+        sx={{
+          pb: '0',
+        }}
+      >
         <Grid container justifyContent={'space-between'}>
           <Stack sx={{width: '100%'}}>
             <Typography fontSize={20} fontWeight={'bold'} noWrap>
               {companyName}
             </Typography>
             <Typography noWrap>{jobTitle}</Typography>
+            <Typography noWrap sx={{color: 'grey', fontSize: '14px'}}>
+              {dayAndMonths}
+            </Typography>
           </Stack>
         </Grid>
       </CardContent>
