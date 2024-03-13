@@ -42,9 +42,8 @@ const JobCard = ({
         type: 'success',
         message: resp.message,
       });
-      const jobToKeep = jobs.filter((job) => job.id !== userJobId);
-      console.log('job to delete  =======> ', jobToKeep);
-      setJobs(jobToKeep);
+      const jobsToKeep = jobs.filter((job) => job.id !== userJobId);
+      setJobs(jobsToKeep);
       return;
     }
     setFeedback({
@@ -63,6 +62,13 @@ const JobCard = ({
         type: 'success',
         message: resp.message,
       });
+      const updatedJobs = jobs.map((job) => {
+        if (job.id === userJobId) {
+          return {...job, status};
+        }
+        return job;
+      });
+      setJobs(updatedJobs);
       return;
     }
     setFeedback({
