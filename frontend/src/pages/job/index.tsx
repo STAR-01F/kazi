@@ -18,8 +18,8 @@ import {useFeedback} from '@hooks/useFeeback';
 import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 import BreadcrumbsCard from './components/BreadcrumbsCard/BreadcrumbsCard';
-import Notes from './components/Notes/Notes';
-import {useState} from 'react';
+// import Notes from './components/Notes/Notes';
+// import {useState} from 'react';
 import SkeletonJob from '@components/skeleton/job';
 import {Timestamp} from 'firebase/firestore';
 
