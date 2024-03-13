@@ -18,6 +18,7 @@ import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useNavigate} from 'react-router-dom';
 import {useFeedback} from '@hooks/useFeeback';
 import {CreateUserJob} from '@services/firebase/userJobs';
+import {useJobs} from '@services/firebase/hooks/useJobs';
 
 type LinkJobModalProps = {
   toggle: () => void;
@@ -30,6 +31,7 @@ interface SaveJobError {
 }
 const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
   const [jobLink, setJobLink] = useState('');
+  const {jobs, setJobs} = useJobs();
   const [status, setStatus] = useState('Saved');
   const {setFeedback} = useFeedback();
   const {user} = useAuth();
@@ -76,6 +78,7 @@ const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
       type: 'success',
       message: 'Job added successfully',
     });
+    setJobs([...jobs, createdUserJob.data]);
     navigate(`job/${createdJob.data?.id}`);
     setSubmitting(false);
     onClose();

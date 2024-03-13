@@ -17,6 +17,7 @@ import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useState} from 'react';
 import jobStatus from '@repository/job.json';
 import {CreateUserJob} from '@services/firebase/userJobs';
+import {useJobs} from '@services/firebase/hooks/useJobs';
 
 type ManualJobModalProps = {
   toggle: () => void;
@@ -41,6 +42,7 @@ const ManualJobModal = ({
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('Saved');
   const {user} = useAuth();
+  const {jobs, setJobs} = useJobs();
   const navigate = useNavigate();
   const [errors, setErrors] = useState<SaveJobError>({});
 
@@ -98,6 +100,8 @@ const ManualJobModal = ({
     }
     setSubmitting(false);
     onClose();
+
+    setJobs([...jobs, createdUserJob.data]);
     // data returned is the jobId is navigated to.
     navigate(`job/${resp.data?.id}`);
   };

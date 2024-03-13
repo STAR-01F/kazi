@@ -34,7 +34,7 @@ const Job = () => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
   const {status, data} = useFetchJobs(id || '');
-  const {jobs} = useJobs();
+  const {jobs, setJobs} = useJobs();
   const userJob = jobs.find((job) => job.jobid === id);
   const [selectedComponent, setSelectedComponent] = useState('Notes');
   const breadcrumbs = [
@@ -83,6 +83,8 @@ const Job = () => {
         type: 'success',
         message: resp.message,
       });
+      const jobsToKeep = jobs.filter((job) => job.id !== userJob.id);
+      setJobs(jobsToKeep);
       return;
     }
     setFeedback({
@@ -102,8 +104,16 @@ const Job = () => {
         type: 'success',
         message: resp.message,
       });
+      const updatedJobs = jobs.map((job) => {
+        if (job.id === userJob.id) {
+          return {...job, status};
+        }
+        return job;
+      });
+      setJobs(updatedJobs);
       return;
     }
+
     setFeedback({
       type: 'error',
       message: resp.message as string,
