@@ -19,6 +19,8 @@ import {Timestamp} from 'firebase/firestore';
 import daysToDaysAndMonths from '@utils/jobcard/daysAndMonths';
 import daysPassedSinceUTC from '@utils/jobcard/daysPassedSince';
 import {useJobs} from '@services/firebase/hooks/useJobs';
+import {Tooltip} from '@mui/material';
+import Zoom from '@mui/material/Zoom';
 
 type JobCardProps = {
   userJobId: string;
@@ -27,7 +29,9 @@ type JobCardProps = {
   logoPath: string;
   jobID: string;
   timeSince: Timestamp;
+  status: string;
 };
+
 const JobCard = ({
   userJobId,
   companyName,
@@ -35,11 +39,13 @@ const JobCard = ({
   logoPath,
   jobID,
   timeSince,
+  status,
 }: JobCardProps) => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
   const {jobs, setJobs} = useJobs();
 
+  const timeToString = timeSince.toDate().toDateString();
   const timeinDays = daysPassedSinceUTC(timeSince.toDate());
   const dayAndMonths = daysToDaysAndMonths(timeinDays);
 
@@ -147,9 +153,34 @@ const JobCard = ({
               {companyName}
             </Typography>
             <Typography noWrap>{jobTitle}</Typography>
-            <Typography noWrap sx={{color: 'grey', fontSize: '14px'}}>
-              {dayAndMonths}
-            </Typography>
+
+            <Tooltip
+              TransitionComponent={Zoom}
+              title={
+                <span>
+                  <span style={{fontWeight: 'bold'}}>{status}</span>
+                  {' : '}
+                  {timeToString}
+                </span>
+              }
+              // placement='bottom'
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: 'offset',
+                      options: {
+                        offset: [-68, -12],
+                      },
+                    },
+                  ],
+                },
+              }}
+            >
+              <Typography noWrap sx={{color: 'grey', fontSize: '14px'}}>
+                {dayAndMonths}
+              </Typography>
+            </Tooltip>
           </Stack>
         </Grid>
       </CardContent>
