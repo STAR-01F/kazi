@@ -25,17 +25,52 @@ const Keywords = ({description}: KeywordsProps) => {
   if (isKeywordsLoading) {
     return (
       <>
-        {[30, 30, 30, 40, 40, 30, 30, 30, 50].map((size, index) => (
-          <SkeletonChip key={index} size={size} />
-        ))}
+        <Grid
+          container
+          item
+          direction="row"
+          gap={2}
+          justifyContent={'center'}
+          p={2}
+        >
+          {[30, 30, 30, 40, 40, 30, 30, 30, 50].map((size, index) => (
+            <SkeletonChip key={index} size={size} />
+          ))}
+        </Grid>
       </>
     );
   }
   return (
     <>
-      {generateClicked ? null : (
+      {generateClicked ? (
+        <Grid
+          container
+          item
+          direction="row"
+          gap={2}
+          justifyContent={'center'}
+          p={2}
+        >
+          {keywords &&
+            keywords.map((keyword, index) => {
+              return (
+                <Chip
+                  key={index}
+                  label={<Typography variant="h6">{keyword}</Typography>}
+                  sx={{padding: '1rem'}}
+                />
+              );
+            })}
+        </Grid>
+      ) : (
         <>
-          <Grid container item alignItems={'center'} direction={'column'}>
+          <Grid
+            container
+            item
+            alignItems={'center'}
+            justifyContent={'center'}
+            flexDirection={'column'}
+          >
             <SavedSearchIcon sx={{fontSize: 80}} />
             <Typography mb={3} variant="subtitle1" fontWeight={'light'}>
               Generate personalised keywords to add to your CV
@@ -46,25 +81,6 @@ const Keywords = ({description}: KeywordsProps) => {
           </Grid>
         </>
       )}
-      <Grid
-        container
-        item
-        direction="row"
-        gap={2}
-        justifyContent={'center'}
-        p={2}
-      >
-        {keywords &&
-          keywords.map((keyword, index) => {
-            return (
-              <Chip
-                key={index}
-                label={<Typography variant="h6">{keyword}</Typography>}
-                sx={{padding: '1rem'}}
-              />
-            );
-          })}
-      </Grid>
     </>
   );
 };

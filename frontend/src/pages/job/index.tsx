@@ -3,30 +3,21 @@ import {
   Grid,
   Typography,
   Box,
-  IconButton,
   Card,
   CardHeader,
   CardContent,
-  Breadcrumbs,
-  Stack,
-  Link as MuiLink,
 } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import NotesIcon from '@mui/icons-material/Notes';
-import SavedSearchIcon from '@mui/icons-material/SavedSearch';
+
 import {useParams} from 'react-router-dom';
-import Keywords from './components/Keywords/Keywords';
 import OttaDescription from './components/JobDescription/OttaDescription';
 import useFetchJobs from '@hooks/useFetchJobs';
 import ManualDescription from './components/JobDescription/ManualDescription';
 import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
-import {Link} from 'react-router-dom';
 import {useFeedback} from '@hooks/useFeeback';
 import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useJobs} from '@services/firebase/hooks/useJobs';
-import Notes from './components/Notes/Notes';
-import {useState} from 'react';
+import BreadcrumbsCard from './components/BreadcrumbsCard/BreadcrumbsCard';
 
 const Job = () => {
   const {id} = useParams();
@@ -35,27 +26,7 @@ const Job = () => {
   const {status, data} = useFetchJobs(id || '');
   const {jobs} = useJobs();
   const userJob = jobs.find((job) => job.jobid === id);
-  const [selectedComponent, setSelectedComponent] = useState('Notes');
-  const breadcrumbs = [
-    <MuiLink
-      underline="hover"
-      key={'1'}
-      sx={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}
-      onClick={() => setSelectedComponent('Notes')}
-    >
-      <NotesIcon sx={{mr: 0.5}}></NotesIcon>
-      Notes
-    </MuiLink>,
-    <MuiLink
-      underline="hover"
-      key={'2'}
-      sx={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}
-      onClick={() => setSelectedComponent('Keywords')}
-    >
-      <SavedSearchIcon sx={{mr: 0.5}}></SavedSearchIcon>
-      Suggestions
-    </MuiLink>,
-  ];
+
   if (status === 'idle' || status === 'fetching') {
     return <div>Loading...</div>;
   }
@@ -128,74 +99,36 @@ const Job = () => {
       maxWidth={'lg'}
       padding={{xs: '10px 20px', md: '15px 30px', lg: '20px 40px'}}
     >
-      <Grid item xs={12} md={6}>
-        <IconButton component={Link} to="/" edge="start">
-          <ArrowBackIcon fontSize="large" />
-        </IconButton>
-        <Grid container direction="column">
-          <Grid mb={2}>
-            <Typography mb={2} variant="h4">
-              {title}
-            </Typography>
-            <Grid
-              container
-              id={'logo-btns'}
-              sx={{
-                minHeight: {
-                  xs: '100px',
-                  sm: '150px',
-                },
-
-                flexDirection: {
-                  xs: 'column',
-                  sm: 'row',
-                },
-
-                justifyContent: {
-                  xs: 'space-evenly',
-                },
-              }}
-            >
+      <Grid container direction="column" p={1}>
+        <Grid>
+          <Typography mb={1} variant="h4">
+            {title}
+          </Typography>
+          <Grid container id={'logo-btns'}>
+            <Grid container item id={'company-logo'} alignItems={'center'}>
+              {jobSource === 'manual' ? null : (
+                <Box
+                  component={'img'}
+                  alt={company}
+                  src={
+                    'https://images.otta.com/search/width_200/' +
+                    hiringOrganization?.logo
+                  }
+                  sx={{
+                    height: 'auto',
+                    width: 'auto',
+                    maxWidth: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
+              )}
               <Grid
+                container
                 item
-                xs={6}
-                id={'company-logo'}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                {jobSource === 'manual' ? null : (
-                  <Box
-                    component={'img'}
-                    alt={company}
-                    src={
-                      'https://images.otta.com/search/width_200/' +
-                      hiringOrganization?.logo
-                    }
-                    sx={{
-                      height: 'auto',
-                      width: 'auto',
-                      maxWidth: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                )}
-              </Grid>
-              <Grid
-                item
-                xs={6}
                 id={'action-btns'}
-                sx={{
-                  display: 'flex',
-                  // flexDirection: {
-                  //   xs: 'row',
-                  //   sm: 'row',
-                  // },
-                  justifyContent: 'space-evenly',
-                  alignItems: 'center',
-                }}
+                alignItems={'center'}
+                justifyContent={'flex-end'}
+                gap={2}
               >
                 <Button
                   LinkComponent={'a'}
@@ -226,23 +159,25 @@ const Job = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container>
-            <Grid item>
-              <Typography textTransform={'capitalize'} variant="h6">
-                {company}
+        </Grid>
+        <Grid container>
+          <Grid item>
+            <Typography textTransform={'capitalize'} variant="h6">
+              {company}
+            </Typography>
+            {jobSource === 'manual' ? null : (
+              <Typography
+                textTransform={'capitalize'}
+                fontWeight={'light'}
+                variant="subtitle1"
+              >
+                {`${jobLocation?.address?.addressRegion}, ${jobLocation?.address?.addressCountry}`}
               </Typography>
-              {jobSource === 'manual' ? null : (
-                <Typography
-                  textTransform={'capitalize'}
-                  fontWeight={'light'}
-                  variant="subtitle1"
-                >
-                  {`${jobLocation?.address?.addressRegion}, ${jobLocation?.address?.addressCountry}`}
-                </Typography>
-              )}
-            </Grid>
+            )}
           </Grid>
         </Grid>
+      </Grid>
+      <Grid item xs={12} md={6} p={1}>
         <Card>
           <CardHeader
             style={{
@@ -263,24 +198,11 @@ const Job = () => {
           </CardContent>
         </Card>
       </Grid>
-
-      <Grid
-        container
-        item
-        xs={12}
-        md={6}
-        // alignItems={'center'}
-        // justifyContent={'center'}
-        sx={{height: '600px'}}
-        p={1}
-      >
-        <Stack spacing={2}>
-          <Breadcrumbs separator="|">{breadcrumbs}</Breadcrumbs>
-        </Stack>
-        {selectedComponent === 'Notes' && <Notes userJob={userJob}></Notes>}
-        {selectedComponent === 'Keywords' && (
-          <Keywords description={description} />
-        )}
+      <Grid item xs={12} md={6} p={1}>
+        <BreadcrumbsCard
+          userJob={userJob}
+          description={description}
+        ></BreadcrumbsCard>
       </Grid>
     </Grid>
   );
