@@ -18,6 +18,7 @@ import {useFeedback} from '@hooks/useFeeback';
 import {Timestamp} from 'firebase/firestore';
 import daysToDaysAndMonths from '@utils/jobcard/daysAndMonths';
 import daysPassedSinceUTC from '@utils/jobcard/daysPassedSince';
+import {useJobs} from '@services/firebase/hooks/useJobs';
 
 type JobCardProps = {
   userJobId: string;
@@ -37,6 +38,7 @@ const JobCard = ({
 }: JobCardProps) => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
+  const {jobs, setJobs} = useJobs();
 
   const timeinDays = daysPassedSinceUTC(timeSince.toDate());
   const dayAndMonths = daysToDaysAndMonths(timeinDays);
@@ -49,6 +51,8 @@ const JobCard = ({
         type: 'success',
         message: resp.message,
       });
+      const jobsToKeep = jobs.filter((job) => job.id !== userJobId);
+      setJobs(jobsToKeep);
       return;
     }
     setFeedback({
@@ -67,6 +71,13 @@ const JobCard = ({
         type: 'success',
         message: resp.message,
       });
+      const updatedJobs = jobs.map((job) => {
+        if (job.id === userJobId) {
+          return {...job, status};
+        }
+        return job;
+      });
+      setJobs(updatedJobs);
       return;
     }
     setFeedback({
