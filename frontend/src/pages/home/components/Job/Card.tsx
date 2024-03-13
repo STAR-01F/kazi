@@ -15,6 +15,7 @@ import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useFeedback} from '@hooks/useFeeback';
+import {useJobs} from '@services/firebase/hooks/useJobs';
 
 type JobCardProps = {
   userJobId: string;
@@ -32,6 +33,7 @@ const JobCard = ({
 }: JobCardProps) => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
+  const {jobs, setJobs} = useJobs();
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     const resp = await DeleteUserJob(user.uid, userJobId);
@@ -40,6 +42,8 @@ const JobCard = ({
         type: 'success',
         message: resp.message,
       });
+      const jobsToKeep = jobs.filter((job) => job.id !== userJobId);
+      setJobs(jobsToKeep);
       return;
     }
     setFeedback({
@@ -58,6 +62,13 @@ const JobCard = ({
         type: 'success',
         message: resp.message,
       });
+      const updatedJobs = jobs.map((job) => {
+        if (job.id === userJobId) {
+          return {...job, status};
+        }
+        return job;
+      });
+      setJobs(updatedJobs);
       return;
     }
     setFeedback({
