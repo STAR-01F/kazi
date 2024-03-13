@@ -18,17 +18,21 @@ import {useFeedback} from '@hooks/useFeeback';
 import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 import BreadcrumbsCard from './components/BreadcrumbsCard/BreadcrumbsCard';
+import Notes from './components/Notes/Notes';
+import {useState} from 'react';
+import SkeletonJob from '@components/skeleton/job';
+import {Timestamp} from 'firebase/firestore';
 
 const Job = () => {
   const {id} = useParams();
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
   const {status, data} = useFetchJobs(id || '');
-  const {jobs} = useJobs();
+  const {jobs, setJobs} = useJobs();
   const userJob = jobs.find((job) => job.jobid === id);
 
   if (status === 'idle' || status === 'fetching') {
-    return <div>Loading...</div>;
+    return <SkeletonJob />;
   }
   if (status === 'error') {
     return <div>Error fetching data</div>;
@@ -53,6 +57,8 @@ const Job = () => {
         type: 'success',
         message: resp.message,
       });
+      const jobsToKeep = jobs.filter((job) => job.id !== userJob.id);
+      setJobs(jobsToKeep);
       return;
     }
     setFeedback({
@@ -72,8 +78,30 @@ const Job = () => {
         type: 'success',
         message: resp.message,
       });
+      const updatedJobs = jobs.map((job) => {
+        console.log('status=======>', status);
+        if (job.id === userJob.id) {
+          if (status === 'Saved') {
+            return {...job, status};
+          } else {
+            const updatedAt = Timestamp.now();
+            console.log('updatedAt=======>', updatedAt);
+            return {
+              ...job,
+              status: status,
+              statusUpdates: {
+                ...job.statusUpdates,
+                [status]: updatedAt,
+              },
+            };
+          }
+        }
+        return job;
+      });
+      setJobs(updatedJobs);
       return;
     }
+
     setFeedback({
       type: 'error',
       message: resp.message as string,
