@@ -1,6 +1,7 @@
-import {Box, Container, Paper} from '@mui/material';
+import {Box, Container, Paper, Typography} from '@mui/material';
 import Goal from './components/goal';
 import JobsByStatus from './components/jobsbystatus';
+import Streak from './components/streak';
 
 const StatsContainer = () => {
   return (
@@ -27,6 +28,7 @@ const StatsContainer = () => {
         alignItems={'center'}
       >
         <Box width={'160px'}>
+          <Typography>Goals</Typography>
           <Goal />
         </Box>
       </Box>
@@ -35,11 +37,32 @@ const StatsContainer = () => {
           xs: '0%',
           md: '50%',
         }}
-        display={'flex'}
+        display={{
+          xs: 'none',
+          md: 'flex',
+        }}
         justifyContent={'center'}
         alignItems={'center'}
+        flexDirection={'column'}
       >
+        <Typography>Breakdown</Typography>
         <JobsByStatus />
+      </Box>
+      <Box
+        width={{
+          xs: '0%',
+          md: '50%',
+        }}
+        display={{
+          xs: 'none',
+          md: 'flex',
+        }}
+        justifyContent={'center'}
+        alignItems={'center'}
+        flexDirection={'column'}
+      >
+        <Typography>Streak</Typography>
+        <Streak />
       </Box>
     </Container>
   );

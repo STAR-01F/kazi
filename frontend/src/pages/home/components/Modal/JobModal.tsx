@@ -5,10 +5,12 @@ import AddJob from '../Banner/AddJob';
 import LinkJobModal from './LinkJobModal';
 import ManualJobModal from './ManualJobModal';
 import {useSearchParams} from 'react-router-dom';
+import SkeletonJob from '@components/skeleton/job';
 
 export default function JobModal() {
   const [openModal, setOpen] = useSearchParams();
   const open = openModal.get('jobModal') === 'open';
+  const [submitting, setSubmitting] = React.useState(false);
 
   const [openManualJobModal, setManualJobModalOpen] = React.useState(false);
 
@@ -26,12 +28,27 @@ export default function JobModal() {
   return (
     <React.Fragment>
       <AddJob handleClickOpen={handleClickOpen} />
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+      {submitting && <SkeletonJob />}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        maxWidth="xs"
+        hideBackdrop={submitting}
+      >
         <DialogTitle>Add Job</DialogTitle>
         {openManualJobModal ? (
-          <ManualJobModal toggle={toggle} onClose={handleClose} />
+          <ManualJobModal
+            toggle={toggle}
+            onClose={handleClose}
+            setSubmitting={setSubmitting}
+          />
         ) : (
-          <LinkJobModal toggle={toggle} onClose={handleClose} />
+          <LinkJobModal
+            toggle={toggle}
+            onClose={handleClose}
+            setSubmitting={setSubmitting}
+          />
         )}
       </Dialog>
     </React.Fragment>

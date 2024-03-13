@@ -49,7 +49,9 @@ const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
         },
         typography: {
           fontFamily: [
-            'Kanit',
+            // 'Kanit',
+            // 'Ysabeau Office',
+            // 'Young Serif',
             'Oswald',
             '"Helvetica Neue"',
             '-apple-system',

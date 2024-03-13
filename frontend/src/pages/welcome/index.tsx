@@ -1,9 +1,7 @@
-import WelcomePage from "./components/WelcomePage";
+import WelcomePage from './components/WelcomePage';
 
 const Welcome = () => {
-    return (
-        <WelcomePage />
-    )
-}
+  return <WelcomePage />;
+};
 
 export default Welcome;

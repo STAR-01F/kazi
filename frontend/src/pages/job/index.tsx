@@ -7,35 +7,58 @@ import {
   Card,
   CardHeader,
   CardContent,
+  Breadcrumbs,
+  Stack,
+  Link as MuiLink,
 } from '@mui/material';
-import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {useState} from 'react';
+import NotesIcon from '@mui/icons-material/Notes';
+import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import {useParams} from 'react-router-dom';
-import Keywords from './components/Keywords';
-import OttaDescription from './components/OttaDescription';
-import getKeywords from '@utils/openai';
+import Keywords from './components/Keywords/Keywords';
+import OttaDescription from './components/JobDescription/OttaDescription';
 import useFetchJobs from '@hooks/useFetchJobs';
-import {Link} from 'react-router-dom';
-import ManualDescription from './components/ManualDescription';
+import ManualDescription from './components/JobDescription/ManualDescription';
 import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
+import {Link} from 'react-router-dom';
 import {useFeedback} from '@hooks/useFeeback';
 import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useJobs} from '@services/firebase/hooks/useJobs';
+import Notes from './components/Notes/Notes';
+import {useState} from 'react';
+import SkeletonJob from '@components/skeleton/job';
 
 const Job = () => {
   const {id} = useParams();
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
-  const [keywords, setKeywords] = useState<string[]>([]);
-  const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {status, data} = useFetchJobs(id || '');
-  const [generateClicked, setGenerateClicked] = useState(false);
-  const {jobs} = useJobs();
+  const {jobs, setJobs} = useJobs();
   const userJob = jobs.find((job) => job.jobid === id);
+  const [selectedComponent, setSelectedComponent] = useState('Notes');
+  const breadcrumbs = [
+    <MuiLink
+      underline="hover"
+      key={'1'}
+      sx={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}
+      onClick={() => setSelectedComponent('Notes')}
+    >
+      <NotesIcon sx={{mr: 0.5}}></NotesIcon>
+      Notes
+    </MuiLink>,
+    <MuiLink
+      underline="hover"
+      key={'2'}
+      sx={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}
+      onClick={() => setSelectedComponent('Keywords')}
+    >
+      <SavedSearchIcon sx={{mr: 0.5}}></SavedSearchIcon>
+      Suggestions
+    </MuiLink>,
+  ];
   if (status === 'idle' || status === 'fetching') {
-    return <div>Loading...</div>;
+    return <SkeletonJob />;
   }
   if (status === 'error') {
     return <div>Error fetching data</div>;
@@ -51,18 +74,6 @@ const Job = () => {
     jobLink,
   } = data![0];
 
-  console.log('job source', data![0]);
-
-  const handleGenerate = async () => {
-    setGenerateClicked(true);
-    setIsKeywordsLoading(true);
-    const resp = await getKeywords(description);
-    if (resp.status === 'Success') {
-      setKeywords(resp.data.keywords.split(','));
-    }
-    setIsKeywordsLoading(false);
-  };
-
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     if (!userJob) return;
@@ -72,6 +83,8 @@ const Job = () => {
         type: 'success',
         message: resp.message,
       });
+      const jobsToKeep = jobs.filter((job) => job.id !== userJob.id);
+      setJobs(jobsToKeep);
       return;
     }
     setFeedback({
@@ -91,8 +104,16 @@ const Job = () => {
         type: 'success',
         message: resp.message,
       });
+      const updatedJobs = jobs.map((job) => {
+        if (job.id === userJob.id) {
+          return {...job, status};
+        }
+        return job;
+      });
+      setJobs(updatedJobs);
       return;
     }
+
     setFeedback({
       type: 'error',
       message: resp.message as string,
@@ -111,7 +132,13 @@ const Job = () => {
     },
   ];
   return (
-    <Grid container direction={'row'} m={2} maxWidth={'lg'}>
+    <Grid
+      container
+      direction={'row'}
+      m={2}
+      maxWidth={'lg'}
+      padding={{xs: '10px 20px', md: '15px 30px', lg: '20px 40px'}}
+    >
       <Grid item xs={12} md={6}>
         <IconButton component={Link} to="/" edge="start">
           <ArrowBackIcon fontSize="large" />
@@ -247,45 +274,24 @@ const Job = () => {
           </CardContent>
         </Card>
       </Grid>
+
       <Grid
         container
         item
         xs={12}
         md={6}
-        direction={'column'}
-        alignItems={'center'}
-        justifyContent={'center'}
+        // alignItems={'center'}
+        // justifyContent={'center'}
         sx={{height: '600px'}}
+        p={1}
       >
-        {generateClicked ? null : (
-          <>
-            <Grid
-              container
-              item
-              alignItems={'center'}
-              direction={'column'}
-              mb={3}
-            >
-              <SavedSearchIcon sx={{fontSize: 80}} />
-              <Typography mb={3} variant="subtitle1" fontWeight={'light'}>
-                Generate personalised keywords to add to your CV
-              </Typography>
-              <Button onClick={handleGenerate} variant="contained" size="small">
-                Generate
-              </Button>
-            </Grid>
-          </>
+        <Stack spacing={2}>
+          <Breadcrumbs separator="|">{breadcrumbs}</Breadcrumbs>
+        </Stack>
+        {selectedComponent === 'Notes' && <Notes userJob={userJob}></Notes>}
+        {selectedComponent === 'Keywords' && (
+          <Keywords description={description} />
         )}
-        <Grid
-          container
-          item
-          direction="row"
-          gap={2}
-          justifyContent={'center'}
-          p={2}
-        >
-          <Keywords keywords={keywords} isLoading={isKeywordsLoading} />
-        </Grid>
       </Grid>
     </Grid>
   );
