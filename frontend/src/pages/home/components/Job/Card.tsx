@@ -72,8 +72,22 @@ const JobCard = ({
         message: resp.message,
       });
       const updatedJobs = jobs.map((job) => {
+        console.log('status=======>', status);
         if (job.id === userJobId) {
-          return {...job, status};
+          if (status === 'Saved') {
+            return {...job, status};
+          } else {
+            const updatedAt = Timestamp.now();
+            console.log('updatedAt=======>', updatedAt);
+            return {
+              ...job,
+              status: status,
+              statusUpdates: {
+                ...job.statusUpdates,
+                [status]: updatedAt,
+              },
+            };
+          }
         }
         return job;
       });
