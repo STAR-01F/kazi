@@ -1,5 +1,4 @@
 const isStreak = (dates: Date[]) => {
-  console.log(dates, 'dates');
   if (dates.length === 0) {
     return {bestStreak: 0, currentStreak: 0, isPB: true};
   }

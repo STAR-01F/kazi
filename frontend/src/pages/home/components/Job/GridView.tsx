@@ -52,6 +52,7 @@ const GridView = ({jobByStatus}: GridViewProps) => {
                   jobID={job.jobid}
                   logoPath={job.hiringOrganization?.logo || ''}
                   timeSince={job.statusUpdates[job.status]}
+                  status={job.status}
                 />
               ))}
             </Fragment>
