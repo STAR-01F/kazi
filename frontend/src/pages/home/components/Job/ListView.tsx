@@ -32,6 +32,7 @@ const ListView = ({jobs}: ListViewProps) => {
                 }`}
                 status={job.status || 'Saved'}
                 jobTitle={job.title}
+                time={job.statusUpdates[job.status]}
               />
             ))}
         </TableBody>
