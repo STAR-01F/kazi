@@ -19,6 +19,7 @@ type JobListProps = {
   logoPath: string;
   jobTitle: string;
   status: string;
+  time: Timestamp;
 };
 const JobList = ({
   userJobsId,
@@ -27,9 +28,17 @@ const JobList = ({
   logoPath,
   jobTitle,
   status,
+  time,
 }: JobListProps) => {
   const {user} = useAuth();
   const {jobs, setJobs} = useJobs();
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  const timeToStr = time.toDate().toLocaleDateString(undefined, dateOptions);
+
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     const resp = await DeleteUserJob(user.uid, userJobsId);
@@ -49,13 +58,11 @@ const JobList = ({
     if (resp.status === 'Success') {
       console.log(resp);
       const updatedJobs = jobs.map((job) => {
-        console.log('status=======>', status);
         if (job.id === userJobsId) {
           if (status === 'Saved') {
             return {...job, status};
           } else {
             const updatedAt = Timestamp.now();
-            console.log('updatedAt=======>', updatedAt);
             return {
               ...job,
               status: status,
@@ -103,6 +110,8 @@ const JobList = ({
       </TableCell>
       <TableCell>{jobTitle}</TableCell>
       <TableCell>{status}</TableCell>
+      <TableCell>{timeToStr}</TableCell>
+
       <TableCell>
         <IconButton component={Link} to={`job/${jobID}`}>
           <LaunchIcon />
