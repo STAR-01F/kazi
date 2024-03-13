@@ -23,12 +23,13 @@ import {useJobs} from '@services/firebase/hooks/useJobs';
 type LinkJobModalProps = {
   toggle: () => void;
   onClose: () => void;
+  setSubmitting: (value: boolean) => void;
 };
 
 interface SaveJobError {
   jobLink?: string;
 }
-const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
+const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
   const [jobLink, setJobLink] = useState('');
   const {jobs, setJobs} = useJobs();
   const [status, setStatus] = useState('Saved');
@@ -43,19 +44,22 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
       setErrors({
         jobLink: 'Job link is required',
       });
+      return;
     }
-
+    setSubmitting(true);
     const resp = await Scrapper(jobLink);
     if (resp.status == 'Error') {
       setErrors({
         jobLink: resp.message as string,
       });
+      setSubmitting(false);
       return;
     }
     const createdJob = await CreateJob(resp.data);
 
     if (createdJob.status === 'Error') {
       console.error(createdJob);
+      setSubmitting(false);
       return;
     }
 
@@ -66,6 +70,7 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
     );
     if (createdUserJob.status === 'Error') {
       console.error(createdUserJob);
+      setSubmitting(false);
       return;
     }
 
@@ -75,6 +80,7 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
     });
     setJobs([...jobs, createdUserJob.data]);
     navigate(`job/${createdJob.data?.id}`);
+    setSubmitting(false);
     onClose();
   };
   return (

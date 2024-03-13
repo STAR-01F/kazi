@@ -27,6 +27,7 @@ import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 import Notes from './components/Notes/Notes';
 import {useState} from 'react';
+import SkeletonJob from '@components/skeleton/job';
 
 const Job = () => {
   const {id} = useParams();
@@ -57,7 +58,7 @@ const Job = () => {
     </MuiLink>,
   ];
   if (status === 'idle' || status === 'fetching') {
-    return <div>Loading...</div>;
+    return <SkeletonJob />;
   }
   if (status === 'error') {
     return <div>Error fetching data</div>;

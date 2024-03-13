@@ -22,6 +22,7 @@ import {useJobs} from '@services/firebase/hooks/useJobs';
 type ManualJobModalProps = {
   toggle: () => void;
   onClose: () => void;
+  setSubmitting: (submitting: boolean) => void;
 };
 
 interface SaveJobError {
@@ -30,7 +31,11 @@ interface SaveJobError {
   company?: string;
   description?: string;
 }
-const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
+const ManualJobModal = ({
+  toggle,
+  onClose,
+  setSubmitting,
+}: ManualJobModalProps) => {
   const [title, setTitle] = useState('');
   const [jobLink, setJobLink] = useState('');
   const [company, setCompany] = useState('');
@@ -63,6 +68,7 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
     if (!user?.uid) return;
 
     validateForm();
+    setSubmitting(true);
 
     const job: Partial<Job> = {
       title: title,
@@ -82,15 +88,17 @@ const ManualJobModal = ({toggle, onClose}: ManualJobModalProps) => {
     // check if resp is an error
     if (resp.status === 'Error') {
       console.error(resp);
+      setSubmitting(false);
       return;
     }
 
     const createdUserJob = await CreateUserJob(user.uid, status, resp.data);
     if (createdUserJob.status === 'Error') {
       console.error(createdUserJob);
+      setSubmitting(false);
       return;
     }
-
+    setSubmitting(false);
     onClose();
 
     setJobs([...jobs, createdUserJob.data]);
