@@ -11,6 +11,7 @@ import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import LaunchIcon from '@mui/icons-material/Launch';
 import {Link} from 'react-router-dom';
 import {useJobs} from '@services/firebase/hooks/useJobs';
+import {Timestamp} from 'firebase/firestore';
 type JobListProps = {
   userJobsId: string;
   jobID: string;
@@ -48,8 +49,22 @@ const JobList = ({
     if (resp.status === 'Success') {
       console.log(resp);
       const updatedJobs = jobs.map((job) => {
+        console.log('status=======>', status);
         if (job.id === userJobsId) {
-          return {...job, status};
+          if (status === 'Saved') {
+            return {...job, status};
+          } else {
+            const updatedAt = Timestamp.now();
+            console.log('updatedAt=======>', updatedAt);
+            return {
+              ...job,
+              status: status,
+              statusUpdates: {
+                ...job.statusUpdates,
+                [status]: updatedAt,
+              },
+            };
+          }
         }
         return job;
       });

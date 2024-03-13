@@ -28,6 +28,7 @@ import {useJobs} from '@services/firebase/hooks/useJobs';
 import Notes from './components/Notes/Notes';
 import {useState} from 'react';
 import SkeletonJob from '@components/skeleton/job';
+import {Timestamp} from 'firebase/firestore';
 
 const Job = () => {
   const {id} = useParams();
@@ -105,8 +106,22 @@ const Job = () => {
         message: resp.message,
       });
       const updatedJobs = jobs.map((job) => {
+        console.log('status=======>', status);
         if (job.id === userJob.id) {
-          return {...job, status};
+          if (status === 'Saved') {
+            return {...job, status};
+          } else {
+            const updatedAt = Timestamp.now();
+            console.log('updatedAt=======>', updatedAt);
+            return {
+              ...job,
+              status: status,
+              statusUpdates: {
+                ...job.statusUpdates,
+                [status]: updatedAt,
+              },
+            };
+          }
         }
         return job;
       });
