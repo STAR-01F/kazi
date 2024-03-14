@@ -8,9 +8,10 @@ if grep -q 'error' build.log; then
   echo "in 1"
   echo "Build failed with errors"
   cat build.log
-  exit 0
+  exit 1
 else
   echo "Build successful"
-  cat build.log
+  echo "forced fail??"
+#   cat build.log
   exit 0
 fi
