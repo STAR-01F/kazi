@@ -15,7 +15,12 @@ import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useFeedback} from '@hooks/useFeeback';
+import {Timestamp} from 'firebase/firestore';
+import daysToDaysAndMonths from '@utils/jobcard/daysAndMonths';
+import daysPassedSinceUTC from '@utils/jobcard/daysPassedSince';
 import {useJobs} from '@services/firebase/hooks/useJobs';
+import {Tooltip} from '@mui/material';
+import Zoom from '@mui/material/Zoom';
 
 type JobCardProps = {
   userJobId: string;
@@ -23,17 +28,27 @@ type JobCardProps = {
   jobTitle: string;
   logoPath: string;
   jobID: string;
+  timeSince: Timestamp;
+  status: string;
 };
+
 const JobCard = ({
   userJobId,
   companyName,
   jobTitle,
   logoPath,
   jobID,
+  timeSince,
+  status,
 }: JobCardProps) => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
   const {jobs, setJobs} = useJobs();
+
+  const timeToString = timeSince.toDate().toDateString();
+  const timeinDays = daysPassedSinceUTC(timeSince.toDate());
+  const dayAndMonths = daysToDaysAndMonths(timeinDays);
+
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     const resp = await DeleteUserJob(user.uid, userJobId);
@@ -63,8 +78,22 @@ const JobCard = ({
         message: resp.message,
       });
       const updatedJobs = jobs.map((job) => {
+        console.log('status=======>', status);
         if (job.id === userJobId) {
-          return {...job, status};
+          if (status === 'Saved') {
+            return {...job, status};
+          } else {
+            const updatedAt = Timestamp.now();
+            console.log('updatedAt=======>', updatedAt);
+            return {
+              ...job,
+              status: status,
+              statusUpdates: {
+                ...job.statusUpdates,
+                [status]: updatedAt,
+              },
+            };
+          }
         }
         return job;
       });
@@ -127,13 +156,45 @@ const JobCard = ({
           <Typography variant="h5">{companyName}</Typography>
         </Box>
       )}
-      <CardContent>
+      <CardContent
+        sx={{
+          pb: '0',
+        }}
+      >
         <Grid container justifyContent={'space-between'}>
           <Stack sx={{width: '100%'}}>
             <Typography fontSize={20} fontWeight={'bold'} noWrap>
               {companyName}
             </Typography>
             <Typography noWrap>{jobTitle}</Typography>
+
+            <Tooltip
+              TransitionComponent={Zoom}
+              title={
+                <span>
+                  <span style={{fontWeight: 'bold'}}>{status}</span>
+                  {' : '}
+                  {timeToString}
+                </span>
+              }
+              // placement='bottom'
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: 'offset',
+                      options: {
+                        offset: [-68, -12],
+                      },
+                    },
+                  ],
+                },
+              }}
+            >
+              <Typography noWrap sx={{color: 'grey', fontSize: '14px'}}>
+                {dayAndMonths}
+              </Typography>
+            </Tooltip>
           </Stack>
         </Grid>
       </CardContent>

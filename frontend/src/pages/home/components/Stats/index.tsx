@@ -22,32 +22,34 @@ const StatsContainer = () => {
       <Box
         width={{
           xs: '100%',
-          md: '50%',
+          sm: '50%',
         }}
         display={'flex'}
         justifyContent={'center'}
         alignItems={'center'}
       >
         <Box width={'160px'}>
-          <Typography>Goals</Typography>
+          <Typography textAlign={'center'}>Goals</Typography>
           <Goal />
         </Box>
       </Box>
       <Box
         width={{
           xs: '0%',
-          md: '50%',
+          sm: '50%',
         }}
         display={{
           xs: 'none',
-          md: 'flex',
+          sm: 'flex',
         }}
         justifyContent={'center'}
         alignItems={'center'}
         flexDirection={'column'}
       >
-        <Typography>Breakdown</Typography>
-        <JobsByStatus />
+        <Box width={'160px'}>
+          <Typography textAlign={'center'}>Breakdown</Typography>
+          <JobsByStatus />
+        </Box>
       </Box>
       <Box
         width={{

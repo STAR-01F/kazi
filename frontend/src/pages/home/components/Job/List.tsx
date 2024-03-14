@@ -11,6 +11,7 @@ import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import LaunchIcon from '@mui/icons-material/Launch';
 import {Link} from 'react-router-dom';
 import {useJobs} from '@services/firebase/hooks/useJobs';
+import {Timestamp} from 'firebase/firestore';
 type JobListProps = {
   userJobsId: string;
   jobID: string;
@@ -18,6 +19,7 @@ type JobListProps = {
   logoPath: string;
   jobTitle: string;
   status: string;
+  time: Timestamp;
 };
 const JobList = ({
   userJobsId,
@@ -26,9 +28,17 @@ const JobList = ({
   logoPath,
   jobTitle,
   status,
+  time,
 }: JobListProps) => {
   const {user} = useAuth();
   const {jobs, setJobs} = useJobs();
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  const timeToStr = time.toDate().toLocaleDateString(undefined, dateOptions);
+
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     const resp = await DeleteUserJob(user.uid, userJobsId);
@@ -49,7 +59,19 @@ const JobList = ({
       console.log(resp);
       const updatedJobs = jobs.map((job) => {
         if (job.id === userJobsId) {
-          return {...job, status};
+          if (status === 'Saved') {
+            return {...job, status};
+          } else {
+            const updatedAt = Timestamp.now();
+            return {
+              ...job,
+              status: status,
+              statusUpdates: {
+                ...job.statusUpdates,
+                [status]: updatedAt,
+              },
+            };
+          }
         }
         return job;
       });
@@ -88,6 +110,8 @@ const JobList = ({
       </TableCell>
       <TableCell>{jobTitle}</TableCell>
       <TableCell>{status}</TableCell>
+      <TableCell>{timeToStr}</TableCell>
+
       <TableCell>
         <IconButton component={Link} to={`job/${jobID}`}>
           <LaunchIcon />
