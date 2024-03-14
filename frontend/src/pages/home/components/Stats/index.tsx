@@ -2,6 +2,7 @@ import {Box, Container, Paper, Typography} from '@mui/material';
 import Goal from './components/goal';
 import JobsByStatus from './components/jobsbystatus';
 import Streak from './components/streak';
+import {UserProfileProvider} from '@services/firebase/context/UserProfile';
 
 const StatsContainer = () => {
   return (
@@ -62,7 +63,9 @@ const StatsContainer = () => {
         flexDirection={'column'}
       >
         <Typography>Streak</Typography>
-        <Streak />
+        <UserProfileProvider>
+          <Streak />
+        </UserProfileProvider>
       </Box>
     </Container>
   );

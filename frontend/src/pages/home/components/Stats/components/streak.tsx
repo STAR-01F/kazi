@@ -1,8 +1,11 @@
 import {Typography} from '@mui/material';
 import {useJobs} from '@services/firebase/hooks/useJobs';
+import {useProfile} from '@services/firebase/hooks/useProfile';
 import isStreak from '@utils/isStreak';
 
 const Streak = () => {
+  const userProfile = useProfile();
+  console.log('userProfile===========>', userProfile);
   const {jobs} = useJobs();
 
   const savedJobs = jobs.map((job) => job.statusUpdates['Saved'].toDate());
