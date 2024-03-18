@@ -1,14 +1,7 @@
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import ToasterProps from 'src/@types/toasterProps';
 
-type Severity = 'error' | 'success';
-
-type ToasterProps = {
-  open: boolean;
-  handleClose: () => void;
-  message: string;
-  severity: Severity;
-};
 const Toaster = ({open, handleClose, message, severity}: ToasterProps) => {
   return (
     <Snackbar

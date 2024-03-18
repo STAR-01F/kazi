@@ -10,11 +10,13 @@ import {
   Menu,
   MenuItem,
   Button,
+  useTheme,
 } from '@mui/material';
 import {logout} from '@services/firebase/auth';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import logo from '../../assets/kazi-logo.png';
 
 type Settings = {
   name: string;
@@ -23,6 +25,7 @@ type Settings = {
 const Header = () => {
   const {user} = useAuth();
   const navigate = useNavigate();
+  const theme = useTheme();
   const handleLogin = () => {
     navigate('/signin');
   };
@@ -38,12 +41,12 @@ const Header = () => {
     setAnchorElUser(null);
   };
   const settings: Settings[] = [
-    {
-      name: 'Dashboard',
-      func: () => {
-        navigate('/');
-      },
-    },
+    // {
+    //   name: 'Dashboard',
+    //   func: () => {
+    //     navigate('/');
+    //   },
+    // },
     {
       name: 'Profile',
       func: () => {
@@ -59,7 +62,16 @@ const Header = () => {
     },
   ];
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={{
+        padding: '0px',
+        borderRadius: '0px',
+        border: 'none',
+        borderBottom: '1px solid ' + theme.palette.divider,
+        backgroundColor: 'background.default',
+      }}
+    >
       <Container maxWidth="lg">
         <Toolbar
           disableGutters
@@ -68,14 +80,25 @@ const Header = () => {
             justifyContent: 'space-between',
           }}
         >
-          {/* actual logo can go here */}
-          <Typography
+          <Box
+            sx={{
+              width: '80px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'left',
+            }}
+            component={Link}
+            to="/"
+          >
+            <img src={logo} alt="Kazi Logo" />
+          </Box>
+          {/* <Typography
             variant="h6"
             noWrap
             sx={{fontWeight: 700, display: {xs: 'flex'}}}
           >
-            TrackAI
-          </Typography>
+            Kazi
+          </Typography> */}
           {user ? (
             <Box sx={{flexGrow: 0}}>
               <Tooltip title="Settings">

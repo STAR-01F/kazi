@@ -1,18 +1,18 @@
 import {Box, Button, ButtonGroup, Container} from '@mui/material';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ViewListIcon from '@mui/icons-material/ViewList';
-// import {useState} from 'react';
-import ViewKanbanIcon from '@mui/icons-material/ViewKanban';
 import {useSearchParams} from 'react-router-dom';
 
-const icons = [<GridViewIcon />, <ViewListIcon />, <ViewKanbanIcon />];
+const icons = [<GridViewIcon />, <ViewListIcon />];
 
 const LeftSection = () => {
-  // const [selectedButton, setSelectedButton] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
-  const view = ['grid', 'list', 'kanban'];
+  const view = ['grid', 'list'];
   const handleButtonClick = (index: number) => {
-    setSearchParams({view: view[index]});
+    setSearchParams((prev) => {
+      prev.set('view', view[index]);
+      return prev;
+    });
   };
   const selectedButton = view.indexOf(searchParams.get('view') || 'grid');
   return (

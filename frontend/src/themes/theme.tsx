@@ -2,7 +2,6 @@ import {ThemeProvider} from '@emotion/react';
 import {CssBaseline, createTheme} from '@mui/material';
 import {useMemo} from 'react';
 import {breakpoints} from './customs';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 /**
  * ThemeOverideProps
@@ -30,13 +29,38 @@ type ThemeCustomizationProps = {
  * ```
  */
 const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
+  const baseTheme = createTheme();
   const theme = useMemo(
     () =>
       createTheme({
         breakpoints: {...breakpoints},
         palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
+          //mode: prefersDarkMode ? 'dark' : 'light',
+          primary: baseTheme.palette.augmentColor({
+            color: {
+              main: '#5836f7',
+            },
+          }),
+          background: {
+            paper: '#f0f0f6',
+            default: '#f0f0f3',
+          },
+        },
+        typography: {
+          fontFamily: [
+            // 'Kanit',
+            // 'Ysabeau Office',
+            // 'Young Serif',
+            'Oswald',
+            '"Helvetica Neue"',
+            '-apple-system',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+          ].join(','),
         },
         components: {
           MuiCssBaseline: {
@@ -55,9 +79,34 @@ const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
               },
             }),
           },
+          MuiPaper: {
+            styleOverrides: {
+              root: {
+                border: '1px solid ' + baseTheme.palette.divider,
+                boxShadow: 'none',
+                borderRadius: '16px',
+              },
+            },
+          },
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                textTransform: 'none',
+                borderRadius: '16px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textAlign: 'center',
+                px: '10px',
+                '&.MuiButton-contained': {
+                  boxShadow: 'none',
+                },
+              },
+            },
+          },
         },
       }),
-    [prefersDarkMode]
+    // [prefersDarkMode]
+    [baseTheme]
   );
   return (
     <ThemeProvider theme={theme}>

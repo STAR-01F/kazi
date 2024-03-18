@@ -22,7 +22,7 @@ const RightSection = () => {
       action: () => setFilter({status: 'all'}),
     },
     ...JobStatus.status.map((status) => ({
-      name: <Typography>{status}</Typography>,
+      name: status,
       action: () => setFilter({status: status.toLowerCase()}),
     })),
   ];
@@ -32,6 +32,13 @@ const RightSection = () => {
     name: name,
     action: () => setFilter({sort: name.toLowerCase()}),
   }));
+  const selectedSortIndex = sortByActionList.findIndex(
+    (action) => action.name.toLowerCase() === searchParams.get('sort')
+  );
+  const selectedStatusIndex = statusActionList.findIndex(
+    (action) => action.name.toLowerCase() === searchParams.get('status')
+  );
+
   return (
     <Container
       component={Box}
@@ -44,19 +51,21 @@ const RightSection = () => {
         size="small"
         variant="outlined"
         select
+        menuSelected={selectedSortIndex === -1 ? 0 : selectedSortIndex}
         menuActionList={sortByActionList}
         endIcon={<KeyboardArrowDownIcon />}
       >
-        <Typography variant="caption">Sort</Typography>
+        <Typography variant="body2">Sort</Typography>
       </MenuListButton>
       <MenuListButton
         size="small"
         variant="outlined"
         select
+        menuSelected={selectedStatusIndex === -1 ? 0 : selectedStatusIndex}
         menuActionList={statusActionList}
         endIcon={<KeyboardArrowDownIcon />}
       >
-        <Typography variant="caption">Status</Typography>
+        <Typography variant="body2">Status</Typography>
       </MenuListButton>
       <JobModal />
     </Container>

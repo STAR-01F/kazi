@@ -17,17 +17,21 @@ import {CreateJob} from '@services/firebase/jobs';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useNavigate} from 'react-router-dom';
 import {useFeedback} from '@hooks/useFeeback';
+import {CreateUserJob} from '@services/firebase/userJobs';
+import {useJobs} from '@services/firebase/hooks/useJobs';
 
 type LinkJobModalProps = {
   toggle: () => void;
   onClose: () => void;
+  setSubmitting: (value: boolean) => void;
 };
 
 interface SaveJobError {
   jobLink?: string;
 }
-const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
+const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
   const [jobLink, setJobLink] = useState('');
+  const {jobs, setJobs} = useJobs();
   const [status, setStatus] = useState('Saved');
   const {setFeedback} = useFeedback();
   const {user} = useAuth();
@@ -40,29 +44,43 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
       setErrors({
         jobLink: 'Job link is required',
       });
+      return;
     }
-
+    setSubmitting(true);
     const resp = await Scrapper(jobLink);
     if (resp.status == 'Error') {
-      console.error(resp);
-
+      setErrors({
+        jobLink: resp.message as string,
+      });
+      setSubmitting(false);
       return;
     }
-    const jobData = {userid: user.uid, status: status, ...resp.data};
-    console.log(jobData);
-    const createdJob = await CreateJob(jobData);
+    const createdJob = await CreateJob(resp.data);
 
-    if (createdJob.status == 'Error') {
+    if (createdJob.status === 'Error') {
       console.error(createdJob);
+      setSubmitting(false);
       return;
     }
 
-    console.log('created data', createdJob.data);
+    const createdUserJob = await CreateUserJob(
+      user.uid,
+      status,
+      createdJob.data
+    );
+    if (createdUserJob.status === 'Error') {
+      console.error(createdUserJob);
+      setSubmitting(false);
+      return;
+    }
+
     setFeedback({
       type: 'success',
       message: 'Job added successfully',
     });
+    setJobs([...jobs, createdUserJob.data]);
     navigate(`job/${createdJob.data?.id}`);
+    setSubmitting(false);
     onClose();
   };
   return (
@@ -90,7 +108,7 @@ const LinkJobModal = ({toggle, onClose}: LinkJobModalProps) => {
           }}
           fullWidth
           error={!!errors.jobLink}
-          helperText={errors.jobLink}
+          helperText={errors.jobLink ? errors.jobLink : 'Supported URL: Otta'}
         />
         <FormControl fullWidth sx={{mb: 2}}>
           <InputLabel id="job-status-input">Status</InputLabel>

@@ -13,26 +13,52 @@ import {
 import {Link} from 'react-router-dom';
 import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
-import {DeleteJob, UpdateJobStatus} from '@services/firebase/jobs';
+import {DeleteUserJob, UpdateUserJobStatus} from '@services/firebase/userJobs';
 import {useFeedback} from '@hooks/useFeeback';
+import {Timestamp} from 'firebase/firestore';
+import daysToDaysAndMonths from '@utils/jobcard/daysAndMonths';
+import daysPassedSinceUTC from '@utils/jobcard/daysPassedSince';
+import {useJobs} from '@services/firebase/hooks/useJobs';
+import {Tooltip} from '@mui/material';
+import Zoom from '@mui/material/Zoom';
 
 type JobCardProps = {
+  userJobId: string;
   companyName: string;
   jobTitle: string;
   logoPath: string;
   jobID: string;
+  timeSince: Timestamp;
+  status: string;
 };
-const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
+
+const JobCard = ({
+  userJobId,
+  companyName,
+  jobTitle,
+  logoPath,
+  jobID,
+  timeSince,
+  status,
+}: JobCardProps) => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
+  const {jobs, setJobs} = useJobs();
+
+  const timeToString = timeSince.toDate().toDateString();
+  const timeinDays = daysPassedSinceUTC(timeSince.toDate());
+  const dayAndMonths = daysToDaysAndMonths(timeinDays);
+
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
-    const resp = await DeleteJob(user.uid, jobID);
+    const resp = await DeleteUserJob(user.uid, userJobId);
     if (resp.status === 'Success') {
       setFeedback({
         type: 'success',
         message: resp.message,
       });
+      const jobsToKeep = jobs.filter((job) => job.id !== userJobId);
+      setJobs(jobsToKeep);
       return;
     }
     setFeedback({
@@ -44,13 +70,34 @@ const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
 
   const handleUpdateJobStatus = async (status: string) => {
     if (!user?.uid) return;
-    const resp = await UpdateJobStatus(user.uid, jobID, status);
+    const resp = await UpdateUserJobStatus(userJobId, status);
 
     if (resp.status === 'Success') {
       setFeedback({
         type: 'success',
         message: resp.message,
       });
+      const updatedJobs = jobs.map((job) => {
+        console.log('status=======>', status);
+        if (job.id === userJobId) {
+          if (status === 'Saved') {
+            return {...job, status};
+          } else {
+            const updatedAt = Timestamp.now();
+            console.log('updatedAt=======>', updatedAt);
+            return {
+              ...job,
+              status: status,
+              statusUpdates: {
+                ...job.statusUpdates,
+                [status]: updatedAt,
+              },
+            };
+          }
+        }
+        return job;
+      });
+      setJobs(updatedJobs);
       return;
     }
     setFeedback({
@@ -75,7 +122,6 @@ const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
       component={Paper}
       variant="outlined"
       sx={{
-        // minWidth: '350px',
         maxWidth: {
           xs: '100%',
           sm: 'calc((100% - (1 * 16px))/2)',
@@ -110,13 +156,45 @@ const JobCard = ({companyName, jobTitle, logoPath, jobID}: JobCardProps) => {
           <Typography variant="h5">{companyName}</Typography>
         </Box>
       )}
-      <CardContent>
+      <CardContent
+        sx={{
+          pb: '0',
+        }}
+      >
         <Grid container justifyContent={'space-between'}>
           <Stack sx={{width: '100%'}}>
             <Typography fontSize={20} fontWeight={'bold'} noWrap>
               {companyName}
             </Typography>
             <Typography noWrap>{jobTitle}</Typography>
+
+            <Tooltip
+              TransitionComponent={Zoom}
+              title={
+                <span>
+                  <span style={{fontWeight: 'bold'}}>{status}</span>
+                  {' : '}
+                  {timeToString}
+                </span>
+              }
+              // placement='bottom'
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: 'offset',
+                      options: {
+                        offset: [-68, -12],
+                      },
+                    },
+                  ],
+                },
+              }}
+            >
+              <Typography noWrap sx={{color: 'grey', fontSize: '14px'}}>
+                {dayAndMonths}
+              </Typography>
+            </Tooltip>
           </Stack>
         </Grid>
       </CardContent>

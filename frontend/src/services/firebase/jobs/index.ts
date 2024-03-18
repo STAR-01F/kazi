@@ -1,6 +1,4 @@
-import {GetJobByJobID, GetJobsByUserID} from './GetJobs';
+import {GetJobByJobID} from './GetJobs';
 import {CreateJob} from './CreateJob';
-import {DeleteJob} from './DeleteJob';
-import {UpdateJobStatus} from './UpdateJob';
 
-export {GetJobByJobID, GetJobsByUserID, CreateJob, DeleteJob, UpdateJobStatus};
+export {GetJobByJobID, CreateJob};

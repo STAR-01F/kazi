@@ -1,27 +1,27 @@
 {
-    "name": "trackify",
-    "version": "1.0.0",
-    "description": "This web application helps users build customised CVs by analysing job postings and extracting relevant keywords and skills using the OpenAI API. It also allows users to track their job applications.",
-    "main": "index.js",
-    "devDependencies": {
-        "@commitlint/cli": "^18.5.0",
-        "commitlint-config-jira-jquery": "^1.0.6",
-        "commitlint-plugin-shr-jira": "^1.0.6",
-        "husky": "^8.0.0"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "prepare": "husky install"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "husky": {
-        "hooks": {
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-        }
-    },
-    "dependencies": {
-        "react-swipeable": "^7.0.1"
+  "name": "trackify",
+  "version": "1.0.0",
+  "description": "This web application helps users build customised CVs by analysing job postings and extracting relevant keywords and skills using the OpenAI API. It also allows users to track their job applications.",
+  "main": "index.js",
+  "devDependencies": {
+    "@commitlint/cli": "^18.5.0",
+    "commitlint-config-jira-jquery": "^1.0.6",
+    "commitlint-plugin-shr-jira": "^1.0.6",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.2"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "dependencies": {
+    "react-swipeable": "^7.0.1"
+  }
 }

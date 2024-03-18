@@ -51,7 +51,11 @@ export default function SignUp() {
 
     // Validate username
     if (!values.firstname) {
-      errors.firstname = 'Username is required *';
+      errors.firstname = 'Firstname is required *';
+    }
+
+    if (!values.lastname) {
+      errors.lastname = 'Lastname is required *';
     }
 
     // Validate email
@@ -69,7 +73,6 @@ export default function SignUp() {
     }
 
     setErrors(errors);
-    console.log(errors);
     if (Object.keys(errors).length === 0) {
       try {
         const resp = await registerWithEmailAndPassword(
@@ -79,18 +82,20 @@ export default function SignUp() {
           values.password!
         );
         if (resp.status === 'Error') {
-          console.error(resp.message);
+          const errorMessage =
+            resp.message == 'auth/email-already-in-use'
+              ? 'This email is already in use'
+              : 'Failed to register credentials';
           setErrors({
-            email: resp.message as string,
-            password: resp.message as string,
+            email: errorMessage,
+            password: '',
           });
           return;
         }
         setFeedback({
           type: 'success',
-          message: 'Successfully signed up',
+          message: 'Please check your email to verify your account.',
         });
-        navigate('/');
       } catch (error) {
         console.error(error);
         setErrors({
@@ -99,6 +104,24 @@ export default function SignUp() {
         });
       }
     }
+  };
+
+  const handeleSignInWithGithub = async () => {
+    const resp = await signInWithGithub();
+    if (resp.status === 'Success') {
+      setFeedback({
+        type: 'success',
+        message: resp.message as string,
+      });
+
+      return;
+    }
+
+    console.error(resp.message);
+    setFeedback({
+      type: 'error',
+      message: 'Failed to authenticate with GitHub',
+    });
   };
 
   const handleSignInWithGoogle = async () => {
@@ -110,27 +133,12 @@ export default function SignUp() {
       });
       return;
     }
-    console.error(resp.message);
     setFeedback({
       type: 'error',
       message: 'Failed to authenticate with Google',
     });
   };
-  const handeleSignInWithGithub = async () => {
-    const resp = await signInWithGithub();
-    if (resp.status === 'Success') {
-      setFeedback({
-        type: 'success',
-        message: resp.message as string,
-      });
-      return;
-    }
-    console.error(resp.message);
-    setFeedback({
-      type: 'error',
-      message: 'Failed to authenticate with GitHub',
-    });
-  };
+
   const handleClick = () => {
     navigate('/signin');
   };

@@ -8,11 +8,10 @@ const AddJob = ({handleClickOpen}: AddJobProps) => {
   return (
     <Button
       onClick={handleClickOpen}
-      variant="outlined"
-      size="small"
+      variant="contained"
       startIcon={<PlusIcon />}
     >
-      <Typography variant="caption">Add Job</Typography>
+      <Typography variant="body2">Add Job</Typography>
     </Button>
   );
 };

@@ -9,6 +9,7 @@ import {
   Paper,
   Popper,
   SvgIcon,
+  SxProps,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -32,8 +33,10 @@ type MenuListButtonProps = {
   variant?: 'text' | 'outlined' | 'contained'; // The variant of the button.
   size?: 'small' | 'medium' | 'large'; // The size of the button.
   title?: ReactNode; // The title of the Popper
-  select?: boolean;
-  fullWidth?: boolean;
+  select?: boolean; // Whether to show the selected icon
+  fullWidth?: boolean; // Whether the button should take the full width of the parent.
+  menuSelected?: number; // The index of the selected menu item.
+  sx?: SxProps;
   /**
    * The list of actions for the menu.
    * Each action has a name and a function to execute when the action is triggered.
@@ -66,13 +69,18 @@ const MenuListButton = ({
   endIcon,
   startIcon,
   title,
+  menuSelected = 0,
   select = false,
   fullWidth = false,
+  sx,
 }: MenuListButtonProps): JSX.Element => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
   const theme = useTheme();
   const [selectedItem, setSelectedItem] = useState<number>(0);
+  useEffect(() => {
+    setSelectedItem(menuSelected);
+  }, [menuSelected]);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -119,6 +127,7 @@ const MenuListButton = ({
         endIcon={endIcon}
         startIcon={startIcon}
         fullWidth={fullWidth}
+        sx={sx}
       >
         {children}
       </Button>

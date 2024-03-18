@@ -8,11 +8,11 @@ import {
   Typography,
 } from '@mui/material';
 
-interface DeleteModalProps {
+type DeleteModalProps = {
   open: boolean;
   onClose: () => void;
   onDelete: () => void;
-}
+};
 
 const DeleteModal: React.FC<DeleteModalProps> = ({open, onClose, onDelete}) => {
   return (

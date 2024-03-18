@@ -5,6 +5,7 @@ import PageCircular from '@components/progress/PageCircular';
 interface RequireAuthProps {
   children: React.ReactNode;
 }
+
 const WithAuth = ({children}: RequireAuthProps) => {
   const {user, loading} = useAuth();
   const location = useLocation();
@@ -13,7 +14,7 @@ const WithAuth = ({children}: RequireAuthProps) => {
     return <PageCircular sx={{height: '100vh', width: '100vw'}} />;
   }
 
-  if (!user) {
+  if (!user || (!user.emailVerified && user.providerData[0].providerId !== 'github.com')) {
     return <Navigate to="/signin" state={{from: location}} replace />;
   }
   return children;
