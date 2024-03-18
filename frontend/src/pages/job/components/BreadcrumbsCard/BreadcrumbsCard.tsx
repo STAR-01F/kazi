@@ -34,7 +34,7 @@ const BreadcrumbsCard = ({userJob, description}: BreadcrumbsCardProps) => {
     </Link>,
   ];
   return (
-    <Card sx={{width: '100%'}}>
+    <Card sx={{width: '100%', position: 'sticky', top: '5px'}}>
       <CardHeader
         style={{
           borderRadius: '5px 5px 0 0',
