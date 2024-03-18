@@ -1,4 +1,4 @@
-#Firebase API
+## Firebase API
 
 This API is part of a larger application, providing Database and Authentication services.
 
@@ -24,6 +24,6 @@ Before using Firebase services, set up your environment variables. Follow these 
 
 4. Now you have access to all the services in the firebase folder.
 
-### APi Documentation
+## API Documentation
 
 To find out more about the Firebase API's checkout the [Firebase Documentation](https://firebase.google.com/docs/)
