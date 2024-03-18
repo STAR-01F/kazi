@@ -26,4 +26,4 @@ Before using Firebase services, set up your environment variables. Follow these 
 
 ## API Documentation
 
-To find out more about the Firebase API's checkout the [Firebase Documentation](https://firebase.google.com/docs/)
+To find out more about how to interact with Firebase's API, checkout the [Firebase Documentation](https://firebase.google.com/docs/)
