@@ -38,3 +38,6 @@ api/keywordsForDeployment
 # zip & build files
 *.zip
 api/scraper/bootstrap
+
+#build logs
+build.log
