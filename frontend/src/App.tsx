@@ -10,6 +10,7 @@ import LandingPage from '@components/landing/landing';
 import PageCircular from '@components/progress/PageCircular';
 import Homepage from '@pages/home';
 import {FeedbackProvider} from '@context/Feedback';
+import {UserProfileProvider} from '@services/firebase/context/UserProfile';
 
 // Dynamic imports
 const Jobpage = React.lazy(() => import('@pages/job'));
@@ -106,9 +107,11 @@ const router = createBrowserRouter([
       {
         element: (
           <WithAuth>
-            <JobsProvider>
-              <Layout />
-            </JobsProvider>
+            <UserProfileProvider>
+              <JobsProvider>
+                <Layout />
+              </JobsProvider>
+            </UserProfileProvider>
           </WithAuth>
         ),
         children: [

@@ -1,4 +1,4 @@
-import UserProfiles from 'src/@types/userProfiles';
+import UserProfiles from 'src/@types/userProfile';
 import {userProfiles} from '..';
 import {Response} from 'src/@types';
 import {doc, getDoc} from 'firebase/firestore';
