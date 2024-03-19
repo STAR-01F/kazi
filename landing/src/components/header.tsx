@@ -2,6 +2,7 @@ import { AppBar, Container, Toolbar, Box, Button, Grid } from "@mui/material";
 import KaziIcon from "../assets/kazi-icon.png";
 
 const Header = () => {
+  const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
   return (
     <AppBar
       position="static"
@@ -32,8 +33,16 @@ const Header = () => {
             <img src={KaziIcon} alt="Kazi Logo" />
           </Box>
           <Grid container gap={"10px"} width={"max-content"}>
-            <Button variant="outlined">Sign in</Button>
-            <Button variant="contained">Sign up</Button>
+            <Button variant="outlined" component="a" href={`${siteUrl}/signin`}>
+              Sign in
+            </Button>
+            <Button
+              variant="contained"
+              component="a"
+              href={`${siteUrl}/signup`}
+            >
+              Sign up
+            </Button>
           </Grid>
         </Toolbar>
       </Container>
