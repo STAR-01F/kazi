@@ -1,9 +1,11 @@
-import {UserProfile} from 'firebase/auth';
+// import {UserProfile} from 'firebase/auth';
 import {Response} from 'src/@types';
 import {userProfiles} from '..';
+import UserProfile from 'src/@types/userProfile';
+
 import {addDoc} from 'firebase/firestore';
 
-const CreateUserProfiles = async (
+const CreateUserProfile = async (
   userProfile: UserProfile
 ): Promise<Response<UserProfile, string>> => {
   try {
@@ -12,7 +14,7 @@ const CreateUserProfiles = async (
     return {
       status: 'Success',
       message: 'Successfully created the user profile',
-      data: {id: resp.id, ...userProfile} as UserProfile,
+      data: {resp, ...userProfile} as UserProfile,
     };
   } catch {
     return {
@@ -22,4 +24,4 @@ const CreateUserProfiles = async (
   }
 };
 
-export default CreateUserProfiles;
+export default CreateUserProfile;

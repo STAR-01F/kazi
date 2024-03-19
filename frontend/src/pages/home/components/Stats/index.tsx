@@ -2,7 +2,6 @@ import {Box, Container, Paper, Typography} from '@mui/material';
 import Goal from './components/goal';
 import JobsByStatus from './components/jobsbystatus';
 import Streak from './components/streak';
-import {UserProfileProvider} from '@services/firebase/context/UserProfile';
 
 const StatsContainer = () => {
   return (
@@ -29,7 +28,9 @@ const StatsContainer = () => {
         alignItems={'center'}
       >
         <Box width={'160px'}>
-          <Typography textAlign={'center'}>Goals</Typography>
+          <Typography fontFamily={'Kanit'} textAlign={'center'}>
+            Goals
+          </Typography>
           <Goal />
         </Box>
       </Box>
@@ -47,7 +48,9 @@ const StatsContainer = () => {
         flexDirection={'column'}
       >
         <Box width={'160px'}>
-          <Typography textAlign={'center'}>Breakdown</Typography>
+          <Typography fontFamily={'Kanit'} textAlign={'center'}>
+            Breakdown
+          </Typography>
           <JobsByStatus />
         </Box>
       </Box>
@@ -64,10 +67,8 @@ const StatsContainer = () => {
         alignItems={'center'}
         flexDirection={'column'}
       >
-        <Typography>Streak</Typography>
-        <UserProfileProvider>
-          <Streak />
-        </UserProfileProvider>
+        <Typography fontFamily={'Kanit'}>Streak</Typography>
+        <Streak />
       </Box>
     </Container>
   );
