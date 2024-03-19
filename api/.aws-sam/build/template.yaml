@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'keywords-SAM
+
+  SAM template for the keywords api'
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  GetKeyWordsFuntion:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: GetKeyWordsFuntion
+      Handler: app.handler
+      Runtime: nodejs20.x
+      Architectures:
+      - arm64
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+      Environment:
+        Variables:
+          OPENAI_API_KEY: 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
+    Metadata:
+      SamResourceId: GetKeyWordsFuntion
+Outputs:
+  HelloWorldApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
+  HelloWorldFunction:
+    Description: Get Keywords Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - GetKeyWordsFuntion
+      - Arn
+  HelloWorldFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value:
+      Fn::GetAtt:
+      - GetKeyWordsFuntionRole
+      - Arn
