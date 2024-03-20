@@ -23,7 +23,6 @@ const getKeywords = async (
     if (!response.ok) {
       throw new Error(data.message || 'Could not fetch keywords.');
     }
-    console.log(data);
     return {
       status: 'Success',
       data: data,

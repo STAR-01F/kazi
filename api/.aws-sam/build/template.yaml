@@ -13,24 +13,13 @@ Resources:
       CodeUri: GetKeyWordsFuntion
       Handler: app.handler
       Runtime: nodejs20.x
+      FunctionUrlConfig:
+        AuthType: NONE
       Architectures:
       - arm64
-      Events:
-        HelloWorld:
-          Type: Api
-          Properties:
-            Path: /
-            Method: get
-      Environment:
-        Variables:
-          OPENAI_API_KEY: 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
     Metadata:
       SamResourceId: GetKeyWordsFuntion
 Outputs:
-  HelloWorldApi:
-    Description: API Gateway endpoint URL for Prod stage for Hello World function
-    Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
   HelloWorldFunction:
     Description: Get Keywords Lambda Function ARN
     Value:
