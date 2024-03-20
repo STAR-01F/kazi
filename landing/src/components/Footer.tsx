@@ -1,8 +1,10 @@
 import { Box, Button, Container, Divider, Grid, Paper } from "@mui/material";
 import KaziIcon from "@assets/kazi-icon.png";
 
-const Footer = () => {
-  const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
+type FooterProps = {
+  siteUrl: string;
+};
+const Footer = ({ siteUrl }: FooterProps) => {
   return (
     <Box
       component={Paper}
