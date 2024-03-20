@@ -1,13 +1,15 @@
-import Footer from "@components/Footer";
-import Header from "@components/Header";
-import RenderPageImage from "@components/PageImage";
-import SectionOne from "@components/section/SectionOne";
-import SectionThree from "@components/section/SectionThree";
-import SectionTwo from "@components/section/SectionTwo";
+import {
+  RenderPageImage,
+  Header,
+  SectionOne,
+  SectionTwo,
+  SectionThree,
+  Footer,
+} from "./components";
 
 function App() {
   return (
-    <>
+    <div>
       <RenderPageImage />
       <Header />
       <SectionOne />
@@ -36,7 +38,7 @@ function App() {
                     backgroundColor: '#F3F3F3',
                 }}></Box> */}
       <Footer />
-    </>
+    </div>
   );
 }
 
