@@ -8,10 +8,11 @@ import {
 } from "./components";
 
 function App() {
+  const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
   return (
     <div>
       <RenderPageImage />
-      <Header />
+      <Header siteUrl={siteUrl} />
       <SectionOne />
       <SectionTwo />
       <SectionThree />
@@ -37,7 +38,7 @@ function App() {
                     alignItems: 'center',
                     backgroundColor: '#F3F3F3',
                 }}></Box> */}
-      <Footer />
+      <Footer siteUrl={siteUrl} />
     </div>
   );
 }

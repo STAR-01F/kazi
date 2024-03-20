@@ -1,8 +1,10 @@
 import { AppBar, Container, Toolbar, Box, Button, Grid } from "@mui/material";
 import KaziIcon from "@assets/kazi-icon.png";
 
-const Header = () => {
-  const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
+type HeaderProps = {
+  siteUrl: string;
+};
+const Header = ({ siteUrl }: HeaderProps) => {
   return (
     <AppBar
       position="static"
