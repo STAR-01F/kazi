@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
-import KaziImage2 from "../../assets/kazi-asset2.png";
+import KaziImage2 from "@assets/kazi-asset2.png";
 
 const SectionThree = () => {
   return (

@@ -1,9 +1,9 @@
-import SectionTwo from "./components/section/SectionTwo";
-import SectionThree from "./components/section/SectionThree";
-import RenderPageImage from "./components/PageImage";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import SectionOne from "./components/section/SectionOne";
+import Footer from "@components/Footer";
+import Header from "@components/Header";
+import RenderPageImage from "@components/PageImage";
+import SectionOne from "@components/section/SectionOne";
+import SectionThree from "@components/section/SectionThree";
+import SectionTwo from "@components/section/SectionTwo";
 
 function App() {
   return (
