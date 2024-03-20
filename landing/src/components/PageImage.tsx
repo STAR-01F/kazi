@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import KaziImage1 from "../assets/kazi-asset1.png";
+import KaziImage1 from "@assets/kazi-asset1.png";
 
 const RenderPageImage = () => {
   return (

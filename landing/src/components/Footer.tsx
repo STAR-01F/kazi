@@ -1,5 +1,5 @@
 import { Box, Button, Container, Divider, Grid, Paper } from "@mui/material";
-import KaziIcon from "../assets/kazi-icon.png";
+import KaziIcon from "@assets/kazi-icon.png";
 
 const Footer = () => {
   const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
