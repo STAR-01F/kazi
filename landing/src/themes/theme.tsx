@@ -39,7 +39,7 @@ const ThemeCustomization = ({ children }: ThemeCustomizationProps) => {
           //mode: prefersDarkMode ? 'dark' : 'light',
           primary: baseTheme.palette.augmentColor({
             color: {
-              main: "#000",
+              main: "#23272A",
             },
           }),
           background: {
