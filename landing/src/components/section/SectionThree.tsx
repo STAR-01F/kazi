@@ -18,7 +18,7 @@ const SectionThree = () => {
       <Typography fontSize={{ xs: "1.5rem", md: "2.8rem" }} fontWeight={"bold"}>
         Track your progress
       </Typography>
-      <Typography variant="body1" color={"#5836F7"}>
+      <Typography variant="body1" color={"#5836F7"} mb={5}>
         View your application with ease
       </Typography>
       <Box
