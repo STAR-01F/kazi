@@ -58,7 +58,6 @@ export const UserProfileProvider = ({
         } else {
           setUserProfile(null);
         }
-        console.log('4');
         setLoading(false);
       } catch (error) {
         setUserProfile(null);

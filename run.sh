@@ -2,7 +2,8 @@
 
 # Run React apps
 echo "Starting React apps..."
-cd ./api/keywords/
+
+cd ./api/interviewQs/
 npm run dev &
 
 cd ../../frontend/
