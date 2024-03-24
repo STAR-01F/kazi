@@ -1,4 +1,4 @@
-# Trackify
+# Kazi
 
 This web application helps users build customised CVs by analysing job postings and extracting relevant keywords and skills using the OpenAI API. It also allows users to track their job applications.
 
