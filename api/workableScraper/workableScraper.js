@@ -43,11 +43,11 @@ export const workableScraper = async (url) => {
     await browser.close();
 
     const jobData = {
-      companyName: compName,
+      company: compName,
       title: header.title,
-      logoLink: header.logoLink,
-      location: header.location,
-      description: [...description, ...requirements],
+      hiringOrganization: { logo: header.logoLink },
+      jobLocation: header.location,
+      workableDescription: [...description, ...requirements],
     };
 
     return jobData;

@@ -1,4 +1,4 @@
-import { workableScraper } from "../workableScraper.js";
+import { workableScraper } from "./workableScraper.js";
 
 export const handler = async (event) => {
   const body = JSON.parse(event.body);
