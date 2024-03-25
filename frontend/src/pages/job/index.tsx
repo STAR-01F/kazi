@@ -12,6 +12,7 @@ import {useParams} from 'react-router-dom';
 import OttaDescription from './components/JobDescription/OttaDescription';
 import useFetchJobs from '@hooks/useFetchJobs';
 import ManualDescription from './components/JobDescription/ManualDescription';
+import WorkableDescription from './components/JobDescription/WorkableDescription';
 import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useFeedback} from '@hooks/useFeeback';
@@ -44,6 +45,7 @@ const Job = () => {
     jobLocation,
     jobSource,
     jobLink,
+    workableDescription,
   } = data![0];
 
   const handleDeleteJob = async () => {
@@ -217,11 +219,18 @@ const Job = () => {
             sx={{height: '2.5rem'}}
           />
           <CardContent>
-            {jobSource === 'manual' ? (
-              <ManualDescription description={description} />
-            ) : (
-              <OttaDescription description={description} />
-            )}
+            {(() => {
+              switch (jobSource) {
+                case 'manual':
+                  return <ManualDescription description={description} />;
+                case 'Otta':
+                  return <OttaDescription description={description} />;
+                case 'Workable':
+                  return (
+                    <WorkableDescription description={workableDescription} />
+                  );
+              }
+            })()}
           </CardContent>
         </Card>
       </Grid>
