@@ -9,7 +9,7 @@ const Scrapper = async (
     return await Otta(url);
   }
 
-  if (url.includes('workable')) {
+  if (url.includes('apply.workable')) {
     return await fetchWorkable(url);
   }
   return {status: 'Error', message: 'Link not supported yet'};
