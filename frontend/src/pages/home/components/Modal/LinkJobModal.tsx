@@ -152,7 +152,9 @@ const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
           }}
           fullWidth
           error={!!errors.jobLink}
-          helperText={errors.jobLink ? errors.jobLink : 'Supported URL: Otta'}
+          helperText={
+            errors.jobLink ? errors.jobLink : 'Supported URL: Otta, Workable'
+          }
         />
         <FormControl fullWidth sx={{mb: 2}}>
           <InputLabel id="job-status-input">Status</InputLabel>
