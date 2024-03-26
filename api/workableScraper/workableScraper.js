@@ -46,7 +46,7 @@ export const workableScraper = async (url) => {
       company: compName,
       title: header.title,
       hiringOrganization: { logo: header.logoLink },
-      jobLocation: header.location,
+      workableLocation: header.location,
       workableDescription: [...description, ...requirements],
     };
 
