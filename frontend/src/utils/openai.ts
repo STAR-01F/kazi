@@ -1,6 +1,7 @@
 import InterviewQs from 'src/@types/interviewQs';
 import Keywords from 'src/@types/keyword';
 import type {Job, Response} from 'src/@types';
+import InterviewQs from 'src/@types/interviewQ';
 /**
  * Retrieves keywords for a given description.
  * @param description - The description for which to retrieve keywords.

@@ -5,7 +5,7 @@ import {getInterviewQuestions} from '@utils/openai';
 import {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import QuizIcon from '@mui/icons-material/Quiz';
-import InterviewQ from 'src/@types/interviewQs';
+import InterviewQ from 'src/@types/interviewQ';
 import PageCircular from '@components/progress/PageCircular';
 
 const InterviewQs = () => {

@@ -30,7 +30,11 @@ async function main(job) {
                 '{
                     "generalQuestions": [question1, question2, question3],
                     "technicalQuestions": [question4, question5, question6],
+<<<<<<< HEAD
                     "situationalQuestions": [question7, question8, question9],
+=======
+                    "SituationalQuestions": [question7, question8, question9],
+>>>>>>> main
                 }'
                 ${job.description}`,
       },

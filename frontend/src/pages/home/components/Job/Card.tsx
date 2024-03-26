@@ -30,6 +30,7 @@ type JobCardProps = {
   jobID: string;
   timeSince: Timestamp;
   status: string;
+  jobSource: string;
 };
 
 const JobCard = ({
@@ -40,6 +41,7 @@ const JobCard = ({
   jobID,
   timeSince,
   status,
+  jobSource,
 }: JobCardProps) => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
@@ -141,7 +143,11 @@ const JobCard = ({
             objectFit: 'contain',
             p: '10px',
           }}
-          image={'https://images.otta.com/search/width_400/' + logoPath}
+          image={
+            jobSource === 'Otta'
+              ? 'https://images.otta.com/search/width_400/' + logoPath
+              : logoPath
+          }
         />
       ) : (
         <Box
