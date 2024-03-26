@@ -152,7 +152,7 @@ const Job = () => {
                       : hiringOrganization?.logo
                   }
                   sx={{
-                    width: '250px',
+                    width: '200px',
                     maxWidth: '100%',
                     objectFit: 'contain',
                   }}
