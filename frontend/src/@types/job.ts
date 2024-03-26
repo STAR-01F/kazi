@@ -10,6 +10,7 @@ type Job = {
   hiringOrganization?: {logo: string};
   jobSource?: string;
   workableDescription: Array<string>;
+  workableLocation?: string;
 };
 
 export default Job;
