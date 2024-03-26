@@ -46,6 +46,7 @@ const Job = () => {
     jobSource,
     jobLink,
     workableDescription,
+    workableLocation,
   } = data![0];
 
   const handleDeleteJob = async () => {
@@ -133,18 +134,25 @@ const Job = () => {
             {title}
           </Typography>
           <Grid container id={'logo-btns'}>
-            <Grid container item id={'company-logo'} alignItems={'center'}>
+            <Grid
+              container
+              item
+              id={'company-logo'}
+              alignItems={'center'}
+              gap={1}
+            >
               {jobSource === 'manual' ? null : (
                 <Box
                   component={'img'}
                   alt={company}
                   src={
-                    'https://images.otta.com/search/width_200/' +
-                    hiringOrganization?.logo
+                    jobSource === 'Otta'
+                      ? 'https://images.otta.com/search/width_200/' +
+                        hiringOrganization?.logo
+                      : hiringOrganization?.logo
                   }
                   sx={{
-                    height: 'auto',
-                    width: 'auto',
+                    width: '250px',
                     maxWidth: '100%',
                     objectFit: 'contain',
                   }}
@@ -194,7 +202,7 @@ const Job = () => {
             <Typography textTransform={'capitalize'} variant="h6">
               {company}
             </Typography>
-            {jobSource === 'manual' ? null : (
+            {/* {jobSource === 'manual' ? null : (
               <Typography
                 textTransform={'capitalize'}
                 fontWeight={'light'}
@@ -202,7 +210,33 @@ const Job = () => {
               >
                 {`${jobLocation?.address?.addressRegion}, ${jobLocation?.address?.addressCountry}`}
               </Typography>
-            )}
+            )} */}
+            {(() => {
+              switch (jobSource) {
+                case 'manual':
+                  return null;
+                case 'Otta':
+                  return (
+                    <Typography
+                      textTransform={'capitalize'}
+                      fontWeight={'light'}
+                      variant="subtitle1"
+                    >
+                      {`${jobLocation?.address?.addressRegion}, ${jobLocation?.address?.addressCountry}`}
+                    </Typography>
+                  );
+                case 'Workable':
+                  return (
+                    <Typography
+                      textTransform={'capitalize'}
+                      fontWeight={'light'}
+                      variant="subtitle1"
+                    >
+                      {workableLocation}
+                    </Typography>
+                  );
+              }
+            })()}
           </Grid>
         </Grid>
       </Grid>
