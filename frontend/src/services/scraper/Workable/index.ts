@@ -19,7 +19,6 @@ const fetchWorkable = async (
       };
     }
     const data = await response.json();
-    console.log('data back from workable API', data);
 
     const jobInfo: Partial<Job> = {
       title: data.title,
@@ -28,6 +27,7 @@ const fetchWorkable = async (
       hiringOrganization: {logo: data.hiringOrganization.logo},
       jobSource: 'Workable',
       workableDescription: data.workableDescription,
+      workableLocation: data.workableLocation,
     };
 
     return {
