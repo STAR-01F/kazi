@@ -5,6 +5,9 @@ import Notes from '../Notes/Notes';
 import Keywords from '../Keywords/Keywords';
 import {UserJob} from 'src/@types';
 import {useState} from 'react';
+import InterviewQs from '../InterviewQs/InterviewQs';
+import QuizIcon from '@mui/icons-material/Quiz';
+
 type BreadcrumbsCardProps = {
   userJob?: UserJob;
   description: string;
@@ -32,6 +35,15 @@ const BreadcrumbsCard = ({userJob, description}: BreadcrumbsCardProps) => {
       <SavedSearchIcon sx={{mr: 0.5}}></SavedSearchIcon>
       Suggestions
     </Link>,
+    <Link
+      underline="hover"
+      key={'3'}
+      sx={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}
+      onClick={() => setSelectedComponent('InterviewQs')}
+    >
+      <QuizIcon sx={{mr: 0.5}}></QuizIcon>
+      Interview Questions
+    </Link>,
   ];
   return (
     <Card sx={{width: '100%', position: 'sticky', top: '5px'}}>
@@ -56,6 +68,7 @@ const BreadcrumbsCard = ({userJob, description}: BreadcrumbsCardProps) => {
         {selectedComponent === 'Keywords' && (
           <Keywords description={description} />
         )}
+        {selectedComponent === 'InterviewQs' && <InterviewQs />}
       </CardContent>
     </Card>
   );
