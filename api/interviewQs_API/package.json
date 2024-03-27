@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "bcryptjs": "^2.4.3",
     "openai": "^4.29.2"
   }
 }

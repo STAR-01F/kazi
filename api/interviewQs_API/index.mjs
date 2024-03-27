@@ -50,9 +50,6 @@ export const handler = async (event) => {
         return {
             statusCode: 200,
             header: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": true,
-                "Access-Control-Allow-Methods": "*",
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ questions: JSON.parse([interviewQs]) }),
