@@ -18,6 +18,10 @@ import {useState} from 'react';
 import jobStatus from '@repository/job.json';
 import {CreateUserJob} from '@services/firebase/userJobs';
 import {useJobs} from '@services/firebase/hooks/useJobs';
+import {useProfile} from '@services/firebase/hooks/useProfile';
+import {Timestamp} from 'firebase/firestore';
+import UserProfile from 'src/@types/userProfile';
+import UpdateStreak from '@services/firebase/userProfiles/Update';
 
 type ManualJobModalProps = {
   toggle: () => void;
@@ -45,6 +49,7 @@ const ManualJobModal = ({
   const {jobs, setJobs} = useJobs();
   const navigate = useNavigate();
   const [errors, setErrors] = useState<SaveJobError>({});
+  const {userProfile, setUserProfile} = useProfile();
 
   const validateForm = () => {
     const newErrors: SaveJobError = {};
@@ -98,6 +103,45 @@ const ManualJobModal = ({
       setSubmitting(false);
       return;
     }
+
+    const today = new Date(new Date().setHours(0, 0, 0, 0));
+    const streakDay = userProfile?.streakLastModified?.toDate() || today;
+
+    //check difference between today and streakDay
+    const timeDiff =
+      (today.setHours(0, 0, 0, 0) - streakDay?.setHours(0, 0, 0, 0)) /
+      1000 /
+      60 /
+      60;
+
+    if (userProfile?.streakLastModified !== undefined && timeDiff >= 24) {
+      setUserProfile({
+        ...userProfile,
+        currentStreak: userProfile.currentStreak + 1,
+        streakLastModified: Timestamp.fromDate(today) as Timestamp,
+      } as UserProfile);
+
+      UpdateStreak(
+        user.uid,
+        userProfile?.currentStreak + 1,
+        Timestamp.fromDate(today) as Timestamp
+      );
+    } else {
+      if (userProfile?.streakLastModified !== undefined && timeDiff < 24) {
+        setUserProfile({
+          ...userProfile,
+          currentStreak: userProfile.currentStreak,
+        } as UserProfile);
+      } else {
+        setUserProfile({
+          ...userProfile,
+          currentStreak: 1,
+          streakLastModified: Timestamp.fromDate(today) as Timestamp,
+        } as UserProfile);
+        UpdateStreak(user.uid, 1, Timestamp.fromDate(today) as Timestamp);
+      }
+    }
+
     setSubmitting(false);
     onClose();
 

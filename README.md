@@ -1,13 +1,15 @@
-# Trackify
+# Kazi
 
 This web application helps users build customised CVs by analysing job postings and extracting relevant keywords and skills using the OpenAI API. It also allows users to track their job applications.
 
 ## Features
+
 Analyse job postings - Users can enter a job description or URL and the app will use the OpenAI API to extract important keywords, skills, and requirements from the text.
 
 Track job applications - Users can add job postings they have applied to and track the status of applications over time.
 
 ## Usage
+
 To use the CV builder:
 
 - Enter a job description
@@ -21,6 +23,7 @@ To track jobs:
 - View your job tracking dashboard to see current status of all applications
 
 ## Implementation
+
 This app is built using:
 
 - React for the frontend

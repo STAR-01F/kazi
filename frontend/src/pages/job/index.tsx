@@ -12,6 +12,7 @@ import {useParams} from 'react-router-dom';
 import OttaDescription from './components/JobDescription/OttaDescription';
 import useFetchJobs from '@hooks/useFetchJobs';
 import ManualDescription from './components/JobDescription/ManualDescription';
+import WorkableDescription from './components/JobDescription/WorkableDescription';
 import MenuListButton from '@components/button/MenuListButton';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useFeedback} from '@hooks/useFeeback';
@@ -46,6 +47,8 @@ const Job = () => {
     jobLocation,
     jobSource,
     jobLink,
+    workableDescription,
+    workableLocation,
   } = data![0];
 
   const handleDeleteJob = async () => {
@@ -133,23 +136,31 @@ const Job = () => {
             {title}
           </Typography>
           <Grid container id={'logo-btns'}>
-            <Grid container item id={'company-logo'} alignItems={'center'}>
+            <Grid
+              container
+              item
+              id={'company-logo'}
+              alignItems={'center'}
+              gap={1}
+            >
               {jobSource === 'manual' ? null : (
                 <Box
                   component={'img'}
                   alt={company}
                   src={
-                    'https://images.otta.com/search/width_200/' +
-                    hiringOrganization?.logo
+                    jobSource === 'Otta'
+                      ? 'https://images.otta.com/search/width_200/' +
+                        hiringOrganization?.logo
+                      : hiringOrganization?.logo
                   }
                   sx={{
-                    height: 'auto',
-                    width: 'auto',
+                    width: '200px',
                     maxWidth: '100%',
                     objectFit: 'contain',
                   }}
                 />
               )}
+
               <Grid
                 container
                 item
@@ -193,7 +204,7 @@ const Job = () => {
             <Typography textTransform={'capitalize'} variant="h6">
               {company}
             </Typography>
-            {jobSource === 'manual' ? null : (
+            {/* {jobSource === 'manual' ? null : (
               <Typography
                 textTransform={'capitalize'}
                 fontWeight={'light'}
@@ -201,7 +212,33 @@ const Job = () => {
               >
                 {`${jobLocation?.address?.addressRegion}, ${jobLocation?.address?.addressCountry}`}
               </Typography>
-            )}
+            )} */}
+            {(() => {
+              switch (jobSource) {
+                case 'manual':
+                  return null;
+                case 'Otta':
+                  return (
+                    <Typography
+                      textTransform={'capitalize'}
+                      fontWeight={'light'}
+                      variant="subtitle1"
+                    >
+                      {`${jobLocation?.address?.addressRegion}, ${jobLocation?.address?.addressCountry}`}
+                    </Typography>
+                  );
+                case 'Workable':
+                  return (
+                    <Typography
+                      textTransform={'capitalize'}
+                      fontWeight={'light'}
+                      variant="subtitle1"
+                    >
+                      {workableLocation}
+                    </Typography>
+                  );
+              }
+            })()}
           </Grid>
         </Grid>
       </Grid>
@@ -218,11 +255,18 @@ const Job = () => {
             sx={{height: '2.5rem'}}
           />
           <CardContent>
-            {jobSource === 'manual' ? (
-              <ManualDescription description={description} />
-            ) : (
-              <OttaDescription description={description} />
-            )}
+            {(() => {
+              switch (jobSource) {
+                case 'manual':
+                  return <ManualDescription description={description} />;
+                case 'Otta':
+                  return <OttaDescription description={description} />;
+                case 'Workable':
+                  return (
+                    <WorkableDescription description={workableDescription} />
+                  );
+              }
+            })()}
           </CardContent>
         </Card>
       </Grid>

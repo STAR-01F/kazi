@@ -15,7 +15,7 @@ import {
 import {logout} from '@services/firebase/auth';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import logo from '../../assets/kazi-logo.png';
 
 type Settings = {
@@ -41,12 +41,12 @@ const Header = () => {
     setAnchorElUser(null);
   };
   const settings: Settings[] = [
-    {
-      name: 'Dashboard',
-      func: () => {
-        navigate('/');
-      },
-    },
+    // {
+    //   name: 'Dashboard',
+    //   func: () => {
+    //     navigate('/');
+    //   },
+    // },
     {
       name: 'Profile',
       func: () => {
@@ -87,6 +87,8 @@ const Header = () => {
               flexDirection: 'column',
               alignItems: 'left',
             }}
+            component={Link}
+            to="/"
           >
             <img src={logo} alt="Kazi Logo" />
           </Box>
