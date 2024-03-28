@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import {Typography} from '@mui/material';
-import logo from '../../assets/kazi-logo.png';
+import logo from '../../assets/kazi-log.jpg';
 import icon from '../../assets/kazi-icon.png';
 
 export default function LandingPage() {
