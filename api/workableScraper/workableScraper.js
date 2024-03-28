@@ -12,9 +12,8 @@ export const workableScraper = async (url) => {
     });
 
     const page = await browser.newPage();
-    await page.goto(url, {
-      waitUntil: "networkidle0",
-    });
+    await page.goto(url);
+    await page.waitForSelector('[data-ui="job-location"]');
 
     const pageTitle = (await page.title()).toString();
     const compName = pageTitle.substring(pageTitle.lastIndexOf("-") + 1).trim();
