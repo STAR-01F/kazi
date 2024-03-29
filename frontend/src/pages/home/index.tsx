@@ -29,11 +29,11 @@ const Homepage = () => {
         Welcome, {getDisplayName(user?.displayName || '')}
       </Typography>
       <Tabs value={currentTabIndex} onChange={handleTabChange}>
-        <Tab label="Feed" />
         <Tab label="Metrics" />
+        <Tab label="Feed" />
       </Tabs>
-      {currentTabIndex === 0 && <FeedContainer />}
-      {currentTabIndex === 1 && <StatsContainer />}
+      {currentTabIndex === 0 && <StatsContainer />}
+      {currentTabIndex === 1 && <FeedContainer />}
 
       <Banner />
       <JobSection />
