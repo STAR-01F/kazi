@@ -17,6 +17,7 @@ import {useAuth} from '@services/firebase/hooks/useAuth';
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import logo from '../../assets/kazi-log.jpg';
+import SendFeedback from './SendFeedback';
 
 type Settings = {
   name: string;
@@ -92,6 +93,7 @@ const Header = () => {
           >
             <img src={logo} alt="Kazi Logo" />
           </Box>
+          <SendFeedback />
           {/* <Typography
             variant="h6"
             noWrap
