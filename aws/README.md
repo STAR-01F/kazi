@@ -13,17 +13,17 @@ Create a file called **template.yaml** within the relevant directory. Within, de
 
 ## Validation/Testing
 
-#### Docker
+### Docker
 
 With Docker active on your system, you're able to test your lambda locally before deployment
 
-```
+```bash
 sam local invoke
 ```
 
 and even pass events to it.
 
-```
+```bash
 sam local invoke -e {adirectory}/{yourfilename}.json
 ```
 
@@ -41,7 +41,7 @@ Create a {yourfilename}.json stored within {adirectory}. Call the above prompt a
 
 #### Linting
 
-```
+```bash
 sam validate --lint
 ```
 
@@ -53,21 +53,19 @@ Having successfully tested your lambda with sam invoke and fixed any errors rais
 
 This happens in two steps :
 
-```
+```bash
 sam build
 ```
 
 This will build your assets using the config within your template.yaml. AWS SAM CLI creates a .aws-sam (within which will be your build and a build.toml fle)
 
-```
 Don’t edit any code under the .aws-sam/build directory.
 Instead, update your original source code in your project folder
 and run sam build to update the .aws-sam/build directory.
 
 Always run SAM build when making changes to your original source code
-```
 
-```
+```bash
 sam deploy --guided
 ```
 

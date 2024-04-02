@@ -16,21 +16,16 @@ Resources:
   GetKeyWordsFuntion:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: keywordsSam/
+      CodeUri: lambda/keywords
       Handler: app.handler
       Runtime: nodejs20.x
       FunctionUrlConfig:
         AuthType: NONE
       Architectures:
-        - arm64
-     
-     
+        - x86_64
+
 
 Outputs:
-
-  HelloWorldFunction:
+  GetKeyWordsFuntion:
     Description: "Get Keywords Lambda Function ARN"
     Value: !GetAtt GetKeyWordsFuntion.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt GetKeyWordsFuntionRole.Arn
