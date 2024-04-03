@@ -34,10 +34,10 @@ config.json
 api/scraper/*.json
 api/keywordsForDeployment
 
-
 # zip & build files
 *.zip
 api/scraper/bootstrap
+.aws-sam/
 
 #build logs
 build.log
