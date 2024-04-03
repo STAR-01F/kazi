@@ -1,3 +1,3 @@
-import ThemeCustomization from './theme';
+import ThemeCustomization from "./theme";
 
 export { ThemeCustomization };

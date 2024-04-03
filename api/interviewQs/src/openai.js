@@ -30,7 +30,7 @@ async function main(job) {
                 '{
                     "generalQuestions": [question1, question2, question3],
                     "technicalQuestions": [question4, question5, question6],
-                    "SituationalQuestions": [question7, question8, question9],
+                    "situationalQuestions": [question7, question8, question9],
                 }'
                 ${job.description}`,
       },
