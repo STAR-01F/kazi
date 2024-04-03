@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -48,10 +49,17 @@ const SendFeedback = () => {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <Button
         onClick={handleClickOpen}
         variant="outlined"
+        size="small"
         startIcon={<InsertCommentIcon />}
       >
         Send Feedback
@@ -111,7 +119,7 @@ const SendFeedback = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 };
 
