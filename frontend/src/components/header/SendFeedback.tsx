@@ -9,6 +9,8 @@ import {
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import {useState} from 'react';
 import {useFeedback} from '@hooks/useFeeback';
+import {useAuth} from '@services/firebase/hooks/useAuth';
+import sendEmail from '@services/emailjs/emailjs';
 
 const SendFeedback = () => {
   const [open, setOpen] = useState(false);
@@ -16,6 +18,7 @@ const SendFeedback = () => {
   const [improvement, setImprovement] = useState('');
   const [comments, setComments] = useState('');
   const {setFeedback} = useFeedback();
+  const {user} = useAuth();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,15 +29,14 @@ const SendFeedback = () => {
   };
 
   const handleSendFeedback = async () => {
-    // Send feedback to the backend
-    fetch('http://localhost:3000/send-feedback', {
-      method: 'POST',
-      headers: {},
-      body: JSON.stringify({
-        like: like,
-        improvement: improvement,
-        comments: comments,
-      }),
+    // Send feedback to email
+
+    sendEmail({
+      like,
+      improvement,
+      comments,
+      user: user?.displayName || 'Anonymous',
+      time: new Date().toISOString(),
     });
 
     setFeedback({
