@@ -30,7 +30,7 @@ const Homepage = () => {
       </Typography>
       <Tabs value={currentTabIndex} onChange={handleTabChange}>
         <Tab label="Metrics" />
-        <Tab label="Feed" />
+        <Tab label="News" />
       </Tabs>
       {currentTabIndex === 0 && <StatsContainer />}
       {currentTabIndex === 1 && <FeedContainer />}
