@@ -20,7 +20,7 @@ const SingleFeedItem = ({name, weblink, id, title}: singleFeed) => {
         {name}
       </Box>
 
-      <Box width={'65%'} key={id}>
+      <Box width={'80%'} key={id}>
         <Link
           href={weblink}
           target="_blank"

@@ -28,7 +28,17 @@ const Homepage = () => {
       <Typography fontFamily={'Young Serif'} variant={'h4'} gutterBottom>
         Welcome, {getDisplayName(user?.displayName || '')}
       </Typography>
-      <Tabs value={currentTabIndex} onChange={handleTabChange}>
+
+      <Tabs
+        sx={{
+          display: {
+            xs: 'none',
+            sm: 'block',
+          },
+        }}
+        value={currentTabIndex}
+        onChange={handleTabChange}
+      >
         <Tab label="Metrics" />
         <Tab label="News" />
       </Tabs>

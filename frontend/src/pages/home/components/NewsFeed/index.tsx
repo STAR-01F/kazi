@@ -28,10 +28,9 @@ const FeedContainer = () => {
   const [loading, setLoading] = useState(true);
   const [queryString, coNames] = QueryString();
 
-  //need to cache after initial fetch
+  //need to cache after initial fetch, only rerender when adding a new job
   useEffect(() => {
     try {
-      console.log('hello...');
       const GetArticles = async () => {
         try {
           const articles = await fetch(queryString);
@@ -43,9 +42,8 @@ const FeedContainer = () => {
           console.error('Error from GetArticles', error);
           setLoading(false);
         }
-
-        return null;
       };
+
       GetArticles();
     } catch (e) {
       console.error('Error getting articles', e);
@@ -57,8 +55,9 @@ const FeedContainer = () => {
       <Container
         component={Paper}
         sx={{
-          display: 'flex',
+          display: {xs: 'none', sm: 'flex'},
           justifyContent: 'center',
+          alignItems: 'center',
           minWidth: '325px',
           height: '250px',
           mb: 3,
@@ -73,7 +72,7 @@ const FeedContainer = () => {
     <Container
       component={Paper}
       sx={{
-        display: 'flex',
+        display: {xs: 'none', sm: 'flex'},
         justifyContent: 'space-evenly',
         minWidth: '325px',
         height: '250px',
