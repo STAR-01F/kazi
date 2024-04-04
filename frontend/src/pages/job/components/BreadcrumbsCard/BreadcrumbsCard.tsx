@@ -65,7 +65,7 @@ const BreadcrumbsCard = ({userJob, description}: BreadcrumbsCardProps) => {
       >
         {selectedComponent === 'Notes' && <Notes userJob={userJob}></Notes>}
         {selectedComponent === 'Keywords' && (
-          <Keywords description={description} />
+          <Keywords description={description} userJob={userJob} />
         )}
         {selectedComponent === 'InterviewQs' && <InterviewQs />}
       </CardContent>
