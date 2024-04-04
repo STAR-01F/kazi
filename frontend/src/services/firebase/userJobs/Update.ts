@@ -79,6 +79,36 @@ const UpdateUserJobNotes = async (
     };
   }
 };
-export {UpdateUserJobNotes};
+
+const UpdateKeywords = async (
+  jobID: string,
+  keywords: Array<string>
+): Promise<Response<string, string>> => {
+  try {
+    const docRef = doc(userJobs, jobID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      await setDoc(docRef, {keywords: keywords}, {merge: true});
+      return {
+        status: 'Success',
+        message: 'Sucessfully generated keywords',
+        data: 'Keywords added to Job Posting',
+      };
+    } else {
+      return {
+        status: 'Error',
+        message: 'No such job exists',
+      };
+    }
+  } catch (error) {
+    return {
+      status: 'Error',
+      message:
+        'Failed to add keywords to firestore: ' + (error as Error).message,
+    };
+  }
+};
+
+export {UpdateUserJobNotes, UpdateKeywords};
 
 export default UpdateUserJobStatus;
