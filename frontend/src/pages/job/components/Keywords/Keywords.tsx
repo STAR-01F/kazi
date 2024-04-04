@@ -30,7 +30,6 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
         });
         return;
       }
-      // setKeywords(resp.data.keywords.split(','));
       setJobs((prevJobs) => {
         return prevJobs.map((job) => {
           if (job.id === userJob.id) {
