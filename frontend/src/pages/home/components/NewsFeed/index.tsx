@@ -1,6 +1,6 @@
 import {Container, Paper} from '@mui/material';
-import {showPreciseFeed} from '@utils/newsfeed/PreciseFeedData';
-import QueryString from '@utils/newsfeed/QueryString';
+import {showPreciseFeed} from '@services/newsfeed/PreciseFeedData';
+import QueryString from '@services/newsfeed/QueryString';
 import {useEffect, useState} from 'react';
 import SingleFeedItem from './components/SingleFeedItem';
 import {LinearProgress} from '@mui/material';

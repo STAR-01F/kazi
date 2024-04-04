@@ -1,6 +1,8 @@
 import {Response} from 'src/@types';
 
-export const GetArticles = async (addr: any): Promise<Response<[], string>> => {
+export const GetArticles = async (
+  addr: string
+): Promise<Response<[], string>> => {
   try {
     const articles = await fetch(addr);
 
