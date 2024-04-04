@@ -9,7 +9,7 @@ type UserJob = {
   hiringOrganization?: {logo: string};
   status: string;
   statusUpdates: {[key: string]: Timestamp};
-  keywords: string;
+  keywords?: Array<string>;
   jobSource: string;
   notes?: {content: string; updatedAt: Timestamp};
 };
