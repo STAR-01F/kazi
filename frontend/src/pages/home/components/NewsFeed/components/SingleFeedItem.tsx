@@ -1,5 +1,4 @@
-import {Box} from '@mui/material';
-import {Link} from '@mui/material';
+import {Box, Link} from '@mui/material';
 
 type singleFeed = {name: string; title: string; weblink: string; id: number};
 
@@ -12,11 +11,7 @@ const SingleFeedItem = ({name, weblink, id, title}: singleFeed) => {
       alignContent={'center'}
       justifyContent={'space-between'}
     >
-      <Box
-        fontWeight={'bold'}
-        sx={id % 2 ? {color: 'darkgreen'} : {color: 'darkorange'}}
-        color={'white'}
-      >
+      <Box fontWeight={'bold'} sx={{color: 'salmon'}} color={'white'}>
         {name}
       </Box>
 
