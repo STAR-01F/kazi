@@ -5,35 +5,58 @@ import {getInterviewQuestions} from '@utils/openai';
 import {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import QuizIcon from '@mui/icons-material/Quiz';
-import InterviewQ from 'src/@types/interviewQ';
 import PageCircular from '@components/progress/PageCircular';
+import SaveIQs from '@services/firebase/userJobs/SaveIQs';
+import {useFeedback} from '@hooks/useFeeback';
 
 const InterviewQs = () => {
   const {id} = useParams();
-  const {jobs} = useJobs();
+  const {jobs, setJobs} = useJobs();
   const userJob = jobs.find((job) => job.jobid === id);
-  const [generateClicked, setGenerateClicked] = useState(false);
-  const [iQs, setIQs] = useState<InterviewQ['questions']>();
   const {data} = useFetchJobs(userJob?.jobid || '');
+  const {setFeedback} = useFeedback();
+
   const [isInterviewQsLoading, setInterviewQsLoading] = useState(false);
 
   const handleGenerate = async () => {
-    setGenerateClicked(true);
     setInterviewQsLoading(true);
     if (!data) return;
-    const resp = await getInterviewQuestions(data[0]);
-    if (resp.status === 'Success') {
-      setIQs(resp.data.questions);
+    if (!userJob) return;
+
+    try {
+      const resp = await getInterviewQuestions(data[0]);
+      if (resp.status === 'Success') {
+        const saveIQResp = await SaveIQs(userJob.id, resp.data);
+
+        if (saveIQResp.status === 'Error') {
+          setFeedback({
+            type: 'error',
+            message: saveIQResp.message,
+          });
+        } else {
+          setJobs((prevJobs) => {
+            return prevJobs.map((job) => {
+              if (job.id === userJob.id) {
+                return {...job, interviewQs: resp.data};
+              }
+              return job;
+            });
+          });
+        }
+        setInterviewQsLoading(false);
+      }
+    } catch (e) {
+      console.error('IQErrs', e);
     }
-    setInterviewQsLoading(false);
   };
 
   if (isInterviewQsLoading) {
     return <PageCircular sx={{height: '300px', width: '100%'}} />;
   }
+
   return (
     <>
-      {generateClicked ? (
+      {userJob && userJob.interviewQs ? (
         <>
           <Grid
             container
@@ -43,28 +66,32 @@ const InterviewQs = () => {
             justifyContent={'center'}
             p={2}
           >
-            {iQs && (
-              <>
-                <Typography variant="h6">General Questions</Typography>
-                {iQs.generalQuestions.map((q, index) => (
+            <>
+              <Typography variant="h6">General Questions</Typography>
+              {userJob.interviewQs.questions.generalQuestions.map(
+                (q, index) => (
                   <Typography key={index} variant="body1">
                     {`${index + 1}. ${q}`}
                   </Typography>
-                ))}
-                <Typography variant="h6">Technical Questions</Typography>
-                {iQs.technicalQuestions.map((q, index) => (
+                )
+              )}
+              <Typography variant="h6">Technical Questions</Typography>
+              {userJob.interviewQs.questions.technicalQuestions.map(
+                (q, index) => (
                   <Typography key={index} variant="body1">
                     {`${index + 1}. ${q}`}
                   </Typography>
-                ))}
-                <Typography variant="h6">Situational Questions</Typography>
-                {iQs.situationalQuestions.map((q, index) => (
+                )
+              )}
+              <Typography variant="h6">Situational Questions</Typography>
+              {userJob.interviewQs.questions.situationalQuestions.map(
+                (q, index) => (
                   <Typography key={index} variant="body1">
                     {`${index + 1}. ${q}`}
                   </Typography>
-                ))}
-              </>
-            )}
+                )
+              )}
+            </>
           </Grid>
         </>
       ) : (
@@ -89,4 +116,5 @@ const InterviewQs = () => {
     </>
   );
 };
+
 export default InterviewQs;
