@@ -1,4 +1,6 @@
 const showPreciseFeed = (arrofNews: any[], conames: (string | undefined)[]) => {
+  const subArray: {[key: string]: number} = {};
+
   const result = arrofNews.reduce((filteredItems, arr) => {
     const matchingStrings: any[] = [];
 
@@ -7,8 +9,14 @@ const showPreciseFeed = (arrofNews: any[], conames: (string | undefined)[]) => {
         const titleLower = (arr['title'] as string).toLowerCase();
         const urlLower = (arr['url'] as string).toLowerCase();
         const subsLower = subs!.toLowerCase();
-        if (titleLower.includes(subsLower) || urlLower.includes(subsLower)) {
+        subArray[subs] = subArray[subs] || 0;
+
+        if (
+          (titleLower.includes(subsLower) || urlLower.includes(subsLower)) &&
+          subArray[subs] < 7
+        ) {
           matchingStrings.push(subs);
+          subArray[subs] += 1;
         }
       }
     });

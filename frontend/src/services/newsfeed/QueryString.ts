@@ -7,7 +7,7 @@ import GetCompanyNames from './GetCompanyNames';
 
 const QueryString = (): [string, (string | undefined)[]] => {
   const prefix = `https://api.gdeltproject.org/api/v2/doc/doc?query=(`;
-  const suffix = `)%20sourcelang:English&maxrecords=80&sort=HybridRel&DateDesc&format=JSONFeed`;
+  const suffix = `)%20sourcelang:English&maxrecords=100&sort=HybridRel&DateDesc&format=JSONFeed`;
   let stringBody = '';
   const coNames = GetCompanyNames();
   coNames.forEach((v) => {
