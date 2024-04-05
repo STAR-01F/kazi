@@ -77,7 +77,6 @@ const FeedContainer = () => {
         minWidth: '325px',
         height: '250px',
         flexDirection: 'column',
-
         overflowY: 'auto',
         background: 'white',
         mb: 3,

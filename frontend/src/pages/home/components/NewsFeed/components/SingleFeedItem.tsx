@@ -10,6 +10,7 @@ const SingleFeedItem = ({name, weblink, id, title}: singleFeed) => {
       flexDirection="row"
       alignContent={'center'}
       justifyContent={'space-between'}
+      pb={1.5}
     >
       <Box fontWeight={'bold'} sx={{color: 'salmon'}} color={'white'}>
         {name}
