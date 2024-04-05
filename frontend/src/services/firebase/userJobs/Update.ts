@@ -31,9 +31,8 @@ const UpdateUserJobStatus = async (
       };
     }
     return {
-      status: 'Success',
-      message: 'Successfully updated the user job status',
-      data: 'User Job Status Updated',
+      status: 'Error',
+      message: "Doc doesn't exist",
     };
   } catch (error) {
     return {

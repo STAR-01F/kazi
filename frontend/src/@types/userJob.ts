@@ -1,4 +1,5 @@
 import {Timestamp} from 'firebase/firestore';
+import InterviewQ from './interviewQ';
 
 type UserJob = {
   id: string;
@@ -7,6 +8,7 @@ type UserJob = {
   title: string;
   company: string;
   hiringOrganization?: {logo: string};
+  interviewQs: InterviewQ;
   status: string;
   statusUpdates: {[key: string]: Timestamp};
   keywords: string;
