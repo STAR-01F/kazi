@@ -5,7 +5,6 @@ type Job = {
   company: string;
   jobLink: string;
   status?: string;
-  keywords?: string;
   jobLocation?: {address?: {addressRegion: string; addressCountry: string}};
   hiringOrganization?: {logo: string};
   jobSource?: string;

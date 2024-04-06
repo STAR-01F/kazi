@@ -1,9 +1,11 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {TextField, Button, Grid} from '@mui/material';
 import {UpdateUserJobNotes} from '@services/firebase/userJobs';
 import {useFeedback} from '@hooks/useFeeback';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {UserJob} from 'src/@types';
+import {useJobs} from '@services/firebase/hooks/useJobs';
+import {Timestamp} from 'firebase/firestore';
 
 type NotesProps = {
   userJob?: UserJob;
@@ -12,19 +14,25 @@ type NotesProps = {
 const Notes = ({userJob}: NotesProps) => {
   const {setFeedback} = useFeedback();
   const {user} = useAuth();
-  const [notesData, setNotesData] = useState('');
-
-  useEffect(() => {
-    if (!userJob) {
-      return;
-    }
-    setNotesData(userJob.notes?.content || '');
-  }, [userJob]);
+  const [notesData, setNotesData] = useState(userJob?.notes?.content || '');
+  const {setJobs} = useJobs();
 
   const handleUpdateJobNotes = async (notes: string) => {
     if (!user?.uid || !userJob) return;
     const resp = await UpdateUserJobNotes(user.uid, userJob.id, notes);
     if (resp.status === 'Success') {
+      setJobs((prevJobs) => {
+        return prevJobs.map((job) => {
+          if (job.id === userJob.id) {
+            return {
+              ...job,
+              notes: {content: notes, updatedAt: Timestamp.now()},
+            };
+          }
+          return job;
+        });
+      });
+
       setFeedback({
         type: 'success',
         message: resp.message,

@@ -2,24 +2,56 @@ import {Chip, Typography, Grid, Button} from '@mui/material';
 import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import {SkeletonChip} from '@components/skeleton';
 import {useState} from 'react';
+import {useFeedback} from '@hooks/useFeeback';
 import getKeywords from '@utils/openai';
+import {UpdateKeywords} from '@services/firebase/userJobs/Update';
+import {useJobs} from '@services/firebase/hooks/useJobs';
+import {UserJob} from 'src/@types';
 
 type KeywordsProps = {
   description: string;
+  userJob?: UserJob;
 };
 
-const Keywords = ({description}: KeywordsProps) => {
-  const [generateClicked, setGenerateClicked] = useState(false);
-  const [keywords, setKeywords] = useState<string[]>([]);
+const Keywords = ({description, userJob}: KeywordsProps) => {
+  const {setFeedback} = useFeedback();
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
+  const {setJobs} = useJobs();
 
   const handleGenerate = async () => {
-    setGenerateClicked(true);
+    if (!userJob) return;
     setIsKeywordsLoading(true);
     const resp = await getKeywords(description);
     if (resp.status === 'Success') {
-      setKeywords(resp.data.keywords.split(','));
+      if (resp.data.keywords.split(',').length < 10) {
+        setFeedback({
+          type: 'error',
+          message: 'Failed to generate keywords',
+        });
+        return;
+      }
+      setJobs((prevJobs) => {
+        return prevJobs.map((job) => {
+          if (job.id === userJob.id) {
+            return {...job, keywords: resp.data.keywords.split(',')};
+          }
+          return job;
+        });
+      });
+
+      const saveKeywords = await UpdateKeywords(
+        userJob.id,
+        resp.data.keywords.split(',')
+      );
+
+      if (saveKeywords.status === 'Success') {
+        setFeedback({
+          type: 'success',
+          message: resp.message,
+        });
+      }
     }
+
     setIsKeywordsLoading(false);
   };
   if (isKeywordsLoading) {
@@ -42,7 +74,7 @@ const Keywords = ({description}: KeywordsProps) => {
   }
   return (
     <>
-      {generateClicked ? (
+      {userJob?.keywords ? (
         <Grid
           container
           item
@@ -51,16 +83,15 @@ const Keywords = ({description}: KeywordsProps) => {
           justifyContent={'center'}
           p={2}
         >
-          {keywords &&
-            keywords.map((keyword, index) => {
-              return (
-                <Chip
-                  key={index}
-                  label={<Typography variant="h6">{keyword}</Typography>}
-                  sx={{padding: '1rem'}}
-                />
-              );
-            })}
+          {userJob?.keywords?.map((keyword, index) => {
+            return (
+              <Chip
+                key={index}
+                label={<Typography variant="h6">{keyword}</Typography>}
+                sx={{padding: '1rem'}}
+              />
+            );
+          })}
         </Grid>
       ) : (
         <>
