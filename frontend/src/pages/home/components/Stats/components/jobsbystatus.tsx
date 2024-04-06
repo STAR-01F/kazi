@@ -37,7 +37,7 @@ const JobsByStatus = () => {
   }, [jobs]);
   return (
     <PieChart
-      colors={['#180573', '#731805', '#607305']} // Use palette
+      colors={['#7B4B94', '#7D82B8', '#CA3CFF', '#C9E4E7', '#B4A0E5']} // Use palette
       height={190}
       tooltip={{trigger}}
       series={[

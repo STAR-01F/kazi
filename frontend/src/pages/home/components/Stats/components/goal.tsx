@@ -48,7 +48,7 @@ const Goal = () => {
 
   return (
     <PieChart
-      colors={['#180573', '#731805', '#057318']} // Use palette
+      colors={['#7B4B94', '#7D82B8', '#CA3CFF', '#C9E4E7', '#B4A0E5']} // Use palette
       height={190}
       width={160}
       tooltip={{trigger: lengthJobsThatYouApplied === 0 ? 'none' : 'item'}}

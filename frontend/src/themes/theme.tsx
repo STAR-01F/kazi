@@ -46,6 +46,7 @@ const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
             paper: '#f0f0f6',
             default: '#f0f0f3',
           },
+          divider: '#826FFF',
         },
         typography: {
           fontFamily: [
@@ -64,17 +65,17 @@ const ThemeCustomization = ({children}: ThemeCustomizationProps) => {
         },
         components: {
           MuiCssBaseline: {
-            styleOverrides: (theme) => ({
+            styleOverrides: () => ({
               '::-webkit-scrollbar': {
                 width: '10px',
-                backgroundColor: theme.palette.background.paper,
+                backgroundColor: baseTheme.palette.background.paper,
               },
               '::-webkit-scrollbar-track': {
-                boxShadow: `inset 0 0 6px ${theme.palette.divider}`,
+                boxShadow: `inset 0 0 6px ${baseTheme.palette.divider}`,
               },
               '::-webkit-scrollbar-thumb': {
-                backgroundColor: theme.palette.divider,
-                outline: `1px solid ${theme.palette.divider}`,
+                backgroundColor: baseTheme.palette.divider,
+                outline: `1px solid ${baseTheme.palette.divider}`,
                 borderRadius: '8px',
               },
             }),

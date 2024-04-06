@@ -11,12 +11,14 @@ import {
   MenuItem,
   Button,
   useTheme,
+  Grid,
 } from '@mui/material';
 import {logout} from '@services/firebase/auth';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import logo from '../../assets/kazi-logo.png';
+import logo from '../../assets/kazi-log.jpg';
+import SendFeedback from './SendFeedback';
 
 type Settings = {
   name: string;
@@ -68,7 +70,7 @@ const Header = () => {
         padding: '0px',
         borderRadius: '0px',
         border: 'none',
-        borderBottom: '1px solid ' + theme.palette.divider,
+        borderBottom: '1px solid ' + theme.palette.grey[300],
         backgroundColor: 'background.default',
       }}
     >
@@ -92,48 +94,56 @@ const Header = () => {
           >
             <img src={logo} alt="Kazi Logo" />
           </Box>
-          {/* <Typography
+          <Grid
+            container
+            gap={'15px'}
+            // direction={'column'}
+            justifyContent={'flex-end'}
+          >
+            <SendFeedback />
+            {/* <Typography
             variant="h6"
             noWrap
             sx={{fontWeight: 700, display: {xs: 'flex'}}}
           >
             Kazi
           </Typography> */}
-          {user ? (
-            <Box sx={{flexGrow: 0}}>
-              <Tooltip title="Settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                  <Avatar
-                    alt={user.displayName || ''}
-                    src={user.photoURL ? user.photoURL : '.'}
-                  />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{mt: '45px'}}
-                open={Boolean(anchorElUser)}
-                anchorEl={anchorElUser}
-                onClose={handleCloseUserMenu}
-                keepMounted
-                anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-                transformOrigin={{vertical: 'top', horizontal: 'right'}}
+            {user ? (
+              <Box sx={{flexGrow: 0}}>
+                <Tooltip title="Settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                    <Avatar
+                      alt={user.displayName || ''}
+                      src={user.photoURL ? user.photoURL : '.'}
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{mt: '45px'}}
+                  open={Boolean(anchorElUser)}
+                  anchorEl={anchorElUser}
+                  onClose={handleCloseUserMenu}
+                  keepMounted
+                  anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                  transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                >
+                  {settings.map(({name, func}, i) => (
+                    <MenuItem onClick={func} key={i}>
+                      <Typography textAlign={'center'}>{name}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            ) : (
+              <Button
+                onClick={handleLogin}
+                sx={{color: 'white'}}
+                href="#login page"
               >
-                {settings.map(({name, func}, i) => (
-                  <MenuItem onClick={func} key={i}>
-                    <Typography textAlign={'center'}>{name}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-          ) : (
-            <Button
-              onClick={handleLogin}
-              sx={{color: 'white'}}
-              href="#login page"
-            >
-              Log in
-            </Button>
-          )}
+                Log in
+              </Button>
+            )}
+          </Grid>
         </Toolbar>
       </Container>
     </AppBar>

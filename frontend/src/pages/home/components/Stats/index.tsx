@@ -15,6 +15,7 @@ const StatsContainer = () => {
         flexDirection: 'row',
         minWidth: '325px',
         // gap: 10,
+        backgroundColor: '#D5D5D544',
         mb: 3,
       }}
     >
