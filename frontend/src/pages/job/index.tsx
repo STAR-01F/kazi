@@ -202,15 +202,7 @@ const Job = () => {
             <Typography textTransform={'capitalize'} variant="h6">
               {company}
             </Typography>
-            {/* {jobSource === 'manual' ? null : (
-              <Typography
-                textTransform={'capitalize'}
-                fontWeight={'light'}
-                variant="subtitle1"
-              >
-                {`${jobLocation?.address?.addressRegion}, ${jobLocation?.address?.addressCountry}`}
-              </Typography>
-            )} */}
+
             {(() => {
               switch (jobSource) {
                 case 'manual':
@@ -271,7 +263,7 @@ const Job = () => {
       <Grid item xs={12} md={6} p={1}>
         <BreadcrumbsCard
           userJob={userJob}
-          description={description}
+          description={description || workableDescription.join('\n')}
         ></BreadcrumbsCard>
       </Grid>
     </Grid>
