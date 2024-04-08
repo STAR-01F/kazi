@@ -29,17 +29,28 @@ const FeedContainer = () => {
 
   const [queryString, coNames] = QueryString();
 
+  const [noArticles, setNoArticles] = useState(false);
+
   //need to cache after initial fetch, only rerender when adding a new job
   useEffect(() => {
     try {
       const GetArticles = async () => {
+        setNoArticles(false);
         try {
           if (queryString === 'no-articles') {
+            setNoArticles(true);
             setLoading(false);
             return;
           }
+
           const articles = await fetch(queryString);
           const asJSON = await articles.json();
+
+          if (Object.keys(asJSON).length === 0) {
+            setNoArticles(true);
+            return;
+          }
+
           const preciseArticles = showPreciseFeed(asJSON.items, coNames);
           setFeed(preciseArticles);
           setLoading(false);
@@ -53,9 +64,9 @@ const FeedContainer = () => {
     } catch (e) {
       console.error('Error getting articles', e);
     }
-  }, []);
+  }, [queryString]);
 
-  if (queryString === 'no-articles') {
+  if (queryString === 'no-articles' || noArticles) {
     return (
       <Container
         component={Paper}
@@ -105,7 +116,7 @@ const FeedContainer = () => {
         mb: 3,
       }}
     >
-      {feed &&
+      {Object.keys(feed).length !== 0 &&
         feed.map((fitem, idx) => (
           <SingleFeedItem
             name={fitem.matchingStrings[0]}
