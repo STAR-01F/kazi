@@ -1,4 +1,4 @@
-import {Container, Paper} from '@mui/material';
+import {Container, Paper, Alert} from '@mui/material';
 import {showPreciseFeed} from '@services/newsfeed/PreciseFeedData';
 import QueryString from '@services/newsfeed/QueryString';
 import {useEffect, useState} from 'react';
@@ -26,6 +26,7 @@ const FeedContainer = () => {
   const [feed, setFeed] = useState<News>({} as News);
 
   const [loading, setLoading] = useState(true);
+
   const [queryString, coNames] = QueryString();
 
   //need to cache after initial fetch, only rerender when adding a new job
@@ -33,6 +34,10 @@ const FeedContainer = () => {
     try {
       const GetArticles = async () => {
         try {
+          if (queryString === 'no-articles') {
+            setLoading(false);
+            return;
+          }
           const articles = await fetch(queryString);
           const asJSON = await articles.json();
           const preciseArticles = showPreciseFeed(asJSON.items, coNames);
@@ -49,6 +54,24 @@ const FeedContainer = () => {
       console.error('Error getting articles', e);
     }
   }, []);
+
+  if (queryString === 'no-articles') {
+    return (
+      <Container
+        component={Paper}
+        sx={{
+          display: {xs: 'none', sm: 'flex'},
+          justifyContent: 'center',
+          alignItems: 'center',
+          minWidth: '325px',
+          height: '250px',
+          mb: 3,
+        }}
+      >
+        <Alert severity="info">No articles found!</Alert>
+      </Container>
+    );
+  }
 
   if (loading) {
     return (

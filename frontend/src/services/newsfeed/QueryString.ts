@@ -10,6 +10,17 @@ const QueryString = (): [string, (string | undefined)[]] => {
   const suffix = `)%20sourcelang:English&maxrecords=100&sort=HybridRel&DateDesc&format=JSONFeed`;
   let stringBody = '';
   const coNames = GetCompanyNames();
+
+  if (coNames.length === 0) {
+    return ['no-articles', []];
+  } else if (coNames.length === 1) {
+    const oneItemPrefix = prefix.slice(0, -1);
+    const oneItemSuffix = suffix.slice(1);
+    stringBody = `%20${coNames[0]}`;
+    const queryString = `${oneItemPrefix}${stringBody}${oneItemSuffix}`;
+    return [queryString, coNames];
+  }
+
   coNames.forEach((v) => {
     stringBody += `%20${v}%20OR`;
   });
