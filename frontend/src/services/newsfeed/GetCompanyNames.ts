@@ -9,7 +9,7 @@ const GetCompanyNames = () => {
         j.status === 'Applied' ||
         j.status === 'Interview'
     )
-    .map((j) => j.company);
+    .map((j) => j.company.replace('.', '').replace('-', ''));
 
   return allJobs;
 };
