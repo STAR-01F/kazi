@@ -22,6 +22,7 @@ import {useProfile} from '@services/firebase/hooks/useProfile';
 import {Timestamp} from 'firebase/firestore';
 import UserProfile from 'src/@types/userProfile';
 import UpdateStreak from '@services/firebase/userProfiles/Update';
+import {Autocomplete, Box, Grid} from '@mui/material';
 
 type ManualJobModalProps = {
   toggle: () => void;
@@ -35,6 +36,13 @@ interface SaveJobError {
   company?: string;
   description?: string;
 }
+
+interface ClearbitLogo {
+  name: string;
+  domain: string;
+  logo: string;
+}
+
 const ManualJobModal = ({
   toggle,
   onClose,
@@ -50,6 +58,31 @@ const ManualJobModal = ({
   const navigate = useNavigate();
   const [errors, setErrors] = useState<SaveJobError>({});
   const {userProfile, setUserProfile} = useProfile();
+  const [options, setOptions] = useState<ClearbitLogo[]>([]);
+  const [companyValue, setCompanyValue] = useState<ClearbitLogo | null>(null);
+
+  const handleInputChange = async (_event: any, value: string) => {
+    const result = await GetCompanyLogo(value);
+    console.log('val froom fetch -->', result);
+    setOptions(result);
+
+    //console.log("event", event.target);
+    console.log('value', value);
+  };
+
+  const GetCompanyLogo = async (src: string) => {
+    if (src.length === 0) return;
+    const response = await fetch(
+      `${'https://autocomplete.clearbit.com/v1/companies/suggest?query='}${src}`
+    );
+
+    if (response.status !== 200) {
+      return;
+    }
+
+    const companyData = await response.json();
+    return companyData;
+  };
 
   const validateForm = () => {
     const newErrors: SaveJobError = {};
@@ -63,6 +96,7 @@ const ManualJobModal = ({
     if (company === '') {
       newErrors.company = 'Company is required';
     }
+
     if (description === '') {
       newErrors.description = 'Description is required';
     }
@@ -153,7 +187,7 @@ const ManualJobModal = ({
     <>
       <DialogContent>
         <DialogContentText mb={1}>
-          Please enter the details for the new job.
+          Please enter the following details
         </DialogContentText>
         <TextField
           required
@@ -186,12 +220,14 @@ const ManualJobModal = ({
           error={!!errors.jobLink}
           helperText={errors.jobLink}
         />
+
+        {/* Autocomplete should replace Company's name text field */}
         <TextField
           required
           sx={{marginBottom: 2}}
           id="company-name"
           name="company"
-          label="Company"
+          label="Company's Name"
           value={company}
           onChange={(e) => {
             setCompany(e.target.value);
@@ -200,6 +236,56 @@ const ManualJobModal = ({
           error={!!errors.company}
           helperText={errors.company}
         />
+
+        <Autocomplete
+          disablePortal
+          id="company-logo"
+          getOptionLabel={(option: any) =>
+            typeof option === 'string' ? option : `${option.name}`
+          }
+          filterOptions={(x) => x || options}
+          options={options || []}
+          autoComplete
+          includeInputInList
+          filterSelectedOptions
+          value={companyValue}
+          noOptionsText="Company Not Found"
+          onChange={(_event: any, newValue: ClearbitLogo | null) => {
+            setOptions(newValue ? [newValue, ...options] : options);
+            setCompanyValue(newValue);
+          }}
+          renderInput={(params) => (
+            <TextField {...params} label="Company's Name" required />
+          )}
+          onInputChange={handleInputChange}
+          renderOption={(props, option) => {
+            return (
+              <li {...props}>
+                <Grid container alignItems="center">
+                  <Grid
+                    component={'img'}
+                    src={option.logo}
+                    item
+                    sx={{display: 'flex', width: 20, height: 20}}
+                  ></Grid>
+                  <Grid
+                    item
+                    sx={{width: 'calc(100% - 44px)', wordWrap: 'break-word'}}
+                  >
+                    <Box
+                      // key={index}
+                      component="span"
+                      // sx={{ fontWeight: part.highlight ? 'bold' : 'regular' }}
+                    >
+                      {option.name}
+                    </Box>
+                  </Grid>
+                </Grid>
+              </li>
+            );
+          }}
+        />
+
         <FormControl fullWidth sx={{mb: 2}}>
           <InputLabel id="job-status-input">Status</InputLabel>
           <Select
