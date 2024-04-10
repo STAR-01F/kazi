@@ -1,5 +1,5 @@
 type Keywords = {
-  keywords: string;
+  keywords: Array<string>;
 };
 
 export default Keywords;
