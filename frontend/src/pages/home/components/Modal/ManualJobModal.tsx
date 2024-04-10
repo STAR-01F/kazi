@@ -63,11 +63,8 @@ const ManualJobModal = ({
 
   const handleInputChange = async (_event: any, value: string) => {
     const result = await GetCompanyLogo(value);
-    console.log('val froom fetch -->', result);
     setOptions(result);
-
-    //console.log("event", event.target);
-    console.log('value', value);
+    //console.log('new value \n', companyValue);
   };
 
   const GetCompanyLogo = async (src: string) => {
@@ -241,14 +238,15 @@ const ManualJobModal = ({
           disablePortal
           id="company-logo"
           getOptionLabel={(option: any) =>
-            typeof option === 'string' ? option : `${option.name}`
+            typeof option === 'string' ? option : `${option.domain}`
           }
           filterOptions={(x) => x || options}
           options={options || []}
           autoComplete
           includeInputInList
-          filterSelectedOptions
           value={companyValue}
+          isOptionEqualToValue={(option, value) => option.name === value.name}
+          filterSelectedOptions
           noOptionsText="Company Not Found"
           onChange={(_event: any, newValue: ClearbitLogo | null) => {
             setOptions(newValue ? [newValue, ...options] : options);
@@ -261,21 +259,23 @@ const ManualJobModal = ({
           renderOption={(props, option) => {
             return (
               <li {...props}>
-                <Grid container alignItems="center">
+                <Grid container alignItems="center" spacing={1}>
                   <Grid
                     component={'img'}
                     src={option.logo}
                     item
-                    sx={{display: 'flex', width: 20, height: 20}}
-                  ></Grid>
+                    xs={1}
+                    // sx={{display: 'flex', width: 20, height: 20}}
+                  />
                   <Grid
                     item
-                    sx={{width: 'calc(100% - 44px)', wordWrap: 'break-word'}}
+                    xs={11}
+                    // sx={{width: 'calc(100% - 44px)', wordWrap: 'break-word'}}
                   >
                     <Box
                       // key={index}
                       component="span"
-                      // sx={{ fontWeight: part.highlight ? 'bold' : 'regular' }}
+                      sx={{fontWeight: '500'}}
                     >
                       {option.name}
                     </Box>
