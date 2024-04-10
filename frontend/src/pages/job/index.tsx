@@ -263,7 +263,7 @@ const Job = () => {
       <Grid item xs={12} md={6} p={1}>
         <BreadcrumbsCard
           userJob={userJob}
-          description={description || workableDescription.join('\n')}
+          description={description || workableDescription.join(' ')}
         ></BreadcrumbsCard>
       </Grid>
     </Grid>
