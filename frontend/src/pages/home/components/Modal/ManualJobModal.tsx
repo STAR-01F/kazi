@@ -101,6 +101,8 @@ const ManualJobModal = ({
   };
 
   const handleAddJob = async () => {
+    console.log('co value from add job \n', companyValue);
+
     if (!user?.uid) return;
 
     validateForm();
@@ -110,6 +112,7 @@ const ManualJobModal = ({
       title: title,
       company: company,
       jobLink: jobLink,
+      companyLogoURL: companyValue?.logo,
       description: description,
       jobSource: 'manual',
     };
@@ -240,7 +243,7 @@ const ManualJobModal = ({
           getOptionLabel={(option: any) =>
             typeof option === 'string' ? option : `${option.domain}`
           }
-          filterOptions={(x) => x || options}
+          filterOptions={(x) => x}
           options={options || []}
           autoComplete
           includeInputInList
