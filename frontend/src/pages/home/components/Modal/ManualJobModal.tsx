@@ -261,7 +261,7 @@ const ManualJobModal = ({
           onInputChange={handleInputChange}
           renderOption={(props, option) => {
             return (
-              <li {...props}>
+              <li {...props} key={option.name}>
                 <Grid container alignItems="center" spacing={1}>
                   <Grid
                     component={'img'}
