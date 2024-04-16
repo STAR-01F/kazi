@@ -30,8 +30,6 @@ const useFetchUserJobs = () => {
     fetchData();
   }, [user]);
 
-  console.log('data from uFJ', data);
-
   return {status, data};
 };
 

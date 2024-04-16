@@ -41,6 +41,7 @@ const Job = () => {
     title,
     description,
     company,
+    companyLogoURL,
     hiringOrganization,
     jobLocation,
     jobSource,
@@ -80,13 +81,11 @@ const Job = () => {
         message: resp.message,
       });
       const updatedJobs = jobs.map((job) => {
-        console.log('status=======>', status);
         if (job.id === userJob.id) {
           if (status === 'Saved') {
             return {...job, status};
           } else {
             const updatedAt = Timestamp.now();
-            console.log('updatedAt=======>', updatedAt);
             return {
               ...job,
               status: status,
@@ -141,7 +140,18 @@ const Job = () => {
               alignItems={'center'}
               gap={1}
             >
-              {jobSource === 'manual' ? null : (
+              {jobSource === 'manual' ? (
+                <Box
+                  component={'img'}
+                  alt={company}
+                  src={companyLogoURL}
+                  sx={{
+                    width: '150px',
+                    maxWidth: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
+              ) : (
                 <Box
                   component={'img'}
                   alt={company}

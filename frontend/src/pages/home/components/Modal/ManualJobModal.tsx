@@ -43,7 +43,7 @@ interface ClearbitLogo {
   logo: string;
 }
 
-type UserInput = ClearbitLogo | string;
+//type UserInput = ClearbitLogo | string;
 
 const ManualJobModal = ({
   toggle,
@@ -60,7 +60,9 @@ const ManualJobModal = ({
   const [errors, setErrors] = useState<SaveJobError>({});
   const {userProfile, setUserProfile} = useProfile();
   const [options, setOptions] = useState<ClearbitLogo[]>([]);
-  const [companyValue, setCompanyValue] = useState<UserInput | null>(null);
+  const [companyValue, setCompanyValue] = useState<
+    ClearbitLogo | string | null
+  >(null);
   const [companyObj, setCompanyObj] = useState<{[key: string]: ClearbitLogo}>(
     {}
   );
@@ -119,7 +121,7 @@ const ManualJobModal = ({
     validateForm();
     setSubmitting(true);
 
-    console.log('co value ---> !', companyValue);
+    console.log('co value ---> ', companyValue);
 
     const job: Partial<Job> = {
       title: title,
@@ -205,7 +207,6 @@ const ManualJobModal = ({
         </DialogContentText>
         <TextField
           required
-          autoFocus
           sx={{marginBottom: 2}}
           id="job-title"
           name="job"
@@ -237,6 +238,13 @@ const ManualJobModal = ({
 
         <Autocomplete
           disablePortal
+          autoSelect
+          sx={{
+            '& + .MuiAutocomplete-popper .MuiAutocomplete-option:hover': {
+              backgroundColor: '#5836f7',
+              color: 'white',
+            },
+          }}
           id="company-logo"
           getOptionLabel={(option: any) =>
             typeof option === 'string' ? option : `${option.name}`
@@ -244,9 +252,6 @@ const ManualJobModal = ({
           filterOptions={(x) => x}
           options={options || []}
           freeSolo
-          autoSelect
-          selectOnFocus
-          includeInputInList={false}
           value={companyValue}
           isOptionEqualToValue={(option, value) => option.name === value.name}
           noOptionsText="Company Not Found"
@@ -270,8 +275,9 @@ const ManualJobModal = ({
           )}
           onInputChange={handleInputChange}
           renderOption={(props, option) => {
+            const uniqueKey = `listItem-${Math.floor(Math.random() * 1000) + 1}-${option.name}`;
             return (
-              <li {...props} key={option.name}>
+              <li {...props} key={uniqueKey}>
                 <Grid container alignItems="center" spacing={1}>
                   <Grid component={'img'} src={option.logo} item xs={1} />
                   <Grid item xs={11}>
