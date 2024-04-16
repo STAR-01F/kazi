@@ -43,6 +43,8 @@ interface ClearbitLogo {
   logo: string;
 }
 
+type UserInput = ClearbitLogo | string;
+
 const ManualJobModal = ({
   toggle,
   onClose,
@@ -50,7 +52,6 @@ const ManualJobModal = ({
 }: ManualJobModalProps) => {
   const [title, setTitle] = useState('');
   const [jobLink, setJobLink] = useState('');
-  const [company, setCompany] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('Saved');
   const {user} = useAuth();
@@ -59,12 +60,14 @@ const ManualJobModal = ({
   const [errors, setErrors] = useState<SaveJobError>({});
   const {userProfile, setUserProfile} = useProfile();
   const [options, setOptions] = useState<ClearbitLogo[]>([]);
-  const [companyValue, setCompanyValue] = useState<ClearbitLogo | null>(null);
+  const [companyValue, setCompanyValue] = useState<UserInput | null>(null);
+  const [companyObj, setCompanyObj] = useState<{[key: string]: ClearbitLogo}>(
+    {}
+  );
 
   const handleInputChange = async (_event: any, value: string) => {
     const result = await GetCompanyLogo(value);
     setOptions(result);
-    //console.log('new value \n', companyValue);
   };
 
   const GetCompanyLogo = async (src: string) => {
@@ -78,6 +81,16 @@ const ManualJobModal = ({
     }
 
     const companyData = await response.json();
+
+    if (companyData && companyData[0]?.name) {
+      companyData.forEach((element: ClearbitLogo) => {
+        setCompanyObj((prevCompanyObj) => ({
+          ...prevCompanyObj,
+          [element.name]: element,
+        }));
+      });
+    }
+
     return companyData;
   };
 
@@ -90,7 +103,7 @@ const ManualJobModal = ({
     if (jobLink === '') {
       newErrors.jobLink = 'Link is required';
     }
-    if (company === '') {
+    if ((companyValue as string) === '') {
       newErrors.company = 'Company is required';
     }
 
@@ -101,24 +114,27 @@ const ManualJobModal = ({
   };
 
   const handleAddJob = async () => {
-    console.log('co value from add job \n', companyValue);
-
     if (!user?.uid) return;
 
     validateForm();
     setSubmitting(true);
 
+    console.log('co value ---> !', companyValue);
+
     const job: Partial<Job> = {
       title: title,
-      company: company,
+      company: companyValue as string,
       jobLink: jobLink,
-      companyLogoURL: companyValue?.logo,
+      companyLogoURL:
+        (companyValue as string) in companyObj
+          ? companyObj[companyValue as string]['logo']
+          : '',
       description: description,
       jobSource: 'manual',
     };
 
     job.jobLink?.startsWith('http') || job.jobLink?.startsWith('https')
-      ? null
+      ? ''
       : (job.jobLink = `https://${job.jobLink}`);
 
     // awaiting the jobID to navigate to the correct job page
@@ -126,14 +142,12 @@ const ManualJobModal = ({
 
     // check if resp is an error
     if (resp.status === 'Error') {
-      console.error(resp);
       setSubmitting(false);
       return;
     }
 
     const createdUserJob = await CreateUserJob(user.uid, status, resp.data);
     if (createdUserJob.status === 'Error') {
-      console.error(createdUserJob);
       setSubmitting(false);
       return;
     }
@@ -221,65 +235,47 @@ const ManualJobModal = ({
           helperText={errors.jobLink}
         />
 
-        {/* Autocomplete should replace Company's name text field */}
-        <TextField
-          required
-          sx={{marginBottom: 2}}
-          id="company-name"
-          name="company"
-          label="Company's Name"
-          value={company}
-          onChange={(e) => {
-            setCompany(e.target.value);
-          }}
-          fullWidth
-          error={!!errors.company}
-          helperText={errors.company}
-        />
-
         <Autocomplete
           disablePortal
           id="company-logo"
           getOptionLabel={(option: any) =>
-            typeof option === 'string' ? option : `${option.domain}`
+            typeof option === 'string' ? option : `${option.name}`
           }
           filterOptions={(x) => x}
           options={options || []}
-          autoComplete
-          includeInputInList
+          freeSolo
+          autoSelect
+          selectOnFocus
+          includeInputInList={false}
           value={companyValue}
           isOptionEqualToValue={(option, value) => option.name === value.name}
-          filterSelectedOptions
           noOptionsText="Company Not Found"
-          onChange={(_event: any, newValue: ClearbitLogo | null) => {
-            setOptions(newValue ? [newValue, ...options] : options);
-            setCompanyValue(newValue);
+          onChange={(
+            _event: React.SyntheticEvent<Element, Event>,
+            value: ClearbitLogo | null
+          ) => {
+            setOptions(value ? [value, ...options] : options);
+            setCompanyValue(value);
           }}
           renderInput={(params) => (
-            <TextField {...params} label="Company's Name" required />
+            <TextField
+              helperText={errors.company}
+              required
+              sx={{marginBottom: 2}}
+              name="company"
+              error={!!errors.company}
+              {...params}
+              label="Company's Name"
+            />
           )}
           onInputChange={handleInputChange}
           renderOption={(props, option) => {
             return (
               <li {...props} key={option.name}>
                 <Grid container alignItems="center" spacing={1}>
-                  <Grid
-                    component={'img'}
-                    src={option.logo}
-                    item
-                    xs={1}
-                    // sx={{display: 'flex', width: 20, height: 20}}
-                  />
-                  <Grid
-                    item
-                    xs={11}
-                    // sx={{width: 'calc(100% - 44px)', wordWrap: 'break-word'}}
-                  >
-                    <Box
-                      // key={index}
-                      component="span"
-                      sx={{fontWeight: '500'}}
-                    >
+                  <Grid component={'img'} src={option.logo} item xs={1} />
+                  <Grid item xs={11}>
+                    <Box component="span" sx={{fontWeight: '500'}}>
                       {option.name}
                     </Box>
                   </Grid>
