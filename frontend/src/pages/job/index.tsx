@@ -146,7 +146,7 @@ const Job = () => {
                 {jobSource === 'manual' ? (
                   <Box
                     component={'img'}
-                    alt={company}
+                    alt={''}
                     src={companyLogoURL}
                     sx={{
                       width: '150px',
