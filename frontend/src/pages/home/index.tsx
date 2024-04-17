@@ -4,6 +4,7 @@ import {getDisplayName} from '@utils/helper';
 import StatsContainer from './components/Stats';
 import Banner from './components/Banner';
 import JobSection from './components/Job';
+import {LogoAttribution} from './components/LogoAttribution';
 
 const Homepage = () => {
   const {user} = useAuth();
@@ -23,6 +24,7 @@ const Homepage = () => {
       <StatsContainer />
       <Banner />
       <JobSection />
+      <LogoAttribution />
     </Grid>
   );
 };

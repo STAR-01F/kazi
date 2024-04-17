@@ -39,6 +39,7 @@ const CreateUserJob = async (
       },
       {merge: true}
     );
+
     console.log('UserProfiles', respUserProfiles);
     return {
       status: 'Success',

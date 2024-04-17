@@ -121,19 +121,29 @@ const ManualJobModal = ({
     validateForm();
     setSubmitting(true);
 
-    console.log('co value ---> ', companyValue);
+    const coDetails =
+      typeof companyValue === 'object'
+        ? {
+            name: companyValue?.name,
+            logo: companyValue?.logo,
+          }
+        : {
+            name: companyValue as string,
+            logo: '',
+          };
 
     const job: Partial<Job> = {
       title: title,
-      company: companyValue as string,
+      company: coDetails.name,
       jobLink: jobLink,
       companyLogoURL:
-        (companyValue as string) in companyObj
-          ? companyObj[companyValue as string]['logo']
+        coDetails?.['name'] && coDetails['name'] in companyObj
+          ? companyObj[coDetails['name']]['logo']
           : '',
       description: description,
       jobSource: 'manual',
     };
+    1;
 
     job.jobLink?.startsWith('http') || job.jobLink?.startsWith('https')
       ? ''
@@ -275,7 +285,9 @@ const ManualJobModal = ({
           )}
           onInputChange={handleInputChange}
           renderOption={(props, option) => {
-            const uniqueKey = `listItem-${Math.floor(Math.random() * 1000) + 1}-${option.name}`;
+            const uniqueKey = `listItem-${
+              Math.floor(Math.random() * 1000) + 1
+            }-${option.name}`;
             return (
               <li {...props} key={uniqueKey}>
                 <Grid container alignItems="center" spacing={1}>
