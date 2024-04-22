@@ -11,6 +11,7 @@ import PageCircular from '@components/progress/PageCircular';
 import Homepage from '@pages/home';
 import {FeedbackProvider} from '@context/Feedback';
 import {UserProfileProvider} from '@services/firebase/context/UserProfile';
+import VerifyEmail from '@pages/verify-email';
 
 // Dynamic imports
 const Jobpage = React.lazy(() => import('@pages/job'));
@@ -91,6 +92,14 @@ const router = createBrowserRouter([
             element: (
               <Suspense fallback={<PageCircular />}>
                 <SignUp />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'verify-email',
+            element: (
+              <Suspense fallback={<PageCircular />}>
+                <VerifyEmail />
               </Suspense>
             ),
           },
