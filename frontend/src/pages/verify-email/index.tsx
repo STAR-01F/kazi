@@ -12,6 +12,7 @@ import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useEffect, useState} from 'react';
 import {useFeedback} from '@hooks/useFeeback';
 import LoadingButton from '@mui/lab/LoadingButton';
+import {sendEmailVerificationCode} from '@services/firebase/auth';
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -19,7 +20,17 @@ const VerifyEmail = () => {
   const {setFeedback} = useFeedback();
   const [loading, setLoading] = useState(false);
 
-  console.log('user', user);
+  // create a resend timer for the resend button
+  const [resendTimer, setResendTimer] = useState(0);
+
+  useEffect(() => {
+    if (resendTimer > 0) {
+      const interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [resendTimer]);
 
   useEffect(() => {
     if (!user) {
@@ -44,6 +55,22 @@ const VerifyEmail = () => {
       });
     }
     setLoading(false);
+  };
+
+  const handleResend = async () => {
+    const resp = await sendEmailVerificationCode(user);
+    if (resp.status === 'Error') {
+      setFeedback({
+        type: 'error',
+        message: 'Failed to send verification email',
+      });
+      return;
+    }
+    setResendTimer(60);
+    setFeedback({
+      type: 'success',
+      message: 'Verification email sent',
+    });
   };
 
   const handleGoToSignIn = () => {
@@ -93,14 +120,46 @@ const VerifyEmail = () => {
             sx={{mt: 1, boxSizing: 'border-box'}}
           >
             <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <Typography align="center">
-                  Check your email for a link to verify your email address.
-                </Typography>
+              <Grid container item xs={12} flexDirection={'column'}>
+                <Grid item>
+                  <Typography align="center" mb={3}>
+                    Check your email for the verification link sent to
+                    <Typography fontWeight={'bold'} align="center">
+                      {user?.email}
+                    </Typography>
+                  </Typography>
+                </Grid>
+                <Grid
+                  container
+                  item
+                  flexDirection={'row'}
+                  gap={'5px'}
+                  justifyContent={'center'}
+                  alignContent={'center'}
+                  mb={3}
+                >
+                  <Typography
+                    align="center"
+                    width={'max-content'}
+                    color={'#5836f7'}
+                  >
+                    Not in inbox or spam folder?
+                  </Typography>
+                  <Link
+                    onClick={resendTimer <= 0 ? handleResend : () => {}}
+                    color={resendTimer <= 0 ? 'primary' : 'textSecondary'}
+                    sx={{
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {resendTimer <= 0 ? 'Resend' : `${resendTimer}s`}
+                  </Link>
+                </Grid>
               </Grid>
               <Grid item xs={12}>
                 <LoadingButton
                   type="submit"
+                  name="handleSubmit"
                   fullWidth
                   variant="contained"
                   size="large"
