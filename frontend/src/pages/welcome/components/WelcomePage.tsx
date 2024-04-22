@@ -1,5 +1,5 @@
 import {CSSProperties, useState} from 'react';
-import {Button} from '@mui/material';
+import {Button, Container} from '@mui/material';
 import UserForm from './UserForm';
 import WelcomeCard from './WelcomeCard';
 import {useAuth} from '@services/firebase/hooks/useAuth';
@@ -45,6 +45,7 @@ const WelcomePage = () => {
       title: 'Why do you want to use Kazi?',
       component: [
         <UserForm
+          key="whyKazi"
           onChange={(e) => {
             setWhyKazi(e.target.value);
           }}
@@ -60,6 +61,7 @@ const WelcomePage = () => {
       title: 'What is your employment status?',
       component: [
         <UserForm
+          key="jobStatus"
           onChange={(e) => {
             setJobStatus(e.target.value);
           }}
@@ -71,6 +73,7 @@ const WelcomePage = () => {
       title: 'How many jobs would you like to apply to each week?',
       component: [
         <UserForm
+          key="jobsTarget"
           onChange={(e) => {
             setJobsTarget(e.target.value);
           }}
@@ -79,7 +82,7 @@ const WelcomePage = () => {
       ],
     },
     {
-      title: 'And thats it',
+      title: `And that's it`,
       content: 'You are ready to save, track and apply to your favourite jobs!',
       component: <Button onClick={handleWelcomeSubmit}>Go to dashboard</Button>,
     },
@@ -95,7 +98,6 @@ const WelcomePage = () => {
         modules={[Pagination, Navigation]}
         style={
           {
-            // width: '70%',
             '--swiper-pagination-color': '#836FFF',
             '--swiper-navigation-color': '#836FFF',
           } as CSSProperties
@@ -111,12 +113,13 @@ const WelcomePage = () => {
                 alignItems: 'center',
               }}
             >
-              <WelcomeCard
-                key={ind}
-                title={card.title}
-                content={card.content}
-                component={card.component}
-              ></WelcomeCard>
+              <Container>
+                <WelcomeCard
+                  title={card.title}
+                  content={card.content}
+                  component={card.component}
+                ></WelcomeCard>
+              </Container>
             </SwiperSlide>
           );
         })}
