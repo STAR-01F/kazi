@@ -1,130 +1,90 @@
-// import {useState} from 'react';
-// import {Button, Container, Grid, IconButton} from '@mui/material';
-// import UserForm from './UserForm';
+import {CSSProperties, useState} from 'react';
+import {Button} from '@mui/material';
+import UserForm from './UserForm';
 import WelcomeCard from './WelcomeCard';
-// import {useAuth} from '@services/firebase/hooks/useAuth';
+import {useAuth} from '@services/firebase/hooks/useAuth';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/css';
 import {Pagination, Navigation} from 'swiper/modules';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-// const WelcomePage = () => {
-//   const {user} = useAuth();
-//   const [index, setIndex] = useState(0);
-//   const numViews = 8; // Number of swipeable views
-//   const [jobStatus, setJobStatus] = useState('');
-//   const [jobLocation, setJobLocation] = useState('');
-//   const [jobStart, setJobStart] = useState('');
-//   const [jobIndustry, setJobIndustry] = useState('');
-//   const [jobLevel, setJobLevel] = useState('');
-
-//   const handleBack = () => {
-//     if (index > 0) {
-//       setIndex((prevIndex) => prevIndex - 1);
-//     }
-//   };
-
-//   const handleNext = () => {
-//     if (index < numViews - 1) {
-//       setIndex((prevIndex) => prevIndex + 1);
-//     }
-//   };
-//   const handleAddProfile = async () => {
-//     if (!user?.uid) return;
-//     const userProfile = {
-//       id: user.uid,
-//       jobStatus: jobStatus,
-//       jobLocation: jobLocation,
-//       jobStart: jobStart,
-//       jobIndustry: jobIndustry,
-//       jobLevel: jobLevel,
-//     };
-
-// onClick={handleAddProfile}
-
-//     console.log('userProfile: ============>', userProfile);
-//   };
-
-const welcomeCards = [
-  {
-    title: 'Welcome to Kazi!',
-    content:
-      "Welcome aboard! We're thrilled to have you join Kazi, your personal assistant in crafting tailored CVs and keeping your job search organised. Let's get started on optimising your job hunt journey!",
-  },
-  {
-    title: 'Quick Tutorial',
-    content:
-      "Not sure where to begin? No worries, we've got you covered! Take a quick tour to familiarise yourself with Kazi’s key features and how to make the most out of them.",
-  },
-  {
-    title: 'Tell Me More',
-    content:
-      "We're here to tailor your experience to your needs. Help us understand you better by answering a few quick questions:",
-  },
-  // {
-  //   title: 'What is your employment status?',
-  //   component: [
-  //     <UserForm
-  //       onChange={(e) => {
-  //         setJobStatus(e.target.value);
-  //       }}
-  //       labels={['Employed', 'Unemployed', 'Self-Employed']}
-  //     />,
-  //   ],
-  // },
-  // {
-  //   title: 'Where would you like to work?',
-  //   component: [
-  //     <UserForm
-  //       onChange={(e) => {
-  //         setJobLocation(e.target.value);
-  //       }}
-  //       labels={['London', 'San-Francisco', 'Remote']}
-  //     />,
-  //   ],
-  // },
-  // {
-  //   title: 'When are you looking to start your new job?',
-  //   component: [
-  //     <UserForm
-  //       onChange={(e) => {
-  //         setJobStart(e.target.value);
-  //       }}
-  //       labels={[
-  //         'As soon as possible',
-  //         'In the next year',
-  //         "Not sure, I'd move for the right role",
-  //       ]}
-  //     />,
-  //   ],
-  // },
-  // {
-  //   title: 'What industry are you interested in?',
-  //   component: (
-  //     <UserForm
-  //       onChange={(e) => {
-  //         setJobIndustry(e.target.value);
-  //       }}
-  //       labels={['AI', 'Media', 'Sport']}
-  //     />
-  //   ),
-  // },
-  // {
-  //   title: 'What is your job level?',
-  //   component: (
-  //     <>
-  //       <UserForm
-  //         onChange={(e) => {
-  //           setJobLevel(e.target.value);
-  //         }}
-  //         labels={['Entry-Level', 'Junior', 'Mid', 'Senior']}
-  //       />
-  //     </>
-  //   ),
-  // },
-];
 
 const WelcomePage = () => {
+  const [whyKazi, setWhyKazi] = useState('');
+  const [jobStatus, setJobStatus] = useState('');
+  const [jobsTarget, setJobsTarget] = useState('');
+  const {user} = useAuth();
+  console.log('checking user', user);
+  const handleWelcomeSubmit = async () => {
+    if (!user?.uid) return;
+    const userPreferences = {
+      whyKazi: whyKazi,
+      jobStatus: jobStatus,
+      jobsTarget: jobsTarget,
+    };
+    console.log(userPreferences);
+  };
+
+  const welcomeCards = [
+    {
+      title: 'Welcome to Kazi!',
+      content:
+        "Welcome aboard! We're thrilled to have you join Kazi, your personal assistant in crafting tailored CVs and keeping your job search organised. Let's get started on optimising your job hunt journey!",
+    },
+    // {
+    //   title: 'Quick Tutorial',
+    //   content:
+    //     "Not sure where to begin? No worries, we've got you covered! Take a quick tour to familiarise yourself with Kazi’s key features and how to make the most out of them.",
+    // },
+    {
+      title: 'Tell Me More',
+      content:
+        "We're here to tailor your experience to your needs. Help us understand you better by answering a few quick questions",
+    },
+    {
+      title: 'Why do you want to use Kazi?',
+      component: [
+        <UserForm
+          onChange={(e) => {
+            setWhyKazi(e.target.value);
+          }}
+          labels={[
+            'Organise job applications',
+            'Prepare for interviews',
+            'Search for jobs',
+          ]}
+        />,
+      ],
+    },
+    {
+      title: 'What is your employment status?',
+      component: [
+        <UserForm
+          onChange={(e) => {
+            setJobStatus(e.target.value);
+          }}
+          labels={['Employed', 'Unemployed', 'Self-Employed']}
+        />,
+      ],
+    },
+    {
+      title: 'How many jobs would you like to apply to each week?',
+      component: [
+        <UserForm
+          onChange={(e) => {
+            setJobsTarget(e.target.value);
+          }}
+          labels={['3 - Regular', '5 - Serious', '10 - Intense']}
+        />,
+      ],
+    },
+    {
+      title: 'And thats it',
+      content: 'You are ready to save, track and apply to your favourite jobs!',
+      component: <Button onClick={handleWelcomeSubmit}>Go to dashboard</Button>,
+    },
+  ];
+
   return (
     <>
       <Swiper
@@ -133,11 +93,18 @@ const WelcomePage = () => {
         }}
         navigation={true}
         modules={[Pagination, Navigation]}
-        style={{width: '70%'}}
+        style={
+          {
+            // width: '70%',
+            '--swiper-pagination-color': '#836FFF',
+            '--swiper-navigation-color': '#836FFF',
+          } as CSSProperties
+        }
       >
-        {welcomeCards.map((card) => {
+        {welcomeCards.map((card, ind) => {
           return (
             <SwiperSlide
+              key={ind}
               style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -145,8 +112,10 @@ const WelcomePage = () => {
               }}
             >
               <WelcomeCard
+                key={ind}
                 title={card.title}
                 content={card.content}
+                component={card.component}
               ></WelcomeCard>
             </SwiperSlide>
           );
