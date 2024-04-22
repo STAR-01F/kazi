@@ -27,7 +27,7 @@ const SectionOne = () => {
           alignItems: "center",
         }}
       >
-        <Box component={"img"} src="/kazi.png" height={"70px"} mb={1} />
+        <Box component={"img"} src="/Kazi.svg" height={"200px"} mb={1} />
 
         <Container
           component={Grid}

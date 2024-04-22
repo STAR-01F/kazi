@@ -198,6 +198,30 @@ const DeleteUserByUserAuth = async (
   }
 };
 
+const sendEmailVerificationCode = async (
+  user: User | null
+): Promise<Response<string, string>> => {
+  try {
+    if (user) {
+      await sendEmailVerification(user, actionCodeConfig);
+      return {
+        status: 'Success',
+        message: 'Verification email sent successfully',
+        data: 'Verification email sent successfully',
+      };
+    }
+    return {
+      status: 'Error',
+      message: 'No user found',
+    };
+  } catch (err: unknown) {
+    return {
+      status: 'Error',
+      message: (err as FirebaseError).code,
+    };
+  }
+};
+
 export {
   signInWithGoogle,
   logInWithEmailAndPassword,
@@ -207,4 +231,5 @@ export {
   sendPasswordResetEmail,
   signInWithGithub,
   DeleteUserByUserAuth,
+  sendEmailVerificationCode,
 };

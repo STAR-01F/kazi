@@ -7,7 +7,7 @@ import InterviewQs from 'src/@types/interviewQ';
  */
 const getKeywords = async (
   description: string
-): Promise<Response<Keywords, unknown>> => {
+): Promise<Response<Keywords['keywords'], unknown>> => {
   console.log(import.meta.env.VITE_OPENAI_HOST);
   try {
     const response = await fetch(`${import.meta.env.VITE_OPENAI_HOST}`, {
@@ -20,12 +20,13 @@ const getKeywords = async (
       }),
     });
     const data = await response.json();
+
     if (!response.ok) {
       throw new Error(data.message || 'Could not fetch keywords.');
     }
     return {
       status: 'Success',
-      data: data,
+      data: data.keywords,
       message: 'Successfully fetched the keywords',
     };
   } catch (error) {
