@@ -9,10 +9,7 @@ interface WelcomeCardProps {
 
 const WelcomeCard = ({title, content, component}: WelcomeCardProps) => {
   return (
-    <Card
-      variant="outlined"
-      sx={{maxWidth: 700, margin: '0 auto', border: 'none'}}
-    >
+    <Card sx={{maxWidth: 700, margin: '0 auto', border: 'none'}}>
       <CardHeader title={title} sx={{textAlign: 'center'}} />
       <CardContent
         sx={{

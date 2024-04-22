@@ -8,13 +8,16 @@ import 'swiper/css';
 import {Pagination, Navigation} from 'swiper/modules';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import {useNavigate} from 'react-router-dom';
+import {UpdateUserPreferences} from '@services/firebase/userProfiles/Update';
 
 const WelcomePage = () => {
   const [whyKazi, setWhyKazi] = useState('');
   const [jobStatus, setJobStatus] = useState('');
   const [jobsTarget, setJobsTarget] = useState('');
   const {user} = useAuth();
-  console.log('checking user', user);
+  const navigate = useNavigate();
+
   const handleWelcomeSubmit = async () => {
     if (!user?.uid) return;
     const userPreferences = {
@@ -22,7 +25,15 @@ const WelcomePage = () => {
       jobStatus: jobStatus,
       jobsTarget: jobsTarget,
     };
-    console.log(userPreferences);
+
+    const updatePreferences = await UpdateUserPreferences(
+      user.uid,
+      userPreferences
+    );
+
+    if (updatePreferences.status === 'Success') {
+      navigate('/');
+    }
   };
 
   const welcomeCards = [
@@ -84,7 +95,16 @@ const WelcomePage = () => {
     {
       title: `And that's it`,
       content: 'You are ready to save, track and apply to your favourite jobs!',
-      component: <Button onClick={handleWelcomeSubmit}>Go to dashboard</Button>,
+      component: (
+        <Button
+          size="large"
+          variant="outlined"
+          sx={{mt: '10px'}}
+          onClick={handleWelcomeSubmit}
+        >
+          Go to dashboard
+        </Button>
+      ),
     },
   ];
 
