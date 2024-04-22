@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
@@ -19,10 +18,11 @@ import {
 import {IconButton} from '@mui/material';
 import Copyright from '@components/copyright/copyright';
 import {useFeedback} from '@hooks/useFeeback';
+import {LoadingButton} from '@mui/lab';
 
 interface SignInErrors {
   email?: string;
-  password?: string;
+  passError?: string;
 }
 
 interface SignInValues {
@@ -34,8 +34,10 @@ export default function SignInSide() {
   const navigate = useNavigate();
   const {setFeedback} = useFeedback();
   const [errors, setErrors] = React.useState<SignInErrors>({});
+  const [loading, setLoading] = React.useState(false);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     const data = new FormData(event.currentTarget);
     const values: SignInValues = {
       email: data.get('email')?.toString(),
@@ -52,7 +54,7 @@ export default function SignInSide() {
 
     // Validate password
     if (!values.password) {
-      errors.password = 'Password is required';
+      errors.passError = 'Password is required';
     }
 
     setErrors(errors);
@@ -70,22 +72,26 @@ export default function SignInSide() {
               : resp.message;
           setErrors({
             email: errorMessage as string,
-            password: errorMessage as string,
+            passError: errorMessage as string,
           });
+          setLoading(false);
           return;
         }
         setFeedback({
           type: 'success',
           message: 'Successfully signed in',
         });
-        navigate('/');
+        setLoading(false);
+        navigate('/verify-email');
       } catch (error) {
+        setLoading(false);
         setErrors({
           ...errors,
-          password: 'Failed to sign in. Please check your credentials.',
+          passError: 'Failed to sign in. Please check your credentials.',
         });
       }
     }
+    setLoading(false);
   };
   const handleSignInWithGoogle = async () => {
     const resp = await signInWithGoogle();
@@ -199,26 +205,27 @@ export default function SignInSide() {
                 id="password"
                 autoComplete="current-password"
                 onChange={() => {
-                  if (errors.password) {
+                  if (errors.passError) {
                     setErrors({
                       ...errors,
-                      password: undefined,
+                      passError: undefined,
                     });
                   }
                 }}
-                error={!!errors.password}
-                helperText={errors.password}
+                error={!!errors.passError}
+                helperText={errors.passError}
               />
 
-              <Button
+              <LoadingButton
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{mt: 2, mb: 2}}
                 size="large"
+                loading={loading}
               >
                 Sign In
-              </Button>
+              </LoadingButton>
               <Grid container direction="row" gap={2} justifyContent={'center'}>
                 <IconButton onClick={handleSignInWithGoogle}>
                   <SvgIconGoogle />
