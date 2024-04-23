@@ -32,14 +32,8 @@ export const handler = async (event) => {
       ],
       model: 'gpt-3.5-turbo',
     });
-
-    let keywords = completion.choices[0].message.content;
-    if (keywords.split(',').length >= 10) {
-      keywords = keywords.split(',');
-    } else {
-      keywords = keywords.split('\n');
-    }
-
+    const keywords = completion.choices[0].message.content;
+    console.log('hello world');
     return {
       statusCode: 200,
       body: JSON.stringify({keywords: keywords}),

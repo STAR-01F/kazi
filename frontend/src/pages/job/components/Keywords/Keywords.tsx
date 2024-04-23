@@ -23,16 +23,26 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
     setIsKeywordsLoading(true);
     const resp = await getKeywords(description);
     if (resp.status === 'Success') {
+      if (resp.data.keywords.split(',').length < 10) {
+        setFeedback({
+          type: 'error',
+          message: 'Failed to generate keywords',
+        });
+        return;
+      }
       setJobs((prevJobs) => {
         return prevJobs.map((job) => {
           if (job.id === userJob.id) {
-            return {...job, keywords: resp.data};
+            return {...job, keywords: resp.data.keywords.split(',')};
           }
           return job;
         });
       });
 
-      const saveKeywords = await UpdateKeywords(userJob.id, resp.data);
+      const saveKeywords = await UpdateKeywords(
+        userJob.id,
+        resp.data.keywords.split(',')
+      );
 
       if (saveKeywords.status === 'Success') {
         setFeedback({

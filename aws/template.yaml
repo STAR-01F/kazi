@@ -22,10 +22,7 @@ Resources:
       FunctionUrlConfig:
         AuthType: NONE
       Architectures:
-        - arm64
-      Environment:
-        Variables:
-          OPENAI_API_KEY: ""  
+        - x86_64
 
 
 Outputs:
