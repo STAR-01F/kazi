@@ -3,6 +3,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import {Button} from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Typography from '@mui/material/Typography';
@@ -11,7 +12,7 @@ import Copyright from '@components/copyright/copyright';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import {useEffect, useState} from 'react';
 import {useFeedback} from '@hooks/useFeeback';
-import LoadingButton from '@mui/lab/LoadingButton';
+// import LoadingButton from '@mui/lab/LoadingButton';
 import {sendEmailVerificationCode} from '@services/firebase/auth';
 
 const VerifyEmail = () => {
@@ -19,7 +20,7 @@ const VerifyEmail = () => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
   const [loading, setLoading] = useState(false);
-
+  console.log(loading);
   // create a resend timer for the resend button
   const [resendTimer, setResendTimer] = useState(0);
 
@@ -157,18 +158,18 @@ const VerifyEmail = () => {
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-                <LoadingButton
-                  type="submit"
-                  name="handleSubmit"
-                  fullWidth
-                  variant="contained"
-                  size="large"
-                  sx={{mt: 3, mb: 3}}
-                  loading={loading}
+                <Button
+                // type="submit"
+                // name="handleSubmit"
+                // fullWidth
+                // variant="contained"
+                // size="large"
+                // sx={{mt: 3, mb: 3}}
+                // loading={loading}
                 >
                   <Typography pr={2}>Dashboard</Typography>
                   <ArrowForwardIcon fontSize="small" />
-                </LoadingButton>
+                </Button>
               </Grid>
             </Grid>
             <Grid container justifyContent="center">
