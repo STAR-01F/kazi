@@ -13,7 +13,7 @@ const showPreciseFeed = (arrofNews: any[], conames: (string | undefined)[]) => {
 
         if (
           (titleLower.includes(subsLower) || urlLower.includes(subsLower)) &&
-          subArray[subs] < 7
+          subArray[subs] < 10
         ) {
           matchingStrings.push(subs);
           subArray[subs] += 1;
