@@ -1,45 +1,28 @@
 import {
-  RenderPageImage,
   Header,
   SectionOne,
   SectionTwo,
   SectionThree,
   Footer,
 } from "./components";
+import { Collate } from "@components/section/Collate/Collate";
+
+import ProgressTimeline from "@components/ProgressTimeline";
+
+import { Container } from "@mui/material";
 
 function App() {
   const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
   return (
-    <div>
-      <RenderPageImage />
+    <Container sx={{ p: 0 }}>
+      {/* <RenderPageImage /> */}
       <Header siteUrl={siteUrl} />
       <SectionOne />
-      <SectionTwo />
+      <Collate />
+      {/* <SectionTwo /> */}
       <SectionThree />
-      {/* <Box
-                component={Grid}
-                container
-                width={'100%'}
-                height={'500px'}
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#F8F8F8',
-                }}></Box>
-            <Box
-                component={Grid}
-                container
-                width={'100%'}
-                height={'500px'}
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#F3F3F3',
-                }}></Box> */}
       <Footer siteUrl={siteUrl} />
-    </div>
+    </Container>
   );
 }
 
