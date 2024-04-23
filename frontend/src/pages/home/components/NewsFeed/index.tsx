@@ -56,7 +56,7 @@ const FeedContainer = () => {
           setLoading(false);
         } catch (error) {
           console.error('Error from GetArticles', error);
-          setLoading(false);
+          setLoading(true);
         }
       };
 
@@ -64,7 +64,7 @@ const FeedContainer = () => {
     } catch (e) {
       console.error('Error getting articles', e);
     }
-  }, [queryString]);
+  }, [coNames.length]);
 
   if (queryString === 'no-articles' || noArticles) {
     return (
@@ -97,7 +97,7 @@ const FeedContainer = () => {
           mb: 3,
         }}
       >
-        <LinearProgress />
+        <LinearProgress style={{width: '100%'}} />
       </Container>
     );
   }
@@ -123,6 +123,7 @@ const FeedContainer = () => {
             weblink={fitem.item.url}
             title={fitem.item.title}
             id={idx}
+            key={idx}
           />
         ))}
     </Container>
