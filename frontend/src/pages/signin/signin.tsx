@@ -219,12 +219,12 @@ export default function SignInSide() {
               />
 
               <Button
-              // type="submit"
-              // fullWidth
-              // variant="contained"
-              // sx={{mt: 2, mb: 2}}
-              // size="large"
-              // loading={loading}
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{mt: 2, mb: 2}}
+                size="large"
+                disabled={loading}
               >
                 Sign In
               </Button>

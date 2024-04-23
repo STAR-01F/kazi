@@ -281,12 +281,12 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Button
-            // type="submit"
-            // fullWidth
-            // variant="contained"
-            // size="large"
-            // loading={loading}
-            // sx={{mt: 3, mb: 2}}
+              type="submit"
+              fullWidth
+              variant="contained"
+              size="large"
+              disabled={loading}
+              sx={{mt: 3, mb: 2}}
             >
               Sign Up
             </Button>

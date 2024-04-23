@@ -20,7 +20,6 @@ const VerifyEmail = () => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
   const [loading, setLoading] = useState(false);
-  console.log(loading);
   // create a resend timer for the resend button
   const [resendTimer, setResendTimer] = useState(0);
 
@@ -159,13 +158,14 @@ const VerifyEmail = () => {
               </Grid>
               <Grid item xs={12}>
                 <Button
-                // type="submit"
-                // name="handleSubmit"
-                // fullWidth
-                // variant="contained"
-                // size="large"
-                // sx={{mt: 3, mb: 3}}
-                // loading={loading}
+                  type="submit"
+                  name="handleSubmit"
+                  fullWidth
+                  variant="contained"
+                  size="large"
+                  sx={{mt: 3, mb: 3}}
+                  disabled={loading}
+                  // loading={loading}
                 >
                   <Typography pr={2}>Dashboard</Typography>
                   <ArrowForwardIcon fontSize="small" />
