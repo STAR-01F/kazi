@@ -6,6 +6,10 @@ import {
   Card,
   CardHeader,
   CardContent,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
 
 import {useParams} from 'react-router-dom';
@@ -21,6 +25,8 @@ import {useJobs} from '@services/firebase/hooks/useJobs';
 import BreadcrumbsCard from './components/BreadcrumbsCard/BreadcrumbsCard';
 import SkeletonJob from '@components/skeleton/job';
 import {Timestamp} from 'firebase/firestore';
+import {useNavigate} from 'react-router-dom';
+import {useState} from 'react';
 
 const Job = () => {
   const {id} = useParams();
@@ -29,7 +35,8 @@ const Job = () => {
   const {status, data} = useFetchJobs(id || '');
   const {jobs, setJobs} = useJobs();
   const userJob = jobs.find((job) => job.jobid === id);
-
+  const navigate = useNavigate();
+  const [openDialog, setOpenDialog] = useState(false);
   if (status === 'idle' || status === 'fetching') {
     return <SkeletonJob />;
   }
@@ -49,6 +56,10 @@ const Job = () => {
     workableLocation,
   } = data![0];
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     if (!userJob) return;
@@ -56,10 +67,11 @@ const Job = () => {
     if (resp.status === 'Success') {
       setFeedback({
         type: 'success',
-        message: resp.message,
+        message: 'Successfully deleted',
       });
       const jobsToKeep = jobs.filter((job) => job.id !== userJob.id);
       setJobs(jobsToKeep);
+      navigate('/');
       return;
     }
     setFeedback({
@@ -117,7 +129,7 @@ const Job = () => {
     {name: 'Rejected', action: () => handleUpdateJobStatus('Rejected')},
     {
       name: 'Remove',
-      action: handleDeleteJob,
+      action: () => setOpenDialog(true),
     },
   ];
   return (
@@ -193,6 +205,17 @@ const Job = () => {
                 >
                   Update
                 </MenuListButton>
+                <Dialog open={openDialog}>
+                  <DialogContent>
+                    <DialogContentText>
+                      Are you sure you want to delete this job?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseDialog}>Cancel</Button>
+                    <Button onClick={handleDeleteJob}>Delete</Button>
+                  </DialogActions>
+                </Dialog>
               </Grid>
             </Grid>
           </Grid>

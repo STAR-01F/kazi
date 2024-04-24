@@ -57,7 +57,7 @@ const JobCard = ({
     if (resp.status === 'Success') {
       setFeedback({
         type: 'success',
-        message: resp.message,
+        message: 'Successfully deleted',
       });
       const jobsToKeep = jobs.filter((job) => job.id !== userJobId);
       setJobs(jobsToKeep);
