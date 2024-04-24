@@ -149,9 +149,10 @@ const Job = () => {
                     alt={''}
                     src={companyLogoURL}
                     sx={{
-                      width: '150px',
+                      width: '125px',
                       maxWidth: '100%',
                       objectFit: 'contain',
+                      borderRadius: '8%',
                     }}
                   />
                 ) : (

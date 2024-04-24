@@ -119,6 +119,12 @@ const JobCard = ({
       action: handleDeleteJob,
     },
   ];
+
+  const handleBrokenImage = (e: React.SyntheticEvent) => {
+    let target = e.target as HTMLInputElement;
+    target.src = '';
+  };
+
   return (
     <Card
       component={Paper}
@@ -137,7 +143,7 @@ const JobCard = ({
       {logoPath ? (
         <CardMedia
           component="img"
-          alt={companyName}
+          alt={''}
           sx={{
             height: '100px',
             objectFit: 'contain',
@@ -148,6 +154,7 @@ const JobCard = ({
               ? 'https://images.otta.com/search/width_400/' + logoPath
               : logoPath
           }
+          onError={handleBrokenImage}
         />
       ) : (
         <Box
