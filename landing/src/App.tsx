@@ -1,28 +1,25 @@
-import {
-  Header,
-  SectionOne,
-  SectionTwo,
-  SectionThree,
-  Footer,
-} from "./components";
-import { Collate } from "@components/section/Collate/Collate";
+import { Header, SectionOne, Footer, Track, Collate } from "./components";
 
-import ProgressTimeline from "@components/ProgressTimeline";
-
-import { Container } from "@mui/material";
+import { Grid } from "@mui/material";
 
 function App() {
   const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
   return (
-    <Container sx={{ p: 0 }}>
-      {/* <RenderPageImage /> */}
+    <>
       <Header siteUrl={siteUrl} />
       <SectionOne />
-      <Collate />
-      {/* <SectionTwo /> */}
-      <SectionThree />
-      <Footer siteUrl={siteUrl} />
-    </Container>
+      <Grid container spacing={4}>
+        <Grid item md={12}>
+          <Collate />
+        </Grid>
+        <Grid item md={12}>
+          <Track />
+        </Grid>
+        <Grid item md={12}>
+          <Footer siteUrl={siteUrl} />
+        </Grid>
+      </Grid>
+    </>
   );
 }
 

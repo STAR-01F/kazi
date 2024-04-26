@@ -1,31 +1,27 @@
-import CollateText from "./CollateText";
 import LandingTemplate from "@components/LandingTemplate";
-import { Box } from "@mui/material";
 import ProgressTimeline from "@components/ProgressTimeline";
+import { TextTemplate } from "@components/TextTemplate";
 
-const PlaceHolder = () => {
-  return (
-    <Box
-      display={"flex"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      height={"100%"}
-    >
-      IMAGE HERE!
-    </Box>
-  );
-};
+const CollateTitle =
+  "Collate, organise and manage your job applications in one place";
+const CollateContent = [
+  "Update and track the status of your applications as they progress",
+  "Set targets to help keep you focused during your search",
+  "Stay up to date with all your target companies with our newsfeed",
+];
 
 const Collate = () => {
   return (
     <LandingTemplate
       sOnePriority={8}
       sTwoPriority={4}
-      tHeight={"300px"}
-      sectionOne={<CollateText />}
+      tHeight="300px"
+      sectionOne={
+        <TextTemplate Title={CollateTitle} Content={CollateContent} />
+      }
       sectionTwo={<ProgressTimeline />}
     />
   );
 };
 
-export { Collate, PlaceHolder };
+export { Collate };
