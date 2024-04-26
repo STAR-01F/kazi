@@ -18,13 +18,23 @@ const LandingTemplate = ({
   return (
     <Grid component={Grid} container spacing={1} height={tHeight}>
       <Grid
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "300px",
+        }}
         xs={sOnePriority}
       >
         {sectionOne}
       </Grid>
       <Grid
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "300px",
+        }}
         xs={sTwoPriority}
       >
         {sectionTwo}

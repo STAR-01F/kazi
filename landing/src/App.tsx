@@ -1,4 +1,12 @@
-import { Header, SectionOne, Footer, Track, Collate } from "./components";
+import {
+  Header,
+  SectionOne,
+  Footer,
+  Track,
+  Collate,
+  LandingFeed,
+  ViewJobs,
+} from "./components";
 
 import { Grid } from "@mui/material";
 
@@ -8,12 +16,18 @@ function App() {
     <>
       <Header siteUrl={siteUrl} />
       <SectionOne />
-      <Grid container spacing={4}>
+      <Grid container spacing={15}>
         <Grid item md={12}>
           <Collate />
         </Grid>
         <Grid item md={12}>
           <Track />
+        </Grid>
+        <Grid item md={12}>
+          <LandingFeed />
+        </Grid>
+        <Grid item md={12}>
+          <ViewJobs />
         </Grid>
         <Grid item md={12}>
           <Footer siteUrl={siteUrl} />
