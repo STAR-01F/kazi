@@ -14,6 +14,7 @@ type KeywordsProps = {
 };
 
 const Keywords = ({description, userJob}: KeywordsProps) => {
+  console.log('inhere!!');
   const {setFeedback} = useFeedback();
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {setJobs} = useJobs();
@@ -44,6 +45,7 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
 
     setIsKeywordsLoading(false);
   };
+
   if (isKeywordsLoading) {
     return (
       <>
@@ -62,6 +64,7 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
       </>
     );
   }
+
   return (
     <>
       {userJob?.keywords ? (
