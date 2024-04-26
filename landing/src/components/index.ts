@@ -6,6 +6,8 @@ import SectionThree from "./section/SectionThree";
 import SectionTwo from "./section/SectionTwo";
 import { Collate } from "./section/Collate/Collate";
 import { Track } from "./section/Track/Tracker";
+import { LandingFeed } from "./section/Feed/LandingFeed";
+import { ViewJobs } from "./section/ViewJobs/ViewJobs";
 
 export {
   Header,
@@ -16,4 +18,6 @@ export {
   SectionTwo,
   Track,
   Collate,
+  LandingFeed,
+  ViewJobs,
 };
