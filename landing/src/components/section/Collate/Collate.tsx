@@ -1,6 +1,6 @@
-import LandingTemplate from "@components/LandingTemplate";
-import ProgressTimeline from "@components/ProgressTimeline";
-import { TextTemplate } from "@components/TextTemplate";
+import LandingTemplate from "@components/v1_ignore/LandingTemplate";
+import ProgressTimeline from "@components/v1_ignore/ProgressTimeline";
+import { TextTemplate } from "@components/v1_ignore/TextTemplate";
 
 const CollateTitle =
   "Collate, organise and manage your job applications in one place";

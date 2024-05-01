@@ -25,7 +25,6 @@ const ImageProp = ({ path }: ImgProps) => {
           width: "100%",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          height: "100%",
         }}
       />
     </Container>

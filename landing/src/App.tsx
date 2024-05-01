@@ -1,18 +1,22 @@
 import { Header, SectionOne } from "./components";
-import NewsFeedLanding from "@components/swooped/newsfeed";
-import AllJobsLanding from "@components/swooped/allJobs";
 import { Footer } from "./components";
 import { Grid } from "@mui/material";
+import NewsFeedLanding from "@components/swooped/newsfeed";
+import JobpageLanding from "@components/swooped/allJobs";
+import ATS from "@components/swooped/getKeywords";
 
 function App() {
   const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
   return (
     <>
       <Header siteUrl={siteUrl} />
-      <SectionOne />
-      <Grid container spacing={2}>
+      <Grid container spacing={{ xs: 2, md: 7 }}>
+        <SectionOne />
         <Grid item xs={12}>
-          <AllJobsLanding />
+          <ATS />
+        </Grid>
+        <Grid item xs={12}>
+          <JobpageLanding />
         </Grid>
         <Grid item xs={12}>
           <NewsFeedLanding />

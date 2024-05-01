@@ -1,11 +1,18 @@
-import { Box, Typography, Container } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Container,
+  List,
+  ListItemText,
+  ListItem,
+} from "@mui/material";
 
 interface LandingText {
   title: string;
-  subtext: string[];
+  blurbtext: string[];
 }
 
-const TextProp = ({ title, subtext }: LandingText) => {
+const TextProp = ({ title, blurbtext }: LandingText) => {
   return (
     <Container
       disableGutters
@@ -17,7 +24,7 @@ const TextProp = ({ title, subtext }: LandingText) => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-evenly",
+          justifyContent: "center",
           height: "100%",
           minHeight: "300px",
         }}
@@ -25,7 +32,23 @@ const TextProp = ({ title, subtext }: LandingText) => {
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           {title}
         </Typography>
-        <Typography fontSize={"16px"}>{subtext}</Typography>
+        <List
+          sx={{
+            listStyleType: "disc",
+            pl: 3.5,
+            "& .MuiListItem-root": {
+              display: "list-item",
+            },
+          }}
+        >
+          {blurbtext &&
+            blurbtext.length &&
+            blurbtext.map((value, idx) => (
+              <ListItem key={idx} disableGutters>
+                <ListItemText primary={value} />
+              </ListItem>
+            ))}
+        </List>
       </Box>
     </Container>
   );

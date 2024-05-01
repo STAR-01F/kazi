@@ -1,6 +1,6 @@
 import FeedImage from "@assets/newsfeed-img.png";
-import { TextTemplate } from "@components/TextTemplate";
-import LandingTemplate from "@components/LandingTemplate";
+import { TextTemplate } from "@components/v1_ignore/TextTemplate";
+import LandingTemplate from "@components/v1_ignore/LandingTemplate";
 import { Box } from "@mui/material";
 
 const FeedTitle = "Gain company insights with our newsfeed";

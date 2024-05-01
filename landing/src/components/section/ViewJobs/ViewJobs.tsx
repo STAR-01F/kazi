@@ -1,7 +1,7 @@
 import AllJobs from "@assets/selection-of-jobs.png";
 import { Box } from "@mui/material";
-import { TextTemplate } from "@components/TextTemplate";
-import LandingTemplate from "@components/LandingTemplate";
+import { TextTemplate } from "@components/v1_ignore/TextTemplate";
+import LandingTemplate from "@components/v1_ignore/LandingTemplate";
 
 const ViewTitle = "View all your applications with our beautiful interface";
 
