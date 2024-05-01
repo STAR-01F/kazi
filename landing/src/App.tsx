@@ -1,16 +1,8 @@
 import { Header, SectionOne } from "./components";
-import tempImg from "@assets/newsfeed-img.png";
-
-import BodyComp from "@components/swooped/body-comp";
-import ImageProp from "@components/swooped/image-comp";
-import TextProp from "@components/swooped/text-comp";
-
-// const imgP = <ImageProp imgPath = 'hi' />
-const imgP = <ImageProp path={tempImg} />;
-const textP = (
-  <TextProp title="Hello, World!" subtext="This is a sample subtext." />
-);
-const bodyP = <BodyComp imgSection={imgP} textSection={textP} />;
+import NewsFeedLanding from "@components/swooped/newsfeed";
+import AllJobsLanding from "@components/swooped/allJobs";
+import { Footer } from "./components";
+import { Grid } from "@mui/material";
 
 function App() {
   const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
@@ -18,27 +10,18 @@ function App() {
     <>
       <Header siteUrl={siteUrl} />
       <SectionOne />
-      {bodyP}
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <AllJobsLanding />
+        </Grid>
+        <Grid item xs={12}>
+          <NewsFeedLanding />
+        </Grid>
 
-      {/* <Grid container spacing={15}> */}
-      {/* <BodyComp >
-        </BodyComp> */}
-      {/* <Grid item md={12}>
-          <Collate />
-        </Grid>
-        <Grid item md={12}>
-          <Track />
-        </Grid>
-        <Grid item md={12}>
-          <LandingFeed />
-        </Grid>
-        <Grid item md={12}>
-          <ViewJobs />
-        </Grid>
-        <Grid item md={12}>
+        <Grid item xs={12}>
           <Footer siteUrl={siteUrl} />
         </Grid>
-      </Grid> */}
+      </Grid>
     </>
   );
 }
