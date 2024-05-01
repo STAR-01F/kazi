@@ -93,7 +93,7 @@ const WelcomePage = () => {
       ],
     },
     {
-      title: `And that's it`,
+      title: `And that's it!`,
       content: 'You are ready to save, track and apply to your favourite jobs!',
       component: (
         <Button
@@ -118,6 +118,7 @@ const WelcomePage = () => {
         modules={[Pagination, Navigation]}
         style={
           {
+            maxWidth: '1200px',
             '--swiper-pagination-color': '#836FFF',
             '--swiper-navigation-color': '#836FFF',
           } as CSSProperties
