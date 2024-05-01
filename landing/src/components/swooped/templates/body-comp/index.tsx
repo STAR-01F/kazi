@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Container } from "@mui/material";
 
 interface WrapperProps {
   imgSection: React.ReactNode;
@@ -7,18 +7,19 @@ interface WrapperProps {
 
 const BodyComp = ({ imgSection, textSection }: WrapperProps) => {
   return (
-    <Box
+    <Container
+      maxWidth="lg"
       sx={{
+        minHeight: "300px",
         display: "flex",
         flexDirection: { sm: "column", md: "row" },
         justifyContent: "centre",
-        width: "99%",
-        backgroundColor: "light-pink",
+        backgroundColor: "#f8f7fe",
       }}
     >
-      {imgSection}
       {textSection}
-    </Box>
+      {imgSection}
+    </Container>
   );
 };
 
