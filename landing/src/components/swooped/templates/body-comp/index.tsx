@@ -10,11 +10,13 @@ const BodyComp = ({ imgSection, textSection }: WrapperProps) => {
     <Container
       maxWidth="lg"
       sx={{
-        minHeight: "300px",
+        minHeight: { xs: "100px", md: "300px" },
         display: "flex",
-        flexDirection: { sm: "column", md: "row" },
+        flexDirection: { xs: "column", md: "row" },
         justifyContent: "centre",
         backgroundColor: "#f8f7fe",
+        p: { xs: "5px", md: "50px" },
+        borderRadius: "20px",
       }}
     >
       {textSection}
