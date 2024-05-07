@@ -17,7 +17,7 @@ import {logout} from '@services/firebase/auth';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import logo from '../../assets/kazi-log.jpg';
+import logo from '../../assets/Kazi.svg';
 import SendFeedback from './SendFeedback';
 
 type Settings = {

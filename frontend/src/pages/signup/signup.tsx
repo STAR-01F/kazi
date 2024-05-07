@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
@@ -15,16 +14,17 @@ import {
   signInWithGoogle,
   signInWithGithub,
 } from '@services/firebase/auth';
-import {IconButton} from '@mui/material';
+import {IconButton, Button} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Copyright from '@components/copyright/copyright';
 import {useFeedback} from '@hooks/useFeeback';
+// import {LoadingButton} from '@mui/lab';
 
 interface SignUpErrors {
   firstname?: string;
   lastname?: string;
   email?: string;
-  password?: string;
+  passError?: string;
 }
 
 interface SignUpValues {
@@ -38,8 +38,11 @@ export default function SignUp() {
   const {setFeedback} = useFeedback();
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState<SignUpErrors>({});
+  const [loading, setLoading] = React.useState(false);
+  console.log(loading);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     const data = new FormData(event.currentTarget);
     const values: SignUpValues = {
       firstname: data.get('firstName')?.toString(),
@@ -67,9 +70,9 @@ export default function SignUp() {
 
     // Validate password
     if (!values.password) {
-      errors.password = 'Password is required *';
+      errors.passError = 'Password is required *';
     } else if (values.password.length <= 8) {
-      errors.password = 'Password must be more than 8 characters';
+      errors.passError = 'Password must be more than 8 characters';
     }
 
     setErrors(errors);
@@ -82,28 +85,34 @@ export default function SignUp() {
           values.password!
         );
         if (resp.status === 'Error') {
+          console.log('resp', resp.message);
           const errorMessage =
             resp.message == 'auth/email-already-in-use'
               ? 'This email is already in use'
               : 'Failed to register credentials';
           setErrors({
             email: errorMessage,
-            password: '',
+            passError: '',
           });
+          setLoading(false);
           return;
         }
         setFeedback({
           type: 'success',
           message: 'Please check your email to verify your account.',
         });
+        setLoading(false);
+        navigate('/verify-email');
       } catch (error) {
         console.error(error);
+        setLoading(false);
         setErrors({
           ...errors,
-          password: 'Failed to sign up. Please check your credentials.',
+          passError: 'Failed to sign up. Please check your credentials.',
         });
       }
     }
+    setLoading(false);
   };
 
   const handeleSignInWithGithub = async () => {
@@ -259,15 +268,15 @@ export default function SignUp() {
                   id="password"
                   autoComplete="new-password"
                   onChange={() => {
-                    if (errors.password) {
+                    if (errors.passError) {
                       setErrors({
                         ...errors,
-                        password: undefined,
+                        passError: undefined,
                       });
                     }
                   }}
-                  error={!!errors.password}
-                  helperText={errors.password}
+                  error={!!errors.passError}
+                  helperText={errors.passError}
                 />
               </Grid>
             </Grid>
@@ -276,6 +285,7 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               size="large"
+              disabled={loading}
               sx={{mt: 3, mb: 2}}
             >
               Sign Up
