@@ -12,16 +12,15 @@ const SingleFeedItem = ({name, weblink, id, title}: singleFeed) => {
       justifyContent={'space-between'}
       pb={1.5}
     >
-      <Box fontWeight={'bold'} sx={{color: 'salmon'}} color={'white'}>
-        {name}
-      </Box>
+      <Box sx={{color: '#836FF8', fontWeight: 'bold'}}>{name}</Box>
 
-      <Box width={'80%'} key={id}>
+      <Box width={'80%'} key={id} textOverflow="ellipsis" overflow="hidden">
         <Link
           href={weblink}
           target="_blank"
           rel="noreferrer"
-          underline="always"
+          underline="hover"
+          whiteSpace="nowrap"
         >
           {title}{' '}
         </Link>
@@ -29,7 +28,5 @@ const SingleFeedItem = ({name, weblink, id, title}: singleFeed) => {
     </Box>
   );
 };
-{
-}
 
 export default SingleFeedItem;
