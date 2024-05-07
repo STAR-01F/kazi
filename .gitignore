@@ -30,6 +30,7 @@ dist-ssr
 .env.test.local
 .env.production.local
 config.json
+env.json
 
 api/scraper/*.json
 api/keywordsForDeployment
