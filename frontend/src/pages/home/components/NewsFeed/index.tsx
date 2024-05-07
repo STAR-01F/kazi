@@ -107,13 +107,15 @@ const FeedContainer = () => {
       component={Paper}
       sx={{
         display: {xs: 'none', sm: 'flex'},
-        justifyContent: 'space-evenly',
         minWidth: '325px',
         height: '250px',
         flexDirection: 'column',
         overflowY: 'auto',
-        background: 'white',
         mb: 3,
+        padding: '24px',
+        '&::-webkit-scrollbar-track': {
+          borderRadius: '5px',
+        },
       }}
     >
       {Object.keys(feed).length !== 0 &&
