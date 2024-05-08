@@ -42,3 +42,16 @@ Resources:
       Environment:
         Variables:
           OPENAI_API_KEY: ""  
+
+  WorkableScraperDev:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: workableScraperDev
+      CodeUri: lambda/workableScraper
+      Handler: index.handler
+      Runtime: nodejs20.x
+      FunctionUrlConfig:
+        AuthType: NONE
+      Architectures:
+        - arm64
+       
