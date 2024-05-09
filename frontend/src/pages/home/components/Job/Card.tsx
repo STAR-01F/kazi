@@ -9,6 +9,10 @@ import {
   Paper,
   CardMedia,
   Box,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
 import {Link} from 'react-router-dom';
 import MenuListButton from '@components/button/MenuListButton';
@@ -21,6 +25,7 @@ import daysPassedSinceUTC from '@utils/jobcard/daysPassedSince';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 import {Tooltip} from '@mui/material';
 import Zoom from '@mui/material/Zoom';
+import {useState} from 'react';
 
 type JobCardProps = {
   userJobId: string;
@@ -46,10 +51,14 @@ const JobCard = ({
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
   const {jobs, setJobs} = useJobs();
-
+  const [openDialog, setOpenDialog] = useState(false);
   const timeToString = timeSince.toDate().toDateString();
   const timeinDays = daysPassedSinceUTC(timeSince.toDate());
   const dayAndMonths = daysToDaysAndMonths(timeinDays);
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
@@ -116,7 +125,7 @@ const JobCard = ({
     {name: 'Rejected', action: () => handleUpdateJobStatus('Rejected')},
     {
       name: 'Remove',
-      action: handleDeleteJob,
+      action: () => setOpenDialog(true),
     },
   ];
   return (
@@ -222,6 +231,17 @@ const JobCard = ({
         >
           Update
         </MenuListButton>
+        <Dialog open={openDialog}>
+          <DialogContent>
+            <DialogContentText>
+              Are you sure you want to delete this job?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button onClick={handleDeleteJob}>Delete</Button>
+          </DialogActions>
+        </Dialog>
       </CardActions>
     </Card>
   );
