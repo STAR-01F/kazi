@@ -2,47 +2,52 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Description: 
-  keywords-SAM
+  production_lambdas-SAM
 
-  SAM template for the keywords api
+  SAM template dev lambdas
 
 # Available top-level fields are listed in code completion
 Globals:
   Function:
-    Timeout: 10
+    Timeout: 15
 
 # Add Resources Here: uncomment the following lines
 Resources:
-  GetKeyWordsFuntion:
+  GetKeyWordsFuntionProd:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: getKeywordsProd
       CodeUri: lambda/keywords
       Handler: app.handler
       Runtime: nodejs20.x
       FunctionUrlConfig:
         AuthType: NONE
       Architectures:
-        - arm64
-      Environment:
-        Variables:
-          OPENAI_API_KEY: ""  
+        - arm64 
 
-  InterviewQs:
+  InterviewQsProd:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: interviewQuestions
+      FunctionName: interviewQuestionsProd
       CodeUri: lambda/interviewQs_API
       Handler: index.handler
       Runtime: nodejs20.x
-      FunctionUrlConfig:
-        AuthType: NONE
       Architectures:
         - arm64
       Environment:
         Variables:
           OPENAI_API_KEY: ""  
 
-Outputs:
-  GetKeyWordsFuntion:
-    Description: "Get Keywords Lambda Function ARN"
-    Value: !GetAtt GetKeyWordsFuntion.Arn
+  
+  WorkableScraperProd:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: workableScraperProd
+      CodeUri: lambda/workableScraper
+      MemorySize: 1001
+      Handler: index.handler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64 
+
+

@@ -9,7 +9,7 @@ Description:
 # Available top-level fields are listed in code completion
 Globals:
   Function:
-    Timeout: 10
+    Timeout: 15
 
 # Add Resources Here: uncomment the following lines
 Resources:
@@ -35,8 +35,6 @@ Resources:
       CodeUri: lambda/interviewQs_API
       Handler: index.handler
       Runtime: nodejs20.x
-      FunctionUrlConfig:
-        AuthType: NONE
       Architectures:
         - arm64
       Environment:
@@ -48,10 +46,9 @@ Resources:
     Properties:
       FunctionName: workableScraperDev
       CodeUri: lambda/workableScraper
+      MemorySize: 1001
       Handler: index.handler
       Runtime: nodejs20.x
-      FunctionUrlConfig:
-        AuthType: NONE
       Architectures:
-        - arm64
+        - x86_64 
        

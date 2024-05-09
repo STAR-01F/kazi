@@ -7,6 +7,7 @@ import Keywords from '../Keywords/Keywords';
 import {UserJob} from 'src/@types';
 import {useState} from 'react';
 import InterviewQs from '../InterviewQs/InterviewQs';
+
 type BreadcrumbsCardProps = {
   userJob?: UserJob;
   description: string;
