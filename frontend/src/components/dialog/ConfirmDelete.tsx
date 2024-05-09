@@ -25,8 +25,12 @@ const ConfirmDelete = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCancelClick}>Cancel</Button>
-        <Button onClick={onDeleteClick}>Delete</Button>
+        <Button variant="outlined" onClick={onCancelClick}>
+          Cancel
+        </Button>
+        <Button variant="contained" color="error" onClick={onDeleteClick}>
+          Delete
+        </Button>
       </DialogActions>
     </Dialog>
   );
