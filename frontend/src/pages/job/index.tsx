@@ -6,10 +6,6 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
 } from '@mui/material';
 
 import {useParams} from 'react-router-dom';
@@ -27,7 +23,7 @@ import SkeletonJob from '@components/skeleton/job';
 import {Timestamp} from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
-
+import ConfirmDelete from '@components/dialog/ConfirmDelete';
 const Job = () => {
   const {id} = useParams();
   const {user} = useAuth();
@@ -205,17 +201,11 @@ const Job = () => {
                 >
                   Update
                 </MenuListButton>
-                <Dialog open={openDialog}>
-                  <DialogContent>
-                    <DialogContentText>
-                      Are you sure you want to delete this job?
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleCloseDialog}>Cancel</Button>
-                    <Button onClick={handleDeleteJob}>Delete</Button>
-                  </DialogActions>
-                </Dialog>
+                <ConfirmDelete
+                  open={openDialog}
+                  onCancelClick={handleCloseDialog}
+                  onDeleteClick={handleDeleteJob}
+                ></ConfirmDelete>
               </Grid>
             </Grid>
           </Grid>

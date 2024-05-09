@@ -9,10 +9,6 @@ import {
   Paper,
   CardMedia,
   Box,
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
 } from '@mui/material';
 import {Link} from 'react-router-dom';
 import MenuListButton from '@components/button/MenuListButton';
@@ -26,6 +22,7 @@ import {useJobs} from '@services/firebase/hooks/useJobs';
 import {Tooltip} from '@mui/material';
 import Zoom from '@mui/material/Zoom';
 import {useState} from 'react';
+import ConfirmDelete from '@components/dialog/ConfirmDelete';
 
 type JobCardProps = {
   userJobId: string;
@@ -231,17 +228,11 @@ const JobCard = ({
         >
           Update
         </MenuListButton>
-        <Dialog open={openDialog}>
-          <DialogContent>
-            <DialogContentText>
-              Are you sure you want to delete this job?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Cancel</Button>
-            <Button onClick={handleDeleteJob}>Delete</Button>
-          </DialogActions>
-        </Dialog>
+        <ConfirmDelete
+          open={openDialog}
+          onCancelClick={handleCloseDialog}
+          onDeleteClick={handleDeleteJob}
+        ></ConfirmDelete>
       </CardActions>
     </Card>
   );
