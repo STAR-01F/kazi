@@ -51,4 +51,22 @@ Resources:
       Runtime: nodejs20.x
       Architectures:
         - x86_64 
+
+  OttaScraperDev:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ottaScraperDev
+      CodeUri: lambda/ottaScraper
+      MemorySize: 500
+      PackageType: Zip
+      Handler: ottaScraper
+      Runtime: provided.al2023
+      Architectures: [x86_64] 
+      # Events:
+      #   Api:
+      #     Type: Api
+      #     Properties:
+      #       Path: /lambda/ottaScraper
+      #       Method: get
+    
        
