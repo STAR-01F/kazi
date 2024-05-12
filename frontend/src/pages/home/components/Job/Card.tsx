@@ -21,6 +21,8 @@ import daysPassedSinceUTC from '@utils/jobcard/daysPassedSince';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 import {Tooltip} from '@mui/material';
 import Zoom from '@mui/material/Zoom';
+import {useState} from 'react';
+import ConfirmDelete from '@components/dialog/ConfirmDelete';
 
 type JobCardProps = {
   userJobId: string;
@@ -46,10 +48,14 @@ const JobCard = ({
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
   const {jobs, setJobs} = useJobs();
-
+  const [openDialog, setOpenDialog] = useState(false);
   const timeToString = timeSince.toDate().toDateString();
   const timeinDays = daysPassedSinceUTC(timeSince.toDate());
   const dayAndMonths = daysToDaysAndMonths(timeinDays);
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
@@ -57,7 +63,7 @@ const JobCard = ({
     if (resp.status === 'Success') {
       setFeedback({
         type: 'success',
-        message: resp.message,
+        message: 'Successfully deleted',
       });
       const jobsToKeep = jobs.filter((job) => job.id !== userJobId);
       setJobs(jobsToKeep);
@@ -116,7 +122,7 @@ const JobCard = ({
     {name: 'Rejected', action: () => handleUpdateJobStatus('Rejected')},
     {
       name: 'Remove',
-      action: handleDeleteJob,
+      action: () => setOpenDialog(true),
     },
   ];
   return (
@@ -222,6 +228,11 @@ const JobCard = ({
         >
           Update
         </MenuListButton>
+        <ConfirmDelete
+          open={openDialog}
+          onCancelClick={handleCloseDialog}
+          onDeleteClick={handleDeleteJob}
+        ></ConfirmDelete>
       </CardActions>
     </Card>
   );
