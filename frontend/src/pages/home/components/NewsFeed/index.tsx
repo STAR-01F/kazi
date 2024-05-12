@@ -1,9 +1,10 @@
-import {Container, Paper, Alert} from '@mui/material';
+import {Container, Paper, Typography} from '@mui/material';
 import {showPreciseFeed} from '@services/newsfeed/PreciseFeedData';
 import QueryString from '@services/newsfeed/QueryString';
 import {useEffect, useState} from 'react';
 import SingleFeedItem from './components/SingleFeedItem';
 import {LinearProgress} from '@mui/material';
+import FeedIcon from '@mui/icons-material/Feed';
 
 type NewsData = {
   url: string;
@@ -76,10 +77,12 @@ const FeedContainer = () => {
           alignItems: 'center',
           minWidth: '325px',
           height: '250px',
+          flexDirection: 'column',
           mb: 3,
         }}
       >
-        <Alert severity="info">No articles found!</Alert>
+        <FeedIcon fontSize="large" />
+        <Typography>No articles found</Typography>
       </Container>
     );
   }
