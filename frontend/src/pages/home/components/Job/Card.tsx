@@ -57,6 +57,7 @@ const JobCard = ({
     setOpenDialog(false);
   };
 
+  const [showLogo, setShowLogo] = useState(true);
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     const resp = await DeleteUserJob(user.uid, userJobId);
@@ -125,6 +126,7 @@ const JobCard = ({
       action: () => setOpenDialog(true),
     },
   ];
+
   return (
     <Card
       component={Paper}
@@ -140,10 +142,10 @@ const JobCard = ({
         height: 'max-content',
       }}
     >
-      {logoPath ? (
+      {logoPath && showLogo ? (
         <CardMedia
           component="img"
-          alt={companyName}
+          alt={''}
           sx={{
             height: '100px',
             objectFit: 'contain',
@@ -154,6 +156,9 @@ const JobCard = ({
               ? 'https://images.otta.com/search/width_400/' + logoPath
               : logoPath
           }
+          onError={() => {
+            setShowLogo(false);
+          }}
         />
       ) : (
         <Box
@@ -165,7 +170,13 @@ const JobCard = ({
             p: '10px',
           }}
         >
-          <Typography variant="h5">{companyName}</Typography>
+          <Typography
+            variant="h5"
+            fontWeight={'bold'}
+            textTransform={'capitalize'}
+          >
+            {companyName}
+          </Typography>
         </Box>
       )}
       <CardContent

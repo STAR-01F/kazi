@@ -4,6 +4,7 @@ import {getDisplayName} from '@utils/helper';
 import StatsContainer from './components/Stats';
 import Banner from './components/Banner';
 import JobSection from './components/Job';
+import {LogoAttribution} from './components/LogoAttribution';
 import {Tab, Tabs} from '@mui/material';
 import FeedContainer from './components/NewsFeed';
 import {useState} from 'react';
@@ -47,6 +48,7 @@ const Homepage = () => {
 
       <Banner />
       <JobSection />
+      <LogoAttribution />
     </Grid>
   );
 };

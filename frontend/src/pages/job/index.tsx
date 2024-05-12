@@ -8,6 +8,8 @@ import {
   CardContent,
 } from '@mui/material';
 
+import {LogoAttribution} from '@pages/home/components/LogoAttribution';
+
 import {useParams} from 'react-router-dom';
 import OttaDescription from './components/JobDescription/OttaDescription';
 import useFetchJobs from '@hooks/useFetchJobs';
@@ -44,6 +46,7 @@ const Job = () => {
     title,
     description,
     company,
+    companyLogoURL,
     hiringOrganization,
     jobLocation,
     jobSource,
@@ -88,13 +91,11 @@ const Job = () => {
         message: resp.message,
       });
       const updatedJobs = jobs.map((job) => {
-        console.log('status=======>', status);
         if (job.id === userJob.id) {
           if (status === 'Saved') {
             return {...job, status};
           } else {
             const updatedAt = Timestamp.now();
-            console.log('updatedAt=======>', updatedAt);
             return {
               ...job,
               status: status,
@@ -129,157 +130,171 @@ const Job = () => {
     },
   ];
   return (
-    <Grid
-      container
-      direction={'row'}
-      m={2}
-      maxWidth={'lg'}
-      padding={{xs: '10px 20px', md: '15px 30px', lg: '20px 40px'}}
-    >
-      <Grid container direction="column" p={1}>
-        <Grid>
-          <Typography mb={1} variant="h4">
-            {title}
-          </Typography>
-          <Grid container id={'logo-btns'}>
-            <Grid
-              container
-              item
-              id={'company-logo'}
-              alignItems={'center'}
-              gap={1}
-            >
-              {jobSource === 'manual' ? null : (
-                <Box
-                  component={'img'}
-                  alt={company}
-                  src={
-                    jobSource === 'Otta'
-                      ? 'https://images.otta.com/search/width_200/' +
-                        hiringOrganization?.logo
-                      : hiringOrganization?.logo
-                  }
-                  sx={{
-                    width: '200px',
-                    maxWidth: '100%',
-                    objectFit: 'contain',
-                  }}
-                />
-              )}
-
+    <>
+      <Grid
+        container
+        direction={'row'}
+        m={2}
+        maxWidth={'lg'}
+        padding={{xs: '10px 20px', md: '15px 30px', lg: '20px 40px'}}
+      >
+        <Grid container direction="column" p={1}>
+          <Grid>
+            <Typography mb={1} variant="h4">
+              {title}
+            </Typography>
+            <Grid container id={'logo-btns'}>
               <Grid
                 container
                 item
-                id={'action-btns'}
+                id={'company-logo'}
                 alignItems={'center'}
-                justifyContent={'flex-end'}
-                gap={2}
+                gap={1}
               >
-                <Button
-                  LinkComponent={'a'}
-                  target="_blank"
-                  href={jobLink}
-                  variant="contained"
-                  size="small"
-                  sx={{
-                    width: {
-                      sm: '5.5rem',
-                    },
-                  }}
+                {jobSource === 'manual' ? (
+                  <Box
+                    component={'img'}
+                    alt={''}
+                    src={companyLogoURL}
+                    sx={{
+                      width: '125px',
+                      maxWidth: '100%',
+                      objectFit: 'contain',
+                      borderRadius: '8%',
+                    }}
+                  />
+                ) : (
+                  <Box
+                    component={'img'}
+                    alt={company}
+                    src={
+                      jobSource === 'Otta'
+                        ? 'https://images.otta.com/search/width_200/' +
+                          hiringOrganization?.logo
+                        : hiringOrganization?.logo
+                    }
+                    sx={{
+                      width: '200px',
+                      maxWidth: '100%',
+                      objectFit: 'contain',
+                    }}
+                  />
+                )}
+
+                <Grid
+                  container
+                  item
+                  id={'action-btns'}
+                  alignItems={'center'}
+                  justifyContent={'flex-end'}
+                  gap={2}
                 >
-                  View Job
-                </Button>
-                <MenuListButton
-                  variant="contained"
-                  size="small"
-                  menuActionList={moveMenulist}
-                  sx={{
-                    width: {
-                      sm: '5.5rem',
-                    },
-                  }}
-                >
-                  Update
-                </MenuListButton>
-                <ConfirmDelete
-                  open={openDialog}
-                  onCancelClick={handleCloseDialog}
-                  onDeleteClick={handleDeleteJob}
-                ></ConfirmDelete>
+                  <Button
+                    LinkComponent={'a'}
+                    target="_blank"
+                    href={jobLink}
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      width: {
+                        sm: '5.5rem',
+                      },
+                    }}
+                  >
+                    View Job
+                  </Button>
+                  <MenuListButton
+                    variant="contained"
+                    size="small"
+                    menuActionList={moveMenulist}
+                    sx={{
+                      width: {
+                        sm: '5.5rem',
+                      },
+                    }}
+                  >
+                    Update
+                  </MenuListButton>
+                  <ConfirmDelete
+                    open={openDialog}
+                    onCancelClick={handleCloseDialog}
+                    onDeleteClick={handleDeleteJob}
+                  ></ConfirmDelete>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
-            <Typography textTransform={'capitalize'} variant="h6">
-              {company}
-            </Typography>
-
-            {(() => {
-              switch (jobSource) {
-                case 'manual':
-                  return null;
-                case 'Otta':
-                  return (
-                    <Typography
-                      textTransform={'capitalize'}
-                      fontWeight={'light'}
-                      variant="subtitle1"
-                    >
-                      {`${jobLocation?.address?.addressRegion}, ${jobLocation?.address?.addressCountry}`}
-                    </Typography>
-                  );
-                case 'Workable':
-                  return (
-                    <Typography
-                      textTransform={'capitalize'}
-                      fontWeight={'light'}
-                      variant="subtitle1"
-                    >
-                      {workableLocation}
-                    </Typography>
-                  );
-              }
-            })()}
+          <Grid container>
+            <Grid item>
+              <Typography textTransform={'capitalize'} variant="h6">
+                {company}
+              </Typography>
+              {(() => {
+                switch (jobSource) {
+                  case 'manual':
+                    return null;
+                  case 'Otta':
+                    return (
+                      <Typography
+                        textTransform={'capitalize'}
+                        fontWeight={'light'}
+                        variant="subtitle1"
+                      >
+                        {`${jobLocation?.address?.addressRegion}, ${jobLocation?.address?.addressCountry}`}
+                      </Typography>
+                    );
+                  case 'Workable':
+                    return (
+                      <Typography
+                        textTransform={'capitalize'}
+                        fontWeight={'light'}
+                        variant="subtitle1"
+                      >
+                        {workableLocation}
+                      </Typography>
+                    );
+                }
+              })()}
+            </Grid>
           </Grid>
         </Grid>
+        <Grid item xs={12} md={6} p={1}>
+          <Card>
+            <CardHeader
+              style={{
+                borderRadius: '5px 5px 0 0',
+                background: '#D5D5D5',
+                color: 'black',
+              }}
+              title="Role"
+              titleTypographyProps={{fontSize: '1.2rem', fontWeight: 'bold'}}
+              sx={{height: '2.5rem'}}
+            />
+            <CardContent>
+              {(() => {
+                switch (jobSource) {
+                  case 'manual':
+                    return <ManualDescription description={description} />;
+                  case 'Otta':
+                    return <OttaDescription description={description} />;
+                  case 'Workable':
+                    return (
+                      <WorkableDescription description={workableDescription} />
+                    );
+                }
+              })()}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6} p={1}>
+          <BreadcrumbsCard
+            userJob={userJob}
+            description={description || workableDescription.join(' ')}
+          ></BreadcrumbsCard>
+        </Grid>
       </Grid>
-      <Grid item xs={12} md={6} p={1}>
-        <Card>
-          <CardHeader
-            style={{
-              borderRadius: '5px 5px 0 0',
-              background: '#D5D5D5',
-              color: 'black',
-            }}
-            title="Role"
-            titleTypographyProps={{fontSize: '1.2rem', fontWeight: 'bold'}}
-            sx={{height: '2.5rem'}}
-          />
-          <CardContent>
-            {(() => {
-              switch (jobSource) {
-                case 'manual':
-                  return <ManualDescription description={description} />;
-                case 'Otta':
-                  return <OttaDescription description={description} />;
-                case 'Workable':
-                  return (
-                    <WorkableDescription description={workableDescription} />
-                  );
-              }
-            })()}
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12} md={6} p={1}>
-        <BreadcrumbsCard
-          userJob={userJob}
-          description={description || workableDescription.join(' ')}
-        ></BreadcrumbsCard>
-      </Grid>
-    </Grid>
+      <LogoAttribution />
+    </>
   );
 };
 
