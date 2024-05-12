@@ -1,5 +1,6 @@
 import {Timestamp, doc, getDoc, setDoc} from 'firebase/firestore';
 import {userProfiles} from '..';
+import {Response} from 'src/@types';
 
 const UpdateStreak = async (uid: string, streak: number, date: Timestamp) => {
   try {
@@ -38,4 +39,35 @@ const UpdateStreak = async (uid: string, streak: number, date: Timestamp) => {
   }
 };
 
+const UpdateUserPreferences = async (
+  userID: string,
+  preferencesObj: object
+): Promise<Response<string, string>> => {
+  try {
+    const docRef = doc(userProfiles, userID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      await setDoc(docRef, {preferences: preferencesObj}, {merge: true});
+      return {
+        status: 'Success',
+        message: 'Successfully updated preferences',
+        data: userID,
+      };
+    } else {
+      return {
+        status: 'Error',
+        message: 'Doc does not exist',
+      };
+    }
+  } catch (error) {
+    return {
+      status: 'Error',
+      message: `Failed to update the user preferences: ${
+        (error as Error).message
+      }`,
+    };
+  }
+};
+
 export default UpdateStreak;
+export {UpdateUserPreferences};

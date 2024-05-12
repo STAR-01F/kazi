@@ -23,7 +23,9 @@ import {useJobs} from '@services/firebase/hooks/useJobs';
 import BreadcrumbsCard from './components/BreadcrumbsCard/BreadcrumbsCard';
 import SkeletonJob from '@components/skeleton/job';
 import {Timestamp} from 'firebase/firestore';
-
+import {useNavigate} from 'react-router-dom';
+import {useState} from 'react';
+import ConfirmDelete from '@components/dialog/ConfirmDelete';
 const Job = () => {
   const {id} = useParams();
   const {user} = useAuth();
@@ -31,7 +33,8 @@ const Job = () => {
   const {status, data} = useFetchJobs(id || '');
   const {jobs, setJobs} = useJobs();
   const userJob = jobs.find((job) => job.jobid === id);
-
+  const navigate = useNavigate();
+  const [openDialog, setOpenDialog] = useState(false);
   if (status === 'idle' || status === 'fetching') {
     return <SkeletonJob />;
   }
@@ -52,6 +55,10 @@ const Job = () => {
     workableLocation,
   } = data![0];
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     if (!userJob) return;
@@ -59,10 +66,11 @@ const Job = () => {
     if (resp.status === 'Success') {
       setFeedback({
         type: 'success',
-        message: resp.message,
+        message: 'Successfully deleted',
       });
       const jobsToKeep = jobs.filter((job) => job.id !== userJob.id);
       setJobs(jobsToKeep);
+      navigate('/');
       return;
     }
     setFeedback({
@@ -118,7 +126,7 @@ const Job = () => {
     {name: 'Rejected', action: () => handleUpdateJobStatus('Rejected')},
     {
       name: 'Remove',
-      action: handleDeleteJob,
+      action: () => setOpenDialog(true),
     },
   ];
   return (
@@ -207,6 +215,11 @@ const Job = () => {
                   >
                     Update
                   </MenuListButton>
+                  <ConfirmDelete
+                    open={openDialog}
+                    onCancelClick={handleCloseDialog}
+                    onDeleteClick={handleDeleteJob}
+                  ></ConfirmDelete>
                 </Grid>
               </Grid>
             </Grid>
@@ -216,15 +229,6 @@ const Job = () => {
               <Typography textTransform={'capitalize'} variant="h6">
                 {company}
               </Typography>
-              {/* {jobSource === 'manual' ? null : (
-              <Typography
-                textTransform={'capitalize'}
-                fontWeight={'light'}
-                variant="subtitle1"
-              >
-                {`${jobLocation?.address?.addressRegion}, ${jobLocation?.address?.addressCountry}`}
-              </Typography>
-            )} */}
               {(() => {
                 switch (jobSource) {
                   case 'manual':
@@ -285,7 +289,7 @@ const Job = () => {
         <Grid item xs={12} md={6} p={1}>
           <BreadcrumbsCard
             userJob={userJob}
-            description={description}
+            description={description || workableDescription.join(' ')}
           ></BreadcrumbsCard>
         </Grid>
       </Grid>
