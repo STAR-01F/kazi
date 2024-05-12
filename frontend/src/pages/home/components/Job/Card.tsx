@@ -121,7 +121,7 @@ const JobCard = ({
   ];
 
   const handleBrokenImage = (e: React.SyntheticEvent) => {
-    let target = e.target as HTMLInputElement;
+    const target = e.target as HTMLInputElement;
     target.src = '';
   };
 
@@ -166,7 +166,13 @@ const JobCard = ({
             p: '10px',
           }}
         >
-          <Typography variant="h5">{companyName}</Typography>
+          <Typography
+            variant="h5"
+            fontWeight={'bold'}
+            textTransform={'capitalize'}
+          >
+            {companyName}
+          </Typography>
         </Box>
       )}
       <CardContent

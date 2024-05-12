@@ -137,7 +137,9 @@ const ManualJobModal = ({
       company: coDetails.name,
       jobLink: jobLink,
       companyLogoURL:
-        coDetails?.['name'] && coDetails['name'] in companyObj
+        coDetails?.['name'] &&
+        coDetails['name'] in companyObj &&
+        companyObj[coDetails['name']]['logo'] === ''
           ? companyObj[coDetails['name']]['logo']
           : '',
       description: description,
