@@ -67,7 +67,10 @@ const ManualJobModal = ({
     {}
   );
 
-  const handleInputChange = async (_event: any, value: string) => {
+  const handleInputChange = async (
+    _event: React.SyntheticEvent<Element, Event>,
+    value: string
+  ) => {
     const result = await GetCompanyLogo(value);
     setOptions(result);
   };
@@ -137,9 +140,7 @@ const ManualJobModal = ({
       company: coDetails.name,
       jobLink: jobLink,
       companyLogoURL:
-        coDetails?.['name'] &&
-        coDetails['name'] in companyObj &&
-        companyObj[coDetails['name']]['logo'] === ''
+        coDetails?.['name'] && coDetails['name'] in companyObj
           ? companyObj[coDetails['name']]['logo']
           : '',
       description: description,
@@ -258,7 +259,7 @@ const ManualJobModal = ({
             },
           }}
           id="company-logo"
-          getOptionLabel={(option: any) =>
+          getOptionLabel={(option) =>
             typeof option === 'string' ? option : `${option.name}`
           }
           filterOptions={(x) => x}
@@ -267,12 +268,11 @@ const ManualJobModal = ({
           value={companyValue}
           isOptionEqualToValue={(option, value) => option.name === value.name}
           noOptionsText="Company Not Found"
-          onChange={(
-            _event: React.SyntheticEvent<Element, Event>,
-            value: ClearbitLogo | null
-          ) => {
-            setOptions(value ? [value, ...options] : options);
-            setCompanyValue(value);
+          onChange={(_event, value) => {
+            if (!(typeof value === 'string')) {
+              setOptions(value ? [value, ...options] : options);
+              setCompanyValue(value);
+            }
           }}
           renderInput={(params) => (
             <TextField

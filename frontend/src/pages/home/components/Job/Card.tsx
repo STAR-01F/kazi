@@ -21,6 +21,7 @@ import daysPassedSinceUTC from '@utils/jobcard/daysPassedSince';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 import {Tooltip} from '@mui/material';
 import Zoom from '@mui/material/Zoom';
+import {useState} from 'react';
 
 type JobCardProps = {
   userJobId: string;
@@ -51,6 +52,7 @@ const JobCard = ({
   const timeinDays = daysPassedSinceUTC(timeSince.toDate());
   const dayAndMonths = daysToDaysAndMonths(timeinDays);
 
+  const [showLogo, setShowLogo] = useState(true);
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     const resp = await DeleteUserJob(user.uid, userJobId);
@@ -120,11 +122,6 @@ const JobCard = ({
     },
   ];
 
-  const handleBrokenImage = (e: React.SyntheticEvent) => {
-    const target = e.target as HTMLInputElement;
-    target.src = '';
-  };
-
   return (
     <Card
       component={Paper}
@@ -140,7 +137,7 @@ const JobCard = ({
         height: 'max-content',
       }}
     >
-      {logoPath ? (
+      {logoPath && showLogo ? (
         <CardMedia
           component="img"
           alt={''}
@@ -154,7 +151,9 @@ const JobCard = ({
               ? 'https://images.otta.com/search/width_400/' + logoPath
               : logoPath
           }
-          onError={handleBrokenImage}
+          onError={() => {
+            setShowLogo(false);
+          }}
         />
       ) : (
         <Box
