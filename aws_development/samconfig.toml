@@ -1,9 +1,9 @@
 version = 0.1
 [default.deploy.parameters]
-stack_name = "lambdas-dev"
+stack_name = "kazi-stack-dev"
 resolve_s3 = true
-s3_prefix = "lambdas-dev"
-region = "us-east-1"
+s3_prefix = "kazi-stack-dev"
+region = "eu-west-2"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
 disable_rollback = true
