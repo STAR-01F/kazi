@@ -4,12 +4,6 @@ Transform: AWS::Serverless-2016-10-31
 Description: 
   production_lambdas-SAM
 
-  SAM template dev lambdas
-
-# Available top-level fields are listed in code completion
-Globals:
-  Function:
-    Timeout: 15
 
 # Add Resources Here: uncomment the following lines
 Resources:
@@ -19,6 +13,7 @@ Resources:
       FunctionName: getKeywordsProd
       CodeUri: lambda/keywords
       Handler: app.handler
+      Timeout: 10
       Runtime: nodejs20.x
       FunctionUrlConfig:
         AuthType: NONE
@@ -31,6 +26,7 @@ Resources:
       FunctionName: interviewQuestionsProd
       CodeUri: lambda/interviewQs_API
       Handler: index.handler
+      Timeout: 10
       Runtime: nodejs20.x
       Architectures:
         - arm64
@@ -46,6 +42,7 @@ Resources:
       CodeUri: lambda/workableScraper
       MemorySize: 1001
       Handler: index.handler
+      Timeout: 15
       Runtime: nodejs20.x
       Architectures:
         - x86_64 
@@ -59,6 +56,7 @@ Resources:
       CodeUri: lambda/ottaScraper
       MemorySize: 150
       Handler: bootstrap
+      Timeout: 10
       Runtime: provided.al2023
       Architectures:
         - x86_64
