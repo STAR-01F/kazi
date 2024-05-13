@@ -1,9 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
-Description: |-
-  development_lambdas-SAM
-
+Description: development_lambdas-SAM
 
 # Add Resources Here: uncomment the following lines
 Resources:
@@ -22,6 +20,13 @@ Resources:
       Environment:
         Variables:
           OPENAI_API_KEY: ''
+      Events:
+        kazidevPOSTkeywordsdev:
+          Type: Api
+          Properties:
+            Path: /keywords-dev
+            Method: POST
+            RestApiId: !Ref kazidev
 
   InterviewQsDev:
     Type: AWS::Serverless::Function
@@ -36,6 +41,13 @@ Resources:
       Environment:
         Variables:
           OPENAI_API_KEY: ''
+      Events:
+        kazidevPOSTinterviewsdev:
+          Type: Api
+          Properties:
+            Path: /interviews-dev
+            Method: POST
+            RestApiId: !Ref kazidev
 
   WorkableScraperDev:
     Type: AWS::Serverless::Function
@@ -48,6 +60,13 @@ Resources:
       Runtime: nodejs20.x
       Architectures:
         - x86_64
+      Events:
+        kazidevPOSTworkablescraperdev:
+          Type: Api
+          Properties:
+            Path: /workable-scraper-dev
+            Method: POST
+            RestApiId: !Ref kazidev
 
   OttaScraperDev:
     Type: AWS::Serverless::Function
@@ -62,10 +81,61 @@ Resources:
       Runtime: provided.al2023
       Architectures:
         - x86_64
-      # Events:
-      #   Api:
-      #     Type: Api
-      #     Properties:
-      #       Path: /lambda/ottaScraper
-      #       Method: get
+      Events:
+        kazidevPOSTottascraperdev:
+          Type: Api
+          Properties:
+            Path: /otta-scraper-dev
+            Method: POST
+            RestApiId: !Ref kazidev
 
+  kazidev:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub
+        - ${ResourceName} From Stack ${AWS::StackName}
+        - ResourceName: kazidev
+      StageName: Dev
+      DefinitionBody:
+        openapi: '3.0'
+        info: {}
+        paths:
+          /keywords-dev:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetKeyWordsDev.Arn}/invocations
+              responses: {}
+          /interviews-dev:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${InterviewQsDev.Arn}/invocations
+              responses: {}
+          /workable-scraper-dev:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${WorkableScraperDev.Arn}/invocations
+              responses: {}
+          /otta-scraper-dev:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OttaScraperDev.Arn}/invocations
+              responses: {}
+      EndpointConfiguration: REGIONAL
+      TracingEnabled: true
+      Cors:
+        AllowOrigin: '''http://localhost:5173, https://beta.kazihub.co'''
+        AllowHeaders: '''content-type'''
+        AllowMethods: '''POST, OPTIONS'''
+        MaxAge: 0
+Outputs:
+  kazidev:
+    Description: The API Gateway URL
+    Value: !Sub https://${kazidev}.execute-api.${AWS::Region}.amazonaws.com/Dev/
