@@ -50,4 +50,23 @@ Resources:
       Architectures:
         - x86_64 
 
+  OttaScraperProd:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
+    Properties:
+      FunctionName: ottaScraperProd
+      CodeUri: lambda/ottaScraper
+      MemorySize: 150
+      Handler: bootstrap
+      Runtime: provided.al2023
+      Architectures:
+        - x86_64
+      # Events:
+      #   Api:
+      #     Type: Api
+      #     Properties:
+      #       Path: /lambda/ottaScraper
+      #       Method: get
+
 

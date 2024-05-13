@@ -1,9 +1,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
-Description: 
+Description: |-
   development_lambdas-SAM
-
   SAM template dev lambdas
 
 # Available top-level fields are listed in code completion
@@ -26,7 +25,7 @@ Resources:
         - arm64
       Environment:
         Variables:
-          OPENAI_API_KEY: ""  
+          OPENAI_API_KEY: ''
 
   InterviewQsDev:
     Type: AWS::Serverless::Function
@@ -39,7 +38,7 @@ Resources:
         - arm64
       Environment:
         Variables:
-          OPENAI_API_KEY: ""  
+          OPENAI_API_KEY: ''
 
   WorkableScraperDev:
     Type: AWS::Serverless::Function
@@ -50,23 +49,24 @@ Resources:
       Handler: index.handler
       Runtime: nodejs20.x
       Architectures:
-        - x86_64 
+        - x86_64
 
   OttaScraperDev:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
     Properties:
       FunctionName: ottaScraperDev
       CodeUri: lambda/ottaScraper
-      MemorySize: 500
-      PackageType: Zip
-      Handler: ottaScraper
+      MemorySize: 150
+      Handler: bootstrap
       Runtime: provided.al2023
-      Architectures: [x86_64] 
+      Architectures:
+        - x86_64
       # Events:
       #   Api:
       #     Type: Api
       #     Properties:
       #       Path: /lambda/ottaScraper
       #       Method: get
-    
-       
+
