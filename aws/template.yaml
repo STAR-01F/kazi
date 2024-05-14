@@ -1,0 +1,150 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Description: development_lambdas-SAM
+
+Globals:
+  Api:
+    OpenApiVersion: 3.0.1
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+
+# Add Resources Here: uncomment the following lines
+Resources:
+  GetKeyWords:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${Environment}-keyWords
+      CodeUri: lambda/keywords
+      Handler: app.handler
+      Runtime: nodejs20.x
+      Timeout: 10
+      FunctionUrlConfig:
+        AuthType: NONE
+      Architectures:
+        - arm64
+      Environment:
+        Variables:
+          OPENAI_API_KEY: ''
+      Events:
+        kazidevPOSTkeywordsdev:
+          Type: Api
+          Properties:
+            Path: /keywords
+            Method: POST
+            RestApiId: !Ref kaziGateway
+
+  InterviewQs:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${Environment}-interviewQs
+      CodeUri: lambda/interviewQs_API
+      Handler: index.handler
+      Timeout: 10
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64
+      Environment:
+        Variables:
+          OPENAI_API_KEY: ''
+      Events:
+        kazidevPOSTinterviewsdev:
+          Type: Api
+          Properties:
+            Path: /interviews
+            Method: POST
+            RestApiId: !Ref kaziGateway
+
+  WorkableScraper:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${Environment}-workableScraper
+      CodeUri: lambda/workableScraper
+      MemorySize: 1001
+      Handler: index.handler
+      Timeout: 15
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      Events:
+        kazidevPOSTworkablescraperdev:
+          Type: Api
+          Properties:
+            Path: /workable-scraper
+            Method: POST
+            RestApiId: !Ref kaziGateway
+
+  OttaScraper:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
+    Properties:
+      FunctionName: !Sub ${Environment}-ottaScraper
+      CodeUri: lambda/ottaScraper
+      MemorySize: 150
+      Handler: bootstrap
+      Timeout: 10
+      Runtime: provided.al2023
+      Architectures:
+        - x86_64
+      Events:
+        kazidevPOSTottascraperdev:
+          Type: Api
+          Properties:
+            Path: /otta-scraper
+            Method: POST
+            RestApiId: !Ref kaziGateway
+
+  kaziGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub
+        - ${ResourceName} 
+        - ResourceName: kaziAPI
+      StageName: !Ref Environment
+      DefinitionBody:
+        openapi: '3.0'
+        info: {}
+        paths:
+          /keywords:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetKeyWords.Arn}/invocations
+              responses: {}
+          /interviews:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${InterviewQs.Arn}/invocations
+              responses: {}
+          /workable-scraper:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${WorkableScraper.Arn}/invocations
+              responses: {}
+          /otta-scraper:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OttaScraper.Arn}/invocations
+              responses: {}
+      EndpointConfiguration: REGIONAL
+      TracingEnabled: true
+      Cors:
+        AllowOrigin: '''http://localhost:5173, https://beta.kazihub.co'''
+        AllowHeaders: '''content-type'''
+        AllowMethods: '''POST, OPTIONS'''
+        MaxAge: 0
+Outputs:
+  kazidev:
+    Description: The API Gateway URL
+    Value: !Sub https://${kaziGateway}.execute-api.${AWS::Region}.amazonaws.com/Dev/
