@@ -1,0 +1,23 @@
+version = 0.1
+[dev.deploy.parameters]
+stack_name = "kazi-dev"
+resolve_s3 = true
+s3_prefix = "kazi-dev"
+region = "eu-west-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []
+parameter_overrides = "Environment=dev"
+
+
+[prod.deploy.parameters]
+stack_name = "kazi-prod"
+resolve_s3 = true
+s3_prefix = "kazi-prod"
+region = "eu-west-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IA M"
+disable_rollback = true
+image_repositories = []
+parameter_overrides = "Environment=prod"
