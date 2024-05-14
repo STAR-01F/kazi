@@ -4,7 +4,7 @@ interface WrapperProps {
   imgSection: React.ReactNode;
   textSection: React.ReactNode;
 }
-
+//kazi logo color --> "#836FFF"
 const BodyComp = ({ imgSection, textSection }: WrapperProps) => {
   return (
     <Container
@@ -14,9 +14,10 @@ const BodyComp = ({ imgSection, textSection }: WrapperProps) => {
         display: "flex",
         flexDirection: { xs: "column", md: "row" },
         justifyContent: "centre",
-        backgroundColor: "#f8f7fe",
+        backgroundColor: "#836FFF",
         p: { xs: "5px", md: "50px" },
         borderRadius: "20px",
+        color: "white",
       }}
     >
       {textSection}

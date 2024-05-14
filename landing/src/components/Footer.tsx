@@ -1,10 +1,13 @@
-import { Box, Button, Container, Divider, Grid, Paper } from "@mui/material";
-import KaziIcon from "@assets/kazi-icon.png";
+import { Box, Container, Divider, Grid, Paper, Link } from "@mui/material";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import Copyright from "./copyright/copyright";
 
 type FooterProps = {
   siteUrl: string;
+  linkedInUrl: string;
 };
-const Footer = ({ siteUrl }: FooterProps) => {
+
+const Footer = ({ linkedInUrl }: FooterProps) => {
   return (
     <Box
       component={Paper}
@@ -21,28 +24,26 @@ const Footer = ({ siteUrl }: FooterProps) => {
       }}
     >
       <Container>
-        <Container sx={{ height: "100px" }}></Container>
+        <Container sx={{ height: "40px" }}></Container>
         <Divider
           sx={{
-            backgroundColor: "#5836F7",
+            backgroundColor: "#836FFF",
             height: "3px",
             mb: "20px",
           }}
         />
-        <Container sx={{ height: "70px", pt: "10px" }}>
+        <Container sx={{ height: "40px", pt: "10px" }}>
           <Grid container>
-            <Grid item width={"50%"}>
-              <Box
-                width={"100%"}
-                sx={{
-                  width: "70px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "left",
-                }}
-              >
-                <img src={KaziIcon} alt="Kazi Logo" />
-              </Box>
+            <Grid
+              item
+              width={"50%"}
+              sx={{
+                display: "flex",
+                alignItems: "left",
+                alignContent: "center",
+              }}
+            >
+              <Copyright />
             </Grid>
             <Grid
               container
@@ -51,15 +52,9 @@ const Footer = ({ siteUrl }: FooterProps) => {
               justifyContent={"flex-end"}
               alignItems={"center"}
             >
-              <Button
-                variant="contained"
-                // color='#2f1d81'
-                sx={{ backgroundColor: "#5836F7" }}
-                component="a"
-                href={`${siteUrl}/signup`}
-              >
-                Sign up
-              </Button>
+              <Link href={linkedInUrl} target="_blank">
+                <LinkedInIcon color="info" fontSize="large" />
+              </Link>
             </Grid>
           </Grid>
         </Container>
