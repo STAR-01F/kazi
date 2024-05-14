@@ -7,6 +7,7 @@ import ATS from "@components/swooped/getKeywords";
 
 function App() {
   const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
+  const linkedInUrl = "https://www.linkedin.com/company/kazihub/";
   return (
     <>
       <Header siteUrl={siteUrl} />
@@ -23,7 +24,7 @@ function App() {
         </Grid>
 
         <Grid item xs={12}>
-          <Footer siteUrl={siteUrl} />
+          <Footer siteUrl={siteUrl} linkedInUrl={linkedInUrl} />
         </Grid>
       </Grid>
     </>
