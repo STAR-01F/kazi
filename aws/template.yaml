@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
-Description: development_lambdas-SAM
+Description: lambdas-SAM
 
 Globals:
   Api:
@@ -11,10 +11,9 @@ Parameters:
   Environment:
     Type: String
     Default: dev
-    AllowedValues: 
-      - dev 
+    AllowedValues:
+      - dev
       - prod
-
 
 # Add Resources Here: uncomment the following lines
 Resources:
@@ -34,7 +33,7 @@ Resources:
         Variables:
           OPENAI_API_KEY: ''
       Events:
-        kazidevPOSTkeywordsdev:
+        POSTkeywords:
           Type: Api
           Properties:
             Path: /keywords
@@ -55,7 +54,7 @@ Resources:
         Variables:
           OPENAI_API_KEY: ''
       Events:
-        kazidevPOSTinterviewsdev:
+        POSTinterviews:
           Type: Api
           Properties:
             Path: /interviews
@@ -74,7 +73,7 @@ Resources:
       Architectures:
         - x86_64
       Events:
-        kazidevPOSTworkablescraperdev:
+        POSTworkablescraper:
           Type: Api
           Properties:
             Path: /workable-scraper
@@ -95,7 +94,7 @@ Resources:
       Architectures:
         - x86_64
       Events:
-        kazidevPOSTottascraperdev:
+        POSTottascraper:
           Type: Api
           Properties:
             Path: /otta-scraper
@@ -103,12 +102,11 @@ Resources:
             RestApiId: !Ref kaziGateway
             Stage: !Ref Environment
 
-
   kaziGateway:
     Type: AWS::Serverless::Api
     Properties:
       Name: !Sub
-        - ${ResourceName} 
+        - ${ResourceName}-${Environment}
         - ResourceName: kaziAPI
       StageName: !Ref Environment
       DefinitionBody:
@@ -153,4 +151,4 @@ Resources:
 Outputs:
   kazidev:
     Description: The API Gateway URL
-    Value: !Sub https://${kaziGateway}.execute-api.${AWS::Region}.amazonaws.com/Dev/
+    Value: !Sub https://${kaziGateway}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/
