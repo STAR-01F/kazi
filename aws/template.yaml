@@ -11,6 +11,10 @@ Parameters:
   Environment:
     Type: String
     Default: dev
+    AllowedValues: 
+      - dev 
+      - prod
+
 
 # Add Resources Here: uncomment the following lines
 Resources:
@@ -97,6 +101,8 @@ Resources:
             Path: /otta-scraper
             Method: POST
             RestApiId: !Ref kaziGateway
+            Stage: !Ref Environment
+
 
   kaziGateway:
     Type: AWS::Serverless::Api
