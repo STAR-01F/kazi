@@ -17,6 +17,7 @@ const JobSection = () => {
   if (loading) {
     return <PageCircular />;
   }
+
   jobs.sort((a, b) => {
     const aStatus = a.status;
     const bStatus = b.status;

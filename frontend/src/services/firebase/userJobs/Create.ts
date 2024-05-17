@@ -20,7 +20,9 @@ const CreateUserJob = async (
     jobid: job.id || '',
     title: job.title,
     company: job.company,
-    hiringOrganization: {logo: job.hiringOrganization?.logo || ''},
+    hiringOrganization: {
+      logo: job.hiringOrganization?.logo || job?.companyLogoURL,
+    },
     jobSource: job.jobSource || '',
     status: jobStatus,
     statusUpdates: s,
@@ -37,6 +39,7 @@ const CreateUserJob = async (
       },
       {merge: true}
     );
+
     console.log('UserProfiles', respUserProfiles);
     return {
       status: 'Success',
