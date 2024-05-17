@@ -8,7 +8,6 @@ import InterviewQs from 'src/@types/interviewQ';
 const getKeywords = async (
   description: string
 ): Promise<Response<Keywords['keywords'], unknown>> => {
-  console.log(import.meta.env.VITE_OPENAI_HOST);
   try {
     const response = await fetch(`${import.meta.env.VITE_OPENAI_HOST}`, {
       method: 'POST',
@@ -39,18 +38,33 @@ export const getInterviewQuestions = async (
   job: Job
 ): Promise<Response<InterviewQs, unknown>> => {
   try {
+    const jobDescription =
+      job.jobSource == 'Workable'
+        ? job.workableDescription.join()
+        : job.description;
+
     const response = await fetch(`${import.meta.env.VITE_OPENAI_IQS}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+
       body: JSON.stringify({
-        job: job,
+        job: {
+          title: job.title,
+          description: jobDescription,
+          company: job.company,
+        },
       }),
     });
+
     const data = await response.json();
+
     if (!response.ok) {
-      throw new Error(data.message || 'Could not fetch interview questions.');
+      return {
+        status: 'Error',
+        message: 'Failed to generate interview questions',
+      };
     }
     return {
       status: 'Success',

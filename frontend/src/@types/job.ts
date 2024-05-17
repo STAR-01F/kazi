@@ -3,6 +3,7 @@ type Job = {
   title: string;
   description: string;
   company: string;
+  companyLogoURL: string;
   jobLink: string;
   status?: string;
   jobLocation?: {address?: {addressRegion: string; addressCountry: string}};

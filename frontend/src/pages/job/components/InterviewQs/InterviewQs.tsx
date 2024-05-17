@@ -23,30 +23,36 @@ const InterviewQs = () => {
     if (!data) return;
     if (!userJob) return;
 
-    try {
-      const resp = await getInterviewQuestions(data[0]);
-      if (resp.status === 'Success') {
-        const saveIQResp = await SaveIQs(userJob.id, resp.data);
+    const resp = await getInterviewQuestions(data[0]);
+    if (resp.status === 'Success') {
+      const saveIQResp = await SaveIQs(userJob.id, resp.data);
 
-        if (saveIQResp.status === 'Error') {
-          setFeedback({
-            type: 'error',
-            message: saveIQResp.message,
+      if (saveIQResp.status === 'Error') {
+        setFeedback({
+          type: 'error',
+          message: saveIQResp.message,
+        });
+      } else {
+        setJobs((prevJobs) => {
+          return prevJobs.map((job) => {
+            if (job.id === userJob.id) {
+              return {...job, interviewQs: resp.data};
+            }
+            return job;
           });
-        } else {
-          setJobs((prevJobs) => {
-            return prevJobs.map((job) => {
-              if (job.id === userJob.id) {
-                return {...job, interviewQs: resp.data};
-              }
-              return job;
-            });
-          });
-        }
-        setInterviewQsLoading(false);
+        });
+        setFeedback({
+          type: 'success',
+          message: 'Interview questions generated',
+        });
       }
-    } catch (e) {
-      console.error('IQErrs', e);
+      setInterviewQsLoading(false);
+    } else {
+      setFeedback({
+        type: 'error',
+        message: 'Cannot generate interview questions',
+      });
+      setInterviewQsLoading(false);
     }
   };
 
@@ -68,7 +74,7 @@ const InterviewQs = () => {
           >
             <>
               <Typography variant="h6">General Questions</Typography>
-              {userJob.interviewQs.questions.generalQuestions.map(
+              {userJob.interviewQs?.questions.generalQuestions.map(
                 (q, index) => (
                   <Typography key={index} variant="body1">
                     {`${index + 1}. ${q}`}
@@ -76,7 +82,7 @@ const InterviewQs = () => {
                 )
               )}
               <Typography variant="h6">Technical Questions</Typography>
-              {userJob.interviewQs.questions.technicalQuestions.map(
+              {userJob.interviewQs?.questions.technicalQuestions?.map(
                 (q, index) => (
                   <Typography key={index} variant="body1">
                     {`${index + 1}. ${q}`}
@@ -84,7 +90,7 @@ const InterviewQs = () => {
                 )
               )}
               <Typography variant="h6">Situational Questions</Typography>
-              {userJob.interviewQs.questions.situationalQuestions.map(
+              {userJob.interviewQs?.questions.situationalQuestions?.map(
                 (q, index) => (
                   <Typography key={index} variant="body1">
                     {`${index + 1}. ${q}`}
