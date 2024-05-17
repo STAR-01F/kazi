@@ -33,12 +33,14 @@ Resources:
         Variables:
           OPENAI_API_KEY: ''
       Events:
-        POSTkeywords:
-          Type: Api
+        kaziGatewayPOSTkeywords:
+          Type: HttpApi
           Properties:
             Path: /keywords
             Method: POST
-            RestApiId: !Ref kaziGateway
+            ApiId: !Ref kaziGateway
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
 
   InterviewQs:
     Type: AWS::Serverless::Function
@@ -54,12 +56,14 @@ Resources:
         Variables:
           OPENAI_API_KEY: ''
       Events:
-        POSTinterviews:
-          Type: Api
+        kaziGatewayPOSTinterviews:
+          Type: HttpApi
           Properties:
             Path: /interviews
             Method: POST
-            RestApiId: !Ref kaziGateway
+            ApiId: !Ref kaziGateway
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
 
   WorkableScraper:
     Type: AWS::Serverless::Function
@@ -73,12 +77,14 @@ Resources:
       Architectures:
         - x86_64
       Events:
-        POSTworkablescraper:
-          Type: Api
+        kaziGatewayPOSTworkablescraper:
+          Type: HttpApi
           Properties:
             Path: /workable-scraper
             Method: POST
-            RestApiId: !Ref kaziGateway
+            ApiId: !Ref kaziGateway
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
 
   OttaScraper:
     Type: AWS::Serverless::Function
@@ -94,59 +100,46 @@ Resources:
       Architectures:
         - x86_64
       Events:
-        POSTottascraper:
-          Type: Api
+        kaziGatewayPOSTottascraper:
+          Type: HttpApi
           Properties:
             Path: /otta-scraper
             Method: POST
-            RestApiId: !Ref kaziGateway
-            Stage: !Ref Environment
+            ApiId: !Ref kaziGateway
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
 
   kaziGateway:
-    Type: AWS::Serverless::Api
+    Type: AWS::Serverless::HttpApi
     Properties:
-      Name: !Sub
-        - ${ResourceName}-${Environment}
-        - ResourceName: kaziAPI
       StageName: !Ref Environment
       DefinitionBody:
-        openapi: '3.0'
-        info: {}
+        openapi: 3.0.1
+        info:
+          name: !Sub kaziAPI-${Environment}
+          title: !Sub kaziAPI-${Environment}
         paths:
           /keywords:
             post:
-              x-amazon-apigateway-integration:
-                httpMethod: POST
-                type: aws_proxy
-                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetKeyWords.Arn}/invocations
               responses: {}
           /interviews:
             post:
-              x-amazon-apigateway-integration:
-                httpMethod: POST
-                type: aws_proxy
-                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${InterviewQs.Arn}/invocations
               responses: {}
           /workable-scraper:
             post:
-              x-amazon-apigateway-integration:
-                httpMethod: POST
-                type: aws_proxy
-                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${WorkableScraper.Arn}/invocations
               responses: {}
           /otta-scraper:
             post:
-              x-amazon-apigateway-integration:
-                httpMethod: POST
-                type: aws_proxy
-                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OttaScraper.Arn}/invocations
               responses: {}
-      EndpointConfiguration: REGIONAL
-      TracingEnabled: true
-      Cors:
-        AllowOrigin: '''http://localhost:5173, https://beta.kazihub.co'''
-        AllowHeaders: '''content-type'''
-        AllowMethods: '''POST, OPTIONS'''
+      CorsConfiguration:
+        AllowOrigins:
+          - http://localhost:5173
+          - https://beta.kazihub.co
+        AllowHeaders:
+          - content-type
+        AllowMethods:
+          - POST
+          - OPTIONS
         MaxAge: 0
 Outputs:
   kazidev:
