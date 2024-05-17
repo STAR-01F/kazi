@@ -38,15 +38,21 @@ export const getInterviewQuestions = async (
   job: Job
 ): Promise<Response<InterviewQs, unknown>> => {
   try {
+    const jobDescription =
+      job.jobSource == 'Workable'
+        ? job.workableDescription.join()
+        : job.description;
+
     const response = await fetch(`${import.meta.env.VITE_OPENAI_IQS}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+
       body: JSON.stringify({
         job: {
           title: job.title,
-          description: job.description,
+          description: jobDescription,
           company: job.company,
         },
       }),
