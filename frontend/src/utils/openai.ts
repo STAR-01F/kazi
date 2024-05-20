@@ -20,17 +20,26 @@ const getKeywords = async (
     });
     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.message || 'Could not fetch keywords.');
+    if (data.error || !response.ok) {
+      return {
+        status: 'Error',
+        message: 'Failed to generate keywords',
+        data: data.error,
+      };
     }
+
     return {
       status: 'Success',
       data: data.keywords,
-      message: 'Successfully fetched the keywords',
+      message: 'Successfully generated the keywords',
     };
   } catch (error) {
     console.error('failed to fetch keywords API', error);
-    return {status: 'Error', message: 'Could not generate key words'};
+    return {
+      status: 'Error',
+      message: 'Failed to generate keywords',
+      data: error,
+    };
   }
 };
 
@@ -59,21 +68,25 @@ export const getInterviewQuestions = async (
     });
 
     const data = await response.json();
-
-    if (!response.ok) {
+    if (data.error || !response.ok) {
       return {
         status: 'Error',
         message: 'Failed to generate interview questions',
+        data: data.error,
       };
     }
     return {
       status: 'Success',
       data: data,
-      message: 'Successfully fetched the interview questions',
+      message: 'Successfully generated interview questions',
     };
   } catch (error) {
     console.error('failed to fetch interview questions API', error);
-    return {status: 'Error', message: 'Could not generate interview questions'};
+    return {
+      status: 'Error',
+      message: 'Failed to generate interview questions',
+      data: error,
+    };
   }
 };
 
