@@ -43,14 +43,14 @@ const InterviewQs = () => {
         });
         setFeedback({
           type: 'success',
-          message: 'Interview questions generated',
+          message: resp.message,
         });
       }
       setInterviewQsLoading(false);
     } else {
       setFeedback({
         type: 'error',
-        message: 'Cannot generate interview questions',
+        message: resp.message,
       });
       setInterviewQsLoading(false);
     }

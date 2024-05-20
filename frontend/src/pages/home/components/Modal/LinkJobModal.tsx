@@ -119,7 +119,7 @@ const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
     }
     setFeedback({
       type: 'success',
-      message: 'Job added successfully',
+      message: resp.message,
     });
     setJobs([...jobs, createdUserJob.data]);
 
