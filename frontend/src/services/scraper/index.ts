@@ -5,7 +5,7 @@ import fetchWorkable from './Workable';
 const Scrapper = async (
   url: string
 ): Promise<Response<Partial<Job>, unknown>> => {
-  if (url.includes('otta')) {
+  if (url.includes('otta.com')) {
     return await Otta(url);
   }
 
