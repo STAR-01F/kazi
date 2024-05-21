@@ -39,6 +39,7 @@ export const workableScraper = async (url) => {
       '[data-ui="job-requirements"] ul li',
       (reqs) => reqs.map((req) => req.textContent),
     );
+
     await browser.close();
 
     const jobData = {

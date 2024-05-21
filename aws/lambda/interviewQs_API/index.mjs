@@ -5,6 +5,7 @@
  * based on a system message, a user message containing the job details,
  *
  */
+
 import { OpenAI } from 'openai';
 
 export const handler = async (event) => {

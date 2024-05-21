@@ -7,7 +7,10 @@ export const handler = async (event) => {
   try {
     const scrapedData = await workableScraper(url);
 
-    if (Object.keys(scrapedData).length === 0) {
+    if (
+      Object.keys(scrapedData).length === 0 ||
+      scrapedData.workableDescription.length == 0
+    ) {
       return {
         statusCode: 400,
         body: JSON.stringify({

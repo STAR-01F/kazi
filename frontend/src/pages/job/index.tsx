@@ -26,6 +26,7 @@ import {Timestamp} from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
+
 const Job = () => {
   const {id} = useParams();
   const {user} = useAuth();
