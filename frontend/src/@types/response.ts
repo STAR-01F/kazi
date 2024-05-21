@@ -7,7 +7,8 @@ export type Success<T> = {
 };
 export type Error<U> = {
   status: 'Error';
-  message: U;
+  message: string;
+  data?: U;
 };
 
 export default Response;

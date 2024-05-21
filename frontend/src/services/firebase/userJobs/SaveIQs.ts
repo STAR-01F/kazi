@@ -26,14 +26,13 @@ const SaveIQs = async (
     }
     return {
       status: 'Error',
-      message: 'Unable to save IQs, document does not exist',
+      message: 'Failed to save interview questions',
     };
   } catch (error) {
     return {
       status: 'Error',
-      message: `Failed to save interview questions: ${
-        (error as Error).message
-      }`,
+      message: 'Failed to save interview questions',
+      data: (error as Error).message,
     };
   }
 };

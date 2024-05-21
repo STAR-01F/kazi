@@ -1,6 +1,5 @@
 import {Job, Response} from 'src/@types';
 
-// : Promise<Response<Partial<Job>, unknown>>
 const fetchWorkable = async (
   url: string
 ): Promise<Response<Partial<Job>, unknown>> => {
@@ -12,13 +11,16 @@ const fetchWorkable = async (
       },
       body: JSON.stringify({url}),
     });
-    if (!response.ok) {
+
+    const data = await response.json();
+
+    if (data.error || !response.ok) {
       return {
         status: 'Error',
-        message: 'Failed to fetch from workable API',
+        message: 'Failed to save job',
+        data: data.error,
       };
     }
-    const data = await response.json();
 
     const jobInfo: Partial<Job> = {
       title: data.title,
@@ -32,13 +34,13 @@ const fetchWorkable = async (
 
     return {
       status: 'Success',
-      message: 'Successfully fetched Workable API',
+      message: 'Successfully saved job',
       data: jobInfo,
     };
   } catch (error) {
     return {
       status: 'Error',
-      message: 'Failed to fetch Workable API ',
+      message: 'Failed to save job',
     };
   }
 };
