@@ -62,7 +62,7 @@ const InterviewQs = () => {
 
   return (
     <>
-      {userJob && userJob.interviewQs.questions ? (
+      {userJob && userJob.interviewQs?.questions ? (
         <>
           <Grid
             container
