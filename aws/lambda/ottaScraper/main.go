@@ -1,8 +1,6 @@
 package main
 
 import (
-	"errors"
-
 	"github.com/aws/aws-lambda-go/lambda"
 
 	"encoding/json"
@@ -17,6 +15,8 @@ import (
 
 type OttaError struct{
 	Error string `json:"error"`
+	ErrorSource string `json:"errorSource"`
+
 }
 
 func scrape(url string) (map[string]interface{}, error) {
@@ -93,47 +93,45 @@ type JobURL struct {
 func handleOttaScrape(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	var url JobURL
 	var respError OttaError
-
-	err2 := errors.New("fake error")
-	if err2 != nil {
-		respError.Error  = err2.Error()
-		lambdaErr, _ := json.Marshal(respError)
-
-		return events.APIGatewayProxyResponse{
-			Body: string(lambdaErr),
-		}, err2
-	}
-
 	
 	err := json.Unmarshal([]byte(request.Body), &url)
 	if err != nil {
 		respError.Error  = err.Error()
+		respError.ErrorSource = "Error unmarshalling request"
 		lambdaErr, _ := json.Marshal(respError)
 
 		return events.APIGatewayProxyResponse{
+			StatusCode: 500,
 			Body: string(lambdaErr),
-		}, err
+		}, nil
 	}
 
 
 	jobInfo, err := scrape(url.Url)
 	if err != nil {
 		respError.Error  = err.Error()
+		respError.ErrorSource = "Error scraping url"
+
 		lambdaErr, _ := json.Marshal(respError)
 
 		return events.APIGatewayProxyResponse{
+			StatusCode: 500,
 			Body: string(lambdaErr),
-		}, err
+		}, nil
 	}
 
 	jobBytes, err := json.Marshal(jobInfo)
 	if err != nil {
 		respError.Error  = err.Error()
+		respError.ErrorSource = "Error marshalling jobInfo"
+		
+
 		lambdaErr, _ := json.Marshal(respError)
 
 		return events.APIGatewayProxyResponse{
+			StatusCode: 500,
 			Body: string(lambdaErr),
-		}, err
+		}, nil
 	}
 
 	response := events.APIGatewayProxyResponse{
