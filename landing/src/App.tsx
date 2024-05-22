@@ -14,10 +14,10 @@ function App() {
       <Grid container spacing={{ xs: 2, md: 7 }}>
         <SectionOne />
         <Grid item xs={12}>
-          <ATS />
+          <JobpageLanding />
         </Grid>
         <Grid item xs={12}>
-          <JobpageLanding />
+          <ATS />
         </Grid>
         <Grid item xs={12}>
           <NewsFeedLanding />
