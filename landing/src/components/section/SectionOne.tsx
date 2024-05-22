@@ -8,7 +8,6 @@ const SectionOne = () => {
       component={Grid}
       container
       width={"100%"}
-      height={"500px"}
       sx={{
         display: "flex",
         justifyContent: "center",
@@ -18,7 +17,6 @@ const SectionOne = () => {
         component={Grid}
         container
         width={"100%"}
-        // maxWidth={"lg"}
         height={"400px"}
         direction={"column"}
         sx={{
@@ -44,8 +42,7 @@ const SectionOne = () => {
             fontWeight={"bold"}
             fontSize={{ xs: "1.5rem", md: "3rem" }}
           >
-            {/* Unlock your career's full potential */}
-            Enhance your job search
+            Enhance Your Job Search
           </Typography>
         </Container>
         <Container
@@ -53,7 +50,6 @@ const SectionOne = () => {
           container
           mb={3}
           sx={{
-            // width: "350px",
             display: "flex",
             justifyContent: "space-around",
             alignItems: "center",
@@ -84,7 +80,6 @@ const SectionOne = () => {
           </Button>
         </Container>
       </Container>
-      {/* <RenderPageImage/> */}
     </Box>
   );
 };
