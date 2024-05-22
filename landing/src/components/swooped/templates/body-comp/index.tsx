@@ -15,9 +15,10 @@ const BodyComp = ({ imgSection, textSection }: WrapperProps) => {
         flexDirection: { xs: "column", md: "row" },
         justifyContent: "centre",
         backgroundColor: "#836FFF",
-        p: { xs: "5px", md: "50px" },
+        p: { xs: "20px", md: "50px" },
         borderRadius: "20px",
         color: "white",
+        width: { xs: "90%", md: "100%" },
       }}
     >
       {textSection}
