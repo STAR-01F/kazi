@@ -8,6 +8,7 @@ import QuizIcon from '@mui/icons-material/Quiz';
 import PageCircular from '@components/progress/PageCircular';
 import SaveIQs from '@services/firebase/userJobs/SaveIQs';
 import {useFeedback} from '@hooks/useFeeback';
+import {IQCards} from './IQCards';
 
 const InterviewQs = () => {
   const {id} = useParams();
@@ -68,33 +69,14 @@ const InterviewQs = () => {
             container
             item
             direction="column"
-            gap={2}
+            gap={0}
             justifyContent={'center'}
             p={2}
           >
             <>
-              <Typography variant="h6">General Questions</Typography>
-              {userJob.interviewQs?.questions.generalQuestions.map(
+              {Object.entries(userJob.interviewQs?.questions).map(
                 (q, index) => (
-                  <Typography key={index} variant="body1">
-                    {`${index + 1}. ${q}`}
-                  </Typography>
-                )
-              )}
-              <Typography variant="h6">Technical Questions</Typography>
-              {userJob.interviewQs?.questions.technicalQuestions?.map(
-                (q, index) => (
-                  <Typography key={index} variant="body1">
-                    {`${index + 1}. ${q}`}
-                  </Typography>
-                )
-              )}
-              <Typography variant="h6">Situational Questions</Typography>
-              {userJob.interviewQs?.questions.situationalQuestions?.map(
-                (q, index) => (
-                  <Typography key={index} variant="body1">
-                    {`${index + 1}. ${q}`}
-                  </Typography>
+                  <IQCards key={index} content={q[1]} title={q[0]} />
                 )
               )}
             </>
