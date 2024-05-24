@@ -1,4 +1,4 @@
-import {Chip, Typography, Grid, Button} from '@mui/material';
+import {Chip, Typography, Grid, Button, Zoom} from '@mui/material';
 import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import {SkeletonChip} from '@components/skeleton';
 import {useState} from 'react';
@@ -69,22 +69,24 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
         <Grid container direction="row" gap={2} p={2}>
           {userJob?.keywords?.map((keyword, index) => {
             return (
-              <Grid
-                item
-                xs={12}
-                md={12}
-                display={'flex'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                alignContent={'center'}
-              >
-                <Chip
-                  key={index}
-                  label={<Typography variant="h6">{keyword}</Typography>}
-                  sx={{padding: '1rem'}}
-                  color="success"
-                />
-              </Grid>
+              <Zoom in={true} style={{transitionDelay: '100ms'}}>
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  display={'flex'}
+                  justifyContent={'center'}
+                  alignItems={'center'}
+                  alignContent={'center'}
+                >
+                  <Chip
+                    key={index}
+                    label={<Typography variant="h6">{keyword}</Typography>}
+                    sx={{padding: '1rem'}}
+                    color="success"
+                  />
+                </Grid>
+              </Zoom>
             );
           })}
         </Grid>
