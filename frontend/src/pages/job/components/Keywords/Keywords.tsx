@@ -55,14 +55,7 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
   if (isKeywordsLoading) {
     return (
       <>
-        <Grid
-          container
-          item
-          direction="row"
-          gap={2}
-          justifyContent={'center'}
-          p={2}
-        >
+        <Grid container gap={2} p={2}>
           {[30, 30, 30, 40, 40, 30, 30, 30, 50].map((size, index) => (
             <SkeletonChip key={index} size={size} />
           ))}
@@ -73,21 +66,25 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
   return (
     <>
       {userJob?.keywords ? (
-        <Grid
-          container
-          item
-          direction="row"
-          gap={2}
-          justifyContent={'center'}
-          p={2}
-        >
+        <Grid container direction="row" gap={2} p={2}>
           {userJob?.keywords?.map((keyword, index) => {
             return (
-              <Chip
-                key={index}
-                label={<Typography variant="h6">{keyword}</Typography>}
-                sx={{padding: '1rem'}}
-              />
+              <Grid
+                item
+                xs={12}
+                md={12}
+                display={'flex'}
+                justifyContent={'center'}
+                alignItems={'center'}
+                alignContent={'center'}
+              >
+                <Chip
+                  key={index}
+                  label={<Typography variant="h6">{keyword}</Typography>}
+                  sx={{padding: '1rem'}}
+                  color="success"
+                />
+              </Grid>
             );
           })}
         </Grid>
