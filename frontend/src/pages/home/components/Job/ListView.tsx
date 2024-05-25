@@ -13,7 +13,11 @@ const ListView = ({jobs}: ListViewProps) => {
   return (
     <TableContainer>
       <Table>
-        <TableBody>
+        <TableBody
+          sx={{
+            color: 'text.primary',
+          }}
+        >
           {jobs
             .filter(
               (job) =>
@@ -22,21 +26,23 @@ const ListView = ({jobs}: ListViewProps) => {
                 job.status?.toLowerCase() === searchStatus?.toLowerCase()
             )
             .map((job) => (
-              <JobList
-                key={job.id}
-                jobID={job.jobid}
-                userJobsId={job.id}
-                companyName={job.company}
-                logoPath={
-                  job.jobSource === 'Otta'
-                    ? `https://images.otta.com/search/width_200/${job.hiringOrganization?.logo}` ||
-                      ''
-                    : job.hiringOrganization?.logo || ''
-                }
-                status={job.status || 'Saved'}
-                jobTitle={job.title}
-                time={job.statusUpdates[job.status]}
-              />
+              <>
+                <JobList
+                  key={job.id}
+                  jobID={job.jobid}
+                  userJobsId={job.id}
+                  companyName={job.company}
+                  logoPath={
+                    job.jobSource === 'Otta'
+                      ? `https://images.otta.com/search/width_200/${job.hiringOrganization?.logo}` ||
+                        ''
+                      : job.hiringOrganization?.logo || ''
+                  }
+                  status={job.status || 'Saved'}
+                  jobTitle={job.title}
+                  time={job.statusUpdates[job.status]}
+                />
+              </>
             ))}
         </TableBody>
       </Table>

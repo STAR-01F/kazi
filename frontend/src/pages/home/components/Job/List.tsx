@@ -1,6 +1,7 @@
 import MenuListButton from '@components/button/MenuListButton';
 import {
   Avatar,
+  Box,
   IconButton,
   TableCell,
   TableRow,
@@ -41,6 +42,7 @@ const JobList = ({
   };
   const timeToStr = time.toDate().toLocaleDateString(undefined, dateOptions);
   const [openDialog, setOpenDialog] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -100,17 +102,59 @@ const JobList = ({
   ];
   return (
     <TableRow key={jobID}>
-      <TableCell>
-        <Avatar
-          alt={companyName}
-          src={logoPath}
-          variant="square"
-          sx={{
-            width: '100px',
-            height: 'auto',
-            objectFit: 'contain',
-          }}
-        />
+      <TableCell
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          // fill the square
+        }}
+      >
+        {!imgError ? (
+          <Box
+            sx={{
+              width: '50px',
+              height: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '2px',
+              border: '1px solid #e0e0e0',
+              borderRadius: '8px',
+              // fill the square
+            }}
+          >
+            <Avatar
+              alt={companyName}
+              src={logoPath}
+              variant="square"
+              onError={() => {
+                setImgError(true);
+              }}
+              sx={{
+                width: '100%',
+                height: 'auto',
+                justifyContent: 'center',
+              }}
+            />
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              width: '50px',
+              height: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '5px',
+              border: '1px solid #e0e0e0',
+              borderRadius: '8px',
+              // fill the square
+            }}
+          >
+            <Typography variant="caption">{companyName}</Typography>
+          </Box>
+        )}
       </TableCell>
       <TableCell>
         <Typography variant="caption">{companyName}</Typography>
