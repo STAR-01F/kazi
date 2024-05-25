@@ -13,11 +13,7 @@ const ListView = ({jobs}: ListViewProps) => {
   return (
     <TableContainer>
       <Table>
-        <TableBody
-          sx={{
-            color: 'text.primary',
-          }}
-        >
+        <TableBody>
           {jobs
             .filter(
               (job) =>
