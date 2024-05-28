@@ -3,7 +3,7 @@ import { Footer } from "./components";
 import { Grid } from "@mui/material";
 import NewsFeedLanding from "@components/swooped/newsfeed";
 import JobpageLanding from "@components/swooped/allJobs";
-import ATS from "@components/swooped/getKeywords";
+import Ats from "@components/swooped/getKeywords";
 
 function App() {
   const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
@@ -17,12 +17,11 @@ function App() {
           <JobpageLanding />
         </Grid>
         <Grid item xs={12}>
-          <ATS />
+          <Ats />
         </Grid>
         <Grid item xs={12}>
           <NewsFeedLanding />
         </Grid>
-
         <Grid item xs={12}>
           <Footer siteUrl={siteUrl} linkedInUrl={linkedInUrl} />
         </Grid>
