@@ -3,9 +3,10 @@ import { Container } from "@mui/material";
 interface WrapperProps {
   imgSection: React.ReactNode;
   textSection: React.ReactNode;
+  button: React.ReactNode;
 }
 //kazi logo color --> "#836FFF"
-const BodyComp = ({ imgSection, textSection }: WrapperProps) => {
+const BodyComp = ({ imgSection, textSection, button }: WrapperProps) => {
   return (
     <Container
       maxWidth="lg"
@@ -21,7 +22,17 @@ const BodyComp = ({ imgSection, textSection }: WrapperProps) => {
         width: { xs: "90%", md: "100%" },
       }}
     >
-      {textSection}
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+      >
+        {textSection}
+        {button}
+      </Container>
       {imgSection}
     </Container>
   );
