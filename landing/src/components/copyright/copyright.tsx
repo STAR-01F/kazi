@@ -8,7 +8,7 @@ export default function Copyright(props: any) {
       variant="body2"
       color="light-gray"
       align="center"
-      sx={{ ...props.sx }}
+      sx={{ ...props.sx, fontSize: { xs: "0.7rem" } }}
     >
       {"Copyright © "}
       <Link color="inherit" href={props.href}>

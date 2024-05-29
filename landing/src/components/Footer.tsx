@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Grid, Paper, Link } from "@mui/material";
+import { Box, Container, Divider, Paper, Link } from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import Copyright from "./copyright/copyright";
 
@@ -12,7 +12,7 @@ const Footer = ({ linkedInUrl }: FooterProps) => {
     <Box
       component={Paper}
       width={"100%"}
-      height={"max-content"}
+      height={{ md: "200px" }}
       padding={2}
       sx={{
         display: "flex",
@@ -23,8 +23,7 @@ const Footer = ({ linkedInUrl }: FooterProps) => {
         backgroundColor: "#23272A",
       }}
     >
-      <Container>
-        <Container sx={{ height: "40px" }}></Container>
+      <Container sx={{ alignSelf: "end" }}>
         <Divider
           sx={{
             backgroundColor: "#836FFF",
@@ -32,31 +31,17 @@ const Footer = ({ linkedInUrl }: FooterProps) => {
             mb: "20px",
           }}
         />
-        <Container sx={{ height: "40px", pt: "10px" }}>
-          <Grid container>
-            <Grid
-              item
-              width={"50%"}
-              sx={{
-                display: "flex",
-                alignItems: "left",
-                alignContent: "center",
-              }}
-            >
-              <Copyright />
-            </Grid>
-            <Grid
-              container
-              item
-              width={"50%"}
-              justifyContent={"flex-end"}
-              alignItems={"center"}
-            >
-              <Link href={linkedInUrl} target="_blank">
-                <LinkedInIcon color="info" fontSize="large" />
-              </Link>
-            </Grid>
-          </Grid>
+        <Container
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Copyright />
+          <Link href={linkedInUrl} target="_blank">
+            <LinkedInIcon color="info" fontSize="large" />
+          </Link>
         </Container>
       </Container>
     </Box>
