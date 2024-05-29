@@ -1,15 +1,18 @@
-import { Box, Button, Container, Divider, Grid, Paper } from "@mui/material";
-import KaziIcon from "@assets/kazi-icon.png";
+import { Box, Container, Divider, Paper, Link } from "@mui/material";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import Copyright from "./copyright/copyright";
 
 type FooterProps = {
   siteUrl: string;
+  linkedInUrl: string;
 };
-const Footer = ({ siteUrl }: FooterProps) => {
+
+const Footer = ({ linkedInUrl }: FooterProps) => {
   return (
     <Box
       component={Paper}
       width={"100%"}
-      height={"max-content"}
+      height={{ md: "200px" }}
       padding={2}
       sx={{
         display: "flex",
@@ -20,48 +23,25 @@ const Footer = ({ siteUrl }: FooterProps) => {
         backgroundColor: "#23272A",
       }}
     >
-      <Container>
-        <Container sx={{ height: "100px" }}></Container>
+      <Container sx={{ alignSelf: "end" }}>
         <Divider
           sx={{
-            backgroundColor: "#5836F7",
+            backgroundColor: "#836FFF",
             height: "3px",
             mb: "20px",
           }}
         />
-        <Container sx={{ height: "70px", pt: "10px" }}>
-          <Grid container>
-            <Grid item width={"50%"}>
-              <Box
-                width={"100%"}
-                sx={{
-                  width: "70px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "left",
-                }}
-              >
-                <img src={KaziIcon} alt="Kazi Logo" />
-              </Box>
-            </Grid>
-            <Grid
-              container
-              item
-              width={"50%"}
-              justifyContent={"flex-end"}
-              alignItems={"center"}
-            >
-              <Button
-                variant="contained"
-                // color='#2f1d81'
-                sx={{ backgroundColor: "#5836F7" }}
-                component="a"
-                href={`${siteUrl}/signup`}
-              >
-                Sign up
-              </Button>
-            </Grid>
-          </Grid>
+        <Container
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Copyright />
+          <Link href={linkedInUrl} target="_blank">
+            <LinkedInIcon color="info" fontSize="large" />
+          </Link>
         </Container>
       </Container>
     </Box>

@@ -1,45 +1,36 @@
-import {
-  RenderPageImage,
-  Header,
-  SectionOne,
-  SectionTwo,
-  SectionThree,
-  Footer,
-} from "./components";
+import { Header, SectionOne } from "./components";
+import { Footer } from "./components";
+import { Grid } from "@mui/material";
+import NewsFeedLanding from "@components/swooped/newsfeed";
+import JobpageLanding from "@components/swooped/allJobs";
+import JobAndNotes from "@components/swooped/jobAndNotes";
+import Ats from "@components/swooped/getKeywords";
 
 function App() {
   const siteUrl = import.meta.env.VITE_BETA_SITE_URL as string;
+  const linkedInUrl = "https://www.linkedin.com/company/kazihub/";
   return (
-    <div>
-      <RenderPageImage />
+    <>
       <Header siteUrl={siteUrl} />
-      <SectionOne />
-      <SectionTwo />
-      <SectionThree />
-      {/* <Box
-                component={Grid}
-                container
-                width={'100%'}
-                height={'500px'}
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#F8F8F8',
-                }}></Box>
-            <Box
-                component={Grid}
-                container
-                width={'100%'}
-                height={'500px'}
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#F3F3F3',
-                }}></Box> */}
-      <Footer siteUrl={siteUrl} />
-    </div>
+      <Grid container spacing={{ xs: 2, md: 7 }}>
+        <SectionOne />
+        <Grid item xs={12}>
+          <JobpageLanding />
+        </Grid>
+        <Grid item xs={12}>
+          <JobAndNotes />
+        </Grid>
+        <Grid item xs={12}>
+          <Ats />
+        </Grid>
+        <Grid item xs={12}>
+          <NewsFeedLanding />
+        </Grid>
+        <Grid item xs={12}>
+          <Footer siteUrl={siteUrl} linkedInUrl={linkedInUrl} />
+        </Grid>
+      </Grid>
+    </>
   );
 }
 
