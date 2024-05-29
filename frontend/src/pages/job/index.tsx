@@ -6,6 +6,7 @@ import {
   Card,
   CardHeader,
   CardContent,
+  Stepper,
 } from '@mui/material';
 
 import {LogoAttribution} from '@pages/home/components/LogoAttribution';
@@ -130,6 +131,10 @@ const Job = () => {
       action: () => setOpenDialog(true),
     },
   ];
+
+  console.log('from jobs --> \n', jobs![21], data![0]);
+  console.log('--------------------------------');
+
   return (
     <>
       <Grid
