@@ -6,7 +6,6 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Stepper,
 } from '@mui/material';
 
 import {LogoAttribution} from '@pages/home/components/LogoAttribution';
