@@ -6,6 +6,9 @@ import {
   Card,
   CardHeader,
   CardContent,
+  Stepper,
+  Step,
+  StepLabel,
 } from '@mui/material';
 
 import {LogoAttribution} from '@pages/home/components/LogoAttribution';
@@ -131,8 +134,15 @@ const Job = () => {
     },
   ];
 
+  const steps = [
+    'Select master blaster campaign settings',
+    'Create an ad group',
+    'Create an ad',
+  ];
+
   console.log('from jobs --> \n', jobs![21], data![0]);
   console.log('--------------------------------');
+  // 157-308
 
   return (
     <>
@@ -143,15 +153,17 @@ const Job = () => {
         maxWidth={'lg'}
         padding={{xs: '10px 20px', md: '15px 30px', lg: '20px 40px'}}
       >
-        <Grid container direction="column" p={1}>
+        <Grid container direction="column" p={1} id={'headhoncho'}>
           <Grid>
-            <Typography mb={1} variant="h4">
-              {title}
-            </Typography>
+            <Grid item xs={6} alignItems={'center'} justifyContent={'flex-end'}>
+              <Typography mb={1} variant="h4">
+                {title}
+              </Typography>
+            </Grid>
             <Grid container id={'logo-btns'}>
               <Grid
-                container
                 item
+                xs={12}
                 id={'company-logo'}
                 alignItems={'center'}
                 gap={1}
@@ -188,43 +200,70 @@ const Job = () => {
 
                 <Grid
                   container
-                  item
                   id={'action-btns'}
-                  alignItems={'center'}
-                  justifyContent={'flex-end'}
+                  // alignItems={'center'}
+                  // justifyContent={'flex-end'}
                   gap={2}
                 >
-                  <Button
-                    LinkComponent={'a'}
-                    target="_blank"
-                    href={jobLink}
-                    variant="contained"
-                    size="small"
-                    sx={{
-                      width: {
-                        sm: '5.5rem',
-                      },
-                    }}
+                  <Grid
+                    item
+                    xs={6}
+                    alignItems={'center'}
+                    justifyContent={'flex-end'}
                   >
-                    View Job
-                  </Button>
-                  <MenuListButton
-                    variant="contained"
-                    size="small"
-                    menuActionList={moveMenulist}
-                    sx={{
-                      width: {
-                        sm: '5.5rem',
-                      },
-                    }}
+                    <Box sx={{width: '50px'}}>
+                      <Stepper
+                        activeStep={1}
+                        alternativeLabel
+                        connector={<>--</>}
+                      >
+                        {steps.map((label) => (
+                          <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                          </Step>
+                        ))}
+                      </Stepper>
+                    </Box>
+                  </Grid>
+
+                  <Grid
+                    item
+                    xs={6}
+                    // alignItems={'center'}
+                    // justifyContent={'flex-end'}
                   >
-                    Update
-                  </MenuListButton>
-                  <ConfirmDelete
-                    open={openDialog}
-                    onCancelClick={handleCloseDialog}
-                    onDeleteClick={handleDeleteJob}
-                  ></ConfirmDelete>
+                    <Button
+                      LinkComponent={'a'}
+                      target="_blank"
+                      href={jobLink}
+                      variant="contained"
+                      size="small"
+                      sx={{
+                        width: {
+                          sm: '5.5rem',
+                        },
+                      }}
+                    >
+                      View Job
+                    </Button>
+                    <MenuListButton
+                      variant="contained"
+                      size="small"
+                      menuActionList={moveMenulist}
+                      sx={{
+                        width: {
+                          sm: '5.5rem',
+                        },
+                      }}
+                    >
+                      Update
+                    </MenuListButton>
+                    <ConfirmDelete
+                      open={openDialog}
+                      onCancelClick={handleCloseDialog}
+                      onDeleteClick={handleDeleteJob}
+                    ></ConfirmDelete>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
@@ -263,6 +302,7 @@ const Job = () => {
             </Grid>
           </Grid>
         </Grid>
+
         <Grid item xs={12} md={6} p={1}>
           <Card>
             <CardHeader
