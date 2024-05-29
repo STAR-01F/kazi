@@ -3,6 +3,7 @@ import { Footer } from "./components";
 import { Grid } from "@mui/material";
 import NewsFeedLanding from "@components/swooped/newsfeed";
 import JobpageLanding from "@components/swooped/allJobs";
+import JobAndNotes from "@components/swooped/jobAndNotes";
 import Ats from "@components/swooped/getKeywords";
 
 function App() {
@@ -15,6 +16,9 @@ function App() {
         <SectionOne />
         <Grid item xs={12}>
           <JobpageLanding />
+        </Grid>
+        <Grid item xs={12}>
+          <JobAndNotes />
         </Grid>
         <Grid item xs={12}>
           <Ats />
