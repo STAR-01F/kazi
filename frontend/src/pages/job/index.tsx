@@ -208,11 +208,14 @@ const Job = () => {
             >
               <Grid
                 item
-                xs={6}
+                sm={6}
                 alignItems={'center'}
+                sx={{
+                  display: {xs: 'none', md: 'block'},
+                }}
                 // justifyContent={'flex-end'}
               >
-                <Box sx={{width: '20px'}}>
+                <Box>
                   <Stepper activeStep={1} alternativeLabel connector={<>--</>}>
                     {steps.map((label) => (
                       <Step key={label}>
@@ -225,7 +228,8 @@ const Job = () => {
 
               <Grid
                 item
-                xs={6}
+                xs={12}
+                md={6}
                 display={'flex'}
                 alignItems={'center'}
                 justifyContent={'flex-end'}
