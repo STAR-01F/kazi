@@ -72,7 +72,7 @@ const SectionOne = () => {
           <Button
             startIcon={<OpenInNewIcon />}
             LinkComponent={"a"}
-            href={siteUrl}
+            href={`${siteUrl}/signup`}
             size="large"
             variant="contained"
           >
