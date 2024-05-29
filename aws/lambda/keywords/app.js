@@ -5,7 +5,7 @@ export const handler = async (event) => {
     const body = JSON.parse(event.body);
     const description = body.description;
     if (!description) {
-      log.error('Job description is missing');
+      console.error('Job description is missing');
       return {
         statusCode: 400,
         header: {
@@ -17,7 +17,7 @@ export const handler = async (event) => {
     const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
     if (!OPENAI_API_KEY) {
-      log.error('API key is missing');
+      console.error('API key is missing');
       return {
         statusCode: 400,
         header: {
@@ -70,13 +70,13 @@ export const handler = async (event) => {
     };
   } catch (err) {
     if (err instanceof OpenAI.APIError) {
-      console.log('openAI API Error: ', err.message);
+      console.error('openAI API Error: ', err.message);
       return {
         statusCode: 500,
         body: JSON.stringify({error: 'openAI API Error: ' + err.message}),
       };
     } else {
-      console.log('Error: ', err.message);
+      console.error('Error: ', err.message);
       return {
         statusCode: 500,
         header: {
