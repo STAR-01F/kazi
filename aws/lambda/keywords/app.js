@@ -1,24 +1,45 @@
 import {OpenAI} from 'openai';
 
 export const handler = async (event) => {
-  const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-
-  const openai = new OpenAI({
-    apiKey: OPENAI_API_KEY,
-  });
-
   try {
-    const description = event.body;
+    const body = JSON.parse(event.body);
+    const description = body.description;
+    if (!description) {
+      log.error('Job description is missing');
+      return {
+        statusCode: 400,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({error: 'Job description is missing'}),
+      };
+    }
+    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+    if (!OPENAI_API_KEY) {
+      log.error('API key is missing');
+      return {
+        statusCode: 400,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({error: 'API key is missing'}),
+      };
+    }
+
+    const openai = new OpenAI({
+      apiKey: OPENAI_API_KEY,
+    });
     const completion = await openai.chat.completions.create({
       messages: [
         {
           role: 'system',
           content: `Analyse the job description and identify 10 keywords
-                  essential for enhancing a resume/CV tailored to this position. 
-                  Choose specific,relevant terms that accurately represent the core
-                  skills, qualifications, and attributes required for the job. 
-                  Provide the 10 keywords as a comma-separated list in the format: 
-                  'keyword1, keyword2, keyword3...'.`,
+              essential for enhancing a resume/CV tailored to this position. 
+              Choose specific,relevant terms that accurately represent the core
+              skills, qualifications, and attributes required for the job. 
+              Provide the 10 keywords as a comma-separated list in the format: 
+              'keyword1, keyword2, keyword3...'.`,
         },
         {
           role: 'user',
@@ -42,11 +63,27 @@ export const handler = async (event) => {
 
     return {
       statusCode: 200,
+      header: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({keywords: keywords}),
     };
   } catch (err) {
-    return {
-      body: JSON.stringify({error: err}),
-    };
+    if (err instanceof OpenAI.APIError) {
+      console.log('openAI API Error: ', err.message);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({error: 'openAI API Error: ' + err.message}),
+      };
+    } else {
+      console.log('Error: ', err.message);
+      return {
+        statusCode: 500,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({error: err.message}),
+      };
+    }
   }
 };
