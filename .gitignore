@@ -39,6 +39,7 @@ api/keywordsForDeployment
 *.zip
 api/scraper/bootstrap
 .aws-sam/
+aws_development/ottaScraper/bootstrap
 
 #build logs
 build.log

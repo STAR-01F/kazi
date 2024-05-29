@@ -96,14 +96,14 @@ const UpdateKeywords = async (
     } else {
       return {
         status: 'Error',
-        message: 'No such job exists',
+        message: 'Failed to generate keywords',
       };
     }
   } catch (error) {
     return {
       status: 'Error',
-      message:
-        'Failed to add keywords to firestore: ' + (error as Error).message,
+      message: 'Failed to generate keywords',
+      data: (error as Error).message,
     };
   }
 };
