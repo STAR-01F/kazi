@@ -1,10 +1,13 @@
 import { BodyComp, ImageProp, TextProp } from "../../../components";
-import allJobsImg from "@assets/job-page-overlay.png";
+import allJobsImg from "@assets/homepage.png";
 import CallToActionButton from "@components/CtaButton";
 
-const Title = "job applications in one place";
+const Title = "All applications in one place";
 const Subtext = [
-  "Easily view, track and manage the status of all your applications",
+  "Easily view all your job applictions in a single, organised dashboard.",
+  "No more scattered spreadsheets or forgotten applications.",
+  "Update the status of each application as you progress, from applied to interviewing, offered and beyond.",
+  "Set and track personal goals for your job search.",
 ];
 
 const imgP = <ImageProp path={allJobsImg} />;
@@ -15,7 +18,7 @@ const JobpageLanding = () => {
     <BodyComp
       imgSection={imgP}
       textSection={textP}
-      button={<CallToActionButton text="try for free" />}
+      button={<CallToActionButton text="Sign up now" />}
     />
   );
 };
