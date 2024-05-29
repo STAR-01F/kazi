@@ -154,20 +154,20 @@ const Job = () => {
         padding={{xs: '10px 20px', md: '15px 30px', lg: '20px 40px'}}
       >
         <Grid container direction="column" p={1} id={'headhoncho'}>
-          <Grid>
-            <Grid item xs={6} alignItems={'center'} justifyContent={'flex-end'}>
+          <Grid id="inner container wrapper">
+            <Grid
+              item
+              xs={12}
+              alignItems={'center'}
+              justifyContent={'flex-end'}
+              id="title"
+            >
               <Typography mb={1} variant="h4">
                 {title}
               </Typography>
             </Grid>
-            <Grid container id={'logo-btns'}>
-              <Grid
-                item
-                xs={12}
-                id={'company-logo'}
-                alignItems={'center'}
-                gap={1}
-              >
+            <Grid container id={'co-name'}>
+              <Grid id={'company-logo'} alignItems={'center'} gap={1}>
                 {jobSource === 'manual' ? (
                   <Box
                     component={'img'}
@@ -197,74 +197,70 @@ const Job = () => {
                     }}
                   />
                 )}
+              </Grid>
+            </Grid>
+            <Grid
+              id={'action-btns'}
+              // alignItems={'center'}
+              // justifyContent={'flex-end'}
+              direction={'row'}
+              container
+            >
+              <Grid
+                item
+                xs={6}
+                alignItems={'center'}
+                // justifyContent={'flex-end'}
+              >
+                <Box sx={{width: '20px'}}>
+                  <Stepper activeStep={1} alternativeLabel connector={<>--</>}>
+                    {steps.map((label) => (
+                      <Step key={label}>
+                        <StepLabel>{label}</StepLabel>
+                      </Step>
+                    ))}
+                  </Stepper>
+                </Box>
+              </Grid>
 
-                <Grid
-                  container
-                  id={'action-btns'}
-                  // alignItems={'center'}
-                  // justifyContent={'flex-end'}
-                  gap={2}
+              <Grid
+                item
+                xs={6}
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'flex-end'}
+              >
+                <Button
+                  LinkComponent={'a'}
+                  target="_blank"
+                  href={jobLink}
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    width: {
+                      sm: '5.5rem',
+                    },
+                  }}
                 >
-                  <Grid
-                    item
-                    xs={6}
-                    alignItems={'center'}
-                    justifyContent={'flex-end'}
-                  >
-                    <Box sx={{width: '50px'}}>
-                      <Stepper
-                        activeStep={1}
-                        alternativeLabel
-                        connector={<>--</>}
-                      >
-                        {steps.map((label) => (
-                          <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
-                          </Step>
-                        ))}
-                      </Stepper>
-                    </Box>
-                  </Grid>
-
-                  <Grid
-                    item
-                    xs={6}
-                    // alignItems={'center'}
-                    // justifyContent={'flex-end'}
-                  >
-                    <Button
-                      LinkComponent={'a'}
-                      target="_blank"
-                      href={jobLink}
-                      variant="contained"
-                      size="small"
-                      sx={{
-                        width: {
-                          sm: '5.5rem',
-                        },
-                      }}
-                    >
-                      View Job
-                    </Button>
-                    <MenuListButton
-                      variant="contained"
-                      size="small"
-                      menuActionList={moveMenulist}
-                      sx={{
-                        width: {
-                          sm: '5.5rem',
-                        },
-                      }}
-                    >
-                      Update
-                    </MenuListButton>
-                    <ConfirmDelete
-                      open={openDialog}
-                      onCancelClick={handleCloseDialog}
-                      onDeleteClick={handleDeleteJob}
-                    ></ConfirmDelete>
-                  </Grid>
-                </Grid>
+                  View Job
+                </Button>
+                <MenuListButton
+                  variant="contained"
+                  size="small"
+                  menuActionList={moveMenulist}
+                  sx={{
+                    width: {
+                      sm: '5.5rem',
+                    },
+                  }}
+                >
+                  Update
+                </MenuListButton>
+                <ConfirmDelete
+                  open={openDialog}
+                  onCancelClick={handleCloseDialog}
+                  onDeleteClick={handleDeleteJob}
+                ></ConfirmDelete>
               </Grid>
             </Grid>
           </Grid>
