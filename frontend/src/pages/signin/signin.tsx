@@ -5,6 +5,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import {Button} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import SvgIconGoogle from '@components/icons/googleIcon';
@@ -18,7 +19,7 @@ import {
 import {IconButton} from '@mui/material';
 import Copyright from '@components/copyright/copyright';
 import {useFeedback} from '@hooks/useFeeback';
-import {LoadingButton} from '@mui/lab';
+// import {LoadingButton} from '@mui/lab';
 
 interface SignInErrors {
   email?: string;
@@ -35,6 +36,7 @@ export default function SignInSide() {
   const {setFeedback} = useFeedback();
   const [errors, setErrors] = React.useState<SignInErrors>({});
   const [loading, setLoading] = React.useState(false);
+  console.log(loading);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -216,16 +218,16 @@ export default function SignInSide() {
                 helperText={errors.passError}
               />
 
-              <LoadingButton
+              <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{mt: 2, mb: 2}}
                 size="large"
-                loading={loading}
+                disabled={loading}
               >
                 Sign In
-              </LoadingButton>
+              </Button>
               <Grid container direction="row" gap={2} justifyContent={'center'}>
                 <IconButton onClick={handleSignInWithGoogle}>
                   <SvgIconGoogle />

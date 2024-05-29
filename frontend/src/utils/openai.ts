@@ -8,7 +8,6 @@ import InterviewQs from 'src/@types/interviewQ';
 const getKeywords = async (
   description: string
 ): Promise<Response<Keywords['keywords'], unknown>> => {
-  console.log(import.meta.env.VITE_OPENAI_HOST);
   try {
     const response = await fetch(`${import.meta.env.VITE_OPENAI_HOST}`, {
       method: 'POST',
@@ -21,17 +20,26 @@ const getKeywords = async (
     });
     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.message || 'Could not fetch keywords.');
+    if (data.error || !response.ok) {
+      return {
+        status: 'Error',
+        message: 'Failed to generate keywords',
+        data: data.error,
+      };
     }
+
     return {
       status: 'Success',
       data: data.keywords,
-      message: 'Successfully fetched the keywords',
+      message: 'Successfully generated the keywords',
     };
   } catch (error) {
     console.error('failed to fetch keywords API', error);
-    return {status: 'Error', message: 'Could not generate key words'};
+    return {
+      status: 'Error',
+      message: 'Failed to generate keywords',
+      data: error,
+    };
   }
 };
 
@@ -39,27 +47,46 @@ export const getInterviewQuestions = async (
   job: Job
 ): Promise<Response<InterviewQs, unknown>> => {
   try {
+    const jobDescription =
+      job.jobSource == 'Workable'
+        ? job.workableDescription.join()
+        : job.description;
+
     const response = await fetch(`${import.meta.env.VITE_OPENAI_IQS}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+
       body: JSON.stringify({
-        job: job,
+        job: {
+          title: job.title,
+          description: jobDescription,
+          company: job.company,
+        },
       }),
     });
+
     const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || 'Could not fetch interview questions.');
+    if (data.error || !response.ok) {
+      return {
+        status: 'Error',
+        message: 'Failed to generate interview questions',
+        data: data.error,
+      };
     }
     return {
       status: 'Success',
       data: data,
-      message: 'Successfully fetched the interview questions',
+      message: 'Successfully generated interview questions',
     };
   } catch (error) {
     console.error('failed to fetch interview questions API', error);
-    return {status: 'Error', message: 'Could not generate interview questions'};
+    return {
+      status: 'Error',
+      message: 'Failed to generate interview questions',
+      data: error,
+    };
   }
 };
 

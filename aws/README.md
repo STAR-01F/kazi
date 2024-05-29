@@ -65,10 +65,14 @@ and run sam build to update the .aws-sam/build directory.
 
 Always run SAM build when making changes to your original source code
 
+We deploy to two different stacks, one for development and one for production. Ensure you specify your desired stack by using one of the following flags. If no flag is specified, it defaults to the dev stack. Do not update the production stack unless the code has been fully tested in the development stack.
+
 ```bash
-sam deploy --guided
+sam deploy --config-env dev
 ```
 
-_use the guided flag on initial builds, you may omit for subsequent builds_
+```bash
+sam deploy --config-env prod
+```
 
 The above flag will deploy your assets which can be viewed on AWS' CloudFormation service. You'll have a few simple y/n prompts to answer after which the deployment is concluded, if successful.

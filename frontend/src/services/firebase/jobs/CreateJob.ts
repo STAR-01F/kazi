@@ -8,8 +8,8 @@ const CreateJob = async (job: Partial<Job>): Promise<Response<Job, string>> => {
   if (!job.title) return {status: 'Error', message: 'Job Title is empty'};
   if (!job.jobLink) return {status: 'Error', message: 'Job Link is empty'};
   if (!job.company) return {status: 'Error', message: 'Company is empty'};
+
   try {
-    //
     const resp = await addDoc(jobPostings, job);
 
     return {

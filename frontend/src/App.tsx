@@ -12,6 +12,7 @@ import Homepage from '@pages/home';
 import {FeedbackProvider} from '@context/Feedback';
 import {UserProfileProvider} from '@services/firebase/context/UserProfile';
 import VerifyEmail from '@pages/verify-email';
+import ErrorPage from '@pages/404';
 
 // Dynamic imports
 const Jobpage = React.lazy(() => import('@pages/job'));
@@ -19,7 +20,7 @@ const Jobpage = React.lazy(() => import('@pages/job'));
 const SignInSide = React.lazy(() => import('@pages/signin/signin'));
 const SignUp = React.lazy(() => import('@pages/signup/signup'));
 const Profilepage = React.lazy(() => import('@pages/profile'));
-const WelcomePage = React.lazy(() => import('@pages/welcome'));
+// const WelcomePage = React.lazy(() => import('@pages/welcome'));
 const PasswordReset = React.lazy(() => import('@pages/password-reset'));
 
 const Layout = () => {
@@ -132,14 +133,14 @@ const router = createBrowserRouter([
               </Suspense>
             ),
           },
-          {
-            path: 'welcome',
-            element: (
-              <Suspense fallback={<div>Loading...</div>}>
-                <WelcomePage />
-              </Suspense>
-            ),
-          },
+          // {
+          //   path: 'welcome',
+          //   element: (
+          //     <Suspense fallback={<div>Loading...</div>}>
+          //       <WelcomePage />
+          //     </Suspense>
+          //   ),
+          // },
           {
             index: true,
             element: (
@@ -160,7 +161,7 @@ const router = createBrowserRouter([
       },
       {
         path: '*',
-        element: <h1>404</h1>,
+        element: <ErrorPage />,
       },
     ],
   },

@@ -1,6 +1,6 @@
 import {Response} from 'src/@types';
 import {userJobs} from '..';
-import {Timestamp, doc, getDoc, setDoc} from 'firebase/firestore';
+import {doc, getDoc, setDoc} from 'firebase/firestore';
 import InterviewQ from 'src/@types/interviewQ';
 
 const SaveIQs = async (
@@ -10,24 +10,14 @@ const SaveIQs = async (
   try {
     const docRef = doc(userJobs, userJobId);
     const docSnap = await getDoc(docRef);
-    const updatedAt = Timestamp.now();
     if (docSnap.exists()) {
-      if (docSnap.get('interviewQs')) {
-        return {
-          status: 'Success',
-          message: `IQs pre-exist`,
-          data: docSnap.data() as InterviewQ,
-        };
-      } else {
-        await setDoc(
-          docRef,
-          {
-            interviewQs: iqs,
-            iQsAdded: updatedAt,
-          },
-          {merge: true}
-        );
-      }
+      await setDoc(
+        docRef,
+        {
+          interviewQs: iqs,
+        },
+        {merge: true}
+      );
       return {
         status: 'Success',
         message: `Successfully saved interview questions`,
@@ -36,14 +26,13 @@ const SaveIQs = async (
     }
     return {
       status: 'Error',
-      message: 'Unable to save IQs, document does not exist',
+      message: 'Failed to save interview questions',
     };
   } catch (error) {
     return {
       status: 'Error',
-      message: `Failed to save interview questions: ${
-        (error as Error).message
-      }`,
+      message: 'Failed to save interview questions',
+      data: (error as Error).message,
     };
   }
 };

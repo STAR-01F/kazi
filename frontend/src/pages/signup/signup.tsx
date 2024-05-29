@@ -14,11 +14,11 @@ import {
   signInWithGoogle,
   signInWithGithub,
 } from '@services/firebase/auth';
-import {IconButton} from '@mui/material';
+import {IconButton, Button} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Copyright from '@components/copyright/copyright';
 import {useFeedback} from '@hooks/useFeeback';
-import {LoadingButton} from '@mui/lab';
+// import {LoadingButton} from '@mui/lab';
 
 interface SignUpErrors {
   firstname?: string;
@@ -39,6 +39,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState<SignUpErrors>({});
   const [loading, setLoading] = React.useState(false);
+  console.log(loading);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -279,16 +280,16 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <LoadingButton
+            <Button
               type="submit"
               fullWidth
               variant="contained"
               size="large"
-              loading={loading}
+              disabled={loading}
               sx={{mt: 3, mb: 2}}
             >
               Sign Up
-            </LoadingButton>
+            </Button>
             <Grid container direction="row" gap={2} justifyContent={'center'}>
               <IconButton onClick={handleSignInWithGoogle}>
                 <SvgIconGoogle />

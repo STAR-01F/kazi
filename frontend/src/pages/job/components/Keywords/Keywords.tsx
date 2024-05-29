@@ -24,23 +24,31 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
     setIsKeywordsLoading(true);
     const resp = await getKeywords(description);
     if (resp.status === 'Success') {
-      setJobs((prevJobs) => {
-        return prevJobs.map((job) => {
-          if (job.id === userJob.id) {
-            return {...job, keywords: resp.data};
-          }
-          return job;
-        });
-      });
-
       const saveKeywords = await UpdateKeywords(userJob.id, resp.data);
-
-      if (saveKeywords.status === 'Success') {
+      if (saveKeywords.status === 'Error') {
+        setFeedback({
+          type: 'error',
+          message: resp.message,
+        });
+      } else {
+        setJobs((prevJobs) => {
+          return prevJobs.map((job) => {
+            if (job.id === userJob.id) {
+              return {...job, keywords: resp.data};
+            }
+            return job;
+          });
+        });
         setFeedback({
           type: 'success',
           message: resp.message,
         });
       }
+    } else {
+      setFeedback({
+        type: 'error',
+        message: resp.message,
+      });
     }
 
     setIsKeywordsLoading(false);

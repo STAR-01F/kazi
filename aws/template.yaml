@@ -1,34 +1,147 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
-Description: 
-  keywords-SAM
+Description: lambdas-SAM
 
-  SAM template for the keywords api
-
-# Available top-level fields are listed in code completion
 Globals:
-  Function:
-    Timeout: 3
+  Api:
+    OpenApiVersion: 3.0.1
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - prod
 
 # Add Resources Here: uncomment the following lines
 Resources:
-  GetKeyWordsFuntion:
+  GetKeyWords:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: !Sub ${Environment}-keyWords
       CodeUri: lambda/keywords
       Handler: app.handler
       Runtime: nodejs20.x
+      Timeout: 10
       FunctionUrlConfig:
         AuthType: NONE
       Architectures:
         - arm64
       Environment:
         Variables:
-          OPENAI_API_KEY: ""  
+          OPENAI_API_KEY: ''
+      Events:
+        kaziGatewayPOSTkeywords:
+          Type: HttpApi
+          Properties:
+            Path: /keywords
+            Method: POST
+            ApiId: !Ref kaziGateway
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
 
+  InterviewQs:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${Environment}-interviewQs
+      CodeUri: lambda/interviewQs_API
+      Handler: index.handler
+      Timeout: 10
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64
+      Environment:
+        Variables:
+          OPENAI_API_KEY: ''
+      Events:
+        kaziGatewayPOSTinterviews:
+          Type: HttpApi
+          Properties:
+            Path: /interviews
+            Method: POST
+            ApiId: !Ref kaziGateway
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
 
+  WorkableScraper:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${Environment}-workableScraper
+      CodeUri: lambda/workableScraper
+      MemorySize: 1001
+      Handler: index.handler
+      Timeout: 15
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      Events:
+        kaziGatewayPOSTworkablescraper:
+          Type: HttpApi
+          Properties:
+            Path: /workable-scraper
+            Method: POST
+            ApiId: !Ref kaziGateway
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
+
+  OttaScraper:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
+    Properties:
+      FunctionName: !Sub ${Environment}-ottaScraper
+      CodeUri: lambda/ottaScraper
+      MemorySize: 150
+      Handler: bootstrap
+      Timeout: 10
+      Runtime: provided.al2023
+      Architectures:
+        - x86_64
+      Events:
+        kaziGatewayPOSTottascraper:
+          Type: HttpApi
+          Properties:
+            Path: /otta-scraper
+            Method: POST
+            ApiId: !Ref kaziGateway
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
+
+  kaziGateway:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: !Ref Environment
+      DefinitionBody:
+        openapi: 3.0.1
+        info:
+          name: !Sub kaziAPI-${Environment}
+          title: !Sub kaziAPI-${Environment}
+        paths:
+          /keywords:
+            post:
+              responses: {}
+          /interviews:
+            post:
+              responses: {}
+          /workable-scraper:
+            post:
+              responses: {}
+          /otta-scraper:
+            post:
+              responses: {}
+      CorsConfiguration:
+        AllowOrigins:
+          - http://localhost:5173
+          - https://beta.kazihub.co
+        AllowHeaders:
+          - content-type
+        AllowMethods:
+          - POST
+          - OPTIONS
+        MaxAge: 0
 Outputs:
-  GetKeyWordsFuntion:
-    Description: "Get Keywords Lambda Function ARN"
-    Value: !GetAtt GetKeyWordsFuntion.Arn
+  kazidev:
+    Description: The API Gateway URL
+    Value: !Sub https://${kaziGateway}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/

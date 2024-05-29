@@ -12,7 +12,11 @@ interface UserFormProps {
 
 const UserForm: React.FC<UserFormProps> = ({labels, onChange}) => {
   return (
-    <RadioGroup onChange={onChange} name="use-radio-group" defaultValue="first">
+    <RadioGroup
+      onChange={onChange}
+      name="use-radio-group"
+      defaultValue={labels[0]}
+    >
       <FormHelperText>Please select an option</FormHelperText>
       {labels.map((label, index) => (
         <FormControlLabel

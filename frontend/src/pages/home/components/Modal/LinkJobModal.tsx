@@ -52,10 +52,11 @@ const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
       return;
     }
     setSubmitting(true);
+
     const resp = await Scrapper(jobLink);
     if (resp.status == 'Error') {
       setErrors({
-        jobLink: resp.message as string,
+        jobLink: resp.message,
       });
       setSubmitting(false);
       return;
@@ -119,7 +120,7 @@ const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
     }
     setFeedback({
       type: 'success',
-      message: 'Job added successfully',
+      message: resp.message,
     });
     setJobs([...jobs, createdUserJob.data]);
 
