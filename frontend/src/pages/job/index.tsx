@@ -39,6 +39,7 @@ const Job = () => {
   const userJob = jobs.find((job) => job.jobid === id);
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
+
   if (status === 'idle' || status === 'fetching') {
     return <SkeletonJob />;
   }
@@ -134,15 +135,16 @@ const Job = () => {
     },
   ];
 
-  const steps = [
-    'Select master blaster campaign settings',
-    'Create an ad group',
-    'Create an ad',
-  ];
+  const ApplicationStatus = ['Saved', 'Applied', 'Interview', 'Offer!'];
 
-  console.log('from jobs --> \n', jobs![21], data![0]);
-  console.log('--------------------------------');
-  // 157-308
+  const activeStep = () => {
+    return jobs!.filter((item) => item.jobid === id)![0];
+  };
+
+  const activeIndex = () => {
+    const aStep = activeStep();
+    return aStep ? ApplicationStatus.indexOf(aStep.status) : -1;
+  };
 
   return (
     <>
@@ -199,77 +201,53 @@ const Job = () => {
                 )}
               </Grid>
             </Grid>
-            <Grid
-              id={'action-btns'}
-              // alignItems={'center'}
-              // justifyContent={'flex-end'}
-              direction={'row'}
-              container
-            >
-              <Grid
-                item
-                sm={6}
-                alignItems={'center'}
-                sx={{
-                  display: {xs: 'none', md: 'block'},
-                }}
-                // justifyContent={'flex-end'}
-              >
-                <Box>
-                  <Stepper activeStep={1} alternativeLabel connector={<>--</>}>
-                    {steps.map((label) => (
-                      <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                      </Step>
-                    ))}
-                  </Stepper>
-                </Box>
-              </Grid>
 
-              <Grid
-                item
-                xs={12}
-                md={6}
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'flex-end'}
+            <Grid
+              item
+              xs={12}
+              gap={1}
+              display={'flex'}
+              alignItems={'center'}
+              direction={'row'}
+              justifyContent={'flex-end'}
+              pb={4}
+            >
+              <Button
+                LinkComponent={'a'}
+                target="_blank"
+                href={jobLink}
+                variant="contained"
+                size="small"
+                sx={{
+                  width: {
+                    sm: '5.5rem',
+                  },
+                }}
               >
-                <Button
-                  LinkComponent={'a'}
-                  target="_blank"
-                  href={jobLink}
-                  variant="contained"
-                  size="small"
-                  sx={{
-                    width: {
-                      sm: '5.5rem',
-                    },
-                  }}
-                >
-                  View Job
-                </Button>
-                <MenuListButton
-                  variant="contained"
-                  size="small"
-                  menuActionList={moveMenulist}
-                  sx={{
-                    width: {
-                      sm: '5.5rem',
-                    },
-                  }}
-                >
-                  Update
-                </MenuListButton>
-                <ConfirmDelete
-                  open={openDialog}
-                  onCancelClick={handleCloseDialog}
-                  onDeleteClick={handleDeleteJob}
-                ></ConfirmDelete>
-              </Grid>
+                View Job
+              </Button>
+              <MenuListButton
+                variant="contained"
+                size="small"
+                menuActionList={moveMenulist}
+                sx={{
+                  width: {
+                    sm: '5.5rem',
+                  },
+                }}
+              >
+                Update
+              </MenuListButton>
+              <ConfirmDelete
+                open={openDialog}
+                onCancelClick={handleCloseDialog}
+                onDeleteClick={handleDeleteJob}
+              ></ConfirmDelete>
             </Grid>
           </Grid>
+          {/* </Grid> */}
           <Grid container>
-            <Grid item>
+            <Grid item id={'who-is-it'} xs={6}>
               <Typography textTransform={'capitalize'} variant="h6">
                 {company}
               </Typography>
@@ -299,6 +277,29 @@ const Job = () => {
                     );
                 }
               })()}
+            </Grid>
+            <Grid item sm={3} />
+
+            <Grid
+              item
+              sm={3}
+              display={'flex'}
+              alignItems={'center'}
+              direction={'row'}
+              justifyContent={'flex-end'}
+              sx={{
+                display: {xs: 'none', md: 'block'},
+              }}
+            >
+              <Box>
+                <Stepper activeStep={activeIndex()} alternativeLabel>
+                  {ApplicationStatus.map((label) => (
+                    <Step key={label}>
+                      <StepLabel>{label}</StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+              </Box>
             </Grid>
           </Grid>
         </Grid>
