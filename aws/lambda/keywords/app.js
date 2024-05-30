@@ -8,7 +8,7 @@ export const handler = async (event) => {
       console.error('Job description is missing');
       return {
         statusCode: 400,
-        header: {
+        headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({error: 'Job description is missing'}),
@@ -20,7 +20,7 @@ export const handler = async (event) => {
       console.error('API key is missing');
       return {
         statusCode: 400,
-        header: {
+        headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({error: 'API key is missing'}),
@@ -63,7 +63,7 @@ export const handler = async (event) => {
 
     return {
       statusCode: 200,
-      header: {
+      headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({keywords: keywords}),
@@ -73,13 +73,16 @@ export const handler = async (event) => {
       console.error('openAI API Error: ', err.message);
       return {
         statusCode: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({error: 'openAI API Error: ' + err.message}),
       };
     } else {
       console.error('Error: ', err.message);
       return {
         statusCode: 500,
-        header: {
+        headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({error: err.message}),
