@@ -31,9 +31,8 @@ const UpdateUserJobStatus = async (
       };
     }
     return {
-      status: 'Success',
-      message: 'Successfully updated the user job status',
-      data: 'User Job Status Updated',
+      status: 'Error',
+      message: "Doc doesn't exist",
     };
   } catch (error) {
     return {
@@ -79,6 +78,36 @@ const UpdateUserJobNotes = async (
     };
   }
 };
-export {UpdateUserJobNotes};
+
+const UpdateKeywords = async (
+  jobID: string,
+  keywords: Array<string>
+): Promise<Response<string, string>> => {
+  try {
+    const docRef = doc(userJobs, jobID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      await setDoc(docRef, {keywords: keywords}, {merge: true});
+      return {
+        status: 'Success',
+        message: 'Sucessfully generated keywords',
+        data: 'Keywords added to Job Posting',
+      };
+    } else {
+      return {
+        status: 'Error',
+        message: 'Failed to generate keywords',
+      };
+    }
+  } catch (error) {
+    return {
+      status: 'Error',
+      message: 'Failed to generate keywords',
+      data: (error as Error).message,
+    };
+  }
+};
+
+export {UpdateUserJobNotes, UpdateKeywords};
 
 export default UpdateUserJobStatus;

@@ -7,7 +7,6 @@ const SectionThree = () => {
       component={Grid}
       container
       width={"100%"}
-      py={10}
       direction={"column"}
       sx={{
         display: "flex",

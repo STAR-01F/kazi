@@ -21,6 +21,8 @@ import daysPassedSinceUTC from '@utils/jobcard/daysPassedSince';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 import {Tooltip} from '@mui/material';
 import Zoom from '@mui/material/Zoom';
+import {useState} from 'react';
+import ConfirmDelete from '@components/dialog/ConfirmDelete';
 
 type JobCardProps = {
   userJobId: string;
@@ -30,6 +32,7 @@ type JobCardProps = {
   jobID: string;
   timeSince: Timestamp;
   status: string;
+  jobSource: string;
 };
 
 const JobCard = ({
@@ -40,22 +43,28 @@ const JobCard = ({
   jobID,
   timeSince,
   status,
+  jobSource,
 }: JobCardProps) => {
   const {user} = useAuth();
   const {setFeedback} = useFeedback();
   const {jobs, setJobs} = useJobs();
-
+  const [openDialog, setOpenDialog] = useState(false);
   const timeToString = timeSince.toDate().toDateString();
   const timeinDays = daysPassedSinceUTC(timeSince.toDate());
   const dayAndMonths = daysToDaysAndMonths(timeinDays);
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const [showLogo, setShowLogo] = useState(true);
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     const resp = await DeleteUserJob(user.uid, userJobId);
     if (resp.status === 'Success') {
       setFeedback({
         type: 'success',
-        message: resp.message,
+        message: 'Successfully deleted',
       });
       const jobsToKeep = jobs.filter((job) => job.id !== userJobId);
       setJobs(jobsToKeep);
@@ -114,9 +123,10 @@ const JobCard = ({
     {name: 'Rejected', action: () => handleUpdateJobStatus('Rejected')},
     {
       name: 'Remove',
-      action: handleDeleteJob,
+      action: () => setOpenDialog(true),
     },
   ];
+
   return (
     <Card
       component={Paper}
@@ -132,16 +142,23 @@ const JobCard = ({
         height: 'max-content',
       }}
     >
-      {logoPath ? (
+      {logoPath && showLogo ? (
         <CardMedia
           component="img"
-          alt={companyName}
+          alt={''}
           sx={{
             height: '100px',
             objectFit: 'contain',
             p: '10px',
           }}
-          image={'https://images.otta.com/search/width_400/' + logoPath}
+          image={
+            jobSource === 'Otta'
+              ? 'https://images.otta.com/search/width_400/' + logoPath
+              : logoPath
+          }
+          onError={() => {
+            setShowLogo(false);
+          }}
         />
       ) : (
         <Box
@@ -153,7 +170,13 @@ const JobCard = ({
             p: '10px',
           }}
         >
-          <Typography variant="h5">{companyName}</Typography>
+          <Typography
+            variant="h5"
+            fontWeight={'bold'}
+            textTransform={'capitalize'}
+          >
+            {companyName}
+          </Typography>
         </Box>
       )}
       <CardContent
@@ -216,6 +239,11 @@ const JobCard = ({
         >
           Update
         </MenuListButton>
+        <ConfirmDelete
+          open={openDialog}
+          onCancelClick={handleCloseDialog}
+          onDeleteClick={handleDeleteJob}
+        ></ConfirmDelete>
       </CardActions>
     </Card>
   );

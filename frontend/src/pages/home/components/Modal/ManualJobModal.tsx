@@ -18,6 +18,11 @@ import {useState} from 'react';
 import jobStatus from '@repository/job.json';
 import {CreateUserJob} from '@services/firebase/userJobs';
 import {useJobs} from '@services/firebase/hooks/useJobs';
+import {useProfile} from '@services/firebase/hooks/useProfile';
+import {Timestamp} from 'firebase/firestore';
+import UserProfile from 'src/@types/userProfile';
+import UpdateStreak from '@services/firebase/userProfiles/Update';
+import {Autocomplete, Box, Grid} from '@mui/material';
 
 type ManualJobModalProps = {
   toggle: () => void;
@@ -31,6 +36,15 @@ interface SaveJobError {
   company?: string;
   description?: string;
 }
+
+interface ClearbitLogo {
+  name: string;
+  domain: string;
+  logo: string;
+}
+
+//type UserInput = ClearbitLogo | string;
+
 const ManualJobModal = ({
   toggle,
   onClose,
@@ -38,13 +52,52 @@ const ManualJobModal = ({
 }: ManualJobModalProps) => {
   const [title, setTitle] = useState('');
   const [jobLink, setJobLink] = useState('');
-  const [company, setCompany] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('Saved');
   const {user} = useAuth();
   const {jobs, setJobs} = useJobs();
   const navigate = useNavigate();
   const [errors, setErrors] = useState<SaveJobError>({});
+  const {userProfile, setUserProfile} = useProfile();
+  const [options, setOptions] = useState<ClearbitLogo[]>([]);
+  const [companyValue, setCompanyValue] = useState<
+    ClearbitLogo | string | null
+  >(null);
+  const [companyObj, setCompanyObj] = useState<{[key: string]: ClearbitLogo}>(
+    {}
+  );
+
+  const handleInputChange = async (
+    _event: React.SyntheticEvent<Element, Event>,
+    value: string
+  ) => {
+    const result = await GetCompanyLogo(value);
+    setOptions(result);
+  };
+
+  const GetCompanyLogo = async (src: string) => {
+    if (src.length === 0) return;
+    const response = await fetch(
+      `${'https://autocomplete.clearbit.com/v1/companies/suggest?query='}${src}`
+    );
+
+    if (response.status !== 200) {
+      return;
+    }
+
+    const companyData = await response.json();
+
+    if (companyData && companyData[0]?.name) {
+      companyData.forEach((element: ClearbitLogo) => {
+        setCompanyObj((prevCompanyObj) => ({
+          ...prevCompanyObj,
+          [element.name]: element,
+        }));
+      });
+    }
+
+    return companyData;
+  };
 
   const validateForm = () => {
     const newErrors: SaveJobError = {};
@@ -55,9 +108,10 @@ const ManualJobModal = ({
     if (jobLink === '') {
       newErrors.jobLink = 'Link is required';
     }
-    if (company === '') {
+    if ((companyValue as string) === '') {
       newErrors.company = 'Company is required';
     }
+
     if (description === '') {
       newErrors.description = 'Description is required';
     }
@@ -70,16 +124,32 @@ const ManualJobModal = ({
     validateForm();
     setSubmitting(true);
 
+    const coDetails =
+      typeof companyValue === 'object'
+        ? {
+            name: companyValue?.name,
+            logo: companyValue?.logo,
+          }
+        : {
+            name: companyValue as string,
+            logo: '',
+          };
+
     const job: Partial<Job> = {
       title: title,
-      company: company,
+      company: coDetails.name,
       jobLink: jobLink,
+      companyLogoURL:
+        coDetails?.['name'] && coDetails['name'] in companyObj
+          ? companyObj[coDetails['name']]['logo']
+          : '',
       description: description,
       jobSource: 'manual',
     };
+    1;
 
     job.jobLink?.startsWith('http') || job.jobLink?.startsWith('https')
-      ? null
+      ? ''
       : (job.jobLink = `https://${job.jobLink}`);
 
     // awaiting the jobID to navigate to the correct job page
@@ -87,17 +157,54 @@ const ManualJobModal = ({
 
     // check if resp is an error
     if (resp.status === 'Error') {
-      console.error(resp);
       setSubmitting(false);
       return;
     }
 
     const createdUserJob = await CreateUserJob(user.uid, status, resp.data);
     if (createdUserJob.status === 'Error') {
-      console.error(createdUserJob);
       setSubmitting(false);
       return;
     }
+
+    const today = new Date(new Date().setHours(0, 0, 0, 0));
+    const streakDay = userProfile?.streakLastModified?.toDate() || today;
+
+    //check difference between today and streakDay
+    const timeDiff =
+      (today.setHours(0, 0, 0, 0) - streakDay?.setHours(0, 0, 0, 0)) /
+      1000 /
+      60 /
+      60;
+
+    if (userProfile?.streakLastModified !== undefined && timeDiff >= 24) {
+      setUserProfile({
+        ...userProfile,
+        currentStreak: userProfile.currentStreak + 1,
+        streakLastModified: Timestamp.fromDate(today) as Timestamp,
+      } as UserProfile);
+
+      UpdateStreak(
+        user.uid,
+        userProfile?.currentStreak + 1,
+        Timestamp.fromDate(today) as Timestamp
+      );
+    } else {
+      if (userProfile?.streakLastModified !== undefined && timeDiff < 24) {
+        setUserProfile({
+          ...userProfile,
+          currentStreak: userProfile.currentStreak,
+        } as UserProfile);
+      } else {
+        setUserProfile({
+          ...userProfile,
+          currentStreak: 1,
+          streakLastModified: Timestamp.fromDate(today) as Timestamp,
+        } as UserProfile);
+        UpdateStreak(user.uid, 1, Timestamp.fromDate(today) as Timestamp);
+      }
+    }
+
     setSubmitting(false);
     onClose();
 
@@ -109,11 +216,10 @@ const ManualJobModal = ({
     <>
       <DialogContent>
         <DialogContentText mb={1}>
-          Please enter the details for the new job.
+          Please enter the following details
         </DialogContentText>
         <TextField
           required
-          autoFocus
           sx={{marginBottom: 2}}
           id="job-title"
           name="job"
@@ -142,20 +248,63 @@ const ManualJobModal = ({
           error={!!errors.jobLink}
           helperText={errors.jobLink}
         />
-        <TextField
-          required
-          sx={{marginBottom: 2}}
-          id="company-name"
-          name="company"
-          label="Company"
-          value={company}
-          onChange={(e) => {
-            setCompany(e.target.value);
+
+        <Autocomplete
+          disablePortal
+          autoSelect
+          sx={{
+            '& + .MuiAutocomplete-popper .MuiAutocomplete-option:hover': {
+              backgroundColor: '#5836f7',
+              color: 'white',
+            },
           }}
-          fullWidth
-          error={!!errors.company}
-          helperText={errors.company}
+          id="company-logo"
+          getOptionLabel={(option) =>
+            typeof option === 'string' ? option : `${option.name}`
+          }
+          filterOptions={(x) => x}
+          options={options || []}
+          freeSolo
+          value={companyValue}
+          isOptionEqualToValue={(option, value) => option.name === value.name}
+          noOptionsText="Company Not Found"
+          onChange={(_event, value) => {
+            if (!(typeof value === 'string')) {
+              setOptions(value ? [value, ...options] : options);
+              setCompanyValue(value);
+            }
+          }}
+          renderInput={(params) => (
+            <TextField
+              helperText={errors.company}
+              required
+              sx={{marginBottom: 2}}
+              name="company"
+              error={!!errors.company}
+              {...params}
+              label="Company's Name"
+            />
+          )}
+          onInputChange={handleInputChange}
+          renderOption={(props, option) => {
+            const uniqueKey = `listItem-${
+              Math.floor(Math.random() * 1000) + 1
+            }-${option.name}`;
+            return (
+              <li {...props} key={uniqueKey}>
+                <Grid container alignItems="center" spacing={1}>
+                  <Grid component={'img'} src={option.logo} item xs={1} />
+                  <Grid item xs={11}>
+                    <Box component="span" sx={{fontWeight: '500'}}>
+                      {option.name}
+                    </Box>
+                  </Grid>
+                </Grid>
+              </li>
+            );
+          }}
         />
+
         <FormControl fullWidth sx={{mb: 2}}>
           <InputLabel id="job-status-input">Status</InputLabel>
           <Select

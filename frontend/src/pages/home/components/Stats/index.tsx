@@ -15,6 +15,7 @@ const StatsContainer = () => {
         flexDirection: 'row',
         minWidth: '325px',
         // gap: 10,
+        backgroundColor: '#D5D5D544',
         mb: 3,
       }}
     >
@@ -28,7 +29,9 @@ const StatsContainer = () => {
         alignItems={'center'}
       >
         <Box width={'160px'}>
-          <Typography textAlign={'center'}>Goals</Typography>
+          <Typography fontFamily={'Kanit'} textAlign={'center'}>
+            Goals
+          </Typography>
           <Goal />
         </Box>
       </Box>
@@ -46,7 +49,9 @@ const StatsContainer = () => {
         flexDirection={'column'}
       >
         <Box width={'160px'}>
-          <Typography textAlign={'center'}>Breakdown</Typography>
+          <Typography fontFamily={'Kanit'} textAlign={'center'}>
+            Breakdown
+          </Typography>
           <JobsByStatus />
         </Box>
       </Box>
@@ -63,7 +68,7 @@ const StatsContainer = () => {
         alignItems={'center'}
         flexDirection={'column'}
       >
-        <Typography>Streak</Typography>
+        <Typography fontFamily={'Kanit'}>Streak</Typography>
         <Streak />
       </Box>
     </Container>

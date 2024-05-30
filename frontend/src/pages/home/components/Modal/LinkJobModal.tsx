@@ -19,6 +19,10 @@ import {useNavigate} from 'react-router-dom';
 import {useFeedback} from '@hooks/useFeeback';
 import {CreateUserJob} from '@services/firebase/userJobs';
 import {useJobs} from '@services/firebase/hooks/useJobs';
+import {useProfile} from '@services/firebase/hooks/useProfile';
+import UpdateStreak from '@services/firebase/userProfiles/Update';
+import UserProfile from 'src/@types/userProfile';
+import {Timestamp} from 'firebase/firestore';
 
 type LinkJobModalProps = {
   toggle: () => void;
@@ -32,6 +36,7 @@ interface SaveJobError {
 const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
   const [jobLink, setJobLink] = useState('');
   const {jobs, setJobs} = useJobs();
+  const {userProfile, setUserProfile} = useProfile();
   const [status, setStatus] = useState('Saved');
   const {setFeedback} = useFeedback();
   const {user} = useAuth();
@@ -47,10 +52,11 @@ const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
       return;
     }
     setSubmitting(true);
+
     const resp = await Scrapper(jobLink);
     if (resp.status == 'Error') {
       setErrors({
-        jobLink: resp.message as string,
+        jobLink: resp.message,
       });
       setSubmitting(false);
       return;
@@ -68,17 +74,56 @@ const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
       status,
       createdJob.data
     );
+
     if (createdUserJob.status === 'Error') {
       console.error(createdUserJob);
       setSubmitting(false);
       return;
     }
 
+    const today = new Date(new Date().setHours(0, 0, 0, 0));
+    const streakDay = userProfile?.streakLastModified?.toDate() || today;
+
+    //check difference between today and streakDay
+    const timeDiff =
+      (today.setHours(0, 0, 0, 0) - streakDay?.setHours(0, 0, 0, 0)) /
+      1000 /
+      60 /
+      60;
+
+    if (userProfile?.streakLastModified !== undefined && timeDiff >= 24) {
+      setUserProfile({
+        ...userProfile,
+        currentStreak: userProfile.currentStreak + 1,
+        streakLastModified: Timestamp.fromDate(today) as Timestamp,
+      } as UserProfile);
+
+      UpdateStreak(
+        user.uid,
+        userProfile?.currentStreak + 1,
+        Timestamp.fromDate(today) as Timestamp
+      );
+    } else {
+      if (userProfile?.streakLastModified !== undefined && timeDiff < 24) {
+        setUserProfile({
+          ...userProfile,
+          currentStreak: userProfile.currentStreak,
+        } as UserProfile);
+      } else {
+        setUserProfile({
+          ...userProfile,
+          currentStreak: 1,
+          streakLastModified: Timestamp.fromDate(today) as Timestamp,
+        } as UserProfile);
+        UpdateStreak(user.uid, 1, Timestamp.fromDate(today) as Timestamp);
+      }
+    }
     setFeedback({
       type: 'success',
-      message: 'Job added successfully',
+      message: resp.message,
     });
     setJobs([...jobs, createdUserJob.data]);
+
     navigate(`job/${createdJob.data?.id}`);
     setSubmitting(false);
     onClose();
@@ -108,7 +153,9 @@ const LinkJobModal = ({toggle, onClose, setSubmitting}: LinkJobModalProps) => {
           }}
           fullWidth
           error={!!errors.jobLink}
-          helperText={errors.jobLink ? errors.jobLink : 'Supported URL: Otta'}
+          helperText={
+            errors.jobLink ? errors.jobLink : 'Supported URL: Otta, Workable'
+          }
         />
         <FormControl fullWidth sx={{mb: 2}}>
           <InputLabel id="job-status-input">Status</InputLabel>

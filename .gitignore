@@ -30,14 +30,16 @@ dist-ssr
 .env.test.local
 .env.production.local
 config.json
+env.json
 
 api/scraper/*.json
 api/keywordsForDeployment
 
-
 # zip & build files
 *.zip
 api/scraper/bootstrap
+.aws-sam/
+aws_development/ottaScraper/bootstrap
 
 #build logs
 build.log

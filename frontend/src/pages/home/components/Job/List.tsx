@@ -12,6 +12,8 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import {Link} from 'react-router-dom';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 import {Timestamp} from 'firebase/firestore';
+import {useState} from 'react';
+import ConfirmDelete from '@components/dialog/ConfirmDelete';
 type JobListProps = {
   userJobsId: string;
   jobID: string;
@@ -38,6 +40,11 @@ const JobList = ({
     day: 'numeric',
   };
   const timeToStr = time.toDate().toLocaleDateString(undefined, dateOptions);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
@@ -88,7 +95,7 @@ const JobList = ({
     {name: 'Rejected', action: () => handleUpdateJobStatus('Rejected')},
     {
       name: 'Remove',
-      action: handleDeleteJob,
+      action: () => setOpenDialog(true),
     },
   ];
   return (
@@ -126,6 +133,11 @@ const JobList = ({
           Update
         </MenuListButton>
       </TableCell>
+      <ConfirmDelete
+        open={openDialog}
+        onCancelClick={handleCloseDialog}
+        onDeleteClick={handleDeleteJob}
+      ></ConfirmDelete>
     </TableRow>
   );
 };

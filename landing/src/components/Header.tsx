@@ -1,5 +1,5 @@
 import { AppBar, Container, Toolbar, Box, Button, Grid } from "@mui/material";
-import KaziIcon from "@assets/kazi-icon.png";
+import KaziIcon from "@assets/Kazi.svg";
 
 type HeaderProps = {
   siteUrl: string;
