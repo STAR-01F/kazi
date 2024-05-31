@@ -66,26 +66,27 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
   return (
     <>
       {userJob?.keywords ? (
-        <Grid container direction="row" gap={2} p={2}>
+        <Grid
+          container
+          item
+          direction="row"
+          gap={2}
+          justifyContent={'center'}
+          p={2}
+        >
           {userJob?.keywords?.map((keyword, index) => {
             return (
               <Zoom in={true} style={{transitionDelay: '100ms'}}>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  display={'flex'}
-                  justifyContent={'center'}
-                  alignItems={'center'}
-                  alignContent={'center'}
-                >
-                  <Chip
-                    key={index}
-                    label={<Typography variant="h6">{keyword}</Typography>}
-                    sx={{padding: '1rem'}}
-                    color="success"
-                  />
-                </Grid>
+                <Chip
+                  key={index}
+                  label={<Typography variant="h6">{keyword}</Typography>}
+                  sx={{
+                    padding: '1rem',
+                    borderColor: '#836FF8',
+                    color: '#836FF8',
+                  }}
+                  variant="outlined"
+                />
               </Zoom>
             );
           })}
