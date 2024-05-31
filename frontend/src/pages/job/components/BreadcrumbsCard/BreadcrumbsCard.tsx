@@ -33,7 +33,7 @@ const BreadcrumbsCard = ({userJob, description}: BreadcrumbsCardProps) => {
       onClick={() => setSelectedComponent('Keywords')}
     >
       <SavedSearchIcon sx={{mr: 0.5}}></SavedSearchIcon>
-      Suggestions
+      Keywords
     </Link>,
     <Link
       underline="hover"
