@@ -9,6 +9,7 @@ import {
   Stepper,
   Step,
   StepLabel,
+  Tooltip,
 } from '@mui/material';
 
 import {LogoAttribution} from '@pages/home/components/LogoAttribution';
@@ -29,6 +30,10 @@ import {Timestamp} from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
+// import daysPassedSinceUTC from '@utils/jobcard/daysPassedSince';
+// import daysToDaysAndMonths from '@utils/jobcard/daysAndMonths';
+
+// type JobStatus = 'Saved' | 'Applied' | 'Interview' | 'Rejected';
 
 const Job = () => {
   const {id} = useParams();
@@ -146,6 +151,12 @@ const Job = () => {
     return aStep ? ApplicationStatus.indexOf(aStep.status) : -1;
   };
 
+  // let timeData = userJob?.statusUpdates['Saved']['seconds'];
+  // let normalDate = new Date(timeData * 1000);
+
+  // console.log('normie date', normalDate);
+  // console.log('userjob', userJob);
+
   return (
     <>
       <Grid
@@ -208,7 +219,6 @@ const Job = () => {
               gap={1}
               display={'flex'}
               alignItems={'center'}
-              direction={'row'}
               justifyContent={'flex-end'}
               pb={4}
             >
@@ -285,7 +295,6 @@ const Job = () => {
               sm={3}
               display={'flex'}
               alignItems={'center'}
-              direction={'row'}
               justifyContent={'flex-end'}
               sx={{
                 display: {xs: 'none', md: 'block'},
@@ -295,7 +304,23 @@ const Job = () => {
                 <Stepper activeStep={activeIndex()} alternativeLabel>
                   {ApplicationStatus.map((label) => (
                     <Step key={label}>
-                      <StepLabel>{label}</StepLabel>
+                      <Tooltip
+                        title={'test'}
+                        slotProps={{
+                          popper: {
+                            modifiers: [
+                              {
+                                name: 'offset',
+                                options: {
+                                  offset: [0, -14],
+                                },
+                              },
+                            ],
+                          },
+                        }}
+                      >
+                        <StepLabel>{label}</StepLabel>
+                      </Tooltip>
                     </Step>
                   ))}
                 </Stepper>
