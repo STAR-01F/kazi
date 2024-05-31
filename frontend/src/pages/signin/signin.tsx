@@ -36,7 +36,6 @@ export default function SignInSide() {
   const {setFeedback} = useFeedback();
   const [errors, setErrors] = React.useState<SignInErrors>({});
   const [loading, setLoading] = React.useState(false);
-  console.log(loading);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);

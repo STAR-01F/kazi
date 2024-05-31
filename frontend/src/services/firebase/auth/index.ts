@@ -24,12 +24,6 @@ const signInWithGithub = async (): Promise<
   try {
     const githubAuthProvider = new GithubAuthProvider();
     const resultFromPopup = await signInWithPopup(auth, githubAuthProvider);
-    const credential = GithubAuthProvider.credentialFromResult(resultFromPopup);
-    if (credential) {
-      // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-      const token = credential.accessToken;
-      console.log(token);
-    }
     const {user} = resultFromPopup;
     if (user.providerId) {
       return {

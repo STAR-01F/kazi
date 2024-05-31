@@ -75,7 +75,7 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
 
   return (
     <>
-      {userJob?.keywords ? (
+      {userJob && userJob.keywords && userJob.keywords.length >= 5 ? (
         <Grid
           container
           item
