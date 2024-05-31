@@ -76,7 +76,7 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
         >
           {userJob?.keywords?.map((keyword, index) => {
             return (
-              <Zoom in={true} style={{transitionDelay: '100ms'}}>
+              <Zoom in={true} style={{transitionDelay: '100ms'}} key={index}>
                 <Chip
                   key={index}
                   label={<Typography variant="h6">{keyword}</Typography>}
