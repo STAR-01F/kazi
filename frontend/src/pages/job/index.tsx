@@ -30,11 +30,6 @@ import {Timestamp} from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
-// import daysPassedSinceUTC from '@utils/jobcard/daysPassedSince';
-// import daysToDaysAndMonths from '@utils/jobcard/daysAndMonths';
-
-// type JobStatus = 'Saved' | 'Applied' | 'Interview' | 'Rejected';
-
 const Job = () => {
   const {id} = useParams();
   const {user} = useAuth();
@@ -140,7 +135,7 @@ const Job = () => {
     },
   ];
 
-  const ApplicationStatus = ['Saved', 'Applied', 'Interview', 'Offer!'];
+  const ApplicationStatus = ['Saved', 'Applied', 'Interview', 'Offer'];
 
   const activeStep = () => {
     return jobs!.filter((item) => item.jobid === id)![0];
@@ -151,11 +146,17 @@ const Job = () => {
     return aStep ? ApplicationStatus.indexOf(aStep.status) : -1;
   };
 
-  // let timeData = userJob?.statusUpdates['Saved']['seconds'];
-  // let normalDate = new Date(timeData * 1000);
-
-  // console.log('normie date', normalDate);
-  // console.log('userjob', userJob);
+  const getTooltipDate = (label: string) => {
+    const job = activeStep();
+    if (job?.statusUpdates[label]) {
+      let timeData = userJob?.statusUpdates?.[label]?.['seconds'];
+      if (timeData) {
+        let normalDate = new Date(timeData * 1000);
+        return normalDate.toLocaleDateString();
+      }
+    }
+    return;
+  };
 
   return (
     <>
@@ -302,10 +303,10 @@ const Job = () => {
             >
               <Box>
                 <Stepper activeStep={activeIndex()} alternativeLabel>
-                  {ApplicationStatus.map((label) => (
-                    <Step key={label}>
+                  {ApplicationStatus.map((label, i) => (
+                    <Step key={i}>
                       <Tooltip
-                        title={'test'}
+                        title={getTooltipDate(label)}
                         slotProps={{
                           popper: {
                             modifiers: [
