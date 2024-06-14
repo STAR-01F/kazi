@@ -8,7 +8,6 @@ const SectionOne = () => {
       component={Grid}
       container
       width={"100%"}
-      height={"650px"}
       sx={{
         display: "flex",
         justifyContent: "center",
@@ -18,7 +17,6 @@ const SectionOne = () => {
         component={Grid}
         container
         width={"100%"}
-        maxWidth={"lg"}
         height={"400px"}
         direction={"column"}
         sx={{
@@ -27,7 +25,7 @@ const SectionOne = () => {
           alignItems: "center",
         }}
       >
-        <Box component={"img"} src="/Kazi.svg" height={"200px"} mb={1} />
+        <Box component={"img"} src="/Kazi.svg" height={"150px"} mb={1} />
 
         <Container
           component={Grid}
@@ -44,7 +42,7 @@ const SectionOne = () => {
             fontWeight={"bold"}
             fontSize={{ xs: "1.5rem", md: "3rem" }}
           >
-            Unlock your career's full potential
+            Enhance Your Job Search
           </Typography>
         </Container>
         <Container
@@ -52,14 +50,13 @@ const SectionOne = () => {
           container
           mb={3}
           sx={{
-            width: "350px",
             display: "flex",
             justifyContent: "space-around",
             alignItems: "center",
           }}
         >
-          <Typography fontSize={"1.2rem"}>
-            Simplify ּ• Track • Succeed
+          <Typography fontSize={"1.25 rem"}>
+            With a suite of tools to support you every step of the way
           </Typography>
         </Container>
         <Container
@@ -75,7 +72,7 @@ const SectionOne = () => {
           <Button
             startIcon={<OpenInNewIcon />}
             LinkComponent={"a"}
-            href={siteUrl}
+            href={`${siteUrl}/signup`}
             size="large"
             variant="contained"
           >

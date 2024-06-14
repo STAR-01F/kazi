@@ -1,4 +1,4 @@
-import {Chip, Typography, Grid, Button} from '@mui/material';
+import {Chip, Typography, Grid, Button, Zoom} from '@mui/material';
 import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import {SkeletonChip} from '@components/skeleton';
 import {useState} from 'react';
@@ -14,6 +14,7 @@ type KeywordsProps = {
 };
 
 const Keywords = ({description, userJob}: KeywordsProps) => {
+  console.log('inhere!!');
   const {setFeedback} = useFeedback();
   const [isKeywordsLoading, setIsKeywordsLoading] = useState(false);
   const {setJobs} = useJobs();
@@ -52,17 +53,11 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
 
     setIsKeywordsLoading(false);
   };
+
   if (isKeywordsLoading) {
     return (
       <>
-        <Grid
-          container
-          item
-          direction="row"
-          gap={2}
-          justifyContent={'center'}
-          p={2}
-        >
+        <Grid container gap={2} p={2}>
           {[30, 30, 30, 40, 40, 30, 30, 30, 50].map((size, index) => (
             <SkeletonChip key={index} size={size} />
           ))}
@@ -70,9 +65,10 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
       </>
     );
   }
+
   return (
     <>
-      {userJob?.keywords ? (
+      {userJob && userJob.keywords && userJob.keywords.length >= 5 ? (
         <Grid
           container
           item
@@ -83,11 +79,18 @@ const Keywords = ({description, userJob}: KeywordsProps) => {
         >
           {userJob?.keywords?.map((keyword, index) => {
             return (
-              <Chip
-                key={index}
-                label={<Typography variant="h6">{keyword}</Typography>}
-                sx={{padding: '1rem'}}
-              />
+              <Zoom in={true} style={{transitionDelay: '100ms'}} key={index}>
+                <Chip
+                  key={index}
+                  label={<Typography variant="h6">{keyword}</Typography>}
+                  sx={{
+                    padding: '1rem',
+                    borderColor: '#836FF8',
+                    color: '#836FF8',
+                  }}
+                  variant="outlined"
+                />
+              </Zoom>
             );
           })}
         </Grid>
