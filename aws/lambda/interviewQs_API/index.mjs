@@ -50,7 +50,7 @@ export const handler = async (event) => {
       const interviewQs = completion.choices[0].message.content;
       return {
         statusCode: 200,
-        header: {
+        headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ questions: JSON.parse([interviewQs]) }),
