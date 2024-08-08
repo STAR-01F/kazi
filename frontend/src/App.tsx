@@ -133,14 +133,7 @@ const router = createBrowserRouter([
               </Suspense>
             ),
           },
-          // {
-          //   path: 'welcome',
-          //   element: (
-          //     <Suspense fallback={<div>Loading...</div>}>
-          //       <WelcomePage />
-          //     </Suspense>
-          //   ),
-          // },
+
           {
             index: true,
             element: (
