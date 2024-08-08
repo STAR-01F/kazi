@@ -1,6 +1,11 @@
 import {UserJob} from 'src/@types';
 
-export type JobStatus = 'Saved' | 'Applied' | 'Interview' | 'Rejected';
+export type JobStatus =
+  | 'Saved'
+  | 'Applied'
+  | 'Interview'
+  | 'Rejected'
+  | 'Offer';
 
 export type JobByStatus = {
   [status in JobStatus]: UserJob[];

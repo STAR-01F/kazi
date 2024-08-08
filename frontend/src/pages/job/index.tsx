@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 
 import {LogoAttribution} from '@pages/home/components/LogoAttribution';
-
 import {useParams} from 'react-router-dom';
 import OttaDescription from './components/JobDescription/OttaDescription';
 import useFetchJobs from '@hooks/useFetchJobs';
@@ -30,6 +29,7 @@ import {Timestamp} from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
+
 const Job = () => {
   const {id} = useParams();
   const {user} = useAuth();
@@ -129,6 +129,8 @@ const Job = () => {
     {name: 'Applied', action: () => handleUpdateJobStatus('Applied')},
     {name: 'Interview', action: () => handleUpdateJobStatus('Interview')},
     {name: 'Rejected', action: () => handleUpdateJobStatus('Rejected')},
+    {name: 'Offer', action: () => handleUpdateJobStatus('Offer')},
+
     {
       name: 'Remove',
       action: () => setOpenDialog(true),

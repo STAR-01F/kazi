@@ -119,6 +119,8 @@ const JobCard = ({
     {name: 'Applied', action: () => handleUpdateJobStatus('Applied')},
     {name: 'Interview', action: () => handleUpdateJobStatus('Interview')},
     {name: 'Rejected', action: () => handleUpdateJobStatus('Rejected')},
+    {name: 'Offer', action: () => handleUpdateJobStatus('Offer')},
+
     {
       name: 'Remove',
       action: () => setOpenDialog(true),
