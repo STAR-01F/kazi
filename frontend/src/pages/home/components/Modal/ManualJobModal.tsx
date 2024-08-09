@@ -259,7 +259,7 @@ const ManualJobModal = ({
             },
           }}
           id="company-logo"
-          getOptionLabel={(option) =>
+          getOptionLabel={(option: any) =>
             typeof option === 'string' ? option : `${option.name}`
           }
           filterOptions={(x) => x}
@@ -268,11 +268,12 @@ const ManualJobModal = ({
           value={companyValue}
           isOptionEqualToValue={(option, value) => option.name === value.name}
           noOptionsText="Company Not Found"
-          onChange={(_event, value) => {
-            if (!(typeof value === 'string')) {
-              setOptions(value ? [value, ...options] : options);
-              setCompanyValue(value);
-            }
+          onChange={(
+            _event: React.SyntheticEvent<Element, Event>,
+            value: ClearbitLogo | null
+          ) => {
+            setOptions(value ? [value, ...options] : options);
+            setCompanyValue(value);
           }}
           renderInput={(params) => (
             <TextField
