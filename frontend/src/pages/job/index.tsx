@@ -39,6 +39,7 @@ const Job = () => {
   const userJob = jobs.find((job) => job.jobid === id);
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
+  const [rejectedStatus, setRejectedStatus] = useState(false);
 
   if (status === 'idle' || status === 'fetching') {
     return <SkeletonJob />;
@@ -98,8 +99,13 @@ const Job = () => {
       const updatedJobs = jobs.map((job) => {
         if (job.id === userJob.id) {
           if (status === 'Saved') {
+            if (rejectedStatus) setRejectedStatus(false);
             return {...job, status};
+          } else if (status === 'Rejected') {
+            console.log('Updated to rejected ...');
+            setRejectedStatus(true);
           } else {
+            if (rejectedStatus) setRejectedStatus(false);
             const updatedAt = Timestamp.now();
             return {
               ...job,
@@ -296,14 +302,23 @@ const Job = () => {
             <Grid
               item
               sm={3}
-              display={'flex'}
               alignItems={'center'}
               justifyContent={'flex-end'}
               sx={{
                 display: {xs: 'none', md: 'block'},
               }}
             >
-              <Box>
+              <Box
+                display={rejectedStatus ? 'flex' : 'none'}
+                justifyContent={'flex-end'}
+                sx={{
+                  color: 'salmon',
+                  fontWeight: 'bold',
+                }}
+              >
+                rejected
+              </Box>
+              <Box display={!rejectedStatus ? 'flex' : 'none'}>
                 <Stepper activeStep={activeIndex()} alternativeLabel>
                   {ApplicationStatus.map((label, i) => (
                     <Step key={i}>
