@@ -6,6 +6,7 @@ import {useEffect, useState} from 'react';
 
 const Goal = () => {
   const {jobs} = useJobs();
+
   const lengthJobsThatYouApplied = jobs.filter(
     (job) => job.status === 'Applied' || job.status === 'Interviewing'
   ).length;
@@ -36,9 +37,11 @@ const Goal = () => {
     } else {
       setData([
         {
+          label: 'Applied',
           value: lengthJobsThatYouApplied || 0,
         },
         {
+          label: 'Applications left',
           value: defaultValue - lengthJobsThatYouApplied,
           color: 'rgba(0, 0, 0, 0.1)',
         },
@@ -61,11 +64,15 @@ const Goal = () => {
           cornerRadius: 5,
           startAngle: 0,
           endAngle: 360,
-          // endAngle: (percentage / 100) * 360,
+          highlightScope: {faded: 'global', highlighted: 'item'},
+          faded: {innerRadius: 30, additionalRadius: -30, color: 'gray'},
           cx: '137%',
           // cy: '50%',
         },
       ]}
+      slotProps={{
+        legend: {hidden: true},
+      }}
     ></PieChart>
   );
 };

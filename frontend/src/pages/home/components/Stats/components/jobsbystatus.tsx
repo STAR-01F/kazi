@@ -5,12 +5,16 @@ import {useEffect, useState} from 'react';
 import {PieValueType} from '@mui/x-charts';
 import {MakeOptional} from '@mui/x-charts/models/helpers';
 import jobStatus from '@repository/job.json';
-import {TriggerOptions} from '@mui/x-charts/ChartsTooltip/utils';
 
 const JobsByStatus = () => {
   const {jobs} = useJobs();
-  const [data, setData] = useState([{}]);
-  const [trigger, setTrigger] = useState<TriggerOptions | undefined>('item');
+  const [data, setData] = useState<MakeOptional<PieValueType, 'id'>[]>([
+    {
+      value: 100,
+      color: 'rgba(0, 0, 0, 0.1)',
+    },
+  ]);
+
   useEffect(() => {
     const alljobs: JobByStatus = groupJobsByStatus(jobs);
     const jobStatusStats = jobStatus.status.reduce(
@@ -29,9 +33,14 @@ const JobsByStatus = () => {
       },
       [] as MakeOptional<PieValueType, 'id'>[]
     );
-    if (jobStatusStats.length === 0) {
-      jobStatusStats.push({value: 100, color: 'rgba(0, 0, 0, 0.1)'});
-      setTrigger('none');
+    if (jobs.length === 0) {
+      setData([
+        {
+          value: 100,
+          color: 'rgba(0, 0, 0, 0.1)',
+        },
+      ]);
+      return;
     }
     setData(jobStatusStats);
   }, [jobs]);
@@ -39,7 +48,7 @@ const JobsByStatus = () => {
     <PieChart
       colors={['#7B4B94', '#7D82B8', '#CA3CFF', '#C9E4E7', '#B4A0E5']} // Use palette
       height={190}
-      tooltip={{trigger}}
+      tooltip={{trigger: jobs.length === 0 ? 'none' : 'item'}}
       series={[
         {
           data: data as MakeOptional<PieValueType, 'id'>[],
@@ -49,8 +58,8 @@ const JobsByStatus = () => {
           cornerRadius: 5,
           startAngle: 0,
           endAngle: 360,
-          faded: {innerRadius: 30, additionalRadius: -30, color: 'gray'},
           highlightScope: {faded: 'global', highlighted: 'item'},
+          faded: {innerRadius: 30, additionalRadius: -30, color: 'gray'},
           cx: '137%',
           cy: '50%',
         },
