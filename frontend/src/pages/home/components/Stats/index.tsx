@@ -14,7 +14,6 @@ const StatsContainer = () => {
         height: '250px',
         flexDirection: 'row',
         minWidth: '325px',
-        // gap: 10,
         backgroundColor: '#D5D5D544',
         mb: 3,
       }}
@@ -30,7 +29,7 @@ const StatsContainer = () => {
       >
         <Box width={'160px'}>
           <Typography fontFamily={'Kanit'} textAlign={'center'}>
-            Goals
+            Goals - Jobs Applied
           </Typography>
           <Goal />
         </Box>
