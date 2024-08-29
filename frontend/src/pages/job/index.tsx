@@ -29,6 +29,7 @@ import {Timestamp} from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
+//import {RejectedStepper} from './components/RejectedStepper/RejectedStepper';
 
 const Job = () => {
   const {id} = useParams();
@@ -151,6 +152,7 @@ const Job = () => {
 
   const activeIndex = () => {
     const aStep = activeStep();
+    console.log('astep', aStep);
     return aStep ? ApplicationStatus.indexOf(aStep.status) : -1;
   };
 
@@ -315,9 +317,7 @@ const Job = () => {
                   color: 'salmon',
                   fontWeight: 'bold',
                 }}
-              >
-                rejected
-              </Box>
+              ></Box>
               <Box display={!rejectedStatus ? 'flex' : 'none'}>
                 <Stepper activeStep={activeIndex()} alternativeLabel>
                   {ApplicationStatus.map((label, i) => (
