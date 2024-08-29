@@ -29,7 +29,7 @@ import {Timestamp} from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
-//import {RejectedStepper} from './components/RejectedStepper/RejectedStepper';
+import {RejectedStepper} from './components/RejectedStepper/RejectedStepper';
 
 const Job = () => {
   const {id} = useParams();
@@ -317,7 +317,9 @@ const Job = () => {
                   color: 'salmon',
                   fontWeight: 'bold',
                 }}
-              ></Box>
+              >
+                {RejectedStepper()}
+              </Box>
               <Box display={!rejectedStatus ? 'flex' : 'none'}>
                 <Stepper activeStep={activeIndex()} alternativeLabel>
                   {ApplicationStatus.map((label, i) => (

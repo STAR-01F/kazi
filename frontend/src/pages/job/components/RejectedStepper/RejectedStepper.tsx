@@ -1,8 +1,11 @@
-import {Stepper, Tooltip, Step, StepLabel} from '@mui/material';
+import {Stepper, Tooltip, StepLabel} from '@mui/material';
+import LensIcon from '@mui/icons-material/Lens';
 
 const RejectedStepper = () => {
-  <Stepper activeStep={0} alternativeLabel>
-    <Step key={0}>
+  return (
+    <Stepper sx={{color: 'red', fontWeight: '900'}}>
+      {/* <Step  > */}
+      <LensIcon />
       <Tooltip
         title={'1 Aug 2024'}
         slotProps={{
@@ -18,10 +21,11 @@ const RejectedStepper = () => {
           },
         }}
       >
-        <StepLabel sx={{color: 'red'}}>{'Rejected'}</StepLabel>
+        <StepLabel error>{'Rejected'}</StepLabel>
       </Tooltip>
-    </Step>
-  </Stepper>;
+      {/* </Step> */}
+    </Stepper>
+  );
 };
 
 export {RejectedStepper};
