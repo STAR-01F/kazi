@@ -313,10 +313,6 @@ const Job = () => {
               <Box
                 display={rejectedStatus ? 'flex' : 'none'}
                 justifyContent={'flex-end'}
-                sx={{
-                  color: 'salmon',
-                  fontWeight: 'bold',
-                }}
               >
                 {RejectedStepper()}
               </Box>
