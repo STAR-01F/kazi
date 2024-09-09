@@ -27,7 +27,7 @@ import BreadcrumbsCard from './components/BreadcrumbsCard/BreadcrumbsCard';
 import SkeletonJob from '@components/skeleton/job';
 import {Timestamp} from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
 import {RejectedStepper} from './components/RejectedStepper/RejectedStepper';
 
@@ -48,6 +48,12 @@ const Job = () => {
   if (status === 'error') {
     return <div>Error fetching data</div>;
   }
+
+  useEffect(() => {
+    if (userJob?.status === 'Rejected') {
+      setRejectedStatus(true);
+    }
+  }, []);
 
   const {
     title,
