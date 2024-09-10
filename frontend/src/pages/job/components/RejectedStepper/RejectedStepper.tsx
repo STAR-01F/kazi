@@ -11,7 +11,7 @@ const RejectedStepper = () => {
       }}
     >
       <LensIcon sx={{color: 'salmon'}} />
-      <span color="red">rejected</span>
+      <span color="red">Rejected</span>
     </Box>
   );
 };

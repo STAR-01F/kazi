@@ -27,7 +27,7 @@ import BreadcrumbsCard from './components/BreadcrumbsCard/BreadcrumbsCard';
 import SkeletonJob from '@components/skeleton/job';
 import {Timestamp} from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
 import {RejectedStepper} from './components/RejectedStepper/RejectedStepper';
 
@@ -48,12 +48,6 @@ const Job = () => {
   if (status === 'error') {
     return <div>Error fetching data</div>;
   }
-
-  useEffect(() => {
-    if (userJob?.status === 'Rejected') {
-      setRejectedStatus(true);
-    }
-  }, []);
 
   const {
     title,
@@ -111,6 +105,7 @@ const Job = () => {
           } else if (status === 'Rejected') {
             console.log('Updated to rejected ...');
             setRejectedStatus(true);
+            return {...job, status};
           } else {
             if (rejectedStatus) setRejectedStatus(false);
             const updatedAt = Timestamp.now();
@@ -316,37 +311,46 @@ const Job = () => {
                 display: {xs: 'none', md: 'block'},
               }}
             >
-              <Box
-                display={rejectedStatus ? 'flex' : 'none'}
-                justifyContent={'flex-end'}
-              >
-                {RejectedStepper()}
-              </Box>
-              <Box display={!rejectedStatus ? 'flex' : 'none'}>
-                <Stepper activeStep={activeIndex()} alternativeLabel>
-                  {ApplicationStatus.map((label, i) => (
-                    <Step key={i}>
-                      <Tooltip
-                        title={getTooltipDate(label)}
-                        slotProps={{
-                          popper: {
-                            modifiers: [
-                              {
-                                name: 'offset',
-                                options: {
-                                  offset: [0, -14],
+              <Box display={rejectedStatus ? 'flex' : 'none'}></Box>
+              {activeStep()?.status === 'Rejected' ? (
+                <Box
+                  // display={rejectedStatus ? 'flex' : 'none'}
+                  display={'flex'}
+                  justifyContent={'flex-end'}
+                >
+                  {RejectedStepper()}
+                </Box>
+              ) : null}
+              {activeStep().status !== 'Rejected' ? (
+                <Box
+                  // display={!rejectedStatus ? 'flex' : 'none'}>
+                  display={'flex'}
+                >
+                  <Stepper activeStep={activeIndex()} alternativeLabel>
+                    {ApplicationStatus.map((label, i) => (
+                      <Step key={i}>
+                        <Tooltip
+                          title={getTooltipDate(label)}
+                          slotProps={{
+                            popper: {
+                              modifiers: [
+                                {
+                                  name: 'offset',
+                                  options: {
+                                    offset: [0, -14],
+                                  },
                                 },
-                              },
-                            ],
-                          },
-                        }}
-                      >
-                        <StepLabel>{label}</StepLabel>
-                      </Tooltip>
-                    </Step>
-                  ))}
-                </Stepper>
-              </Box>
+                              ],
+                            },
+                          }}
+                        >
+                          <StepLabel>{label}</StepLabel>
+                        </Tooltip>
+                      </Step>
+                    ))}
+                  </Stepper>
+                </Box>
+              ) : null}
             </Grid>
           </Grid>
         </Grid>
@@ -391,4 +395,5 @@ const Job = () => {
   );
 };
 
+//
 export default Job;
