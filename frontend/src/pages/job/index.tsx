@@ -27,9 +27,10 @@ import BreadcrumbsCard from './components/BreadcrumbsCard/BreadcrumbsCard';
 import SkeletonJob from '@components/skeleton/job';
 import {Timestamp} from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
 import {RejectedStepper} from './components/RejectedStepper/RejectedStepper';
+import {UserJob} from 'src/@types';
 
 const Job = () => {
   const {id} = useParams();
@@ -41,6 +42,20 @@ const Job = () => {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
   const [rejectedStatus, setRejectedStatus] = useState(false);
+  const [activeJob, setActiveJob] = useState<UserJob | null>(null);
+
+  useEffect(() => {
+    const activeStep = () => {
+      return jobs.filter((item) => item.jobid === id)[0];
+    };
+    const result = activeStep();
+    setActiveJob(result);
+    if (result.status === 'Rejected') setRejectedStatus(true);
+  }, [jobs, id]);
+
+  if (!activeJob) {
+    return <div>Loading...</div>;
+  }
 
   if (status === 'idle' || status === 'fetching') {
     return <SkeletonJob />;
@@ -48,6 +63,8 @@ const Job = () => {
   if (status === 'error') {
     return <div>Error fetching data</div>;
   }
+
+  if (activeJob) console.log('Active Job', activeJob);
 
   const {
     title,
@@ -153,7 +170,6 @@ const Job = () => {
 
   const activeIndex = () => {
     const aStep = activeStep();
-    console.log('astep', aStep);
     return aStep ? ApplicationStatus.indexOf(aStep.status) : -1;
   };
 
