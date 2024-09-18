@@ -10,6 +10,7 @@ import {
   Step,
   StepLabel,
   Tooltip,
+  CircularProgress,
 } from '@mui/material';
 
 import {LogoAttribution} from '@pages/home/components/LogoAttribution';
@@ -54,17 +55,15 @@ const Job = () => {
   }, [jobs, id]);
 
   if (!activeJob) {
-    return <div>Loading...</div>;
+    return <CircularProgress />;
   }
 
   if (status === 'idle' || status === 'fetching') {
     return <SkeletonJob />;
   }
   if (status === 'error') {
-    return <div>Error fetching data</div>;
+    return <CircularProgress />;
   }
-
-  //if (activeJob) console.log('Active Job', activeJob);
 
   const {
     title,
@@ -120,7 +119,6 @@ const Job = () => {
             if (rejectedStatus) setRejectedStatus(false);
             return {...job, status};
           } else if (status === 'Rejected') {
-            console.log('Updated to rejected ...');
             setRejectedStatus(true);
             return {...job, status};
           } else {
