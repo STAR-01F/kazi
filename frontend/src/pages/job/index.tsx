@@ -50,7 +50,7 @@ const Job = () => {
     };
     const result = activeStep();
     setActiveJob(result);
-    if (result.status === 'Rejected') setRejectedStatus(true);
+    if (result?.status === 'Rejected') setRejectedStatus(true);
   }, [jobs, id]);
 
   if (!activeJob) {
@@ -64,7 +64,7 @@ const Job = () => {
     return <div>Error fetching data</div>;
   }
 
-  if (activeJob) console.log('Active Job', activeJob);
+  //if (activeJob) console.log('Active Job', activeJob);
 
   const {
     title,
