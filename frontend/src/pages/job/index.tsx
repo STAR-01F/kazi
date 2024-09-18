@@ -10,6 +10,7 @@ import {
   Step,
   StepLabel,
   Tooltip,
+  CircularProgress,
 } from '@mui/material';
 
 import {LogoAttribution} from '@pages/home/components/LogoAttribution';
@@ -27,8 +28,10 @@ import BreadcrumbsCard from './components/BreadcrumbsCard/BreadcrumbsCard';
 import SkeletonJob from '@components/skeleton/job';
 import {Timestamp} from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
+import {RejectedStepper} from './components/RejectedStepper/RejectedStepper';
+import {UserJob} from 'src/@types';
 
 const Job = () => {
   const {id} = useParams();
@@ -39,12 +42,27 @@ const Job = () => {
   const userJob = jobs.find((job) => job.jobid === id);
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
+  const [rejectedStatus, setRejectedStatus] = useState(false);
+  const [activeJob, setActiveJob] = useState<UserJob | null>(null);
+
+  useEffect(() => {
+    const activeStep = () => {
+      return jobs.filter((item) => item.jobid === id)[0];
+    };
+    const result = activeStep();
+    setActiveJob(result);
+    if (result?.status === 'Rejected') setRejectedStatus(true);
+  }, [jobs, id]);
+
+  if (!activeJob) {
+    return <CircularProgress />;
+  }
 
   if (status === 'idle' || status === 'fetching') {
     return <SkeletonJob />;
   }
   if (status === 'error') {
-    return <div>Error fetching data</div>;
+    return <CircularProgress />;
   }
 
   const {
@@ -98,8 +116,13 @@ const Job = () => {
       const updatedJobs = jobs.map((job) => {
         if (job.id === userJob.id) {
           if (status === 'Saved') {
+            if (rejectedStatus) setRejectedStatus(false);
+            return {...job, status};
+          } else if (status === 'Rejected') {
+            setRejectedStatus(true);
             return {...job, status};
           } else {
+            if (rejectedStatus) setRejectedStatus(false);
             const updatedAt = Timestamp.now();
             return {
               ...job,
@@ -296,14 +319,21 @@ const Job = () => {
             <Grid
               item
               sm={3}
-              display={'flex'}
               alignItems={'center'}
               justifyContent={'flex-end'}
               sx={{
                 display: {xs: 'none', md: 'block'},
               }}
             >
-              <Box>
+              <Box display={rejectedStatus ? 'flex' : 'none'}></Box>
+              <Box
+                display={rejectedStatus ? 'flex' : 'none'}
+                justifyContent={'flex-end'}
+              >
+                {RejectedStepper()}
+              </Box>
+
+              <Box display={!rejectedStatus ? 'flex' : 'none'}>
                 <Stepper activeStep={activeIndex()} alternativeLabel>
                   {ApplicationStatus.map((label, i) => (
                     <Step key={i}>
