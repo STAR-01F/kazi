@@ -312,45 +312,38 @@ const Job = () => {
               }}
             >
               <Box display={rejectedStatus ? 'flex' : 'none'}></Box>
-              {activeStep()?.status === 'Rejected' ? (
-                <Box
-                  // display={rejectedStatus ? 'flex' : 'none'}
-                  display={'flex'}
-                  justifyContent={'flex-end'}
-                >
-                  {RejectedStepper()}
-                </Box>
-              ) : null}
-              {activeStep().status !== 'Rejected' ? (
-                <Box
-                  // display={!rejectedStatus ? 'flex' : 'none'}>
-                  display={'flex'}
-                >
-                  <Stepper activeStep={activeIndex()} alternativeLabel>
-                    {ApplicationStatus.map((label, i) => (
-                      <Step key={i}>
-                        <Tooltip
-                          title={getTooltipDate(label)}
-                          slotProps={{
-                            popper: {
-                              modifiers: [
-                                {
-                                  name: 'offset',
-                                  options: {
-                                    offset: [0, -14],
-                                  },
+              <Box
+                display={rejectedStatus ? 'flex' : 'none'}
+                justifyContent={'flex-end'}
+              >
+                {RejectedStepper()}
+              </Box>
+
+              <Box display={!rejectedStatus ? 'flex' : 'none'}>
+                <Stepper activeStep={activeIndex()} alternativeLabel>
+                  {ApplicationStatus.map((label, i) => (
+                    <Step key={i}>
+                      <Tooltip
+                        title={getTooltipDate(label)}
+                        slotProps={{
+                          popper: {
+                            modifiers: [
+                              {
+                                name: 'offset',
+                                options: {
+                                  offset: [0, -14],
                                 },
-                              ],
-                            },
-                          }}
-                        >
-                          <StepLabel>{label}</StepLabel>
-                        </Tooltip>
-                      </Step>
-                    ))}
-                  </Stepper>
-                </Box>
-              ) : null}
+                              },
+                            ],
+                          },
+                        }}
+                      >
+                        <StepLabel>{label}</StepLabel>
+                      </Tooltip>
+                    </Step>
+                  ))}
+                </Stepper>
+              </Box>
             </Grid>
           </Grid>
         </Grid>
@@ -395,5 +388,4 @@ const Job = () => {
   );
 };
 
-//
 export default Job;
