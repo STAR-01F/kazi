@@ -120,7 +120,15 @@ const Job = () => {
             return {...job, status};
           } else if (status === 'Rejected') {
             setRejectedStatus(true);
-            return {...job, status};
+            const updatedAt = Timestamp.now();
+            return {
+              ...job,
+              status: status,
+              statusUpdates: {
+                ...job.statusUpdates,
+                [status]: updatedAt,
+              },
+            };
           } else {
             if (rejectedStatus) setRejectedStatus(false);
             const updatedAt = Timestamp.now();
