@@ -49,8 +49,8 @@ const JobCard = ({
   const {setFeedback} = useFeedback();
   const {jobs, setJobs} = useJobs();
   const [openDialog, setOpenDialog] = useState(false);
-  const timeToString = timeSince.toDate().toDateString();
-  const timeinDays = daysPassedSinceUTC(timeSince.toDate());
+  const timeToString = timeSince.toDate()?.toDateString();
+  const timeinDays = daysPassedSinceUTC(timeSince?.toDate());
   const dayAndMonths = daysToDaysAndMonths(timeinDays);
 
   const handleCloseDialog = () => {

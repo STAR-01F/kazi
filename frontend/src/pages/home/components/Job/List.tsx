@@ -40,7 +40,7 @@ const JobList = ({
     month: 'long',
     day: 'numeric',
   };
-  const timeToStr = time.toDate().toLocaleDateString(undefined, dateOptions);
+  const timeToStr = time?.toDate().toLocaleDateString(undefined, dateOptions);
   const [openDialog, setOpenDialog] = useState(false);
   const [imgError, setImgError] = useState(false);
 
