@@ -6,7 +6,7 @@ import {useEffect, useState} from 'react';
 
 const GoalsPie = () => {
   const {jobs} = useJobs();
-  console.log('checking jobs', jobs);
+
   const lengthJobsThatYouApplied = jobs.filter(
     (job) =>
       job.status === 'Applied' ||
