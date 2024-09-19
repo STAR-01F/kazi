@@ -18,18 +18,18 @@
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.7",
     "@mui/x-charts": "^6.19.5",
-    "@testing-library/react": "^14.2.1",
-    "firebase": "^10.10.0",
+    "@testing-library/react": "^16.0.1",
+    "firebase": "^10.13.1",
     "react": "^18.2.0",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.0",
     "swiper": "^11.1.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.4.2",
-    "@types/react": "^18.2.63",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/eslint-plugin": "^8.4.0",
     "@typescript-eslint/parser": "^7.8.0",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.55.0",
@@ -37,7 +37,7 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "jsdom": "^24.0.0",
     "typescript": "^5.4.3",
-    "vite": "^5.1.7",
+    "vite": "^5.4.6",
     "vitest": "^1.5.3"
   }
 }

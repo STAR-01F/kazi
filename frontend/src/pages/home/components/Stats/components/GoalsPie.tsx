@@ -4,10 +4,15 @@ import {MakeOptional} from '@mui/x-charts/models/helpers';
 import {useJobs} from '@services/firebase/hooks/useJobs';
 import {useEffect, useState} from 'react';
 
-const Goal = () => {
+const GoalsPie = () => {
   const {jobs} = useJobs();
+
   const lengthJobsThatYouApplied = jobs.filter(
-    (job) => job.status === 'Applied' || job.status === 'Interviewing'
+    (job) =>
+      job.status === 'Applied' ||
+      job.status === 'Interview' ||
+      job.status === 'Rejected' ||
+      job.status === 'Offer'
   ).length;
   const [data, setData] = useState<MakeOptional<PieValueType, 'id'>[]>([
     {
@@ -36,9 +41,11 @@ const Goal = () => {
     } else {
       setData([
         {
+          label: 'Applied',
           value: lengthJobsThatYouApplied || 0,
         },
         {
+          label: 'Applications left',
           value: defaultValue - lengthJobsThatYouApplied,
           color: 'rgba(0, 0, 0, 0.1)',
         },
@@ -61,13 +68,17 @@ const Goal = () => {
           cornerRadius: 5,
           startAngle: 0,
           endAngle: 360,
-          // endAngle: (percentage / 100) * 360,
+          highlightScope: {faded: 'global', highlighted: 'item'},
+          faded: {innerRadius: 30, additionalRadius: -30, color: 'gray'},
           cx: '137%',
           // cy: '50%',
         },
       ]}
+      slotProps={{
+        legend: {hidden: true},
+      }}
     ></PieChart>
   );
 };
 
-export default Goal;
+export default GoalsPie;
