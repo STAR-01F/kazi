@@ -23,6 +23,8 @@ import {Tooltip} from '@mui/material';
 import Zoom from '@mui/material/Zoom';
 import {useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
+import UpdateMetricsOnDeletion from '@services/firebase/userProfiles/LifetimeStreak';
+import DeletedJobTracker from 'src/@types/deletedJobs';
 
 type JobCardProps = {
   userJobId: string;
@@ -58,8 +60,19 @@ const JobCard = ({
   };
 
   const [showLogo, setShowLogo] = useState(true);
+
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
+
+    const deletedJobData: DeletedJobTracker = {
+      company: companyName,
+      jobid: jobID,
+      deletedState: status,
+      date: Timestamp.now(),
+    };
+
+    UpdateMetricsOnDeletion(user.uid, deletedJobData);
+
     const resp = await DeleteUserJob(user.uid, userJobId);
     if (resp.status === 'Success') {
       setFeedback({

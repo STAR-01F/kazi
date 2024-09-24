@@ -6,6 +6,7 @@ import {useSearchParams} from 'react-router-dom';
 type ListViewProps = {
   jobs: UserJob[];
 };
+
 const ListView = ({jobs}: ListViewProps) => {
   const [searchParam] = useSearchParams();
   const searchStatus = searchParam.get('status');

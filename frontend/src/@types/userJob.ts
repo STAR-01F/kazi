@@ -11,6 +11,13 @@ type UserJob = {
   interviewQs: InterviewQ;
   status: string;
   statusUpdates: {[key: string]: Timestamp};
+  statusTracker: {
+    Saved: boolean;
+    Applied: boolean;
+    Interview: boolean;
+    Rejected: Boolean;
+    Offer: boolean;
+  };
   keywords?: Array<string>;
   jobSource: string;
   notes?: {content: string; updatedAt: Timestamp};

@@ -32,6 +32,8 @@ import {useEffect, useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
 import {RejectedStepper} from './components/RejectedStepper/RejectedStepper';
 import {UserJob} from 'src/@types';
+import UpdateMetricsOnDeletion from '@services/firebase/userProfiles/LifetimeStreak';
+import DeletedJobTracker from 'src/@types/deletedJobs';
 
 const Job = () => {
   const {id} = useParams();
@@ -85,6 +87,16 @@ const Job = () => {
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
     if (!userJob) return;
+
+    const deletedJobData: DeletedJobTracker = {
+      company: company,
+      jobid: id as string,
+      deletedState: userJob.status,
+      date: Timestamp.now(),
+    };
+
+    UpdateMetricsOnDeletion(user.uid, deletedJobData);
+
     const resp = await DeleteUserJob(user.uid, userJob.id);
     if (resp.status === 'Success') {
       setFeedback({

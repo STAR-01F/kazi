@@ -29,6 +29,7 @@ const GridView = ({jobByStatus}: GridViewProps) => {
         }
 
         const jobs = jobByStatus[statusName as JobStatus];
+        console.log('jobs from gridview', jobs);
 
         return (
           jobs &&

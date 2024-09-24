@@ -120,6 +120,7 @@ const ManualJobModal = ({
 
   const handleAddJob = async () => {
     if (!user?.uid) return;
+    console.log('userobJ', user);
 
     validateForm();
     setSubmitting(true);
@@ -146,7 +147,7 @@ const ManualJobModal = ({
       description: description,
       jobSource: 'manual',
     };
-    1;
+    //1;
 
     job.jobLink?.startsWith('http') || job.jobLink?.startsWith('https')
       ? ''

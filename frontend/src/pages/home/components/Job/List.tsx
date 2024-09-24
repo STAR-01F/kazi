@@ -15,6 +15,9 @@ import {useJobs} from '@services/firebase/hooks/useJobs';
 import {Timestamp} from 'firebase/firestore';
 import {useState} from 'react';
 import ConfirmDelete from '@components/dialog/ConfirmDelete';
+import DeletedJobTracker from 'src/@types/deletedJobs';
+import UpdateMetricsOnDeletion from '@services/firebase/userProfiles/LifetimeStreak';
+
 type JobListProps = {
   userJobsId: string;
   jobID: string;
@@ -50,6 +53,16 @@ const JobList = ({
 
   const handleDeleteJob = async () => {
     if (!user?.uid) return;
+
+    const deletedJobData: DeletedJobTracker = {
+      company: companyName,
+      jobid: jobID,
+      deletedState: status,
+      date: Timestamp.now(),
+    };
+
+    UpdateMetricsOnDeletion(user.uid, deletedJobData);
+
     const resp = await DeleteUserJob(user.uid, userJobsId);
     if (resp.status === 'Success') {
       console.log(resp);
