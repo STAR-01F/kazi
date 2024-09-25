@@ -1,7 +1,8 @@
 import {Box, Container, Paper, Typography} from '@mui/material';
 import GoalsPie from './components/GoalsPie';
 import JobsByStatus from './components/jobsbystatus';
-import Streak from './components/streak';
+//import Streak from './components/streak';
+import LifeTimeStatsComponent from './components/LifetimeStats';
 
 const StatsContainer = () => {
   return (
@@ -57,18 +58,22 @@ const StatsContainer = () => {
       <Box
         width={{
           xs: '0%',
-          md: '50%',
+          sm: '50%',
         }}
         display={{
           xs: 'none',
-          md: 'flex',
+          sm: 'flex',
         }}
         justifyContent={'center'}
         alignItems={'center'}
         flexDirection={'column'}
       >
-        <Typography fontFamily={'Kanit'}>Streak</Typography>
-        <Streak />
+        <Box width={'160px'}>
+          <Typography fontFamily={'Kanit'} textAlign={'center'}>
+            Lifetime Stats
+          </Typography>
+          <LifeTimeStatsComponent />
+        </Box>
       </Box>
     </Container>
   );
