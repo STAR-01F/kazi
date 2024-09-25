@@ -4,14 +4,18 @@ import {GetUserProfileById} from '@services/firebase/userProfiles';
 import {useAuth} from '@services/firebase/hooks/useAuth';
 import UserProfile from 'src/@types/userProfile';
 import {useState, useEffect} from 'react';
+import JobStatusTallies from '@utils/tallyJobStatus';
+import {BarChart} from '@mui/x-charts';
+import {JobStatusCount} from 'src/@types';
 
 const LifeTimeStatsComponent = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const {jobs, loading} = useJobs();
   const {user} = useAuth();
+  const [tallyResults, setTallyResults] = useState<JobStatusCount>({});
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !userProfile) return;
     const GetUserProfile = async () => {
       try {
         const resp = await GetUserProfileById(user.uid);
@@ -25,12 +29,12 @@ const LifeTimeStatsComponent = () => {
       }
     };
     GetUserProfile();
+
+    const TallyRes = JobStatusTallies(jobs, userProfile);
+    setTallyResults(TallyRes);
   }, [user]);
 
-  console.log('jobs from streak', jobs);
-  console.log('userprofile', userProfile?.deletedJobs);
-
-  if (loading || !userProfile) {
+  if (loading || userProfile) {
     return (
       <Container
         sx={{
@@ -58,7 +62,7 @@ const LifeTimeStatsComponent = () => {
         mb: 3,
       }}
     >
-      insert stats
+      <BarChart series={[{data: [tallyResults.Saved]}]} />
     </Container>
   );
 };
