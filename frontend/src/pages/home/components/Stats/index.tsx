@@ -64,11 +64,11 @@ const StatsContainer = () => {
           sm: 'flex',
         }}
         justifyContent={'center'}
-        alignItems={'center'}
+        alignItems={'left'}
       >
         <Box width={'160px'}>
           <Typography fontFamily={'Kanit'} textAlign={'center'}>
-            Lifetime Stats
+            Lifetime Activity
           </Typography>
           <LifeTimeStatsComponent />
         </Box>

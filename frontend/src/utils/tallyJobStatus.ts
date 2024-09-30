@@ -13,7 +13,7 @@ const JobStatusTallies = (
     result[job.status] += 1;
   });
 
-  arrOfDeletedJobs.deletedJobs.forEach((job) => {
+  arrOfDeletedJobs!.deletedJobs.forEach((job) => {
     if (result[job.deletedState] === undefined) {
       result[job.deletedState] = 0;
     }
