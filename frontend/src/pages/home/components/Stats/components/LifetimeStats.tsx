@@ -5,14 +5,14 @@ import {useAuth} from '@services/firebase/hooks/useAuth';
 import UserProfile from 'src/@types/userProfile';
 import {useState, useEffect} from 'react';
 import JobStatusTallies from '@utils/tallyJobStatus';
-import {BarChart} from '@mui/x-charts';
+import {ResponsiveChartContainer, BarPlot} from '@mui/x-charts';
 import {JobStatusCount} from 'src/@types';
 
 const LifeTimeStatsComponent = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const {jobs, loading} = useJobs();
   const {user} = useAuth();
-  const [tallyResults, setTallyResults] = useState<JobStatusCount>({});
+  const [_tallyResults, setTallyResults] = useState<JobStatusCount>({});
 
   useEffect(() => {
     if (!user || !userProfile) return;
@@ -31,6 +31,8 @@ const LifeTimeStatsComponent = () => {
     GetUserProfile();
 
     const TallyRes = JobStatusTallies(jobs, userProfile);
+    console.log('erfrf');
+    console.log('tr1', TallyRes);
     setTallyResults(TallyRes);
   }, [user]);
 
@@ -51,19 +53,46 @@ const LifeTimeStatsComponent = () => {
     );
   }
 
+  const uData = [4000, 3000, 2000, 2780, 1890, 2390, 3490];
+  const xLabels = [
+    'Page A',
+    'Page B',
+    'Page C',
+    'Page D',
+    'Page E',
+    'Page F',
+    'Page G',
+  ];
+
   return (
-    <Container
-      sx={{
-        display: {xs: 'none', sm: 'flex'},
-        justifyContent: 'center',
-        alignItems: 'center',
-        minWidth: '90%',
-        height: '180px',
-        mb: 3,
-      }}
+    <ResponsiveChartContainer
+      // width={250}
+      height={200}
+      series={[{data: uData, label: 'uv', type: 'bar'}]}
+      xAxis={[{scaleType: 'band', data: xLabels}]}
     >
-      <BarChart series={[{data: [tallyResults.Saved]}]} />
-    </Container>
+      <BarPlot />
+    </ResponsiveChartContainer>
+    // <Container
+    //   sx={{
+    //     display: {xs: 'none', sm: 'flex'},
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     minWidth: '90%',
+    //     height: '170px',
+    //     mb: 3,
+    //   }}
+    // >
+
+    //   <BarChart
+    //      dataset={[tallyResults as {}]}
+    //     yAxis={[{scaleType: 'band', dataKey:'A'}]}
+    //     series={[{data: [220]}, {data: [220]}, {data: [400]}]}
+
+    //     layout="horizontal"        width={600}
+    //     height={700}
+    //   />
+    // </Container>
   );
 };
 

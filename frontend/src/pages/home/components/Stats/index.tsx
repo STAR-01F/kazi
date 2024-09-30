@@ -28,7 +28,7 @@ const StatsContainer = () => {
         justifyContent={'center'}
         alignItems={'center'}
       >
-        <Box width={'160px'}>
+        <Box>
           <Typography fontFamily={'Kanit'} textAlign={'center'}>
             Goals - Jobs Applied
           </Typography>
@@ -46,7 +46,6 @@ const StatsContainer = () => {
         }}
         justifyContent={'center'}
         alignItems={'center'}
-        flexDirection={'column'}
       >
         <Box width={'160px'}>
           <Typography fontFamily={'Kanit'} textAlign={'center'}>
@@ -66,7 +65,6 @@ const StatsContainer = () => {
         }}
         justifyContent={'center'}
         alignItems={'center'}
-        flexDirection={'column'}
       >
         <Box width={'160px'}>
           <Typography fontFamily={'Kanit'} textAlign={'center'}>
