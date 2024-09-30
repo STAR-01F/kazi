@@ -14,9 +14,11 @@ const LifeTimeStatsComponent = () => {
   const {jobs, loading} = useJobs();
   const {user} = useAuth();
   const [tallyResults, setTallyResults] = useState<JobStatusCount>({});
+  const [tallySet, setTallySet] = useState<boolean>(false);
 
   useEffect(() => {
     if (!user) return;
+    console.log('tset', tallySet);
     const GetUserProfile = async () => {
       try {
         const resp = await GetUserProfileById(user.uid);
@@ -24,6 +26,7 @@ const LifeTimeStatsComponent = () => {
           setUserProfile(resp.data);
           const TallyRes = JobStatusTallies(jobs, resp.data);
           setTallyResults(TallyRes);
+          setTallySet(true);
         } else {
           setUserProfile(null);
         }
@@ -32,8 +35,7 @@ const LifeTimeStatsComponent = () => {
       }
     };
     GetUserProfile();
-    console.log('TRES', tallyResults);
-  }, [user]);
+  }, [user, tallySet]);
 
   if (loading) {
     return (
@@ -56,6 +58,7 @@ const LifeTimeStatsComponent = () => {
   console.log('keys -->', keys);
   const values = Object.values(tallyResults);
   console.log('values', values);
+  console.log('TRES', tallyResults);
 
   //   const uData = [4000, 3000, 2000, 2780, 1890, 2390, 3490];
   //   const xLabels = [
