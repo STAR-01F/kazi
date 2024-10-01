@@ -14,19 +14,17 @@ const LifeTimeStatsComponent = () => {
   const {jobs, loading} = useJobs();
   const {user} = useAuth();
   const [tallyResults, setTallyResults] = useState<JobStatusCount>({});
-  const [tallySet, setTallySet] = useState<boolean>(false);
 
   useEffect(() => {
     if (!user) return;
-    console.log('tset', tallySet);
+
     const GetUserProfile = async () => {
       try {
         const resp = await GetUserProfileById(user.uid);
         if (resp.status === 'Success') {
           setUserProfile(resp.data);
-          const TallyRes = JobStatusTallies(jobs, resp.data);
+          const TallyRes = await JobStatusTallies(jobs, resp.data);
           setTallyResults(TallyRes);
-          setTallySet(true);
         } else {
           setUserProfile(null);
         }
@@ -35,7 +33,7 @@ const LifeTimeStatsComponent = () => {
       }
     };
     GetUserProfile();
-  }, [user, tallySet]);
+  }, [user, jobs]);
 
   if (loading) {
     return (
@@ -54,42 +52,23 @@ const LifeTimeStatsComponent = () => {
     );
   }
 
-  const keys = Object.keys(tallyResults);
-  console.log('keys -->', keys);
-  const values = Object.values(tallyResults);
-  console.log('values', values);
-  console.log('TRES', tallyResults);
-
-  //   const uData = [4000, 3000, 2000, 2780, 1890, 2390, 3490];
-  //   const xLabels = [
-  //     'Page A',
-  //     'Page B',
-  //     'Page C',
-  //     'Page D',
-  //     'Page E',
-  //     'Page F',
-  //     'Page G',
-  //   ];
-
-  function valueFormatter(value: number | null) {
-    return `${value} jobs`;
-  }
-
   return (
     <Container
       id="boxxy"
       sx={{
         marginLeft: '-50px',
+        fontWeight: '900',
       }}
     >
       <BarChart
         dataset={[
-          {month: 'saved', data: 100},
-          {month: 'applied', data: 150},
-          {month: 'interview', data: 70},
+          {month: 'saved', data: tallyResults!.Saved},
+          {month: 'applied', data: tallyResults!.Applied},
+          {month: 'interview', data: tallyResults!.Interview},
+          {month: 'rejected', data: tallyResults!.Rejected},
         ]}
         yAxis={[{scaleType: 'band', dataKey: 'month'}]}
-        series={[{dataKey: 'data', valueFormatter}]}
+        series={[{dataKey: 'data'}]}
         margin={{left: 100}}
         layout="horizontal"
         width={270}

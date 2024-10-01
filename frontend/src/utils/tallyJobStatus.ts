@@ -1,9 +1,9 @@
 import {UserJob, UserProfiles, JobStatusCount} from 'src/@types';
 
-const JobStatusTallies = (
+const JobStatusTallies = async (
   arrOfJobs: UserJob[],
   arrOfDeletedJobs: UserProfiles
-): {} => {
+): Promise<JobStatusCount> => {
   const result: JobStatusCount = {};
 
   arrOfJobs.forEach((job) => {
@@ -22,7 +22,7 @@ const JobStatusTallies = (
 
   let count = 0;
   for (const [key, value] of Object.entries(result)) {
-    if (key != 'undefined') {
+    if (key !== 'undefined') {
       count += value;
     }
     result['Total'] = count;
