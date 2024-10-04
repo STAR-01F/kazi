@@ -52,6 +52,8 @@ const LifeTimeStatsComponent = () => {
     );
   }
 
+  console.log('tall', tallyResults);
+
   return (
     <Container
       id="boxxy"
@@ -62,9 +64,25 @@ const LifeTimeStatsComponent = () => {
     >
       <BarChart
         dataset={[
-          {month: 'saved', data: tallyResults!.Saved},
-          {month: 'applied', data: tallyResults!.Applied},
-          {month: 'interview', data: tallyResults!.Interview},
+          {
+            month: 'saved',
+            data:
+              tallyResults?.Saved +
+              tallyResults?.Applied +
+              tallyResults?.Interview +
+              tallyResults?.Rejected,
+          },
+          {
+            month: 'applied',
+            data:
+              tallyResults?.Applied +
+              tallyResults?.Interview +
+              tallyResults?.Rejected,
+          },
+          {
+            month: 'interview',
+            data: tallyResults?.Interview + tallyResults?.Rejected,
+          },
           {month: 'rejected', data: tallyResults!.Rejected},
         ]}
         yAxis={[{scaleType: 'band', dataKey: 'month'}]}
