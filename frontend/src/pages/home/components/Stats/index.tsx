@@ -1,5 +1,5 @@
 import {Box, Container, Paper, Typography} from '@mui/material';
-import Goal from './components/goal';
+import GoalsPie from './components/GoalsPie';
 import JobsByStatus from './components/jobsbystatus';
 import Streak from './components/streak';
 
@@ -14,7 +14,6 @@ const StatsContainer = () => {
         height: '250px',
         flexDirection: 'row',
         minWidth: '325px',
-        // gap: 10,
         backgroundColor: '#D5D5D544',
         mb: 3,
       }}
@@ -30,9 +29,9 @@ const StatsContainer = () => {
       >
         <Box width={'160px'}>
           <Typography fontFamily={'Kanit'} textAlign={'center'}>
-            Goals
+            Goals - Jobs Applied
           </Typography>
-          <Goal />
+          <GoalsPie />
         </Box>
       </Box>
       <Box

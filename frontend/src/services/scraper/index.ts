@@ -8,7 +8,9 @@ const Scrapper = async (
   if (url.includes('otta.com')) {
     return await Otta(url);
   }
-
+  if (url.includes('welcometothejungle.com')) {
+    return await Otta(url);
+  }
   if (url.includes('apply.workable')) {
     return await fetchWorkable(url);
   }

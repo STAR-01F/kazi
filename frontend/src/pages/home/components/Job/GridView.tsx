@@ -5,7 +5,7 @@ import jobStatus from '@repository/job.json';
 import JobCard from './Card';
 import {useSearchParams} from 'react-router-dom';
 
-type JobStatus = 'Saved' | 'Applied' | 'Interview' | 'Rejected';
+type JobStatus = 'Saved' | 'Applied' | 'Interview' | 'Rejected' | 'Offer';
 
 type JobByStatus = {
   [status in JobStatus]: UserJob[];
