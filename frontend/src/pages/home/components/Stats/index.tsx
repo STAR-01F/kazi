@@ -64,7 +64,7 @@ const StatsContainer = () => {
           sm: 'flex',
         }}
         justifyContent={'center'}
-        alignItems={'left'}
+        alignItems={'center'}
       >
         <Box width={'160px'}>
           <Typography fontFamily={'Kanit'} textAlign={'center'}>
