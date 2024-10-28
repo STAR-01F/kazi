@@ -12,6 +12,11 @@ const Scrapper = async (
   if (url.includes('apply.workable')) {
     return await fetchWorkable(url);
   }
+
+  if (url.includes('welcometothejungle.com')) {
+    return await Otta(url);
+  }
+
   return {status: 'Error', message: 'Link not supported yet'};
 };
 

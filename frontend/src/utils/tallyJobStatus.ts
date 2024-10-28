@@ -6,7 +6,7 @@ const JobStatusTallies = async (
 ): Promise<JobStatusCount> => {
   const result: JobStatusCount = {};
 
-  arrOfDeletedJobs;
+  //arrOfDeletedJobs;
 
   arrOfJobs.forEach((job) => {
     if (result[job.status] === undefined) {

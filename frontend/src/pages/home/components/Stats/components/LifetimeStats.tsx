@@ -51,6 +51,11 @@ const LifeTimeStatsComponent = () => {
     );
   }
 
+  function getNum(val: any): number {
+    val = +val || 0;
+    return val;
+  }
+
   return (
     <PieChart
       colors={['#7B4B94', '#7D82B8', '#CA3CFF', '#C9E4E7', '#B4A0E5']}
@@ -63,23 +68,25 @@ const LifeTimeStatsComponent = () => {
             {
               label: 'saved',
               value:
-                tallyResults?.Saved +
-                tallyResults?.Applied +
-                tallyResults?.Interview +
-                tallyResults?.Rejected,
+                getNum(tallyResults?.Saved) +
+                getNum(tallyResults?.Applied) +
+                getNum(tallyResults?.Interview) +
+                getNum(tallyResults?.Rejected),
             },
             {
               label: 'applied',
               value:
-                tallyResults?.Applied +
-                tallyResults?.Interview +
-                tallyResults?.Rejected,
+                getNum(tallyResults?.Applied) +
+                getNum(tallyResults?.Interview) +
+                getNum(tallyResults?.Rejected),
             },
             {
               label: 'interview',
-              value: tallyResults?.Interview + tallyResults?.Rejected,
+              value:
+                getNum(tallyResults?.Interview) +
+                getNum(tallyResults?.Rejected),
             },
-            {label: 'rejected', value: tallyResults!.Rejected},
+            {label: 'rejected', value: getNum(tallyResults!.Rejected)},
           ],
           innerRadius: 30,
           outerRadius: 80,
@@ -99,46 +106,6 @@ const LifeTimeStatsComponent = () => {
       }}
     />
   );
-  //   return (
-  //     <Container
-  //       id="boxxy"
-  //       sx={{
-  //         marginLeft: '-50px',
-  //         fontWeight: '900',
-  //       }}
-  //     >
-  //       <BarChart
-  //         dataset={[
-  //           {
-  //             month: 'saved',
-  //             data:
-  //               tallyResults?.Saved +
-  //               tallyResults?.Applied +
-  //               tallyResults?.Interview +
-  //               tallyResults?.Rejected,
-  //           },
-  //           {
-  //             month: 'applied',
-  //             data:
-  //               tallyResults?.Applied +
-  //               tallyResults?.Interview +
-  //               tallyResults?.Rejected,
-  //           },
-  //           {
-  //             month: 'interview',
-  //             data: tallyResults?.Interview + tallyResults?.Rejected,
-  //           },
-  //           {month: 'rejected', data: tallyResults!.Rejected},
-  //         ]}
-  //         yAxis={[{scaleType: 'band', dataKey: 'month'}]}
-  //         series={[{dataKey: 'data'}]}
-  //         margin={{left: 100}}
-  //         layout="horizontal"
-  //         width={270}
-  //         height={180}
-  //       />
-  //     </Container>
-  //   );
 };
 
 export default LifeTimeStatsComponent;
